@@ -3,17 +3,22 @@
 @theme {
   --font-sans: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Tajawal', sans-serif;
+  --color-terracotta: #DD6B20;
+  --color-terracotta-hover: #C05621;
+  --color-terracotta-light: #FBD38D;
+  --color-terracotta-subtle: #FEEBC8;
+  --color-terracotta-tint: #FFFAF0;
 }
 
 @layer base {
   :root {
     --bg-main: #FFFFFF;
     --bg-card: #FFFFFF;
-    --bg-card-hover: #FFF7ED;
-    --border-ember: rgba(249, 115, 22, 0.2);
-    --border-ember-hover: rgba(249, 115, 22, 0.5);
-    --accent-gold: #EA580C;
-    --accent-ember: #F97316;
+    --bg-card-hover: #FFFAF0;
+    --border-ember: rgba(221, 107, 32, 0.16);
+    --border-ember-hover: rgba(221, 107, 32, 0.35);
+    --accent-gold: #C05621;
+    --accent-ember: #DD6B20;
     --text-primary: #1E293B;
     --text-muted: #64748B;
   }
@@ -24,7 +29,7 @@
 
   body {
     font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #FAFAFA;
+    background-color: #FAFAF9;
     color: #1E293B;
     overflow-x: hidden;
   }
@@ -32,35 +37,102 @@
   h1, h2, h3, h4, h5, h6, .font-heading, button, input, textarea, select {
     font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+
+  /* Universal smooth button interaction: subtle 1.02 scale + soft color change */
+  button, .btn-interactive {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.25s ease, 
+                border-color 0.25s ease, 
+                box-shadow 0.25s ease, 
+                color 0.2s ease;
+  }
+
+  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) {
+    transform: scale(1.02);
+  }
+
+  button:active:not(:disabled), .btn-interactive:active:not(:disabled) {
+    transform: scale(0.99);
+  }
 }
 
-/* Orange & white visual accents */
+/* Soft Terracotta Visual Accents */
 .ember-glow {
-  box-shadow: 0 4px 20px -2px rgba(249, 115, 22, 0.25);
+  box-shadow: 0 4px 18px -2px rgba(221, 107, 32, 0.18);
 }
 
 .ember-glow-strong {
-  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.35);
+  box-shadow: 0 8px 24px rgba(221, 107, 32, 0.24);
 }
 
 .ember-text-gradient {
-  background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #C2410C 100%);
+  background: linear-gradient(135deg, #DD6B20 0%, #C05621 60%, #9C4221 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .ember-border-gradient {
-  border-image: linear-gradient(135deg, #FDBA74, #F97316) 1;
+  border-image: linear-gradient(135deg, #FBD38D, #DD6B20) 1;
 }
 
 .charcoal-gradient {
-  background: linear-gradient(180deg, #FFF7ED 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #FFFAF0 0%, #FFFFFF 100%);
+}
+
+/* Page & element entrance animations (<= 0.3s) */
+@keyframes softFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes softSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-soft-fade {
+  animation: softFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-soft-slide-up {
+  animation: softSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered transition helper */
+.motion-card {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease,
+              background-color 0.28s ease;
+}
+
+/* Accessible reduced motion override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) {
+    transform: none !important;
+  }
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
   background: #F8FAFC;
@@ -70,7 +142,7 @@
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F97316;
+  background: #DD6B20;
 }
 
 /* Print styling for receipts */

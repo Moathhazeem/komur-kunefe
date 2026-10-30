@@ -234,6 +234,30 @@
   ],
   "orders": [
     {
+      "customerName": "ميرا جردانة",
+      "customerPhone": "0592864880",
+      "items": [
+        {
+          "productId": "prod-2",
+          "name": "كنافة نابلسية ناعمة ع الفحم",
+          "variantId": "v-2-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال ساعة",
+      "notes": "",
+      "status": "preparing",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "pending",
+      "source": "website",
+      "id": "ord-1793385621771",
+      "orderNumber": "KM-5814",
+      "createdAt": "2026-10-30T18:40:21.771Z"
+    },
+    {
       "id": "ord-7",
       "orderNumber": "KM-8006",
       "customerName": "ليلى جردانة",

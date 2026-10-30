@@ -8,6 +8,7 @@ import { DeliverySurveyModal } from './components/DeliverySurveyModal';
 
 import { HomePage } from './pages/HomePage';
 import { MenuPage } from './pages/MenuPage';
+import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderTrackingPage } from './pages/OrderTrackingPage';
 import { OffersPage } from './pages/OffersPage';
@@ -19,6 +20,7 @@ import { AdminPage } from './pages/AdminPage';
 export default function App() {
   // Navigation tab state
   const [currentTab, setCurrentTab] = useState<string>('home');
+  const [currentProductId, setCurrentProductId] = useState<string | null>(null);
 
   // Application data state
   const [products, setProducts] = useState<Product[]>([]);
@@ -39,34 +41,62 @@ export default function App() {
   // Modals
   const [isDeliverySurveyOpen, setIsDeliverySurveyOpen] = useState(false);
 
-  // Handle URL hash / path on load (e.g. /#menu or ?utm_source=instagram)
+  // Handle URL path / hash routing (e.g., /product/:id, /menu, /#menu, /checkout)
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase();
+    const handleRoute = () => {
       const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+
+      // Check for /product/:id in path or hash (supports /product/prod-1 or #product/prod-1)
+      const pathMatch = window.location.pathname.match(/^\/product\/([^\/?#]+)/i);
+      const hashMatch = window.location.hash.match(/^#?\/?product\/([^\/?#]+)/i) ||
+                        window.location.hash.match(/[?&]product=([^&#]+)/i);
+      const searchMatch = window.location.search.match(/[?&]product=([^&#]+)/i);
+
+      const matchedId = (pathMatch && pathMatch[1]) || (hashMatch && hashMatch[1]) || (searchMatch && searchMatch[1]);
+      if (matchedId) {
+        setCurrentProductId(decodeURIComponent(matchedId));
+        setCurrentTab('product-details');
+        return;
+      }
 
       if (hash === 'menu' || path === '/menu') {
         setCurrentTab('menu');
-      } else if (hash === 'order' || hash === 'checkout' || path === '/order') {
+        setCurrentProductId(null);
+      } else if (hash === 'order' || hash === 'checkout' || path === '/order' || path === '/checkout') {
         setCurrentTab('checkout');
+        setCurrentProductId(null);
       } else if (hash === 'admin' || path === '/admin') {
         setCurrentTab('admin');
-      } else if (hash === 'track') {
+        setCurrentProductId(null);
+      } else if (hash === 'track' || path === '/track') {
         setCurrentTab('track');
-      } else if (hash === 'offers') {
+        setCurrentProductId(null);
+      } else if (hash === 'offers' || path === '/offers') {
         setCurrentTab('offers');
-      } else if (hash === 'story') {
+        setCurrentProductId(null);
+      } else if (hash === 'story' || path === '/story') {
         setCurrentTab('story');
-      } else if (hash === 'reviews') {
+        setCurrentProductId(null);
+      } else if (hash === 'reviews' || path === '/reviews') {
         setCurrentTab('reviews');
-      } else if (hash === 'contact') {
+        setCurrentProductId(null);
+      } else if (hash === 'contact' || path === '/contact') {
         setCurrentTab('contact');
+        setCurrentProductId(null);
+      } else {
+        setCurrentTab('home');
+        setCurrentProductId(null);
       }
     };
 
-    handleHash();
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+    handleRoute();
+    window.addEventListener('hashchange', handleRoute);
+    window.addEventListener('popstate', handleRoute);
+    return () => {
+      window.removeEventListener('hashchange', handleRoute);
+      window.removeEventListener('popstate', handleRoute);
+    };
   }, []);
 
   // Save cart changes
@@ -134,16 +164,30 @@ export default function App() {
     setCart([]);
   };
 
+  const handleNavigateToProduct = (productId: string) => {
+    setCurrentProductId(productId);
+    setCurrentTab('product-details');
+    window.history.pushState(null, '', `/product/${productId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleNavigate = (tab: string) => {
+    setCurrentProductId(null);
     setCurrentTab(tab);
-    window.location.hash = tab === 'home' ? '' : tab;
+    if (tab === 'home') {
+      window.history.pushState(null, '', '/');
+      window.location.hash = '';
+    } else {
+      window.history.pushState(null, '', `/${tab}`);
+      window.location.hash = tab;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 text-slate-800 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-stone-50/40 text-slate-800 flex flex-col font-sans selection:bg-[#DD6B20] selection:text-white">
       
       {/* Header */}
       <Header
@@ -154,8 +198,8 @@ export default function App() {
         onOpenCart={() => handleNavigate('checkout')}
       />
 
-      {/* Main Content Pages */}
-      <main className="flex-1">
+      {/* Main Content Pages with smooth fade & slide-up */}
+      <main key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
         {currentTab === 'home' && (
           <HomePage
             products={products}
@@ -163,6 +207,7 @@ export default function App() {
             reviews={reviews}
             settings={settings}
             onNavigate={handleNavigate}
+            onNavigateToProduct={handleNavigateToProduct}
             onAddToCart={handleAddToCart}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
           />
@@ -172,7 +217,19 @@ export default function App() {
           <MenuPage
             products={products}
             onAddToCart={handleAddToCart}
+            onNavigateToProduct={handleNavigateToProduct}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
+          />
+        )}
+
+        {currentTab === 'product-details' && (
+          <ProductDetailsPage
+            productId={currentProductId}
+            products={products}
+            onNavigate={handleNavigate}
+            onNavigateToProduct={handleNavigateToProduct}
+            onAddToCart={handleAddToCart}
+            onOpenCart={() => handleNavigate('checkout')}
           />
         )}
 

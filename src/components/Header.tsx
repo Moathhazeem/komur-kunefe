@@ -34,13 +34,13 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-xs">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#DD6B20]/15 shadow-xs">
       {/* Announcement Bar */}
       {settings?.announcementBanner && (
-        <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white text-xs md:text-sm font-bold py-1.5 px-4 text-center flex items-center justify-center gap-2 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+        <div className="bg-[#DD6B20] text-white text-xs md:text-sm font-bold py-1.5 px-4 text-center flex items-center justify-center gap-2 shadow-xs">
+          <Sparkles className="w-3.5 h-3.5 opacity-90" />
           <span>{settings.announcementBanner}</span>
-          <span className="hidden md:inline bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full mr-2">
+          <span className="hidden md:inline bg-black/10 text-white text-[11px] px-2 py-0.5 rounded-full mr-2">
             استلام من رافدية
           </span>
         </div>
@@ -53,26 +53,26 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Logo & Brand */}
           <button
             onClick={() => onNavigate('home')}
-            className="flex items-center gap-3 text-right group transition-transform focus:outline-none"
+            className="flex items-center gap-3 text-right group focus:outline-none cursor-pointer"
           >
             {settings?.logoUrl ? (
               <img
                 src={settings.logoUrl}
                 alt="Kömür Künefe Logo"
-                className="w-12 h-12 object-contain rounded-2xl border border-orange-200 bg-orange-50 p-1"
+                className="w-12 h-12 object-contain rounded-2xl border border-[#DD6B20]/20 bg-[#DD6B20]/5 p-1"
               />
             ) : (
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform border border-orange-400">
-                <Flame className="w-7 h-7 text-white animate-pulse" />
+              <div className="w-12 h-12 rounded-2xl bg-[#DD6B20] flex items-center justify-center shadow-xs border border-[#DD6B20]/40">
+                <Flame className="w-7 h-7 text-white" />
               </div>
             )}
 
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-orange-600 font-heading">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#DD6B20] font-heading">
                   Kömür Künefe
                 </span>
-                <span className="text-[10px] sm:text-xs bg-orange-100 text-orange-700 font-bold px-1.5 py-0.5 rounded-md border border-orange-200">
+                <span className="text-[10px] sm:text-xs bg-[#DD6B20]/10 text-[#DD6B20] font-bold px-1.5 py-0.5 rounded-md border border-[#DD6B20]/20">
                   ع الفحم
                 </span>
               </div>
@@ -85,14 +85,14 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => {
-              const active = currentTab === link.id;
+              const active = currentTab === link.id || (link.id === 'menu' && currentTab === 'product-details');
               return (
                 <button
                   key={link.id}
                   onClick={() => handleLinkClick(link.id)}
-                  className={`px-3 py-2 text-sm font-bold rounded-xl transition-all ${active
-                      ? 'text-orange-600 bg-orange-50 border border-orange-200 shadow-xs'
-                      : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50/60'
+                  className={`px-3 py-2 text-sm font-bold rounded-xl transition-all cursor-pointer ${active
+                    ? 'text-[#DD6B20] bg-[#DD6B20]/10 border border-[#DD6B20]/20 shadow-xs'
+                    : 'text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/5'
                     }`}
                 >
                   {link.label}
@@ -117,13 +117,13 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Cart Trigger */}
             <button
               onClick={onOpenCart}
-              className="relative flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-md hover:shadow-orange-200 hover:scale-[1.02]"
+              className="relative flex items-center gap-2 bg-[#DD6B20] hover:bg-[#C05621] text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm cursor-pointer"
               aria-label="عرض السلة"
             >
               <ShoppingBag className="w-4 h-4 text-white" />
               <span className="hidden sm:inline">السلة</span>
               {cartCount > 0 && (
-                <span className="bg-white text-orange-600 text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
+                <span className="bg-white text-[#DD6B20] text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
                   {cartCount}
                 </span>
               )}
@@ -132,9 +132,9 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Admin Portal Shortcut */}
             <button
               onClick={() => handleLinkClick('admin')}
-              className={`p-2.5 rounded-xl border transition-all ${currentTab === 'admin'
-                  ? 'bg-orange-100 text-orange-600 border-orange-300'
-                  : 'bg-white text-slate-500 border-slate-200 hover:text-orange-600 hover:border-orange-200 hover:bg-orange-50'
+              className={`p-2.5 rounded-xl border transition-all cursor-pointer ${currentTab === 'admin'
+                ? 'bg-[#DD6B20]/15 text-[#DD6B20] border-[#DD6B20]/30'
+                : 'bg-white text-slate-500 border-slate-200 hover:text-[#DD6B20] hover:border-[#DD6B20]/30 hover:bg-[#DD6B20]/5'
                 }`}
               title="لوحة تحكم صاحب المحل"
               aria-label="لوحة تحكم الإدارة"
@@ -145,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-orange-300 transition-colors"
+              className="lg:hidden p-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-[#DD6B20]/30 transition-colors cursor-pointer"
               aria-label="القائمة"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
@@ -156,18 +156,19 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-orange-100 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-lg">
+        <div className="lg:hidden bg-white border-b border-[#DD6B20]/15 px-4 pt-3 pb-6 space-y-2 animate-soft-slide-up shadow-md">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => handleLinkClick(link.id)}
-              className={`w-full text-right px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors ${currentTab === link.id
-                  ? 'bg-orange-50 text-orange-600 border border-orange-200'
-                  : 'text-slate-700 hover:bg-orange-50/50'
-                }`}
+              className={`w-full text-right px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors cursor-pointer ${
+                currentTab === link.id || (link.id === 'menu' && currentTab === 'product-details')
+                  ? 'bg-[#DD6B20]/10 text-[#DD6B20] border border-[#DD6B20]/20'
+                  : 'text-slate-700 hover:bg-[#DD6B20]/5'
+              }`}
             >
               <span>{link.label}</span>
-              <span className="text-xs text-orange-400">←</span>
+              <span className="text-xs text-[#DD6B20]/80">←</span>
             </button>
           ))}
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
