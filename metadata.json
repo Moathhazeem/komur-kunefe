@@ -1,0 +1,6 @@
+{
+  "name": "Kömür Künefe — كنافة ع الفحم",
+  "description": "الموقع الرسمي لمحل كُومُر كُونافيه (كنافة ع الفحم) في رافدية، نابلس. طلب أونلاين، منيو، لوحة تحكم ذكية، ومساعد أعمال ذكي لصاحب المحل.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

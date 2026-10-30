@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Tajawal', sans-serif;
+}
+
+@layer base {
+  :root {
+    --bg-main: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #FFF7ED;
+    --border-ember: rgba(249, 115, 22, 0.2);
+    --border-ember-hover: rgba(249, 115, 22, 0.5);
+    --accent-gold: #EA580C;
+    --accent-ember: #F97316;
+    --text-primary: #1E293B;
+    --text-muted: #64748B;
+  }
+
+  *, ::before, ::after {
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FAFAFA;
+    color: #1E293B;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading, button, input, textarea, select {
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Orange & white visual accents */
+.ember-glow {
+  box-shadow: 0 4px 20px -2px rgba(249, 115, 22, 0.25);
+}
+
+.ember-glow-strong {
+  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.35);
+}
+
+.ember-text-gradient {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #C2410C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ember-border-gradient {
+  border-image: linear-gradient(135deg, #FDBA74, #F97316) 1;
+}
+
+.charcoal-gradient {
+  background: linear-gradient(180deg, #FFF7ED 0%, #FFFFFF 100%);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F97316;
+}
+
+/* Print styling for receipts */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: black !important;
+    background: white !important;
+  }
+}

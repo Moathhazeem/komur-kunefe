@@ -1,0 +1,1604 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "كنافة نابلسية خشنة ع الفحم",
+      "category": "charcoal",
+      "description": "كنافة خشنة بالسمن البلدي الفاخر والجبنة النابلسية البلدية تُخبز على جمر الفحم الطبيعي لحظة بلحظة حتى تصبح ذهبية مقرمشة.",
+      "basePrice": 25,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "featured": true,
+      "variants": [
+        {
+          "id": "v-1-1",
+          "name": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "isDefault": true
+        },
+        {
+          "id": "v-1-2",
+          "name": "سدر صغير (2-3 أشخاص)",
+          "price": 65
+        },
+        {
+          "id": "v-1-3",
+          "name": "سدر وسط (5-6 أشخاص)",
+          "price": 110
+        },
+        {
+          "id": "v-1-4",
+          "name": "سدر كبير مناسبات (10 أشخاص)",
+          "price": 190
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-2",
+      "name": "كنافة نابلسية ناعمة ع الفحم",
+      "category": "charcoal",
+      "description": "الكنافة النابلسية الناعمة الكلاسيكية، ناعمة ومحمرة بعناية على الجمر الهادئ، مع مطة الجبنة البلدية الأصيلة ورشة فستق حلبي أخضر.",
+      "basePrice": 25,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "featured": true,
+      "variants": [
+        {
+          "id": "v-2-1",
+          "name": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "isDefault": true
+        },
+        {
+          "id": "v-2-2",
+          "name": "سدر صغير (2-3 أشخاص)",
+          "price": 65
+        },
+        {
+          "id": "v-2-3",
+          "name": "سدر وسط (5-6 أشخاص)",
+          "price": 110
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-3",
+      "name": "كنافة نوتيلا فاخرة ع الفحم",
+      "category": "nutella",
+      "description": "مزيج استثنائي يجمع بين قرمشة عجينة الكنافة المحمصة على الفحم وشوكولاتة النوتيلا الأصلية الغنية والمكسرات المحمصة.",
+      "basePrice": 30,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "featured": true,
+      "variants": [
+        {
+          "id": "v-3-1",
+          "name": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "isDefault": true
+        },
+        {
+          "id": "v-3-2",
+          "name": "سدر مشاركة نوتيلا",
+          "price": 85
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-4",
+      "name": "كنافة مكس نصفين (جبنة بلدي + نوتيلا)",
+      "category": "nutella",
+      "description": "نصف كنافة جبنة بلدية نابلسية ع الفحم ونصف كنافة نوتيلا بلجيكية، تلبي جميع الأذواق في صحن واحد.",
+      "basePrice": 32,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "v-4-1",
+          "name": "حجم واحد (طبق مكس)",
+          "price": 32,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-5",
+      "name": "بين نارين بالجبنة النابلسية ع الفحم",
+      "category": "charcoal",
+      "description": "طبقة كنافة مقرمشة من الأعلى وأخرى من الأسفل تحتضنان الجبنة الساخنة المذابة مع نفحة الفحم الفريدة.",
+      "basePrice": 28,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "v-5-1",
+          "name": "حجم واحد (صحن شخصي)",
+          "price": 28,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-6",
+      "name": "معمول العيد الفاخر بالجوز البلدي",
+      "category": "nawashef",
+      "description": "نواشف العيد الموسمية: معمول محشو بأجود أنواع الجوز البلدي والقرفة والمحلب والسمن البقري الصافي.",
+      "basePrice": 45,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "isSeasonal": true,
+      "variants": [
+        {
+          "id": "v-6-1",
+          "name": "علبة نصف كيلو",
+          "price": 25
+        },
+        {
+          "id": "v-6-2",
+          "name": "علبة كيلو كامل فاخرة",
+          "price": 45,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-7",
+      "name": "معمول العيد بالتمر النابلسي",
+      "category": "nawashef",
+      "description": "عجينة السميد الناعمة المعطرة باليانسون والشومر محشوة بعجوة التمر المتبلة بالسمن البلدي.",
+      "basePrice": 35,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "isSeasonal": true,
+      "variants": [
+        {
+          "id": "v-7-1",
+          "name": "علبة كيلو فاخرة",
+          "price": 35,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-8",
+      "name": "غريبة شامية بالفستق الحلبي",
+      "category": "nawashef",
+      "description": "نواشف العيد: حبات الغريبة الهشة تذوب في الفم مع حبة فستق حلبي فاخرة.",
+      "basePrice": 40,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "isSeasonal": true,
+      "variants": [
+        {
+          "id": "v-8-1",
+          "name": "علبة كيلو",
+          "price": 40,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.543Z"
+    },
+    {
+      "id": "prod-9",
+      "name": "قهوة تركية على رمل وجمر الفحم",
+      "category": "other",
+      "description": "فنجان قهوة محوّجة بالهيل الفلسطيني مطبوخة على نار هادئة.",
+      "basePrice": 6,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "v-9-1",
+          "name": "فنجان واحد",
+          "price": 6,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.544Z"
+    },
+    {
+      "id": "prod-10",
+      "name": "شاي خمير مع الميرمية والنعناع",
+      "category": "other",
+      "description": "كأس شاي مخمّر على الجمر بالطريقة التقليدية مع الميرمية الجبلية الفلسطينية.",
+      "basePrice": 5,
+      "isInitialPrice": true,
+      "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "v-10-1",
+          "name": "كأس واحد",
+          "price": 5,
+          "isDefault": true
+        }
+      ],
+      "createdAt": "2026-10-29T17:44:58.544Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-7",
+      "orderNumber": "KM-8006",
+      "customerName": "ليلى جردانة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-8",
+          "name": "غريبة شامية بالفستق الحلبي",
+          "variantId": "v-8-1",
+          "variantName": "علبة كيلو",
+          "price": 40,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-8",
+          "name": "غريبة شامية بالفستق الحلبي",
+          "variantId": "v-8-1",
+          "variantName": "علبة كيلو",
+          "price": 40,
+          "quantity": 1
+        }
+      ],
+      "total": 80,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-29T17:51:00.000Z"
+    },
+    {
+      "id": "ord-14",
+      "orderNumber": "KM-8013",
+      "customerName": "بشار شاهين",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-29T17:23:00.000Z"
+    },
+    {
+      "id": "ord-26",
+      "orderNumber": "KM-8025",
+      "customerName": "عمر حجاوي",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-5",
+          "name": "بين نارين بالجبنة النابلسية ع الفحم",
+          "variantId": "v-5-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 28,
+          "quantity": 2
+        }
+      ],
+      "total": 56,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-29T15:44:00.000Z"
+    },
+    {
+      "id": "ord-21",
+      "orderNumber": "KM-8020",
+      "customerName": "محمود الشكعة",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-5",
+          "name": "بين نارين بالجبنة النابلسية ع الفحم",
+          "variantId": "v-5-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 28,
+          "quantity": 2
+        }
+      ],
+      "total": 56,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-29T12:38:00.000Z"
+    },
+    {
+      "id": "ord-23",
+      "orderNumber": "KM-8022",
+      "customerName": "طارق عنبتاوي",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-28T15:54:00.000Z"
+    },
+    {
+      "id": "ord-17",
+      "orderNumber": "KM-8016",
+      "customerName": "محمد حسونة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-27T15:13:00.000Z"
+    },
+    {
+      "id": "ord-30",
+      "orderNumber": "KM-8029",
+      "customerName": "فاطمة العالول",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-2",
+          "name": "كنافة نابلسية ناعمة ع الفحم",
+          "variantId": "v-2-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-26T15:19:00.000Z"
+    },
+    {
+      "id": "ord-33",
+      "orderNumber": "KM-8032",
+      "customerName": "سامر خليل",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-4",
+          "name": "كنافة مكس نصفين (جبنة بلدي + نوتيلا)",
+          "variantId": "v-4-1",
+          "variantName": "حجم واحد (طبق مكس)",
+          "price": 32,
+          "quantity": 1
+        }
+      ],
+      "total": 57,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-26T15:04:00.000Z"
+    },
+    {
+      "id": "ord-4",
+      "orderNumber": "KM-8003",
+      "customerName": "خالد يعيش",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "preparing",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "pending",
+      "source": "instagram",
+      "createdAt": "2026-10-25T18:31:00.000Z"
+    },
+    {
+      "id": "ord-36",
+      "orderNumber": "KM-8035",
+      "customerName": "محمود الشكعة",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 55,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-23T15:13:00.000Z"
+    },
+    {
+      "id": "ord-18",
+      "orderNumber": "KM-8017",
+      "customerName": "سامر خليل",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 50,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-22T16:00:00.000Z"
+    },
+    {
+      "id": "ord-42",
+      "orderNumber": "KM-8041",
+      "customerName": "نور المصري",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-21T16:13:00.000Z"
+    },
+    {
+      "id": "ord-41",
+      "orderNumber": "KM-8040",
+      "customerName": "عمر حجاوي",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-6",
+          "name": "معمول العيد الفاخر بالجوز البلدي",
+          "variantId": "v-6-1",
+          "variantName": "علبة نصف كيلو",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 80,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-20T19:36:00.000Z"
+    },
+    {
+      "id": "ord-38",
+      "orderNumber": "KM-8037",
+      "customerName": "طارق عنبتاوي",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 80,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-20T12:41:00.000Z"
+    },
+    {
+      "id": "ord-40",
+      "orderNumber": "KM-8039",
+      "customerName": "هبة صوالحة",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 55,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-19T16:49:00.000Z"
+    },
+    {
+      "id": "ord-12",
+      "orderNumber": "KM-8011",
+      "customerName": "نور المصري",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-8",
+          "name": "غريبة شامية بالفستق الحلبي",
+          "variantId": "v-8-1",
+          "variantName": "علبة كيلو",
+          "price": 40,
+          "quantity": 2
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 110,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-19T11:41:00.000Z"
+    },
+    {
+      "id": "ord-44",
+      "orderNumber": "KM-8043",
+      "customerName": "بشار شاهين",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-7",
+          "name": "معمول العيد بالتمر النابلسي",
+          "variantId": "v-7-1",
+          "variantName": "علبة كيلو فاخرة",
+          "price": 35,
+          "quantity": 2
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 95,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-18T15:17:00.000Z"
+    },
+    {
+      "id": "ord-3",
+      "orderNumber": "KM-8002",
+      "customerName": "سامر خليل",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "new",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-18T14:21:00.000Z"
+    },
+    {
+      "id": "ord-5",
+      "orderNumber": "KM-8004",
+      "customerName": "رنا التميمي",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 55,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "preparing",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-15T17:15:00.000Z"
+    },
+    {
+      "id": "ord-28",
+      "orderNumber": "KM-8027",
+      "customerName": "علاء كنعان",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-15T17:01:00.000Z"
+    },
+    {
+      "id": "ord-34",
+      "orderNumber": "KM-8033",
+      "customerName": "خالد يعيش",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-7",
+          "name": "معمول العيد بالتمر النابلسي",
+          "variantId": "v-7-1",
+          "variantName": "علبة كيلو فاخرة",
+          "price": 35,
+          "quantity": 1
+        }
+      ],
+      "total": 35,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-15T13:55:00.000Z"
+    },
+    {
+      "id": "ord-27",
+      "orderNumber": "KM-8026",
+      "customerName": "نور المصري",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 75,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-14T18:30:00.000Z"
+    },
+    {
+      "id": "ord-16",
+      "orderNumber": "KM-8015",
+      "customerName": "أحمد المصري",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 85,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-14T15:36:00.000Z"
+    },
+    {
+      "id": "ord-10",
+      "orderNumber": "KM-8009",
+      "customerName": "هبة صوالحة",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 75,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-14T14:12:00.000Z"
+    },
+    {
+      "id": "ord-8",
+      "orderNumber": "KM-8007",
+      "customerName": "طارق عنبتاوي",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-14T14:11:00.000Z"
+    },
+    {
+      "id": "ord-6",
+      "orderNumber": "KM-8005",
+      "customerName": "محمود الشكعة",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 50,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "preparing",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "pending",
+      "source": "whatsapp",
+      "createdAt": "2026-10-14T10:33:00.000Z"
+    },
+    {
+      "id": "ord-15",
+      "orderNumber": "KM-8014",
+      "customerName": "فاطمة العالول",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 50,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-13T15:50:00.000Z"
+    },
+    {
+      "id": "ord-31",
+      "orderNumber": "KM-8030",
+      "customerName": "أحمد المصري",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 80,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-12T17:40:00.000Z"
+    },
+    {
+      "id": "ord-2",
+      "orderNumber": "KM-8001",
+      "customerName": "محمد حسونة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "new",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "pending",
+      "source": "whatsapp",
+      "createdAt": "2026-10-12T14:40:00.000Z"
+    },
+    {
+      "id": "ord-13",
+      "orderNumber": "KM-8012",
+      "customerName": "علاء كنعان",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-10T19:00:00.000Z"
+    },
+    {
+      "id": "ord-1",
+      "orderNumber": "KM-8000",
+      "customerName": "أحمد المصري",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-7",
+          "name": "معمول العيد بالتمر النابلسي",
+          "variantId": "v-7-1",
+          "variantName": "علبة كيلو فاخرة",
+          "price": 35,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 65,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "new",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-10T11:56:00.000Z"
+    },
+    {
+      "id": "ord-43",
+      "orderNumber": "KM-8042",
+      "customerName": "علاء كنعان",
+      "customerPhone": "0598765432",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-07T19:38:00.000Z"
+    },
+    {
+      "id": "ord-32",
+      "orderNumber": "KM-8031",
+      "customerName": "محمد حسونة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "whatsapp",
+      "createdAt": "2026-10-07T18:24:00.000Z"
+    },
+    {
+      "id": "ord-39",
+      "orderNumber": "KM-8038",
+      "customerName": "يوسف دروزة",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-07T16:08:00.000Z"
+    },
+    {
+      "id": "ord-22",
+      "orderNumber": "KM-8021",
+      "customerName": "ليلى جردانة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-10",
+          "name": "شاي خمير مع الميرمية والنعناع",
+          "variantId": "v-10-1",
+          "variantName": "كأس واحد",
+          "price": 5,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-07T15:22:00.000Z"
+    },
+    {
+      "id": "ord-11",
+      "orderNumber": "KM-8010",
+      "customerName": "عمر حجاوي",
+      "customerPhone": "0599123456",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        }
+      ],
+      "total": 50,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-07T11:20:00.000Z"
+    },
+    {
+      "id": "ord-9",
+      "orderNumber": "KM-8008",
+      "customerName": "يوسف دروزة",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 85,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-05T17:58:00.000Z"
+    },
+    {
+      "id": "ord-24",
+      "orderNumber": "KM-8023",
+      "customerName": "يوسف دروزة",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-10",
+          "name": "شاي خمير مع الميرمية والنعناع",
+          "variantId": "v-10-1",
+          "variantName": "كأس واحد",
+          "price": 5,
+          "quantity": 1
+        }
+      ],
+      "total": 5,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-05T17:56:00.000Z"
+    },
+    {
+      "id": "ord-19",
+      "orderNumber": "KM-8018",
+      "customerName": "خالد يعيش",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 2
+        },
+        {
+          "productId": "prod-5",
+          "name": "بين نارين بالجبنة النابلسية ع الفحم",
+          "variantId": "v-5-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 28,
+          "quantity": 1
+        }
+      ],
+      "total": 78,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-05T16:41:00.000Z"
+    },
+    {
+      "id": "ord-29",
+      "orderNumber": "KM-8028",
+      "customerName": "بشار شاهين",
+      "customerPhone": "0569112233",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 55,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-05T14:43:00.000Z"
+    },
+    {
+      "id": "ord-20",
+      "orderNumber": "KM-8019",
+      "customerName": "رنا التميمي",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-9",
+          "name": "قهوة تركية على رمل وجمر الفحم",
+          "variantId": "v-9-1",
+          "variantName": "فنجان واحد",
+          "price": 6,
+          "quantity": 2
+        },
+        {
+          "productId": "prod-4",
+          "name": "كنافة مكس نصفين (جبنة بلدي + نوتيلا)",
+          "variantId": "v-4-1",
+          "variantName": "حجم واحد (طبق مكس)",
+          "price": 32,
+          "quantity": 1
+        }
+      ],
+      "total": 44,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-05T12:23:00.000Z"
+    },
+    {
+      "id": "ord-35",
+      "orderNumber": "KM-8034",
+      "customerName": "رنا التميمي",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        },
+        {
+          "productId": "prod-4",
+          "name": "كنافة مكس نصفين (جبنة بلدي + نوتيلا)",
+          "variantId": "v-4-1",
+          "variantName": "حجم واحد (طبق مكس)",
+          "price": 32,
+          "quantity": 1
+        }
+      ],
+      "total": 57,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "website",
+      "createdAt": "2026-10-05T12:22:00.000Z"
+    },
+    {
+      "id": "ord-45",
+      "orderNumber": "KM-8044",
+      "customerName": "فاطمة العالول",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 2
+        }
+      ],
+      "total": 60,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-04T18:08:00.000Z"
+    },
+    {
+      "id": "ord-25",
+      "orderNumber": "KM-8024",
+      "customerName": "هبة صوالحة",
+      "customerPhone": "0595334455",
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "كنافة نابلسية خشنة ع الفحم",
+          "variantId": "v-1-1",
+          "variantName": "حجم واحد (صحن شخصي فاخر)",
+          "price": 25,
+          "quantity": 1
+        }
+      ],
+      "total": 25,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "instagram",
+      "createdAt": "2026-10-04T17:40:00.000Z"
+    },
+    {
+      "id": "ord-37",
+      "orderNumber": "KM-8036",
+      "customerName": "ليلى جردانة",
+      "customerPhone": "0568987654",
+      "items": [
+        {
+          "productId": "prod-3",
+          "name": "كنافة نوتيلا فاخرة ع الفحم",
+          "variantId": "v-3-1",
+          "variantName": "حجم واحد (صحن شخصي)",
+          "price": 30,
+          "quantity": 1
+        }
+      ],
+      "total": 30,
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "قطر خفيف، زيادة فستق لو سمحتم",
+      "status": "completed",
+      "paymentMethod": "mock_online",
+      "paymentStatus": "paid",
+      "source": "facebook",
+      "createdAt": "2026-10-04T16:21:00.000Z"
+    }
+  ],
+  "offers": [
+    {
+      "id": "off-1",
+      "title": "عرض لمة العيلة (سدر ع الفحم + شاي خمير مجانًا)",
+      "description": "اطلب أي سدر كنافة نابلسية ع الفحم (وسط أو كبير) واحصل على إبريق شاي خمير على الفحم مجانًا.",
+      "discountPercent": 15,
+      "badge": "عرض نهاية الأسبوع",
+      "startDate": "2026-10-01",
+      "endDate": "2026-12-31",
+      "isActive": true,
+      "includedProductNames": [
+        "كنافة نابلسية خشنة ع الفحم",
+        "كنافة نابلسية ناعمة ع الفحم"
+      ]
+    },
+    {
+      "id": "off-2",
+      "title": "عرض نواشف العيد وموسم البركة",
+      "description": "خصم 10% عند طلب علبتين معمول (جوز وتمر) مع تغليف هدايا أنيق.",
+      "discountPercent": 10,
+      "badge": "موسمي خاص",
+      "startDate": "2026-10-15",
+      "endDate": "2026-11-30",
+      "isActive": true,
+      "includedProductNames": [
+        "معمول العيد الفاخر بالجوز البلدي",
+        "معمول العيد بالتمر النابلسي"
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "customerName": "إبراهيم النابلسي",
+      "rating": 5,
+      "comment": "أطيب كنافة ع الفحم في نابلس! نكهة الجمر مع مطة الجبنة البلدية بتفرق كثير عن أفران الغاز. الله يباركلكم.",
+      "isApproved": true,
+      "isDemo": true,
+      "createdAt": "2026-10-25T19:30:00Z"
+    },
+    {
+      "id": "rev-2",
+      "customerName": "ميساء عودة",
+      "rating": 5,
+      "comment": "كنافة النوتيلا بتجنن، مقرمشة ومش مشبعة قطر كثير، متوازنة جدًا. بنصح الكل يجربها في رافدية.",
+      "isApproved": true,
+      "isDemo": true,
+      "createdAt": "2026-10-27T18:15:00Z"
+    },
+    {
+      "id": "rev-3",
+      "customerName": "طارق الدبيك",
+      "rating": 5,
+      "comment": "استلام سريع من المحل والشباب محترمين جداً وخدومين. الكنافة وصلت سخنة وبتشهي.",
+      "isApproved": true,
+      "isDemo": true,
+      "createdAt": "2026-10-28T21:00:00Z"
+    }
+  ],
+  "deliveryInterests": [
+    {
+      "id": "del-1",
+      "area": "رفيديا - شارع 15 قرب الأكاديمية",
+      "customerPhone": "0599112233",
+      "notes": "يا ريت توفروا توصيل سريع وقت السهرة",
+      "createdAt": "2026-10-24T20:10:00Z"
+    },
+    {
+      "id": "del-2",
+      "area": "حي المعاجين - نابلس",
+      "customerPhone": "0568445566",
+      "notes": "بطلب أسبوعياً لو في توصيل",
+      "createdAt": "2026-10-26T21:40:00Z"
+    },
+    {
+      "id": "del-3",
+      "area": "الجبل الشمالي - قرب المستشفى الإنجيلي",
+      "customerPhone": "0597332211",
+      "notes": "",
+      "createdAt": "2026-10-27T17:25:00Z"
+    },
+    {
+      "id": "del-4",
+      "area": "المخفية - قرب الحرم الجامعي الجديد",
+      "customerPhone": "0569778899",
+      "notes": "طلاب سكنات بنطلب دايمًا",
+      "createdAt": "2026-10-28T22:15:00Z"
+    }
+  ],
+  "settings": {
+    "storeName": "Kömür Künefe — كنافة ع الفحم",
+    "tagline": "المذاق النابلسي الأصيل على جمر الفحم الطبيعي",
+    "branch": "رافِدية - الشارع الرئيسي (بجانب دوار الشهداء والجامعة القديمة)، نابلس، فلسطين",
+    "phone": "+970 562 606 061",
+    "whatsapp": "970562606061",
+    "hours": "يوميًا: 11:00 صباحًا – 12:00 منتصف الليل (في العطلات والمناسبات حتى 1:00 فجرًا)",
+    "facebookUrl": "https://www.facebook.com/Komurkunefe/",
+    "instagramUrl": "https://www.instagram.com/komurkunefe",
+    "logoUrl": "",
+    "announcementBanner": "🔥 كنافة نابلسية ساخنة ومقرمشة تُخبز مباشرة على جمر الفحم الطبيعي في رافدية!",
+    "ourStory": "بدأت قصة \"كُومُر كُونافيه\" من إيماننا بأن سر الكنافة النابلسية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية الطازجة مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!",
+    "isStoryDraft": true
+  }
+}
