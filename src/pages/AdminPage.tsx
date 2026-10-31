@@ -621,7 +621,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                       <span className="text-slate-400 block">موعد وطريقة الاستلام:</span>
                       <span className="font-bold text-amber-600 block">{order.pickupTime}</span>
                       <span className="text-slate-500 block">
-                        {order.paymentMethod === 'mock_online' ? 'دفع إلكتروني (تم الدفع)' : 'دفع عند الاستلام كاش/بطاقة'}
+                        {order.paymentMethod === 'mock_online' ? 'دفع إلكتروني تجريبي غير متاح' : 'دفع عند الاستلام كاش/بطاقة'}
                       </span>
                     </div>
 

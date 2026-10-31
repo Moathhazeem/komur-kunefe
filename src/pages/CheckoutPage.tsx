@@ -102,21 +102,21 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       ...ord.items.map((i) => `• ${i.name} (${i.variantName}) × ${i.quantity} = ${i.price * i.quantity} ₪`),
       `---------------------`,
       `*المجموع النهائي:* ${ord.total} شيكل`,
-      `*طريقة الدفع:* ${ord.paymentMethod === 'mock_online' ? 'دفع إلكتروني (مدفوع)' : 'عند الاستلام في المحل'}`,
+      `*طريقة الدفع:* عند الاستلام في المحل`,
       ord.notes ? `*ملاحظات:* ${ord.notes}` : '',
       `\nاستلام من فرع رافدية - الشارع الرئيسي، نابلس`,
     ].filter(Boolean);
 
-    return `https://wa.me/970562606061?text=${encodeURIComponent(lines.join('\n'))}`;
+    return `https://wa.me/${settings?.whatsapp || '970562606061'}?text=${encodeURIComponent(lines.join('\n'))}`;
   };
 
   // If order is placed successfully
   if (placedOrder) {
     return (
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-right space-y-8 animate-fadeIn">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-right space-y-8 animate-soft-slide-up">
         
         {/* Success Card */}
-        <div className="bg-white border-2 border-orange-200 rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+        <div className="bg-[#F7F0E5] border-2 border-[#DAB775]/50 rounded-[30px] p-6 sm:p-10 shadow-[0_20px_60px_rgba(53,36,26,.1)] space-y-6">
           <div className="text-center space-y-3">
             <div className="w-18 h-18 rounded-full bg-emerald-50 border-2 border-emerald-500 text-emerald-600 mx-auto flex items-center justify-center shadow-xs">
               <CheckCircle2 className="w-10 h-10" />
@@ -125,10 +125,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               تم استلام طلبك بنجاح!
             </h1>
             <p className="text-sm sm:text-base text-slate-600">
-              شكراً لاختيارك <span className="text-orange-600 font-bold">Kömür Künefe — كنافة ع الفحم</span>.
+              شكراً لاختيارك <span className="text-[#C7652D] font-bold">Kömür Künefe — كنافة ع الفحم</span>.
             </p>
             <div className="pt-2">
-              <span className="inline-block bg-orange-50 text-orange-700 border border-orange-300 px-5 py-2 rounded-2xl text-xl font-black tracking-wider">
+              <span className="inline-block bg-[#F0E8DC] text-[#C7652D] border border-[#DAB775]/60 px-5 py-2 rounded-2xl text-xl font-black tracking-wider">
                 رقم الطلب: {placedOrder.orderNumber}
               </span>
             </div>
@@ -189,7 +189,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <span className="text-slate-400 block">بيانات الدفع والطلب:</span>
               <span className="font-bold text-slate-900 text-sm block">المجموع: {placedOrder.total} شيكل</span>
               <span className="text-slate-600 block">
-                طريقة الدفع: {placedOrder.paymentMethod === 'mock_online' ? 'دفع إلكتروني (تم بنجاح)' : 'عند الاستلام كاش/بطاقة'}
+                طريقة الدفع: الدفع عند الاستلام (كاش أو بطاقة بالمحل)
               </span>
               <span className="text-emerald-700 font-bold block pt-1">الاسم: {placedOrder.customerName} ({placedOrder.customerPhone})</span>
             </div>
@@ -265,7 +265,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
       
       {/* Page Title */}
       <div className="border-b border-orange-100 pb-4 flex items-center justify-between">
@@ -292,7 +292,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         <div className="lg:col-span-7 space-y-6">
           
           {/* Cart Items List */}
-          <div className="bg-white border border-orange-100 rounded-2xl p-4 sm:p-6 space-y-4 shadow-xs">
+          <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
             <h3 className="text-base font-bold text-slate-900 font-heading flex items-center justify-between">
               <span>الأصناف المختارة ({cart.length})</span>
               <button
@@ -357,7 +357,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           </div>
 
           {/* Customer Details Form */}
-          <form id="checkout-form" onSubmit={handleOpenPayment} className="bg-white border border-orange-100 rounded-2xl p-4 sm:p-6 space-y-4 shadow-xs">
+          <form id="checkout-form" onSubmit={handleOpenPayment} className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
             <h3 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
               <User className="w-4 h-4 text-orange-500" />
               <span>بيانات الاستلام والتواصل</span>
@@ -441,28 +441,28 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
         {/* Right Col (5/12 on LG): Order Summary & Payment Button */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white border border-orange-100 rounded-2xl p-6 space-y-5 sticky top-24 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 font-heading border-b border-slate-100 pb-3">
+          <div className="bg-[#17120F] text-[#F7F0E5] border border-[#DAB775]/20 rounded-[24px] p-6 space-y-5 sticky top-24 shadow-xl">
+            <h3 className="text-lg font-bold text-[#F7F0E5] font-heading border-b border-white/10 pb-3">
               ملخص الطلب
             </h3>
 
             <div className="space-y-2.5 text-sm">
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-[#BDAFA2]">
                 <span>مجموع الأصناف ({cart.reduce((s, i) => s + i.quantity, 0)})</span>
                 <span className="font-bold text-slate-900">{subtotal} ₪</span>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-[#BDAFA2]">
                 <span>رسوم التجهيز والتغليف الفاخر</span>
                 <span className="text-emerald-600 font-bold">مجاناً</span>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-[#BDAFA2]">
                 <span>التوصيل</span>
                 <span className="text-xs text-orange-600 font-bold">استلام من الفرع (0 ₪)</span>
               </div>
-              <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
-                <span className="text-base font-bold text-slate-900">المجموع النهائي:</span>
+              <div className="pt-3 border-t border-white/10 flex justify-between items-baseline">
+                <span className="text-base font-bold text-[#F7F0E5]">المجموع النهائي:</span>
                 <div className="text-left">
-                  <span className="text-2xl font-black text-orange-600 font-heading">{subtotal}</span>
+                <span className="text-2xl font-black text-[#DAB775] font-heading">{subtotal}</span>
                   <span className="text-xs font-bold text-slate-500 mr-1">شيكل</span>
                 </div>
               </div>
@@ -474,15 +474,15 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                 type="submit"
                 form="checkout-form"
                 disabled={isSubmitting}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-base shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
+                className="w-full py-4 rounded-full bg-[#C7652D] hover:bg-[#A94E20] text-white font-black text-base shadow-md shadow-[#C7652D]/20 flex items-center justify-center gap-2"
               >
-                <span>متابعة لاختيار طريقة الدفع</span>
+                <span>متابعة وتأكيد الطلب</span>
                 <ArrowLeft className="w-5 h-5" />
               </button>
 
               <div className="text-center text-[11px] text-slate-400 space-y-1">
-                <p>🔒 بوابة دفع آمنة متوافقة مع بطاقات فلسطين والمحافظ الإلكترونية</p>
-                <p>أو اختر الدفع كاش عند الاستلام في رافدية</p>
+                <p>لا نطلب بيانات بطاقة في النسخة التجريبية</p>
+                <p>الدفع عند الاستلام من فرع رافدية</p>
               </div>
             </div>
 

@@ -91,7 +91,7 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
             </div>
             <div className="flex justify-between">
               <span>طريقة الدفع:</span>
-              <span>{order.paymentMethod === 'mock_online' ? 'دفع إلكتروني (مدفوع)' : 'عند الاستلام في المحل'}</span>
+              <span>{order.paymentMethod === 'mock_online' ? 'دفع إلكتروني تجريبي غير متاح' : 'عند الاستلام في المحل'}</span>
             </div>
             {order.notes && (
               <div className="pt-1 text-[11px] text-gray-600">

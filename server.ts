@@ -142,8 +142,11 @@ async function startServer() {
         pickupTime: pickupTime || 'خلال 20-30 دقيقة',
         notes: notes || '',
         status: 'new',
-        paymentMethod: paymentMethod === 'mock_online' ? 'mock_online' : 'cash_on_pickup',
-        paymentStatus: paymentMethod === 'mock_online' ? 'paid' : 'pending',
+        // Online payments are not connected to a real provider yet. Never mark an
+        // order paid from a client-supplied flag; keep the supported demo flow as
+        // cash on pickup until server-verified provider confirmation exists.
+        paymentMethod: 'cash_on_pickup',
+        paymentStatus: 'pending',
         source: source || 'website'
       });
 
