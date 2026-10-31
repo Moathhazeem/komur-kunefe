@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Flame, ShoppingBag, Phone, Menu as MenuIcon, X, Shield, Sparkles } from 'lucide-react';
 import { StoreSettings } from '../types';
 
@@ -18,6 +18,17 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCart,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Track previous cart count to detect additions (badge bounce trigger)
+  const prevCartCountRef = useRef(cartCount);
+  const [badgeKey, setBadgeKey] = useState(0);
+
+  useEffect(() => {
+    if (cartCount > prevCartCountRef.current) {
+      // Re-mount badge to replay the bounce animation
+      setBadgeKey((k) => k + 1);
+    }
+    prevCartCountRef.current = cartCount;
+  }, [cartCount]);
 
   const navLinks = [
     { id: 'home', label: 'الرئيسية' },
@@ -123,7 +134,10 @@ export const Header: React.FC<HeaderProps> = ({
               <ShoppingBag className="w-4 h-4 text-white" />
               <span className="hidden sm:inline">السلة</span>
               {cartCount > 0 && (
-                <span className="bg-white text-[#DD6B20] text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
+                <span
+                  key={badgeKey}
+                  className="animate-cart-badge bg-white text-[#DD6B20] text-xs font-black px-2 py-0.5 rounded-full shadow-xs"
+                >
                   {cartCount}
                 </span>
               )}

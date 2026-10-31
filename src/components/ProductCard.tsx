@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
-import { Flame, Sparkles, Tag, ShoppingBag, Share2, ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Flame, Sparkles, Tag, ShoppingBag, Share2, Star } from 'lucide-react';
 import { Product } from '../types';
+import { getReviewsByProductId, calculateProductRating } from '../utils/reviewsStorage';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface ProductCardProps {
   product: Product;
   onOpenDetails: (product: Product) => void;
+  /** Stagger delay in ms for scroll-reveal (e.g. index * 60) */
+  revealDelay?: number;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails, revealDelay = 0 }) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [ratingInfo, setRatingInfo] = useState({ averageRating: 5.0, totalReviews: 0 });
+
+  // Scroll-reveal hook — each card reveals once it enters the viewport
+  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ delay: revealDelay });
+
+  useEffect(() => {
+    const revs = getReviewsByProductId(product.id);
+    setRatingInfo(calculateProductRating(revs));
+  }, [product.id]);
 
   // Calculate lowest price among variants or base price
   const minPrice =
@@ -35,8 +48,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
 
   return (
     <div
+      ref={ref}
       onClick={() => onOpenDetails(product)}
-      className="group relative bg-white hover:bg-stone-50/50 rounded-2xl border border-stone-200 hover:border-[#DD6B20]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+      className={`group relative bg-white hover:bg-stone-50/50 rounded-2xl border border-stone-200 hover:border-[#DD6B20]/40 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-xl cursor-pointer
+        motion-card
+        hover:scale-[1.02] hover:-translate-y-0.5
+        active:scale-[0.98]
+        reveal-card ${isVisible ? 'is-visible' : ''}`}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -117,6 +135,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
             <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#DD6B20] transition-colors font-heading leading-tight">
               {product.name}
             </h3>
+
+            {/* Product Rating Badge */}
+            <div className="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-lg shrink-0">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span className="text-xs font-black text-amber-900">
+                {ratingInfo.averageRating.toFixed(1)}
+              </span>
+              <span className="text-[10px] text-amber-700/80 font-medium">
+                ({ratingInfo.totalReviews})
+              </span>
+            </div>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed mb-3">

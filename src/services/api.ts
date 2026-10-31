@@ -64,6 +64,10 @@ export const api = {
     return data.order;
   },
 
+  async addOrder(order: any): Promise<Order> {
+    return this.createOrder(order);
+  },
+
   async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
     const res = await fetch(`/api/orders/${id}/status`, {
       method: 'PATCH',

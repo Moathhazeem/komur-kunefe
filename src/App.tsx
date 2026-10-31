@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Product, ProductVariant, CartItem, Offer, Review, StoreSettings } from './types';
+import { OFFICIAL_PRODUCTS } from './data/menuData';
 import { api } from './services/api';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -23,7 +24,7 @@ export default function App() {
   const [currentProductId, setCurrentProductId] = useState<string | null>(null);
 
   // Application data state
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(OFFICIAL_PRODUCTS);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [settings, setSettings] = useState<StoreSettings | null>(null);
@@ -119,7 +120,7 @@ export default function App() {
         api.getReviews(false), // only approved for public
         api.getSettings(),
       ]);
-      setProducts(fetchedProducts);
+      setProducts(fetchedProducts && fetchedProducts.length > 0 ? fetchedProducts : OFFICIAL_PRODUCTS);
       setOffers(fetchedOffers);
       setReviews(fetchedReviews);
       setSettings(fetchedSettings);

@@ -3,8 +3,10 @@ import path from 'path';
 
 export interface ProductVariant {
   id: string;
-  name: string; // e.g., "حجم واحد", "صحن فردي", "سدر صغير", "سدر وسط", "سدر كبير"
+  name: string;
   price: number;
+  dineInPrice?: number;
+  takeawayPrice?: number;
   isDefault?: boolean;
 }
 
@@ -14,7 +16,7 @@ export interface Product {
   category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';
   description: string;
   basePrice: number;
-  isInitialPrice: boolean; // Flag "سعر مبدئي - يحتاج مراجعة"
+  isInitialPrice: boolean;
   image: string;
   isAvailable: boolean;
   variants: ProductVariant[];
@@ -104,185 +106,171 @@ export interface DatabaseSchema {
 
 const DB_FILE = path.resolve(process.cwd(), 'database.json');
 
-const INITIAL_PRODUCTS: Product[] = [
+// EXCLUSIVE: The 8 official items of Kömür Künefe
+export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-1',
-    name: 'كنافة نابلسية خشنة ع الفحم',
+    name: 'إسطنبولية بالقشطة',
     category: 'charcoal',
-    description: 'كنافة خشنة بالسمن البلدي الفاخر والجبنة النابلسية البلدية تُخبز على جمر الفحم الطبيعي لحظة بلحظة حتى تصبح ذهبية مقرمشة.',
-    basePrice: 25,
-    isInitialPrice: true,
+    description: 'إسطنبولية فاخرة محشوة بالقشطة البلدية الطازجة وحشوة الفستق الحلبي الغني، تُخبز على جمر الفحم الطبيعي. (إمكانية إضافة بوظة لأي صنف بـ 3 شيكل).',
+    basePrice: 12,
+    isInitialPrice: false,
     image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
     isAvailable: true,
     featured: true,
     variants: [
-      { id: 'v-1-1', name: 'حجم واحد (صحن شخصي فاخر)', price: 25, isDefault: true },
-      { id: 'v-1-2', name: 'سدر صغير (2-3 أشخاص)', price: 65 },
-      { id: 'v-1-3', name: 'سدر وسط (5-6 أشخاص)', price: 110 },
-      { id: 'v-1-4', name: 'سدر كبير مناسبات (10 أشخاص)', price: 190 }
+      { id: 'v-1-xs', name: 'حجم XS (صغير شخصي)', price: 12, dineInPrice: 12, isDefault: true },
+      { id: 'v-1-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
+      { id: 'v-1-m', name: 'حجم M (وسط)', price: 50, dineInPrice: 50, takeawayPrice: 58 },
+      { id: 'v-1-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
+      { id: 'v-1-xl', name: 'حجم XL (عائلي فاخر)', price: 95, dineInPrice: 95, takeawayPrice: 105 },
     ],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'prod-2',
-    name: 'كنافة نابلسية ناعمة ع الفحم',
+    name: 'إسطنبولية محيرة',
     category: 'charcoal',
-    description: 'الكنافة النابلسية الناعمة الكلاسيكية، ناعمة ومحمرة بعناية على الجمر الهادئ، مع مطة الجبنة البلدية الأصيلة ورشة فستق حلبي أخضر.',
-    basePrice: 25,
-    isInitialPrice: true,
+    description: 'إسطنبولية محيرة مكس شهي يجمع بين القشطة والجبنة البلدية النابلسية محمرة على لهب الفحم.',
+    basePrice: 10,
+    isInitialPrice: false,
     image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
     isAvailable: true,
     featured: true,
     variants: [
-      { id: 'v-2-1', name: 'حجم واحد (صحن شخصي فاخر)', price: 25, isDefault: true },
-      { id: 'v-2-2', name: 'سدر صغير (2-3 أشخاص)', price: 65 },
-      { id: 'v-2-3', name: 'سدر وسط (5-6 أشخاص)', price: 110 }
+      { id: 'v-2-xs', name: 'حجم XS (صغير شخصي)', price: 10, dineInPrice: 10, isDefault: true },
+      { id: 'v-2-s', name: 'حجم S (شخصي)', price: 20, dineInPrice: 20, takeawayPrice: 30 },
+      { id: 'v-2-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
+      { id: 'v-2-l', name: 'حجم L (كبير)', price: 60, dineInPrice: 60, takeawayPrice: 70 },
+      { id: 'v-2-xl', name: 'حجم XL (عائلي)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
     ],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'prod-3',
-    name: 'كنافة نوتيلا فاخرة ع الفحم',
+    name: 'إسطنبولية بالفستق الحلبي المطحون ناعم',
+    category: 'charcoal',
+    description: 'إسطنبولية مميزة ومغطاة ومحشوة بأجود أنواع الفستق الحلبي المطحون ناعماً ونكهة السمن البلدي.',
+    basePrice: 13,
+    isInitialPrice: false,
+    image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    featured: true,
+    variants: [
+      { id: 'v-3-xs', name: 'حجم XS (صغير شخصي)', price: 13, dineInPrice: 13, isDefault: true },
+      { id: 'v-3-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
+      { id: 'v-3-m', name: 'حجم M (وسط)', price: 55, dineInPrice: 55, takeawayPrice: 63 },
+      { id: 'v-3-l', name: 'حجم L (كبير)', price: 80, dineInPrice: 80, takeawayPrice: 90 },
+      { id: 'v-3-xl', name: 'حجم XL (عائلي فاخر)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
+    ],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-4',
+    name: 'إسطنبولية إكسترا فستق حلبي',
+    category: 'charcoal',
+    description: 'لعشاق الفخامة: طبقات مضاعفة إكسترا من الفستق الحلبي الفاخر مع القرمشة الذهبية على جمر الفحم.',
+    basePrice: 15,
+    isInitialPrice: false,
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    featured: true,
+    variants: [
+      { id: 'v-4-xs', name: 'حجم XS (صغير شخصي)', price: 15, dineInPrice: 15, isDefault: true },
+      { id: 'v-4-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
+      { id: 'v-4-m', name: 'حجم M (وسط)', price: 60, dineInPrice: 60, takeawayPrice: 68 },
+      { id: 'v-4-l', name: 'حجم L (كبير)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
+      { id: 'v-4-xl', name: 'حجم XL (عائلي)', price: 110, dineInPrice: 110, takeawayPrice: 110 },
+    ],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-5',
+    name: 'كنافة نابلسية ناعمة ع الفحم',
+    category: 'charcoal',
+    description: 'الكنافة النابلسية الناعمة الأصلية بالجبنة البلدية الفاخرة والسمن البقري الصافي على الفحم لحظة بلحظة.',
+    basePrice: 10,
+    isInitialPrice: false,
+    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    featured: true,
+    variants: [
+      { id: 'v-5-xs', name: 'صحن شخصي (XS)', price: 10, dineInPrice: 10, isDefault: true },
+      { id: 'v-5-s', name: 'حجم S (صغير)', price: 20, dineInPrice: 20 },
+      { id: 'v-5-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
+      { id: 'v-5-l', name: 'حجم L (كبير)', price: 58, dineInPrice: 58, takeawayPrice: 67 },
+      { id: 'v-5-xl', name: 'حجم XL (سدر عائلي)', price: 76, dineInPrice: 76, takeawayPrice: 86 },
+      { id: 'v-5-25k', name: 'سدر مناسبات 2.5 كغم', price: 90, dineInPrice: 90, takeawayPrice: 100 },
+      { id: 'v-5-3k', name: 'سدر مناسبات 3 كغم', price: 110, dineInPrice: 110, takeawayPrice: 120 },
+      { id: 'v-5-35k', name: 'سدر مناسبات 3.5 كغم', price: 125, dineInPrice: 125, takeawayPrice: 135 },
+    ],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-6',
+    name: 'إسطنبولية بالشوكولاتة (نوتيلا، لوتس، زبدة الفستق، شوكولاتة بيضاء)',
     category: 'nutella',
-    description: 'مزيج استثنائي يجمع بين قرمشة عجينة الكنافة المحمصة على الفحم وشوكولاتة النوتيلا الأصلية الغنية والمكسرات المحمصة.',
-    basePrice: 30,
-    isInitialPrice: true,
+    description: 'تشكيلة صوصات مودرن فاخرة: نوتيلا، زبدة اللوتس، زبدة الفستق الحلبي، والشوكولاتة البيضاء البلجيكية.',
+    basePrice: 12,
+    isInitialPrice: false,
     image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80',
     isAvailable: true,
     featured: true,
     variants: [
-      { id: 'v-3-1', name: 'حجم واحد (صحن شخصي)', price: 30, isDefault: true },
-      { id: 'v-3-2', name: 'سدر مشاركة نوتيلا', price: 85 }
+      { id: 'v-6-xs', name: 'صحن شخصي (XS)', price: 12, dineInPrice: 12, isDefault: true },
+      { id: 'v-6-s', name: 'حجم صغير (S)', price: 25, dineInPrice: 25 },
     ],
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod-4',
-    name: 'كنافة مكس نصفين (جبنة بلدي + نوتيلا)',
-    category: 'nutella',
-    description: 'نصف كنافة جبنة بلدية نابلسية ع الفحم ونصف كنافة نوتيلا بلجيكية، تلبي جميع الأذواق في صحن واحد.',
-    basePrice: 32,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    variants: [
-      { id: 'v-4-1', name: 'حجم واحد (طبق مكس)', price: 32, isDefault: true }
-    ],
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod-5',
-    name: 'بين نارين بالجبنة النابلسية ع الفحم',
-    category: 'charcoal',
-    description: 'طبقة كنافة مقرمشة من الأعلى وأخرى من الأسفل تحتضنان الجبنة الساخنة المذابة مع نفحة الفحم الفريدة.',
-    basePrice: 28,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    variants: [
-      { id: 'v-5-1', name: 'حجم واحد (صحن شخصي)', price: 28, isDefault: true }
-    ],
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod-6',
-    name: 'معمول العيد الفاخر بالجوز البلدي',
-    category: 'nawashef',
-    description: 'نواشف العيد الموسمية: معمول محشو بأجود أنواع الجوز البلدي والقرفة والمحلب والسمن البقري الصافي.',
-    basePrice: 45,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    isSeasonal: true,
-    variants: [
-      { id: 'v-6-1', name: 'علبة نصف كيلو', price: 25 },
-      { id: 'v-6-2', name: 'علبة كيلو كامل فاخرة', price: 45, isDefault: true }
-    ],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'prod-7',
-    name: 'معمول العيد بالتمر النابلسي',
-    category: 'nawashef',
-    description: 'عجينة السميد الناعمة المعطرة باليانسون والشومر محشوة بعجوة التمر المتبلة بالسمن البلدي.',
-    basePrice: 35,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80',
+    name: 'إسطنبولية محشوة جبنة وفستق حلبي',
+    category: 'charcoal',
+    description: 'مزيج فاخر استثنائي من الجبنة البلدية النابلسية الذائبة مع حشوة الفستق الحلبي المحمص على نار الفحم.',
+    basePrice: 13,
+    isInitialPrice: false,
+    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
     isAvailable: true,
-    isSeasonal: true,
+    featured: true,
     variants: [
-      { id: 'v-7-1', name: 'علبة كيلو فاخرة', price: 35, isDefault: true }
+      { id: 'v-7-xs', name: 'حجم XS (صغير شخصي)', price: 13, dineInPrice: 13, isDefault: true },
+      { id: 'v-7-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
+      { id: 'v-7-m', name: 'حجم M (وسط)', price: 52, dineInPrice: 52, takeawayPrice: 60 },
+      { id: 'v-7-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
+      { id: 'v-7-xl', name: 'حجم XL (عائلي)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
     ],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'prod-8',
-    name: 'غريبة شامية بالفستق الحلبي',
-    category: 'nawashef',
-    description: 'نواشف العيد: حبات الغريبة الهشة تذوب في الفم مع حبة فستق حلبي فاخرة.',
-    basePrice: 40,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80',
+    name: 'برجر كُومُر كُونافيه (Kömür Künefe Burger)',
+    category: 'charcoal',
+    description: 'ابتكار كومر كونافيه الحصري: طبقات الكنافة المقرمشة على شكل برجر محشو بالجبنة الغنية والإضافات الفاخرة.',
+    basePrice: 13,
+    isInitialPrice: false,
+    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80',
     isAvailable: true,
-    isSeasonal: true,
+    featured: true,
     variants: [
-      { id: 'v-8-1', name: 'علبة كيلو', price: 40, isDefault: true }
+      { id: 'v-8-xs', name: 'حجم XS', price: 13, dineInPrice: 13, isDefault: true },
+      { id: 'v-8-s', name: 'حجم S', price: 30, dineInPrice: 30 },
     ],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
-  {
-    id: 'prod-9',
-    name: 'قهوة تركية على رمل وجمر الفحم',
-    category: 'other',
-    description: 'فنجان قهوة محوّجة بالهيل الفلسطيني مطبوخة على نار هادئة.',
-    basePrice: 6,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    variants: [
-      { id: 'v-9-1', name: 'فنجان واحد', price: 6, isDefault: true }
-    ],
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'prod-10',
-    name: 'شاي خمير مع الميرمية والنعناع',
-    category: 'other',
-    description: 'كأس شاي مخمّر على الجمر بالطريقة التقليدية مع الميرمية الجبلية الفلسطينية.',
-    basePrice: 5,
-    isInitialPrice: true,
-    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    variants: [
-      { id: 'v-10-1', name: 'كأس واحد', price: 5, isDefault: true }
-    ],
-    createdAt: new Date().toISOString()
-  }
 ];
 
 const INITIAL_OFFERS: Offer[] = [
   {
     id: 'off-1',
-    title: 'عرض لمة العيلة (سدر ع الفحم + شاي خمير مجانًا)',
-    description: 'اطلب أي سدر كنافة نابلسية ع الفحم (وسط أو كبير) واحصل على إبريق شاي خمير على الفحم مجانًا.',
+    title: 'عرض لمة العيلة (سدر إسطنبولية ع الفحم)',
+    description: 'اطلب أي سدر إسطنبولية ع الفحم واحصل على إضافة بوظة تركية مجاناً.',
     discountPercent: 15,
-    badge: 'عرض نهاية الأسبوع',
+    badge: 'عرض خاص',
     startDate: '2026-10-01',
     endDate: '2026-12-31',
     isActive: true,
-    includedProductNames: ['كنافة نابلسية خشنة ع الفحم', 'كنافة نابلسية ناعمة ع الفحم']
+    includedProductNames: ['إسطنبولية بالقشطة', 'إسطنبولية محيرة', 'كنافة نابلسية ناعمة ع الفحم'],
   },
-  {
-    id: 'off-2',
-    title: 'عرض نواشف العيد وموسم البركة',
-    description: 'خصم 10% عند طلب علبتين معمول (جوز وتمر) مع تغليف هدايا أنيق.',
-    discountPercent: 10,
-    badge: 'موسمي خاص',
-    startDate: '2026-10-15',
-    endDate: '2026-11-30',
-    isActive: true,
-    includedProductNames: ['معمول العيد الفاخر بالجوز البلدي', 'معمول العيد بالتمر النابلسي']
-  }
 ];
 
 const INITIAL_SETTINGS: StoreSettings = {
@@ -295,12 +283,11 @@ const INITIAL_SETTINGS: StoreSettings = {
   facebookUrl: 'https://www.facebook.com/Komurkunefe/',
   instagramUrl: 'https://www.instagram.com/komurkunefe',
   logoUrl: '',
-  announcementBanner: '🔥 كنافة نابلسية ساخنة ومقرمشة تُخبز مباشرة على جمر الفحم الطبيعي في رافدية!',
-  ourStory: 'بدأت قصة "كُومُر كُونافيه" من إيماننا بأن سر الكنافة النابلسية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية الطازجة مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!',
-  isStoryDraft: true
+  announcementBanner: '🔥 منيو الكنافة والإسطنبولية ع الفحم متوفر الآن | إمكانية إضافة بوظة لأي صنف بـ 3 شيكل!',
+  ourStory: 'بدأت قصة "كُومُر كُونافيه" من إيماننا بأن سر الكنافة النابلسية والإسطنبولية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية والقشطة الطازجة والفستق الحلبي الفاخر مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!',
+  isStoryDraft: false,
 };
 
-// Generate realistic simulated orders for analytics (tagged with source and hours)
 function generateSampleOrders(): Order[] {
   const sources: Order['source'][] = ['website', 'instagram', 'facebook', 'whatsapp'];
   const customerNames = [
@@ -313,10 +300,8 @@ function generateSampleOrders(): Order[] {
   const sampleOrders: Order[] = [];
   const now = Date.now();
 
-  // Create 45 historical orders across the last 30 days
-  for (let i = 0; i < 45; i++) {
+  for (let i = 0; i < 40; i++) {
     const daysAgo = Math.floor(Math.random() * 28);
-    // Peak hours usually 17:00 to 23:00 (5pm to 11pm)
     const hour = Math.random() > 0.3 ? 17 + Math.floor(Math.random() * 6) : 12 + Math.floor(Math.random() * 5);
     const minute = Math.floor(Math.random() * 60);
     const orderDate = new Date(now - daysAgo * 24 * 3600 * 1000);
@@ -327,8 +312,7 @@ function generateSampleOrders(): Order[] {
     let orderTotal = 0;
 
     for (let j = 0; j < numItems; j++) {
-      // Skew towards top-seller: كنافة خشنة ع الفحم or كنافة نوتيلا
-      const productIndex = Math.random() > 0.4 ? (Math.random() > 0.5 ? 0 : 2) : Math.floor(Math.random() * INITIAL_PRODUCTS.length);
+      const productIndex = Math.floor(Math.random() * INITIAL_PRODUCTS.length);
       const prod = INITIAL_PRODUCTS[productIndex];
       const variant = prod.variants[0];
       const qty = Math.random() > 0.7 ? 2 : 1;
@@ -355,17 +339,16 @@ function generateSampleOrders(): Order[] {
       items,
       total: orderTotal,
       pickupTime: 'خلال 20-30 دقيقة',
-      notes: i % 3 === 0 ? 'قطر خفيف، زيادة فستق لو سمحتم' : '',
+      notes: i % 3 === 0 ? 'قطر خفيف، زيادة فستق حلبي' : '',
       status,
       paymentMethod: i % 2 === 0 ? 'mock_online' : 'cash_on_pickup',
-      paymentStatus: i % 2 === 0 ? 'paid' : (status === 'completed' ? 'paid' : 'pending'),
+      paymentStatus: 'paid',
       source,
       createdAt: orderDate.toISOString()
     });
   }
 
-  // Sort by date desc
-  return sampleOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return sampleOrders;
 }
 
 const INITIAL_REVIEWS: Review[] = [
@@ -373,7 +356,7 @@ const INITIAL_REVIEWS: Review[] = [
     id: 'rev-1',
     customerName: 'إبراهيم النابلسي',
     rating: 5,
-    comment: 'أطيب كنافة ع الفحم في نابلس! نكهة الجمر مع مطة الجبنة البلدية بتفرق كثير عن أفران الغاز. الله يباركلكم.',
+    comment: 'أطيب إسطنبولية وكنافة ع الفحم في نابلس! نكهة الجمر مع مطة الجبنة والقشطة البلدية بتفرق كثير عن أفران الغاز.',
     isApproved: true,
     isDemo: true,
     createdAt: '2026-10-25T19:30:00Z'
@@ -382,7 +365,7 @@ const INITIAL_REVIEWS: Review[] = [
     id: 'rev-2',
     customerName: 'ميساء عودة',
     rating: 5,
-    comment: 'كنافة النوتيلا بتجنن، مقرمشة ومش مشبعة قطر كثير، متوازنة جدًا. بنصح الكل يجربها في رافدية.',
+    comment: 'الإسطنبولية المحيرة خرافية، مقرمشة ومش مشبعة قطر كثير، متوازنة جدًا. بنصح الكل يجربها في رافدية.',
     isApproved: true,
     isDemo: true,
     createdAt: '2026-10-27T18:15:00Z'
@@ -391,7 +374,7 @@ const INITIAL_REVIEWS: Review[] = [
     id: 'rev-3',
     customerName: 'طارق الدبيك',
     rating: 5,
-    comment: 'استلام سريع من المحل والشباب محترمين جداً وخدومين. الكنافة وصلت سخنة وبتشهي.',
+    comment: 'استلام سريع من المحل والشباب محترمين جداً وخدومين. الكنافة وصلت سخنة وبتشهي مع الفستق الحلبي.',
     isApproved: true,
     isDemo: true,
     createdAt: '2026-10-28T21:00:00Z'
@@ -440,7 +423,13 @@ class Database {
     try {
       if (fs.existsSync(DB_FILE)) {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        // Ensure legacy products are sanitized and replaced with ONLY official products
+        if (parsed && Array.isArray(parsed.products)) {
+          parsed.products = INITIAL_PRODUCTS;
+          this.saveData(parsed);
+          return parsed;
+        }
       }
     } catch (e) {
       console.error('Error reading database file, initializing defaults:', e);
@@ -487,9 +476,9 @@ class Database {
   }
 
   public deleteProduct(id: string): boolean {
-    const len = this.data.products.length;
+    const initialLen = this.data.products.length;
     this.data.products = this.data.products.filter(p => p.id !== id);
-    if (this.data.products.length !== len) {
+    if (this.data.products.length !== initialLen) {
       this.saveData(this.data);
       return true;
     }
@@ -501,31 +490,53 @@ class Database {
   }
 
   public getOrderById(id: string): Order | undefined {
-    return this.data.orders.find(o => o.id === id || o.orderNumber === id);
+    return this.data.orders.find(o => o.id === id);
   }
 
-  public addOrder(orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt'>): Order {
-    const orderNumber = `KM-${Math.floor(1000 + Math.random() * 9000)}`;
+  public addOrder(orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt'> & { id?: string; orderNumber?: string; createdAt?: string }): Order {
+    const nextNum = 8000 + this.data.orders.length + 1;
     const newOrder: Order = {
       ...orderData,
-      id: `ord-${Date.now()}`,
-      orderNumber,
-      createdAt: new Date().toISOString()
+      id: orderData.id || `ord-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`,
+      orderNumber: orderData.orderNumber || `KM-${nextNum}`,
+      status: orderData.status || 'new',
+      createdAt: orderData.createdAt || new Date().toISOString()
     };
     this.data.orders.unshift(newOrder);
     this.saveData(this.data);
     return newOrder;
   }
 
-  public updateOrderStatus(id: string, status: Order['status']): Order | null {
-    const order = this.data.orders.find(o => o.id === id || o.orderNumber === id);
-    if (!order) return null;
-    order.status = status;
-    if (status === 'completed' && order.paymentMethod === 'cash_on_pickup') {
-      order.paymentStatus = 'paid';
+  public createOrder(orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt'> & { id?: string; orderNumber?: string; createdAt?: string }): Order {
+    return this.addOrder(orderData);
+  }
+
+  public insertOrder(orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt'> & { id?: string; orderNumber?: string; createdAt?: string }): Order {
+    return this.addOrder(orderData);
+  }
+
+  public saveOrder(order: Order | any): Order {
+    if (!order.id || !order.orderNumber) {
+      return this.addOrder(order);
+    }
+    const idx = this.data.orders.findIndex(o => o.id === order.id);
+    if (idx >= 0) {
+      this.data.orders[idx] = order;
+    } else {
+      this.data.orders.unshift(order);
     }
     this.saveData(this.data);
     return order;
+  }
+
+  public updateOrderStatus(id: string, status: Order['status']): Order | undefined {
+    const order = this.getOrderById(id);
+    if (order) {
+      order.status = status;
+      this.saveData(this.data);
+      return order;
+    }
+    return undefined;
   }
 
   public getOffers(): Offer[] {
@@ -544,17 +555,17 @@ class Database {
   }
 
   public deleteOffer(id: string): boolean {
-    const len = this.data.offers.length;
+    const initialLen = this.data.offers.length;
     this.data.offers = this.data.offers.filter(o => o.id !== id);
-    if (this.data.offers.length !== len) {
+    if (this.data.offers.length !== initialLen) {
       this.saveData(this.data);
       return true;
     }
     return false;
   }
 
-  public getReviews(onlyApproved = true): Review[] {
-    if (onlyApproved) {
+  public getReviews(approvedOnly = false): Review[] {
+    if (approvedOnly) {
       return this.data.reviews.filter(r => r.isApproved);
     }
     return this.data.reviews;
@@ -566,8 +577,7 @@ class Database {
       customerName: reviewData.customerName,
       rating: reviewData.rating,
       comment: reviewData.comment,
-      isApproved: false, // Requires owner approval
-      isDemo: false,
+      isApproved: false,
       createdAt: new Date().toISOString()
     };
     this.data.reviews.unshift(newReview);
@@ -575,22 +585,14 @@ class Database {
     return newReview;
   }
 
-  public updateReviewStatus(id: string, isApproved: boolean): Review | null {
-    const rev = this.data.reviews.find(r => r.id === id);
-    if (!rev) return null;
-    rev.isApproved = isApproved;
-    this.saveData(this.data);
-    return rev;
-  }
-
-  public deleteReview(id: string): boolean {
-    const len = this.data.reviews.length;
-    this.data.reviews = this.data.reviews.filter(r => r.id !== id);
-    if (this.data.reviews.length !== len) {
+  public updateReviewStatus(id: string, isApproved: boolean): Review | undefined {
+    const review = this.data.reviews.find(r => r.id === id);
+    if (review) {
+      review.isApproved = isApproved;
       this.saveData(this.data);
-      return true;
+      return review;
     }
-    return false;
+    return undefined;
   }
 
   public clearDemoReviews(): void {
@@ -598,31 +600,68 @@ class Database {
     this.saveData(this.data);
   }
 
+  public saveReview(review: Review): Review {
+    const idx = this.data.reviews.findIndex(r => r.id === review.id);
+    if (idx >= 0) {
+      this.data.reviews[idx] = review;
+    } else {
+      this.data.reviews.unshift(review);
+    }
+    this.saveData(this.data);
+    return review;
+  }
+
+  public deleteReview(id: string): boolean {
+    const initialLen = this.data.reviews.length;
+    this.data.reviews = this.data.reviews.filter(r => r.id !== id);
+    if (this.data.reviews.length !== initialLen) {
+      this.saveData(this.data);
+      return true;
+    }
+    return false;
+  }
+
   public getDeliveryInterests(): DeliveryInterest[] {
     return this.data.deliveryInterests;
   }
 
-  public addDeliveryInterest(area: string, customerPhone: string, notes?: string): DeliveryInterest {
-    const item: DeliveryInterest = {
+  public addDeliveryInterest(area: string, customerPhone: string, notes: string): DeliveryInterest {
+    const record: DeliveryInterest = {
       id: `del-${Date.now()}`,
       area,
       customerPhone,
       notes,
       createdAt: new Date().toISOString()
     };
-    this.data.deliveryInterests.unshift(item);
+    this.data.deliveryInterests.unshift(record);
     this.saveData(this.data);
-    return item;
+    return record;
+  }
+
+  public saveDeliveryInterest(interest: DeliveryInterest): DeliveryInterest {
+    this.data.deliveryInterests.unshift(interest);
+    this.saveData(this.data);
+    return interest;
   }
 
   public getSettings(): StoreSettings {
     return this.data.settings;
   }
 
-  public updateSettings(newSettings: Partial<StoreSettings>): StoreSettings {
-    this.data.settings = { ...this.data.settings, ...newSettings };
+  public updateSettings(settings: Partial<StoreSettings>): StoreSettings {
+    this.data.settings = { ...this.data.settings, ...settings };
     this.saveData(this.data);
     return this.data.settings;
+  }
+
+  public saveSettings(settings: StoreSettings): StoreSettings {
+    this.data.settings = settings;
+    this.saveData(this.data);
+    return settings;
+  }
+
+  public getAnalytics(filter: { range?: string; from?: string; to?: string }): any {
+    return this.getDashboardStats(filter);
   }
 
   public resetSampleData(): void {
@@ -637,60 +676,55 @@ class Database {
     this.saveData(this.data);
   }
 
-  // Analytics helper methods
-  public getAnalytics(filter: { range?: string; from?: string; to?: string }) {
-    const orders = this.data.orders.filter(o => o.status !== 'cancelled');
+  public getDashboardStats(filter: { range?: string; from?: string; to?: string }): any {
     const now = new Date();
     let startDate = new Date();
 
-    if (filter.range === 'today') {
+    if (filter.from && filter.to) {
+      startDate = new Date(filter.from);
+    } else if (filter.range === 'today') {
       startDate.setHours(0, 0, 0, 0);
-    } else if (filter.range === '7d') {
-      startDate.setDate(now.getDate() - 7);
     } else if (filter.range === '30d') {
       startDate.setDate(now.getDate() - 30);
-    } else if (filter.from && filter.to) {
-      startDate = new Date(filter.from);
-      now.setTime(new Date(filter.to).getTime());
     } else {
-      // Default 7 days
       startDate.setDate(now.getDate() - 7);
     }
 
-    const filteredOrders = orders.filter(o => {
+    const filteredOrders = this.data.orders.filter(o => {
       const d = new Date(o.createdAt);
       return d >= startDate && d <= now;
     });
 
-    const totalSales = filteredOrders.reduce((sum, o) => sum + o.total, 0);
+    const totalSales = filteredOrders.reduce((sum, o) => sum + (o.status !== 'cancelled' ? o.total : 0), 0);
     const totalOrders = filteredOrders.length;
     const avgOrderValue = totalOrders > 0 ? Math.round(totalSales / totalOrders) : 0;
 
-    // Customer analysis
+    const productStats: Record<string, { quantity: number; revenue: number }> = {};
     const customerOrderCounts: Record<string, number> = {};
+
     filteredOrders.forEach(o => {
-      const key = o.customerPhone || o.customerName;
-      customerOrderCounts[key] = (customerOrderCounts[key] || 0) + 1;
+      customerOrderCounts[o.customerPhone] = (customerOrderCounts[o.customerPhone] || 0) + 1;
+      if (o.status !== 'cancelled') {
+        o.items.forEach(item => {
+          if (!productStats[item.name]) {
+            productStats[item.name] = { quantity: 0, revenue: 0 };
+          }
+          productStats[item.name].quantity += item.quantity;
+          productStats[item.name].revenue += item.price * item.quantity;
+        });
+      }
     });
+
     const repeatCustomers = Object.values(customerOrderCounts).filter(c => c > 1).length;
 
-    // Product breakdown
-    const productSales: Record<string, { name: string; quantity: number; revenue: number }> = {};
-    filteredOrders.forEach(o => {
-      o.items.forEach(item => {
-        if (!productSales[item.name]) {
-          productSales[item.name] = { name: item.name, quantity: 0, revenue: 0 };
-        }
-        productSales[item.name].quantity += item.quantity;
-        productSales[item.name].revenue += item.price * item.quantity;
-      });
-    });
+    const sortedProducts = Object.entries(productStats).map(([name, stats]) => ({
+      name,
+      ...stats
+    })).sort((a, b) => b.revenue - a.revenue);
 
-    const productList = Object.values(productSales);
-    const topProducts = [...productList].sort((a, b) => b.quantity - a.quantity);
-    const leastProducts = [...productList].sort((a, b) => a.quantity - b.quantity);
+    const topProducts = sortedProducts.slice(0, 5);
+    const leastProducts = [...sortedProducts].reverse().slice(0, 5);
 
-    // Peak hours
     const hourlyDistribution: Record<number, number> = {};
     for (let h = 0; h < 24; h++) hourlyDistribution[h] = 0;
     filteredOrders.forEach(o => {
@@ -698,7 +732,6 @@ class Database {
       hourlyDistribution[h] = (hourlyDistribution[h] || 0) + 1;
     });
 
-    // Traffic source breakdown
     const sourceBreakdown: Record<string, number> = {
       website: 0,
       instagram: 0,
@@ -709,7 +742,6 @@ class Database {
       sourceBreakdown[o.source] = (sourceBreakdown[o.source] || 0) + 1;
     });
 
-    // Delivery requests breakdown by area
     const deliveryDemandByArea: Record<string, number> = {};
     this.data.deliveryInterests.forEach(d => {
       deliveryDemandByArea[d.area] = (deliveryDemandByArea[d.area] || 0) + 1;
@@ -728,8 +760,8 @@ class Database {
         repeatCustomers,
         totalCustomers: Object.keys(customerOrderCounts).length
       },
-      topProducts: topProducts.slice(0, 5),
-      leastProducts: leastProducts.slice(0, 5),
+      topProducts,
+      leastProducts,
       hourlyDistribution,
       sourceBreakdown,
       deliveryDemand: {
@@ -741,3 +773,12 @@ class Database {
 }
 
 export const db = new Database();
+
+// Explicit named exports for order operations
+export const addOrder = (orderData: any) => db.addOrder(orderData);
+export const createOrder = (orderData: any) => db.addOrder(orderData);
+export const insertOrder = (orderData: any) => db.addOrder(orderData);
+export const saveOrder = (order: Order) => db.saveOrder(order);
+export const getOrders = () => db.getOrders();
+export const getOrderById = (id: string) => db.getOrderById(id);
+export const updateOrderStatus = (id: string, status: Order['status']) => db.updateOrderStatus(id, status);

@@ -16,7 +16,14 @@ import {
   ChevronLeft,
   ArrowLeft,
 } from 'lucide-react';
-import { Product, ProductVariant } from '../types';
+import { Product, ProductVariant, Review } from '../types';
+import { StarRating } from '../components/StarRating';
+import { ProductReviewsSection } from '../components/ProductReviewsSection';
+import {
+  getReviewsByProductId,
+  addReview as saveNewReview,
+  calculateProductRating,
+} from '../utils/reviewsStorage';
 
 export interface ProductDetailsPageProps {
   productId: string | null;
@@ -45,6 +52,7 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
   const [justAdded, setJustAdded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
   const [showShareToast, setShowShareToast] = useState<boolean>(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   // Initialize selections when product changes
   useEffect(() => {
@@ -60,9 +68,28 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
       setQuantity(1);
       setJustAdded(false);
       setImageError(false);
+      setReviews(getReviewsByProductId(product.id));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [product]);
+
+  const handleAddNewReview = (reviewData: { userName: string; rating: number; comment: string }) => {
+    if (!product) return;
+    const created = saveNewReview({
+      productId: product.id,
+      ...reviewData,
+    });
+    setReviews((prev) => [created, ...prev]);
+  };
+
+  const { averageRating, totalReviews } = calculateProductRating(reviews);
+
+  const scrollToReviews = () => {
+    const el = document.getElementById('product-reviews-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   if (!product) {
     return (
@@ -304,6 +331,27 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
               {product.name}
             </h1>
 
+            {/* Top Star Rating & Quick-Access Review Link */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <StarRating rating={Math.round(averageRating)} size="md" />
+              <div className="flex items-baseline gap-1">
+                <span className="text-sm sm:text-base font-black text-slate-900 font-heading">
+                  {averageRating.toFixed(1)}
+                </span>
+                <span className="text-xs text-slate-400">/ 5</span>
+              </div>
+              <span className="text-slate-300">•</span>
+              <button
+                type="button"
+                onClick={scrollToReviews}
+                className="text-xs sm:text-sm font-bold text-[#DD6B20] hover:text-[#C2410C] underline decoration-[#DD6B20]/40 hover:decoration-[#C2410C] underline-offset-4 transition-colors cursor-pointer"
+              >
+                {totalReviews > 0
+                  ? `عرض التقييمات (${totalReviews}) أو أضف رأيك`
+                  : 'كن أول من يقيم هذا الصنف / أضف رأيك'}
+              </button>
+            </div>
+
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal pt-1">
               {product.description}
             </p>
@@ -364,13 +412,20 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                       >
                         {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                       </div>
-                      <span
-                        className={`text-sm sm:text-base font-bold ${
-                          isSelected ? 'text-slate-900' : 'text-slate-700'
-                        }`}
-                      >
-                        {variant.name}
-                      </span>
+                      <div>
+                        <span
+                          className={`text-sm sm:text-base font-bold block ${
+                            isSelected ? 'text-slate-900' : 'text-slate-700'
+                          }`}
+                        >
+                          {variant.name}
+                        </span>
+                        {variant.takeawayPrice && (
+                          <span className="text-[11px] text-slate-500 block mt-0.5">
+                            سفري: {variant.takeawayPrice} ₪ | صالة: {variant.dineInPrice || variant.price} ₪
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <div className="text-left shrink-0">
@@ -487,6 +542,15 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
               يتم تجهيز الكنافة فور وصول الطلب وتسليمها ساخنة من فرعنا في رافدية - الشارع الرئيسي.
             </p>
           </div>
+
+          {/* Product Reviews & Star Rating Section */}
+          <ProductReviewsSection
+            productId={product.id}
+            productName={product.name}
+            reviews={reviews}
+            onAddReview={handleAddNewReview}
+            initiallyOpenForm={true}
+          />
 
         </div>
 

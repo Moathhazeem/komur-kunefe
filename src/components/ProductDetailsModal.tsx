@@ -13,7 +13,14 @@ import {
   MapPin,
   CheckCircle2,
 } from 'lucide-react';
-import { Product, ProductVariant } from '../types';
+import { Product, ProductVariant, Review } from '../types';
+import { StarRating } from './StarRating';
+import { ProductReviewsSection } from './ProductReviewsSection';
+import {
+  getReviewsByProductId,
+  addReview as saveNewReview,
+  calculateProductRating,
+} from '../utils/reviewsStorage';
 
 export interface ProductDetailsModalProps {
   product: Product | null;
@@ -33,6 +40,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   const [justAdded, setJustAdded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
   const [showShareToast, setShowShareToast] = useState<boolean>(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   // Initialize or reset selections whenever the product changes or modal opens
   useEffect(() => {
@@ -48,8 +56,21 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
       setQuantity(1);
       setJustAdded(false);
       setImageError(false);
+      // Fetch reviews for this product
+      setReviews(getReviewsByProductId(product.id));
     }
   }, [product, isOpen]);
+
+  const handleAddNewReview = (reviewData: { userName: string; rating: number; comment: string }) => {
+    if (!product) return;
+    const created = saveNewReview({
+      productId: product.id,
+      ...reviewData,
+    });
+    setReviews((prev) => [created, ...prev]);
+  };
+
+  const { averageRating, totalReviews } = calculateProductRating(reviews);
 
 
   // Handle body scroll lock & Escape key
@@ -121,7 +142,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 bg-slate-900/60 backdrop-blur-md animate-soft-fade overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 bg-slate-900/60 backdrop-blur-md overflow-y-auto animate-modal-backdrop"
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-modal-title"
@@ -129,7 +150,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     >
       {/* Spacious Fuller Viewport Modal Container */}
       <div
-        className="relative w-full max-w-5xl lg:max-w-6xl my-auto h-[94vh] sm:h-[90vh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-soft-slide-up"
+        className="relative w-full max-w-5xl lg:max-w-6xl my-auto h-[94vh] sm:h-[90vh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-modal-enter"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Floating Controls at Top (Available on mobile & desktop) */}
@@ -269,6 +290,19 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 {product.name}
               </h2>
 
+              {/* Star Rating & Reviews Count Bar */}
+              <div className="flex items-center gap-2 pt-0.5">
+                <StarRating rating={Math.round(averageRating)} size="sm" />
+                <span className="text-xs font-black text-slate-800">
+                  {averageRating.toFixed(1)}
+                </span>
+                <span className="text-xs text-slate-400">/ 5</span>
+                <span className="text-xs text-slate-400">•</span>
+                <span className="text-xs font-semibold text-slate-500">
+                  ({totalReviews} {totalReviews === 1 ? 'تقييم' : totalReviews === 2 ? 'تقييمان' : 'تقييمات'})
+                </span>
+              </div>
+
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-1">
                 {product.description}
               </p>
@@ -329,13 +363,20 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                         >
                           {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                         </div>
-                        <span
-                          className={`text-xs sm:text-sm font-bold ${
-                            isSelected ? 'text-slate-900' : 'text-slate-700'
-                          }`}
-                        >
-                          {variant.name}
-                        </span>
+                        <div>
+                          <span
+                            className={`text-xs sm:text-sm font-bold block ${
+                              isSelected ? 'text-slate-900' : 'text-slate-700'
+                            }`}
+                          >
+                            {variant.name}
+                          </span>
+                          {variant.takeawayPrice && (
+                            <span className="text-[10px] text-slate-500 block mt-0.5">
+                              سفري: {variant.takeawayPrice} ₪ | صالة: {variant.dineInPrice || variant.price} ₪
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       <div className="text-left shrink-0">
@@ -386,6 +427,14 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 </button>
               </div>
             </div>
+
+            {/* Product Reviews & Star Rating System */}
+            <ProductReviewsSection
+              productId={product.id}
+              productName={product.name}
+              reviews={reviews}
+              onAddReview={handleAddNewReview}
+            />
           </div>
 
           {/* Sticky Bottom Footer: Dynamic Price & Prominent CTA */}
@@ -406,7 +455,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               type="button"
               onClick={handleAdd}
               disabled={!product.isAvailable || justAdded}
-              className={`flex-1 sm:max-w-sm flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-black text-sm sm:text-base transition-all duration-200 shadow-md cursor-pointer hover:scale-[1.02] active:scale-[0.99] ${
+              className={`flex-1 sm:max-w-sm flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-black text-sm sm:text-base transition-all duration-200 shadow-md cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 !product.isAvailable
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed hover:scale-100 shadow-none'
                   : justAdded

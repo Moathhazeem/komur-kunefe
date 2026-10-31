@@ -2,7 +2,21 @@ export interface ProductVariant {
   id: string;
   name: string;
   price: number;
+  dineInPrice?: number;
+  takeawayPrice?: number;
   isDefault?: boolean;
+}
+
+export interface Review {
+  id: string;
+  productId?: string;
+  customerName?: string;
+  userName?: string;
+  rating: number; // 1 to 5
+  comment: string;
+  isApproved?: boolean;
+  isDemo?: boolean;
+  createdAt: string;
 }
 
 export interface Product {
@@ -11,7 +25,7 @@ export interface Product {
   category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';
   description: string;
   basePrice: number;
-  isInitialPrice: boolean; // Flag "سعر مبدئي - يحتاج مراجعة"
+  isInitialPrice: boolean;
   image: string;
   isAvailable: boolean;
   variants: ProductVariant[];
@@ -61,16 +75,6 @@ export interface Offer {
   endDate: string;
   isActive: boolean;
   includedProductNames: string[];
-}
-
-export interface Review {
-  id: string;
-  customerName: string;
-  rating: number;
-  comment: string;
-  isApproved: boolean;
-  isDemo?: boolean;
-  createdAt: string;
 }
 
 export interface DeliveryInterest {

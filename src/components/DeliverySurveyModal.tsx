@@ -14,8 +14,6 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-
-
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,19 +43,19 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="relative w-full max-w-md my-auto bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-fadeIn">
-        
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-modal-backdrop">
+      <div className="relative w-full max-w-md my-auto bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-modal-enter">
+
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 p-1 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
+          className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 p-1 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95"
         >
           <X className="w-5 h-5" />
         </button>
 
         {submitted ? (
-          <div className="py-8 text-center space-y-3">
+          <div className="py-8 text-center space-y-3 animate-soft-slide-up">
             <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-600 mx-auto flex items-center justify-center shadow-xs">
               <CheckCircle2 className="w-9 h-9" />
             </div>
@@ -130,7 +128,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
+                className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Send className="w-4 h-4" />
                 <span>{loading ? 'جارٍ الإرسال...' : 'سجل رغبتك بالتوصيل'}</span>
@@ -138,7 +136,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
               <button
                 type="button"
                 onClick={onClose}
-                className="py-3 px-4 rounded-xl text-xs text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="py-3 px-4 rounded-xl text-xs text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95"
               >
                 إلغاء
               </button>

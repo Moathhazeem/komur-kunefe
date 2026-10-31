@@ -81,24 +81,43 @@
 
 /* Page & element entrance animations (<= 0.3s) */
 @keyframes softFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes softSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
 }
+
+/* Scroll-reveal: card fades in + rises 20px (GPU-only transform) */
+@keyframes revealCard {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Modal: scales in from 95% centre + fades */
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+@keyframes modalBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Cart badge: single bounce on item add */
+@keyframes cartBadgeBounce {
+  0%   { transform: scale(1);    }
+  30%  { transform: scale(1.45); }
+  55%  { transform: scale(0.88); }
+  75%  { transform: scale(1.15); }
+  90%  { transform: scale(0.97); }
+  100% { transform: scale(1);    }
+}
+
+/* ─── Utility classes ────────────────────────────────────────── */
 
 .animate-soft-fade {
   animation: softFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -108,12 +127,39 @@
   animation: softSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Staggered transition helper */
+/* Scroll-reveal card — triggered by adding the class via JS */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: opacity, transform;
+}
+
+.reveal-card.is-visible {
+  animation: revealCard 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Modal entrance */
+.animate-modal-enter {
+  animation: modalEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-modal-backdrop {
+  animation: modalBackdropIn 0.22s ease-out both;
+}
+
+/* Cart badge bounce — re-run by key-remounting the badge span */
+.animate-cart-badge {
+  animation: cartBadgeBounce 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  display: inline-block;
+}
+
+/* Staggered transition helper — used on ProductCard for hover/active effects */
 .motion-card {
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.28s ease,
-              background-color 0.28s ease;
+              background-color 0.28s ease,
+              opacity 0.28s ease;
 }
 
 /* Accessible reduced motion override */
