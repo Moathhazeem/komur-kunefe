@@ -51,6 +51,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     }
   }, [product, isOpen]);
 
+
   // Handle body scroll lock & Escape key
   useEffect(() => {
     if (!isOpen) return;
@@ -120,7 +121,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 bg-slate-900/60 backdrop-blur-md animate-soft-fade"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 bg-slate-900/60 backdrop-blur-md animate-soft-fade overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-modal-title"
@@ -128,7 +129,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     >
       {/* Spacious Fuller Viewport Modal Container */}
       <div
-        className="relative w-full max-w-5xl lg:max-w-6xl h-[94vh] sm:h-[90vh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-soft-slide-up"
+        className="relative w-full max-w-5xl lg:max-w-6xl my-auto h-[94vh] sm:h-[90vh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-soft-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Floating Controls at Top (Available on mobile & desktop) */}

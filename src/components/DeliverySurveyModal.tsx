@@ -14,6 +14,8 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,8 +45,8 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-fadeIn">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-md my-auto bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-fadeIn">
         
         {/* Close Button */}
         <button

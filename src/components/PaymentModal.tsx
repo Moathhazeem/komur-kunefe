@@ -28,6 +28,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+
+
   if (!isOpen) return null;
 
   const handlePay = () => {
@@ -55,8 +57,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-lg bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-fadeIn">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-lg my-auto bg-white border border-orange-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-right animate-fadeIn">
         
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">

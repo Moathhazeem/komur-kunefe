@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Shield, ShoppingBag, Utensils, Sparkles, MessageSquare, Bike,
   BarChart3, Bot, Settings, LogOut, CheckCircle, Clock, AlertTriangle,
@@ -1397,9 +1398,9 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       )}
 
       {/* MODAL: ADD / EDIT PRODUCT */}
-      {isProductModalOpen && editingProduct && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto text-right space-y-4 shadow-xl animate-fadeIn">
+      {isProductModalOpen && editingProduct && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto my-auto text-right space-y-4 shadow-xl animate-fadeIn">
             <h3 className="text-lg font-bold text-slate-700 font-heading border-b border-slate-100 pb-2">
               {editingProduct.id ? 'تعديل صنف في المنيو' : 'إضافة صنف جديد للكنافة'}
             </h3>
@@ -1502,13 +1503,14 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* MODAL: ADD / EDIT OFFER */}
-      {isOfferModalOpen && editingOffer && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 max-w-lg w-full text-right space-y-4 shadow-xl animate-fadeIn">
+      {isOfferModalOpen && editingOffer && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 max-w-lg w-full my-auto text-right space-y-4 shadow-xl animate-fadeIn">
             <h3 className="text-lg font-bold text-slate-700 font-heading border-b border-slate-100 pb-2">
               {editingOffer.id ? 'تعديل العرض' : 'إنشاء عرض موسمي جديد'}
             </h3>
@@ -1573,16 +1575,20 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Print receipt modal */}
-      <ReceiptPrintModal
-        isOpen={!!selectedOrderForPrint}
-        onClose={() => setSelectedOrderForPrint(null)}
-        order={selectedOrderForPrint}
-        settings={settings}
-      />
+      {selectedOrderForPrint && createPortal(
+        <ReceiptPrintModal
+          isOpen={!!selectedOrderForPrint}
+          onClose={() => setSelectedOrderForPrint(null)}
+          order={selectedOrderForPrint}
+          settings={settings}
+        />,
+        document.body
+      )}
 
     </div>
   );

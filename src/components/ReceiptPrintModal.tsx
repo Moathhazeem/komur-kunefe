@@ -17,13 +17,15 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
 }) => {
   if (!isOpen || !order) return null;
 
+
+
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md bg-white border border-orange-200 rounded-3xl p-6 shadow-2xl text-right animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-md my-auto bg-white border border-orange-200 rounded-3xl p-6 shadow-2xl text-right animate-fadeIn">
         
         {/* Modal Controls */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
