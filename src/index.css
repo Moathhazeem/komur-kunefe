@@ -1,210 +1,97 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Tajawal', sans-serif;
-  --color-terracotta: #DD6B20;
-  --color-terracotta-hover: #C05621;
-  --color-terracotta-light: #FBD38D;
-  --color-terracotta-subtle: #FEEBC8;
-  --color-terracotta-tint: #FFFAF0;
+  --font-sans: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-terracotta: #C7652D;
+  --color-terracotta-hover: #A94E20;
+  --color-terracotta-light: #E6A16F;
+  --color-terracotta-subtle: #F4DFD0;
+  --color-charcoal: #17120F;
+  --color-espresso: #35241A;
+  --color-gold: #DAB775;
+  --color-cream: #F7F0E5;
 }
 
 @layer base {
   :root {
-    --bg-main: #FFFFFF;
-    --bg-card: #FFFFFF;
-    --bg-card-hover: #FFFAF0;
-    --border-ember: rgba(221, 107, 32, 0.16);
-    --border-ember-hover: rgba(221, 107, 32, 0.35);
-    --accent-gold: #C05621;
-    --accent-ember: #DD6B20;
-    --text-primary: #1E293B;
-    --text-muted: #64748B;
+    --brand-charcoal: #17120F;
+    --brand-espresso: #35241A;
+    --brand-ember: #C7652D;
+    --brand-gold: #DAB775;
+    --brand-cream: #F7F0E5;
+    --surface: #FBF8F2;
+    --surface-muted: #F0E8DC;
+    --ink: #211814;
+    --ink-muted: #75675C;
+    --line: rgba(53, 36, 26, 0.14);
   }
 
-  *, ::before, ::after {
-    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-
+  *, ::before, ::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #FAFAF9;
-    color: #1E293B;
+    margin: 0;
     overflow-x: hidden;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    text-rendering: optimizeLegibility;
   }
-
-  h1, h2, h3, h4, h5, h6, .font-heading, button, input, textarea, select {
-    font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-
-  /* Universal smooth button interaction: subtle 1.02 scale + soft color change */
+  h1, h2, h3, h4, h5, h6, button, input, textarea, select { font-family: inherit; }
+  button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
   button, .btn-interactive {
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                background-color 0.25s ease, 
-                border-color 0.25s ease, 
-                box-shadow 0.25s ease, 
-                color 0.2s ease;
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), background-color 220ms ease,
+      border-color 220ms ease, box-shadow 220ms ease, color 180ms ease;
   }
-
-  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) {
-    transform: scale(1.02);
-  }
-
-  button:active:not(:disabled), .btn-interactive:active:not(:disabled) {
-    transform: scale(0.99);
-  }
+  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) { transform: translateY(-1px); }
+  button:active:not(:disabled), .btn-interactive:active:not(:disabled) { transform: translateY(0); }
+  :focus-visible { outline: 3px solid rgba(218, 183, 117, .9); outline-offset: 3px; }
 }
 
-/* Soft Terracotta Visual Accents */
-.ember-glow {
-  box-shadow: 0 4px 18px -2px rgba(221, 107, 32, 0.18);
-}
+@keyframes softFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes softSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes revealCard { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes emberPulse { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: .85; transform: scale(1.05); } }
+@keyframes cartBadgeBounce { 0% { transform: scale(1); } 30% { transform: scale(1.35); } 65% { transform: scale(.92); } 100% { transform: scale(1); } }
 
-.ember-glow-strong {
-  box-shadow: 0 8px 24px rgba(221, 107, 32, 0.24);
-}
-
+.animate-soft-fade { animation: softFadeIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-soft-slide-up { animation: softSlideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fadeIn, .animate-modal-enter { animation: softFadeIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-modal-backdrop { animation: softFadeIn 220ms ease-out both; }
+.animate-cart-badge { animation: cartBadgeBounce 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both; display: inline-block; }
+.reveal-card { opacity: 0; transform: translateY(20px); }
+.reveal-card.is-visible { animation: revealCard 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.brand-display { font-family: 'Tajawal', sans-serif; letter-spacing: -.035em; }
+.ember-glow { box-shadow: 0 0 0 1px rgba(218,183,117,.12), 0 18px 60px rgba(199,101,45,.2); }
 .ember-text-gradient {
-  background: linear-gradient(135deg, #DD6B20 0%, #C05621 60%, #9C4221 100%);
+  background: linear-gradient(135deg, #E3C78F 0%, #DAB775 55%, #C7652D 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-.ember-border-gradient {
-  border-image: linear-gradient(135deg, #FBD38D, #DD6B20) 1;
+.charcoal-grain {
+  background-color: #17120F;
+  background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px), radial-gradient(rgba(218,183,117,.07) 1px, transparent 1px);
+  background-position: 0 0, 12px 12px;
+  background-size: 24px 24px;
 }
+.hero-ember { animation: emberPulse 5s ease-in-out infinite; }
+.safe-area-pb { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
 
-.charcoal-gradient {
-  background: linear-gradient(180deg, #FFFAF0 0%, #FFFFFF 100%);
-}
-
-/* Page & element entrance animations (<= 0.3s) */
-@keyframes softFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes softSlideUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0);   }
-}
-
-/* Scroll-reveal: card fades in + rises 20px (GPU-only transform) */
-@keyframes revealCard {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-
-/* Modal: scales in from 95% centre + fades */
-@keyframes modalEnter {
-  from { opacity: 0; transform: scale(0.95) translateY(8px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0);   }
-}
-
-@keyframes modalBackdropIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* Cart badge: single bounce on item add */
-@keyframes cartBadgeBounce {
-  0%   { transform: scale(1);    }
-  30%  { transform: scale(1.45); }
-  55%  { transform: scale(0.88); }
-  75%  { transform: scale(1.15); }
-  90%  { transform: scale(0.97); }
-  100% { transform: scale(1);    }
-}
-
-/* ─── Utility classes ────────────────────────────────────────── */
-
-.animate-soft-fade {
-  animation: softFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-soft-slide-up {
-  animation: softSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Scroll-reveal card — triggered by adding the class via JS */
-.reveal-card {
-  opacity: 0;
-  transform: translateY(20px);
-  will-change: opacity, transform;
-}
-
-.reveal-card.is-visible {
-  animation: revealCard 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Modal entrance */
-.animate-modal-enter {
-  animation: modalEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-modal-backdrop {
-  animation: modalBackdropIn 0.22s ease-out both;
-}
-
-/* Cart badge bounce — re-run by key-remounting the badge span */
-.animate-cart-badge {
-  animation: cartBadgeBounce 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  display: inline-block;
-}
-
-/* Staggered transition helper — used on ProductCard for hover/active effects */
-.motion-card {
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.28s ease,
-              background-color 0.28s ease,
-              opacity 0.28s ease;
-}
-
-/* Accessible reduced motion override */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) {
-    transform: none !important;
-  }
+  *, ::before, ::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  button:hover:not(:disabled), .btn-interactive:hover:not(:disabled) { transform: none !important; }
 }
 
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #F8FAFC;
-}
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #DD6B20;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #F7F0E5; }
+::-webkit-scrollbar-thumb { background: #CBB7A3; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #C7652D; }
 
-/* Print styling for receipts */
 @media print {
-  body * {
-    visibility: hidden;
-  }
-  #printable-receipt, #printable-receipt * {
-    visibility: visible;
-  }
-  #printable-receipt {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    color: black !important;
-    background: white !important;
-  }
+  body * { visibility: hidden; }
+  #printable-receipt, #printable-receipt * { visibility: visible; }
+  #printable-receipt { position: absolute; inset: 0 auto auto 0; width: 100%; color: black !important; background: white !important; }
 }

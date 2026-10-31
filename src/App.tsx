@@ -188,7 +188,7 @@ export default function App() {
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-stone-50/40 text-slate-800 flex flex-col font-sans selection:bg-[#DD6B20] selection:text-white">
+    <div className="min-h-screen bg-[#FBF8F2] text-[#211814] flex flex-col font-sans selection:bg-[#C7652D] selection:text-white">
       
       {/* Header */}
       <Header

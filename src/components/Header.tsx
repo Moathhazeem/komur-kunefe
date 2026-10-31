@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Flame, ShoppingBag, Phone, Menu as MenuIcon, X, Shield, Sparkles } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Flame, Menu as MenuIcon, Phone, ShoppingBag, Sparkles, X } from 'lucide-react';
 import { StoreSettings } from '../types';
 
 interface HeaderProps {
@@ -10,191 +10,98 @@ interface HeaderProps {
   onOpenCart: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  settings,
-  cartCount,
-  currentTab,
-  onNavigate,
-  onOpenCart,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab, onNavigate, onOpenCart }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Track previous cart count to detect additions (badge bounce trigger)
-  const prevCartCountRef = useRef(cartCount);
+  const previousCount = useRef(cartCount);
   const [badgeKey, setBadgeKey] = useState(0);
 
   useEffect(() => {
-    if (cartCount > prevCartCountRef.current) {
-      // Re-mount badge to replay the bounce animation
-      setBadgeKey((k) => k + 1);
-    }
-    prevCartCountRef.current = cartCount;
+    if (cartCount > previousCount.current) setBadgeKey((key) => key + 1);
+    previousCount.current = cartCount;
   }, [cartCount]);
 
   const navLinks = [
     { id: 'home', label: 'الرئيسية' },
     { id: 'menu', label: 'المنيو' },
-    { id: 'offers', label: 'العروض والمناسبات' },
-    { id: 'story', label: 'قصتنا' },
-    { id: 'reviews', label: 'آراء الزبائن' },
-    { id: 'contact', label: 'تواصل معنا' },
+    { id: 'story', label: 'حكاية الجمر' },
+    { id: 'offers', label: 'العروض' },
+    { id: 'contact', label: 'زورونا' },
   ];
 
-  const handleLinkClick = (id: string) => {
+  const isActive = (id: string) => currentTab === id || (id === 'menu' && currentTab === 'product-details');
+  const navigate = (id: string) => {
     onNavigate(id);
     setMobileMenuOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#DD6B20]/15 shadow-xs">
-      {/* Announcement Bar */}
+    <header className="sticky top-0 z-40 border-b border-[#DAB775]/15 bg-[#17120F]/95 text-[#F7F0E5] backdrop-blur-xl">
       {settings?.announcementBanner && (
-        <div className="bg-[#DD6B20] text-white text-xs md:text-sm font-bold py-1.5 px-4 text-center flex items-center justify-center gap-2 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 opacity-90" />
+        <div className="flex min-h-8 items-center justify-center gap-2 bg-[#C7652D] px-4 py-1.5 text-center text-[11px] font-bold text-white sm:text-xs">
+          <Sparkles className="h-3.5 w-3.5 text-[#F7F0E5]" />
           <span>{settings.announcementBanner}</span>
-          <span className="hidden md:inline bg-black/10 text-white text-[11px] px-2 py-0.5 rounded-full mr-2">
-            استلام من رافدية
-          </span>
         </div>
       )}
 
-      {/* Main Header Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <button type="button" onClick={() => navigate('home')} className="group flex min-w-0 items-center gap-3 text-right">
+          {settings?.logoUrl ? (
+            <img src={settings.logoUrl} alt="شعار Kömür Künefe" className="h-11 w-11 shrink-0 rounded-full border border-[#DAB775]/35 object-contain p-1" />
+          ) : (
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#DAB775]/35 bg-[#35241A] text-[#DAB775]">
+              <Flame className="h-5 w-5" />
+            </span>
+          )}
+          <span className="min-w-0">
+            <span className="block truncate text-[17px] font-black leading-none text-[#F7F0E5] sm:text-xl">كُومُر كُونافيه</span>
+            <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[#DAB775] sm:block">من الجمر، إلى قلبك</span>
+          </span>
+        </button>
 
-          {/* Logo & Brand */}
-          <button
-            onClick={() => onNavigate('home')}
-            className="flex items-center gap-3 text-right group focus:outline-none cursor-pointer"
-          >
-            {settings?.logoUrl ? (
-              <img
-                src={settings.logoUrl}
-                alt="Kömür Künefe Logo"
-                className="w-12 h-12 object-contain rounded-2xl border border-[#DD6B20]/20 bg-[#DD6B20]/5 p-1"
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-2xl bg-[#DD6B20] flex items-center justify-center shadow-xs border border-[#DD6B20]/40">
-                <Flame className="w-7 h-7 text-white" />
-              </div>
-            )}
-
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#DD6B20] font-heading">
-                  Kömür Künefe
-                </span>
-                <span className="text-[10px] sm:text-xs bg-[#DD6B20]/10 text-[#DD6B20] font-bold px-1.5 py-0.5 rounded-md border border-[#DD6B20]/20">
-                  ع الفحم
-                </span>
-              </div>
-              <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-                كنافة نابلسية ع جمر الفحم | رافدية
-              </span>
-            </div>
-          </button>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) => {
-              const active = currentTab === link.id || (link.id === 'menu' && currentTab === 'product-details');
-              return (
-                <button
-                  key={link.id}
-                  onClick={() => handleLinkClick(link.id)}
-                  className={`px-3 py-2 text-sm font-bold rounded-xl transition-all cursor-pointer ${active
-                    ? 'text-[#DD6B20] bg-[#DD6B20]/10 border border-[#DD6B20]/20 shadow-xs'
-                    : 'text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/5'
-                    }`}
-                >
-                  {link.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Quick WhatsApp / Call */}
-            <a
-              href="https://wa.me/970562606061?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%83%D9%86%D8%A7%D9%81%D8%A9%20%D8%B9%20%D8%A7%D9%84%D9%81%D8%AD%D9%85"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 px-3 py-2 rounded-xl text-xs font-bold transition-all"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>واتساب رافدية</span>
-            </a>
-
-            {/* Cart Trigger */}
-            <button
-              onClick={onOpenCart}
-              className="relative flex items-center gap-2 bg-[#DD6B20] hover:bg-[#C05621] text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm cursor-pointer"
-              aria-label="عرض السلة"
-            >
-              <ShoppingBag className="w-4 h-4 text-white" />
-              <span className="hidden sm:inline">السلة</span>
-              {cartCount > 0 && (
-                <span
-                  key={badgeKey}
-                  className="animate-cart-badge bg-white text-[#DD6B20] text-xs font-black px-2 py-0.5 rounded-full shadow-xs"
-                >
-                  {cartCount}
-                </span>
-              )}
-            </button>
-
-            {/* Admin Portal Shortcut */}
-            <button
-              onClick={() => handleLinkClick('admin')}
-              className={`p-2.5 rounded-xl border transition-all cursor-pointer ${currentTab === 'admin'
-                ? 'bg-[#DD6B20]/15 text-[#DD6B20] border-[#DD6B20]/30'
-                : 'bg-white text-slate-500 border-slate-200 hover:text-[#DD6B20] hover:border-[#DD6B20]/30 hover:bg-[#DD6B20]/5'
-                }`}
-              title="لوحة تحكم صاحب المحل"
-              aria-label="لوحة تحكم الإدارة"
-            >
-              <Shield className="w-4 h-4" />
-            </button>
-
-            {/* Mobile Hamburger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-[#DD6B20]/30 transition-colors cursor-pointer"
-              aria-label="القائمة"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-[#DD6B20]/15 px-4 pt-3 pb-6 space-y-2 animate-soft-slide-up shadow-md">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="التنقل الرئيسي">
           {navLinks.map((link) => (
             <button
               key={link.id}
-              onClick={() => handleLinkClick(link.id)}
-              className={`w-full text-right px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-colors cursor-pointer ${
-                currentTab === link.id || (link.id === 'menu' && currentTab === 'product-details')
-                  ? 'bg-[#DD6B20]/10 text-[#DD6B20] border border-[#DD6B20]/20'
-                  : 'text-slate-700 hover:bg-[#DD6B20]/5'
-              }`}
+              type="button"
+              onClick={() => navigate(link.id)}
+              className={`rounded-full px-3.5 py-2 text-sm font-bold transition-colors ${isActive(link.id) ? 'bg-[#DAB775]/15 text-[#DAB775]' : 'text-[#D5C7B9] hover:bg-white/5 hover:text-white'}`}
             >
-              <span>{link.label}</span>
-              <span className="text-xs text-[#DD6B20]/80">←</span>
+              {link.label}
             </button>
           ))}
-          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-            <a
-              href="https://wa.me/970562606061"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full text-center py-2.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-sm border border-emerald-200 hover:bg-emerald-100"
-            >
-              مراسلة واتساب: +970 562 606 061
-            </a>
-          </div>
+        </nav>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={`tel:${settings?.phone || '+970562606061'}`}
+            className="hidden items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#DAB775]/40 hover:text-[#DAB775] md:flex"
+          >
+            <Phone className="h-3.5 w-3.5" />
+            <span>اتصل بنا</span>
+          </a>
+          <button type="button" onClick={onOpenCart} className="relative flex items-center gap-2 rounded-full bg-[#C7652D] px-3.5 py-2.5 text-sm font-black text-white shadow-lg shadow-[#C7652D]/20 hover:bg-[#A94E20]" aria-label="عرض السلة">
+            <ShoppingBag className="h-4 w-4" />
+            <span className="hidden sm:inline">السلة</span>
+            {cartCount > 0 && <span key={badgeKey} className="animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#C7652D]">{cartCount}</span>}
+          </button>
+          <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] lg:hidden" aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}>
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {mobileMenuOpen && (
+        <div className="border-t border-white/10 bg-[#17120F] px-4 pb-5 pt-3 lg:hidden">
+          <nav className="space-y-1" aria-label="التنقل المحمول">
+            {navLinks.map((link) => (
+              <button key={link.id} type="button" onClick={() => navigate(link.id)} className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-right text-sm font-bold ${isActive(link.id) ? 'bg-[#DAB775]/15 text-[#DAB775]' : 'text-[#D5C7B9] hover:bg-white/5'}`}>
+                <span>{link.label}</span><span className="text-[#DAB775]">←</span>
+              </button>
+            ))}
+          </nav>
+          <a href={`https://wa.me/${settings?.whatsapp || '970562606061'}`} target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-[#1C8C5E]/15 px-4 py-3 text-sm font-bold text-[#77D6A6]">
+            <Phone className="h-4 w-4" /> مراسلة واتساب
+          </a>
         </div>
       )}
     </header>

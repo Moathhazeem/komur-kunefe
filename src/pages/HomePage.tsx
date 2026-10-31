@@ -1,6 +1,6 @@
 import React from 'react';
-import { Flame, ArrowLeft, Bike, Star, Sparkles, MapPin, Phone, Heart } from 'lucide-react';
-import { Product, ProductVariant, Offer, Review, StoreSettings } from '../types';
+import { ArrowLeft, Clock3, Flame, MapPin, Phone, Sparkles, Star } from 'lucide-react';
+import { Offer, Product, ProductVariant, Review, StoreSettings } from '../types';
 import { ProductCard } from '../components/ProductCard';
 
 interface HomePageProps {
@@ -14,245 +14,49 @@ interface HomePageProps {
   onOpenDeliverySurvey: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({
-  products,
-  offers,
-  reviews,
-  settings,
-  onNavigate,
-  onNavigateToProduct,
-  onAddToCart,
-  onOpenDeliverySurvey,
-}) => {
-  const featuredProducts = products.filter((p) => p.featured || p.category === 'charcoal').slice(0, 4);
-  const activeOffers = offers.filter((o) => o.isActive);
+export const HomePage: React.FC<HomePageProps> = ({ products, offers, reviews, settings, onNavigate, onNavigateToProduct }) => {
+  const featuredProducts = products.filter((product) => product.featured || product.category === 'charcoal').slice(0, 4);
+  const activeOffers = offers.filter((offer) => offer.isActive);
+  const heroProduct = featuredProducts[0] || products[0];
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-16">
-
-      {/* 1. Hero Section */}
-      <section className="relative min-h-[520px] lg:min-h-[580px] flex items-center justify-center bg-gradient-to-b from-[#DD6B20]/10 via-[#DD6B20]/5 to-white border-b border-[#DD6B20]/15 overflow-hidden px-4">
-
-        {/* Subtle glow background */}
-        <div className="absolute inset-0 pointer-events-none opacity-30">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#DD6B20]/15 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative max-w-5xl mx-auto text-center space-y-6 py-12 sm:py-20 z-10 animate-soft-fade">
-
-          {/* Top Pill / Badge */}
-          <div className="inline-flex items-center gap-2 bg-white border border-[#DD6B20]/25 text-[#DD6B20] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-xs">
-            <Flame className="w-4 h-4 text-[#DD6B20]" />
-            <span>كنافة نابلسية أصلية تُخبز على جمر الفحم الطبيعي</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#DD6B20]/60" />
-            <span className="text-[#DD6B20] font-extrabold">رافدية - الشارع الرئيسي</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight font-heading leading-tight">
-            المذاق النابلسي الأصيل <br className="hidden sm:inline" />
-            <span className="text-[#DD6B20] inline-block mt-2">على جمر الفحم الطبيعي</span>
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-base sm:text-xl text-slate-600 leading-relaxed font-normal">
-            نخبز كل صحن وسدر كنافة وإسطنبولية بحرفية نابلسية عالية باستخدام السمن البلدي الفاخر والجبنة البلدية الطازجة على الجمر الهادئ.
-          </p>
-
-          {/* Quick Notice Banner on Hero */}
-          <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200/80 px-4 py-2 rounded-2xl text-xs sm:text-sm text-amber-900 font-bold shadow-xs">
-            <span>🍨</span>
-            <span>إمكانية إضافة بوظة تركية فاخرة لأي صنف بـ 3 شيكل فقط!</span>
-          </div>
-
-          {/* Primary Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-            <button
-              type="button"
-              onClick={() => onNavigate('menu')}
-              className="w-full sm:w-auto px-8 py-4 bg-[#DD6B20] hover:bg-[#C2410C] text-white font-black text-base rounded-2xl shadow-lg shadow-[#DD6B20]/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 cursor-pointer"
-            >
-              <span>تصفح منيو الأصناف والأسعار</span>
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={onOpenDeliverySurvey}
-              className="w-full sm:w-auto px-6 py-4 bg-white hover:bg-stone-50 text-slate-700 hover:text-slate-900 font-bold text-sm sm:text-base rounded-2xl border border-stone-200/80 shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Bike className="w-4 h-4 text-[#DD6B20]" />
-              <span>طلب توصيل لموقعك</span>
-            </button>
-          </div>
-
-          {/* Value Props */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 pt-10 text-right">
-            <div className="bg-white/90 backdrop-blur-sm p-4 rounded-2xl border border-stone-200/70 shadow-xs">
-              <span className="text-xl sm:text-2xl font-black text-[#DD6B20] font-heading block">100%</span>
-              <span className="text-xs sm:text-sm text-slate-600 font-bold">فحم طبيعي بدون غاز</span>
+    <div className="overflow-hidden pb-20">
+      <section className="charcoal-grain relative isolate min-h-[650px] text-right text-[#F7F0E5] sm:min-h-[700px]">
+        <div className="absolute -left-28 top-20 h-80 w-80 rounded-full bg-[#C7652D]/30 blur-3xl hero-ember" />
+        <div className="mx-auto grid min-h-[650px] max-w-7xl items-center gap-12 px-4 py-14 sm:min-h-[700px] sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:px-8">
+          <div className="relative z-10 max-w-2xl animate-soft-slide-up">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#DAB775]/30 bg-white/5 px-3.5 py-2 text-xs font-bold text-[#DAB775]"><Flame className="h-4 w-4" /> كنافة نابلسية تُجهّز على الفحم</div>
+            <h1 className="brand-display max-w-xl text-5xl font-black leading-[1.08] sm:text-7xl">مش بس كنافة...<br /><span className="ember-text-gradient">تجربة عالجمر.</span></h1>
+            <p className="mt-6 max-w-lg text-base leading-8 text-[#D5C7B9] sm:text-lg">من رافدية، نخبز طلبك لحظة بلحظة على جمر الفحم الطبيعي. قرمشة ذهبية، جبنة نابلسية، ودفا لا ينحكى.</p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <button type="button" onClick={() => onNavigate('menu')} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C7652D] px-6 py-4 text-sm font-black text-white shadow-xl shadow-[#C7652D]/25 hover:bg-[#A94E20]">اطلب كنافتك <ArrowLeft className="h-4 w-4" /></button>
+              <button type="button" onClick={() => onNavigate('story')} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-4 text-sm font-bold text-[#F7F0E5] hover:border-[#DAB775]/60 hover:text-[#DAB775]">اكتشف حكايتنا</button>
             </div>
-            <div className="bg-white/90 backdrop-blur-sm p-4 rounded-2xl border border-stone-200/70 shadow-xs">
-              <span className="text-xl sm:text-2xl font-black text-[#DD6B20] font-heading block">بلدية</span>
-              <span className="text-xs sm:text-sm text-slate-600 font-bold">جبنة نابلسية طازجة</span>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm p-4 rounded-2xl border border-stone-200/70 shadow-xs">
-              <span className="text-xl sm:text-2xl font-black text-[#DD6B20] font-heading block">فوري</span>
-              <span className="text-xs sm:text-sm text-slate-600 font-bold">تجهيز طازج فور الطلب</span>
-            </div>
-            <div className="bg-white/90 backdrop-blur-sm p-4 rounded-2xl border border-stone-200/70 shadow-xs">
-              <span className="text-xl sm:text-2xl font-black text-[#DD6B20] font-heading block">فاخر</span>
-              <span className="text-xs sm:text-sm text-slate-600 font-bold">سمن بلدي وفستق حلبي</span>
-            </div>
+            <div className="mt-12 flex flex-wrap gap-x-7 gap-y-3 text-xs font-bold text-[#BDAFA2]"><span className="flex items-center gap-2"><Clock3 className="h-4 w-4 text-[#DAB775]" /> تُجهّز طازجة عند الطلب</span><span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-[#DAB775]" /> رافدية، نابلس</span></div>
           </div>
-
-        </div>
-      </section>
-
-      {/* 2. Featured Products Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200/80 pb-5">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#DD6B20] uppercase tracking-wider mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>مختارات Kömür Künefe الفاخرة</span>
+          <div className="relative mx-auto w-full max-w-xl lg:order-first">
+            <div className="absolute -inset-4 rounded-[40px] border border-[#DAB775]/15" />
+            <div className="relative aspect-[.82] overflow-hidden rounded-[32px] bg-[#35241A] shadow-2xl shadow-black/40 sm:aspect-[.95]">
+              {heroProduct?.image ? <img src={heroProduct.image} alt={heroProduct.name} className="h-full w-full object-cover opacity-85 mix-blend-screen" fetchPriority="high" /> : <div className="flex h-full items-center justify-center"><Flame className="h-20 w-20 text-[#DAB775]" /></div>}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#17120F] via-transparent to-[#17120F]/20" />
+              <div className="absolute bottom-6 right-6 left-6 flex items-end justify-between gap-4"><div><span className="text-xs text-[#DAB775]">من مختاراتنا</span><strong className="mt-1 block text-xl font-black">{heroProduct?.name || 'كنافة نابلسية'}</strong></div><span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#C7652D] text-white"><Flame className="h-5 w-5" /></span></div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 font-heading">
-              الأصناف الأكثر طلباً على الفحم
-            </h2>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onNavigate('menu')}
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#DD6B20] hover:text-[#C2410C] transition-colors cursor-pointer group"
-          >
-            <span>عرض كامل المنيو والأسعار</span>
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          </button>
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              revealDelay={Math.min(index * 60, 240)}
-              onOpenDetails={() => onNavigateToProduct(product.id)}
-            />
-          ))}
-
-        </div>
-      </section>
-
-      {/* 3. Special Offers Section */}
-      {activeOffers.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-linear-to-r from-stone-900 via-stone-800 to-black rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
-            <div className="relative z-10 space-y-4 max-w-2xl">
-              <span className="inline-block bg-[#DD6B20] text-white text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                {activeOffers[0].badge}
-              </span>
-              <h3 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
-                {activeOffers[0].title}
-              </h3>
-              <p className="text-sm sm:text-base text-stone-300 leading-relaxed font-normal">
-                {activeOffers[0].description}
-              </p>
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => onNavigate('menu')}
-                  className="px-6 py-3.5 bg-white text-slate-900 hover:bg-stone-100 font-black text-sm rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
-                >
-                  اطلب الآن واستفد من العرض
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 4. Customer Testimonials / Social Proof */}
-      {reviews.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold text-[#DD6B20] uppercase tracking-wider">
-              آراء زبائننا في نابلس
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
-              تجربة حقيقية بطعم الفحم لا تُنسى
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.slice(0, 3).map((rev) => (
-              <div
-                key={rev.id}
-                className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow space-y-3"
-              >
-                <div className="flex items-center gap-1 text-amber-400">
-                  {Array.from({ length: rev.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400" />
-                  ))}
-                </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
-                  "{rev.comment}"
-                </p>
-                <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-900">
-                    {rev.customerName || rev.userName || 'زبون مميز'}
-                  </span>
-                  <span className="text-slate-400">زبون موثق</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 5. Branch Location & Visit Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-stone-50 border border-stone-200 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 text-right">
-          <div className="space-y-2">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
-              تفضل بزيارتنا في فرع رافدية
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-xl leading-relaxed">
-              {settings?.branch || 'رافدية - الشارع الرئيسي، نابلس، فلسطين. استمتع برائحة جمر الفحم والكنافة الطازجة لحظة خروجها من النار.'}
-            </p>
-            <div className="flex items-center gap-4 pt-1 text-xs text-slate-500 font-semibold">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#DD6B20]" />
-                <span>رافدية - الشارع الرئيسي</span>
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-[#DD6B20]" />
-                <span>{settings?.phone || '+970 562 606 061'}</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
-            <a
-              href={`https://wa.me/${settings?.whatsapp || '970562606061'}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 sm:flex-none px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all text-center"
-            >
-              تواصل عبر واتساب
-            </a>
-            <button
-              type="button"
-              onClick={() => onNavigate('menu')}
-              className="flex-1 sm:flex-none px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm rounded-xl transition-all text-center cursor-pointer"
-            >
-              عرض المنيو
-            </button>
           </div>
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl space-y-8 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-between gap-4 border-b border-[#35241A]/10 pb-6 sm:flex-row sm:items-end"><div><span className="flex items-center gap-2 text-xs font-black tracking-wide text-[#C7652D]"><Sparkles className="h-4 w-4" /> مختارات من النار</span><h2 className="mt-2 text-3xl font-black text-[#211814] sm:text-4xl">أصنافنا التي تُسمع قرمشتها</h2></div><button type="button" onClick={() => onNavigate('menu')} className="flex items-center gap-2 text-sm font-black text-[#C7652D] hover:text-[#A94E20]">كل المنيو <ArrowLeft className="h-4 w-4" /></button></div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{featuredProducts.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={index * 70} onOpenDetails={() => onNavigateToProduct(product.id)} />)}</div>
+      </section>
+
+      <section className="bg-[#F0E8DC] py-20"><div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8"><div className="relative overflow-hidden rounded-[30px] bg-[#35241A] p-8 text-[#F7F0E5] sm:p-12"><div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-[#C7652D]/40 blur-3xl" /><div className="relative"><span className="text-xs font-black text-[#DAB775]">حكاية الجمر</span><h2 className="mt-3 text-3xl font-black leading-tight sm:text-5xl">السر مش بس بالمكونات.<br /><span className="text-[#DAB775]">السر بالنار.</span></h2><p className="mt-5 text-sm leading-8 text-[#D5C7B9]">{settings?.ourStory || 'نخبز الكنافة على حرارة جمر الفحم الهادئة لنحافظ على القرمشة الذهبية ونقدمها ساخنة من الفرن إلى يدك.'}</p><button type="button" onClick={() => onNavigate('story')} className="mt-7 inline-flex items-center gap-2 rounded-full border border-[#DAB775]/40 px-5 py-3 text-sm font-bold text-[#DAB775] hover:bg-[#DAB775]/10">اقرأ القصة <ArrowLeft className="h-4 w-4" /></button></div></div><div className="space-y-7 text-right"><span className="text-xs font-black text-[#C7652D]">من أول شرارة حتى آخر لقمة</span><h2 className="text-3xl font-black text-[#211814] sm:text-4xl">تجربة تُحضّر قدامك</h2><div className="space-y-5"><div className="flex gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#C7652D] text-sm font-black text-white">01</span><div><h3 className="font-black text-[#211814]">اختار مزاجك</h3><p className="mt-1 text-sm leading-7 text-[#75675C]">من إسطنبولية بالقشطة إلى الكنافة النابلسية الناعمة، كل صنف يبدأ من مكونات حقيقية.</p></div></div><div className="flex gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#35241A] text-sm font-black text-[#DAB775]">02</span><div><h3 className="font-black text-[#211814]">حدّد الحجم</h3><p className="mt-1 text-sm leading-7 text-[#75675C]">اختر الحجم والسعر الظاهرين من بيانات المنيو، وعدّل الكمية قبل الإضافة.</p></div></div><div className="flex gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#DAB775] text-sm font-black text-[#35241A]">03</span><div><h3 className="font-black text-[#211814]">استلمها ساخنة</h3><p className="mt-1 text-sm leading-7 text-[#75675C]">نجهّز طلبك للاستلام من فرع رافدية في الوقت الذي اخترته.</p></div></div></div></div></div></section>
+
+      {activeOffers.length > 0 && <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"><div className="relative overflow-hidden rounded-[30px] bg-[#C7652D] p-7 text-white sm:p-10"><div className="absolute -left-12 -top-16 h-52 w-52 rounded-full border-[24px] border-white/10" /><div className="relative flex flex-col justify-between gap-8 md:flex-row md:items-end"><div className="max-w-2xl"><span className="rounded-full bg-white/15 px-3 py-1 text-xs font-black">{activeOffers[0].badge}</span><h2 className="mt-4 text-3xl font-black sm:text-4xl">{activeOffers[0].title}</h2><p className="mt-3 text-sm leading-7 text-white/80">{activeOffers[0].description}</p></div><button type="button" onClick={() => onNavigate('offers')} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#17120F] px-6 py-4 text-sm font-black text-white hover:bg-[#35241A]">شوف العرض <ArrowLeft className="h-4 w-4" /></button></div></div></section>}
+
+      {reviews.length > 0 && <section className="mx-auto max-w-7xl space-y-8 px-4 pb-20 sm:px-6 lg:px-8"><div className="text-center"><span className="text-xs font-black text-[#C7652D]">تجارب حقيقية</span><h2 className="mt-2 text-3xl font-black text-[#211814]">كلام الناس بعد أول لقمة</h2></div><div className="grid gap-5 md:grid-cols-3">{reviews.slice(0, 3).map((review) => <article key={review.id} className="rounded-[24px] border border-[#35241A]/10 bg-white p-6"><div className="flex gap-1 text-[#DAB775]">{Array.from({ length: review.rating }).map((_, index) => <Star key={index} className="h-4 w-4 fill-current" />)}</div><p className="mt-5 text-sm leading-8 text-[#75675C]">“{review.comment}”</p><div className="mt-5 border-t border-[#35241A]/10 pt-4 text-xs font-bold text-[#211814]">{review.customerName || review.userName || 'زبوننا'}</div></article>)}</div></section>}
+
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8"><div className="grid gap-8 rounded-[30px] bg-[#17120F] p-7 text-[#F7F0E5] sm:p-10 md:grid-cols-[1fr_auto] md:items-center"><div><span className="text-xs font-black text-[#DAB775]">زورونا في رافدية</span><h2 className="mt-3 text-3xl font-black">خلّي أول تجربة تبدأ من الفرع.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-[#D5C7B9]">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس، فلسطين'}</p><div className="mt-5 flex flex-wrap gap-5 text-xs font-bold text-[#BDAFA2]"><span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-[#DAB775]" /> رافدية، نابلس</span><span className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#DAB775]" /> {settings?.phone || '+970 562 606 061'}</span></div></div><div className="flex flex-col gap-3 sm:flex-row"><a href={`tel:${settings?.phone || '+970562606061'}`} className="rounded-full border border-white/15 px-6 py-3 text-center text-sm font-bold hover:border-[#DAB775]/50 hover:text-[#DAB775]">اتصل بنا</a><button type="button" onClick={() => onNavigate('menu')} className="rounded-full bg-[#DAB775] px-6 py-3 text-sm font-black text-[#35241A] hover:bg-[#E3C78F]">اطلب الآن</button></div></div></section>
     </div>
   );
 };

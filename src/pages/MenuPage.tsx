@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Flame, Search, Filter, Info, Bike } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Flame, Search, SlidersHorizontal } from 'lucide-react';
 import { Product, ProductVariant } from '../types';
 import { ProductCard } from '../components/ProductCard';
 
@@ -10,148 +10,42 @@ interface MenuPageProps {
   onNavigateToProduct: (productId: string) => void;
 }
 
-export const MenuPage: React.FC<MenuPageProps> = ({
-  products,
-  onAddToCart,
-  onOpenDeliverySurvey,
-  onNavigateToProduct,
-}) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurvey, onNavigateToProduct }) => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-
   const categories = [
-    { id: 'all', label: 'كامل المنيو (8 أصناف)' },
-    { id: 'charcoal', label: 'كنافة وإسطنبولية على الفحم' },
-    { id: 'nutella', label: 'إسطنبولية بالشوكولاتة ومودرن' },
+    { id: 'all', label: 'كل الأصناف' },
+    { id: 'charcoal', label: 'على الفحم' },
+    { id: 'nutella', label: 'الشوكولاتة' },
+    { id: 'nawashef', label: 'نواشف' },
+    { id: 'other', label: 'أخرى' },
   ];
-
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
-      const matchesQuery =
-        !searchQuery.trim() ||
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCat && matchesQuery;
-    });
-  }, [products, selectedCategory, searchQuery]);
+  const filteredProducts = useMemo(() => products.filter((product) => {
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const query = searchQuery.trim().toLowerCase();
+    return matchesCategory && (!query || product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query));
+  }), [products, searchQuery, selectedCategory]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 animate-soft-fade">
+    <div className="min-h-screen bg-[#FBF8F2] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="mx-auto max-w-7xl">
+        <header className="grid gap-8 border-b border-[#35241A]/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-2xl"><span className="inline-flex items-center gap-2 text-xs font-black text-[#C7652D]"><Flame className="h-4 w-4" /> تُخبز طازجة عند الطلب</span><h1 className="mt-3 text-4xl font-black text-[#211814] sm:text-6xl">المنيو</h1><p className="mt-4 text-sm leading-8 text-[#75675C] sm:text-base">اختار صنفك، حدّد الحجم، وخلي الباقي علينا. الأسعار والخيارات المعروضة مأخوذة من منيو الفرع مباشرة.</p></div>
+          <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">إمكانية إضافة بوظة لأي صنف بـ 3 شيكل.</span></div>
+        </header>
 
-      {/* Page Title & Philosophy */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-white text-[#DD6B20] border border-[#DD6B20]/25 px-3.5 py-1 rounded-full text-xs font-bold shadow-xs">
-          <Flame className="w-4 h-4 text-[#DD6B20]" />
-          <span>طازجة وتُخبز فور الطلب على جمر الفحم</span>
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 font-heading">
-          منيو Kömür Künefe
-        </h1>
-        <p className="text-sm sm:text-base text-slate-500">
-          اختر صنفك المفضل واضغط لعرض صفحة الصنف الكاملة وتحديد الحجم والكمية. جميع الطلبات تُسلَّم ساخنة ومجهزة من فرع رافدية.
-        </p>
-
-        {/* General Note Banner */}
-        <div className="bg-linear-to-r from-amber-500/10 via-[#DD6B20]/15 to-amber-500/10 border border-[#DD6B20]/30 rounded-2xl p-3.5 text-xs sm:text-sm text-slate-800 flex items-center justify-center gap-2.5 text-center shadow-xs">
-          <span className="text-base">🍨</span>
-          <span className="font-bold text-[#DD6B20]">ملاحظة عامة للمنيو:</span>
-          <span className="font-semibold text-slate-700">إمكانية إضافة بوظة لأي صنف بـ 3 شيكل فقط.</span>
-        </div>
-      </div>
-
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
-        {/* Category Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
-          {categories.map((cat) => {
-            const active = selectedCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
-                  ? 'bg-[#DD6B20] text-white border-[#DD6B20] shadow-md shadow-[#DD6B20]/20'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-[#DD6B20]/40 hover:text-[#DD6B20]'
-                  }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Search input */}
-        <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            placeholder="ابحث عن صنف (إسطنبولية، قشطة، برجر...)"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-slate-200 focus:border-[#DD6B20] focus:ring-2 focus:ring-[#DD6B20]/20 rounded-xl pr-10 pl-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all shadow-xs"
-          />
-        </div>
-      </div>
-
-      {/* Products Grid */}
-      {filteredProducts.length === 0 ? (
-        <div className="bg-white border border-[#DD6B20]/20 rounded-3xl p-12 text-center space-y-3 shadow-xs">
-          <Filter className="w-10 h-10 text-[#DD6B20] mx-auto" />
-          <h3 className="text-lg font-bold text-slate-900 font-heading">
-            لم نجد أصنافاً مطابقة لبحثك
-          </h3>
-          <p className="text-xs text-slate-500">
-            جرب البحث بكلمات أخرى أو اختر تصنيف "كامل المنيو".
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setSelectedCategory('all');
-              setSearchQuery('');
-            }}
-            className="mt-2 px-5 py-2 rounded-xl bg-[#DD6B20]/10 text-[#DD6B20] text-xs font-bold border border-[#DD6B20]/25 hover:bg-[#DD6B20]/15 transition-colors cursor-pointer"
-          >
-            إعادة تعيين الفلتر
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              revealDelay={Math.min(index * 60, 300)}
-              onOpenDetails={(p) => onNavigateToProduct(p.id)}
-            />
-          ))}
-
-        </div>
-      )}
-
-      {/* Delivery callout banner in menu */}
-      <div className="bg-white border border-[#DD6B20]/20 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 shadow-xs">
-        <div className="flex items-center gap-3 text-right">
-          <div className="w-10 h-10 rounded-xl bg-[#DD6B20]/10 text-[#DD6B20] flex items-center justify-center shrink-0">
-            <Bike className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xs font-bold text-slate-900 block">تريد استلام طلبك أو توصيله لبيتك؟</span>
-            <span className="text-[11px] text-slate-500">
-              الاستلام فوري من رافدية. وإذا كنت خارج رافدية سجل منطقتك لنجهز خطة التوصيل!
-            </span>
+        <div className="sticky top-[74px] z-20 -mx-4 mt-8 border-y border-[#35241A]/10 bg-[#FBF8F2]/95 px-4 py-4 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border sm:px-4">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="scrollbar-none flex gap-2 overflow-x-auto pb-1">{categories.map((category) => <button key={category.id} type="button" onClick={() => setSelectedCategory(category.id)} className={`whitespace-nowrap rounded-full px-4 py-2.5 text-xs font-black transition-colors ${selectedCategory === category.id ? 'bg-[#17120F] text-[#DAB775]' : 'border border-[#35241A]/10 bg-white text-[#75675C] hover:border-[#C7652D]/40 hover:text-[#C7652D]'}`}>{category.label}</button>)}</div>
+            <div className="relative w-full lg:max-w-xs"><Search className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#75675C]" /><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="ابحث عن كنافة..." aria-label="البحث في المنيو" className="w-full rounded-full border border-[#35241A]/10 bg-white py-3 pl-4 pr-10 text-sm text-[#211814] placeholder:text-[#A99B90] focus:border-[#C7652D] focus:outline-none focus:ring-2 focus:ring-[#C7652D]/15" /></div>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={onOpenDeliverySurvey}
-          className="text-xs font-bold text-[#DD6B20] hover:text-[#C2410C] hover:underline shrink-0 cursor-pointer"
-        >
-          قياس الطلب على التوصيل في منطقتك ←
-        </button>
-      </div>
 
+        <div className="mt-9 flex items-center justify-between"><p className="text-xs font-bold text-[#75675C]">{filteredProducts.length} أصناف متاحة للاكتشاف</p><span className="hidden items-center gap-2 text-xs font-bold text-[#75675C] sm:flex"><SlidersHorizontal className="h-4 w-4" /> اختر حسب ذوقك</span></div>
+        {filteredProducts.length ? <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filteredProducts.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={Math.min(index * 60, 300)} onOpenDetails={() => onNavigateToProduct(product.id)} />)}</div> : <div className="mt-6 rounded-[28px] border border-dashed border-[#C7652D]/30 bg-white px-6 py-20 text-center"><Flame className="mx-auto h-10 w-10 text-[#C7652D]" /><h2 className="mt-4 text-xl font-black text-[#211814]">ما لقينا هذا الصنف</h2><p className="mt-2 text-sm text-[#75675C]">جرّب كلمة ثانية أو ارجع لكل الأصناف.</p><button type="button" onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }} className="mt-5 rounded-full bg-[#C7652D] px-5 py-3 text-xs font-black text-white">إعادة ضبط البحث</button></div>}
+
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-[24px] bg-[#35241A] p-6 text-[#F7F0E5] sm:flex-row sm:items-center sm:p-8"><div><h2 className="text-lg font-black">تحتاج توصيل؟</h2><p className="mt-1 text-xs leading-6 text-[#D5C7B9]">الطلب الحالي للاستلام من فرع رافدية. سجل اهتمامك بالتوصيل لنخبرك عند توفره في منطقتك.</p></div><button type="button" onClick={onOpenDeliverySurvey} className="shrink-0 rounded-full border border-[#DAB775]/40 px-5 py-3 text-xs font-black text-[#DAB775] hover:bg-[#DAB775]/10">سجل اهتمامك بالتوصيل</button></div>
+      </div>
     </div>
   );
 };
