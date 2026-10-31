@@ -113,11 +113,10 @@ export const Header: React.FC<HeaderProps> = ({
                   : 'bg-[#ff7b00]/15 text-[#ff7b00] border border-[#ff7b00]/50 hover:bg-[#ff7b00] hover:text-white shadow-md shadow-[#ff7b00]/15'
                 }
               `}
-              aria-label="لوحة التحكم الإدارية"
+              aria-label="لوحة التحكم"
             >
               <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
               <span>لوحة التحكم</span>
-              <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">مسؤول</span>
             </button>
           )}
         </nav>
@@ -161,13 +160,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* User Account / Profile ("حسابي") */}
               <button
                 type="button"
-                onClick={() => {
-                  if (isAdmin) {
-                    navigate('admin');
-                  } else {
-                    navigate('home');
-                  }
-                }}
+                onClick={() => navigate('account')}
                 title={user?.email}
                 className="flex items-center gap-2 rounded-full border border-[rgba(255,123,0,0.25)] bg-[#221d19] px-3.5 py-2 text-xs font-bold text-[#F7F0E5] hover:border-[#ff7b00] hover:text-[#ff7b00] transition-colors cursor-pointer"
               >
@@ -249,9 +242,8 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span className="flex items-center gap-2">
                   <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-                  <span>لوحة التحكم الإدارية</span>
+                  <span>لوحة التحكم</span>
                 </span>
-                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px]">إدارة النظام</span>
               </button>
             )}
           </nav>
@@ -260,7 +252,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="mt-4 space-y-2 pt-2 border-t border-white/10">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center justify-between rounded-2xl border border-[rgba(255,123,0,0.2)] bg-[#221d19] px-4 py-3">
+                <button type="button" onClick={() => navigate('account')} className="flex w-full items-center justify-between rounded-2xl border border-[rgba(255,123,0,0.2)] bg-[#221d19] px-4 py-3 text-right transition hover:border-[#ff7b00]/50">
                   <div className="flex items-center gap-2">
                     <User className="h-4 w-4 text-[#ff7b00]" />
                     <span className="text-sm font-bold text-[#F7F0E5]">{user?.name}</span>
@@ -269,7 +261,7 @@ export const Header: React.FC<HeaderProps> = ({
                     )}
                   </div>
                   <span className="text-[11px] text-[#9a8278]">{user?.email}</span>
-                </div>
+                </button>
                 <button
                   type="button"
                   onClick={handleLogout}

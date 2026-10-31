@@ -9,6 +9,7 @@ export interface AuthUser {
   name: string;
   email: string;
   role: UserRole;
+  phone?: string;
 }
 
 interface AuthContextValue {
@@ -18,6 +19,8 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   signup: (name: string, email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
+  updateProfile: (profile: Partial<Pick<AuthUser, 'name' | 'email' | 'phone'>>) => { ok: boolean; error?: string };
+  changePassword: (currentPassword: string, newPassword: string) => { ok: boolean; error?: string };
 }
 
 // ─── Hardcoded Admin Credentials & Simulated Store ──────────────────────────
@@ -37,6 +40,7 @@ interface StoredAccount {
   email: string;
   password: string;
   role: UserRole;
+  phone?: string;
 }
 
 function getStoredUsers(): StoredAccount[] {
@@ -197,6 +201,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback((profile: Partial<Pick<AuthUser, 'name' | 'email' | 'phone'>>) => {
+    if (!user) return { ok: false, error: 'يرجى تسجيل الدخول أولاً.' };
+    const nextEmail = profile.email?.trim().toLowerCase() || user.email;
+    if (!nextEmail.includes('@')) return { ok: false, error: 'أدخل بريداً إلكترونياً صالحاً.' };
+
+    if (user.role === 'USER') {
+      const users = getStoredUsers();
+      const collision = users.some((account) => account.email.toLowerCase() === nextEmail && account.email.toLowerCase() !== user.email.toLowerCase());
+      if (collision) return { ok: false, error: 'هذا البريد الإلكتروني مستخدم بالفعل.' };
+      const index = users.findIndex((account) => account.email.toLowerCase() === user.email.toLowerCase());
+      if (index >= 0) {
+        users[index] = { ...users[index], email: nextEmail, name: profile.name?.trim() || user.name, phone: profile.phone?.trim() || '' };
+        saveStoredUsers(users);
+      }
+    }
+
+    setUser({ ...user, ...profile, name: profile.name?.trim() || user.name, email: nextEmail });
+    return { ok: true };
+  }, [user]);
+
+  const changePassword = useCallback((currentPassword: string, newPassword: string) => {
+    if (!user || user.role === 'ADMIN') return { ok: false, error: 'تغيير كلمة مرور حساب الإدارة يتم من إعدادات الخادم.' };
+    if (newPassword.length < 6) return { ok: false, error: 'يجب أن تتكون كلمة المرور الجديدة من 6 أحرف على الأقل.' };
+    const users = getStoredUsers();
+    const index = users.findIndex((account) => account.email.toLowerCase() === user.email.toLowerCase());
+    if (index < 0 || users[index].password !== currentPassword) return { ok: false, error: 'كلمة المرور الحالية غير صحيحة.' };
+    users[index] = { ...users[index], password: newPassword };
+    saveStoredUsers(users);
+    return { ok: true };
+  }, [user]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -206,6 +241,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         signup,
         logout,
+        updateProfile,
+        changePassword,
       }}
     >
       {children}

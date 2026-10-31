@@ -100,6 +100,7 @@ export interface StoreSettings {
   logoUrl: string;
   announcementBanner: string;
   healthySyrupNote?: string;
+  isStoreOpen?: boolean;
   ourStory: string;
   isStoryDraft: boolean;
 }

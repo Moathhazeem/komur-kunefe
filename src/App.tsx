@@ -19,11 +19,12 @@ import { StoryPage } from './pages/StoryPage';
 import { ReviewsPage } from './pages/ReviewsPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminPage } from './pages/AdminPage';
+import { AccountSettingsPage } from './pages/AccountSettingsPage';
 
 // ─── Inner Application Component ─────────────────────────────────────────────
 
 function AppInner() {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { user, isAuthenticated, isAdmin } = useAuth();
 
   // Navigation tab state
   const [currentTab, setCurrentTab] = useState<string>('home');
@@ -88,6 +89,8 @@ function AppInner() {
         setCurrentTab('checkout'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'admin' || path === '/admin') {
         setCurrentTab('admin'); setCurrentProductId(null); setShowAuth(false);
+      } else if (hash === 'account' || path === '/account') {
+        setCurrentTab('account'); setCurrentProductId(null); setShowAuth(!isAuthenticated);
       } else if (hash === 'track' || path === '/track') {
         setCurrentTab('track'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'offers' || path === '/offers') {
@@ -110,7 +113,7 @@ function AppInner() {
       window.removeEventListener('hashchange', handleRoute);
       window.removeEventListener('popstate', handleRoute);
     };
-  }, []);
+  }, [isAuthenticated]);
 
   // Save cart changes
   useEffect(() => {
@@ -174,6 +177,11 @@ function AppInner() {
   };
 
   const handleClearCart = () => setCart([]);
+
+  const handleSaveStoreSettings = async (updatedSettings: Partial<StoreSettings>) => {
+    const savedSettings = await api.updateSettings(updatedSettings);
+    setSettings(savedSettings);
+  };
 
   const handleNavigateToProduct = (productId: string) => {
     setCurrentProductId(productId);
@@ -312,6 +320,17 @@ function AppInner() {
           <ContactPage
             settings={settings}
             onNavigate={handleNavigate}
+          />
+        )}
+
+        {currentTab === 'account' && user && (
+          <AccountSettingsPage
+            user={user}
+            isAdmin={isAdmin}
+            settings={settings}
+            products={products}
+            onNavigate={handleNavigate}
+            onSaveSettings={handleSaveStoreSettings}
           />
         )}
 

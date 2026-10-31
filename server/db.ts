@@ -96,6 +96,7 @@ export interface StoreSettings {
   logoUrl: string;
   announcementBanner: string;
   healthySyrupNote?: string;
+  isStoreOpen?: boolean;
   ourStory: string;
   isStoryDraft: boolean;
 }
@@ -140,6 +141,7 @@ const INITIAL_SETTINGS: StoreSettings = {
   logoUrl: '',
   announcementBanner: '🔥 المنيو الجديد متوفر الآن | إضافة بوظة لبعض الأصناف بـ 4 شيكل',
   healthySyrupNote: HEALTHY_SYRUP_NOTE,
+  isStoreOpen: true,
   ourStory: 'بدأت قصة "كُومُر كُونافيه" من إيماننا بأن سر الكنافة النابلسية والإسطنبولية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية والقشطة الطازجة والفستق الحلبي الفاخر مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!',
   isStoryDraft: false,
 };

@@ -129,6 +129,9 @@ async function startServer() {
 
   app.post('/api/orders', (req, res) => {
     try {
+      if (db.getSettings().isStoreOpen === false) {
+        return res.status(409).json({ success: false, error: 'المحل مغلق حالياً ولا يستقبل الطلبات.' });
+      }
       const { customerName, customerPhone, items, total, pickupTime, notes, paymentMethod, source } = req.body;
       if (!customerName || !customerPhone || !items || items.length === 0) {
         return res.status(400).json({ success: false, error: 'يرجى إدخال الاسم ورقم الهاتف واختيار الأصناف' });
