@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { OFFICIAL_PRODUCTS, HEALTHY_SYRUP_NOTE } from '../src/data/menuData';
 
 export interface ProductVariant {
   id: string;
@@ -13,15 +14,18 @@ export interface ProductVariant {
 export interface Product {
   id: string;
   name: string;
-  category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';
+  category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers' | 'oriental' | 'beverages';
   description: string;
   basePrice: number;
   isInitialPrice: boolean;
   image: string;
+  imageCredit?: string;
+  imageCreditUrl?: string;
   isAvailable: boolean;
   variants: ProductVariant[];
   isSeasonal?: boolean;
   featured?: boolean;
+  addOns?: Array<{ name: string; price: number }>;
   createdAt: string;
 }
 
@@ -91,6 +95,7 @@ export interface StoreSettings {
   instagramUrl: string;
   logoUrl: string;
   announcementBanner: string;
+  healthySyrupNote?: string;
   ourStory: string;
   isStoryDraft: boolean;
 }
@@ -107,157 +112,7 @@ export interface DatabaseSchema {
 const DB_FILE = path.resolve(process.cwd(), 'database.json');
 
 // EXCLUSIVE: The 8 official items of Kömür Künefe
-export const INITIAL_PRODUCTS: Product[] = [
-  {
-    id: 'prod-1',
-    name: 'إسطنبولية بالقشطة',
-    category: 'charcoal',
-    description: 'إسطنبولية فاخرة محشوة بالقشطة البلدية الطازجة وحشوة الفستق الحلبي الغني، تُخبز على جمر الفحم الطبيعي. (إمكانية إضافة بوظة لأي صنف بـ 3 شيكل).',
-    basePrice: 12,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-1-xs', name: 'حجم XS (صغير شخصي)', price: 12, dineInPrice: 12, isDefault: true },
-      { id: 'v-1-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
-      { id: 'v-1-m', name: 'حجم M (وسط)', price: 50, dineInPrice: 50, takeawayPrice: 58 },
-      { id: 'v-1-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
-      { id: 'v-1-xl', name: 'حجم XL (عائلي فاخر)', price: 95, dineInPrice: 95, takeawayPrice: 105 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-2',
-    name: 'إسطنبولية محيرة',
-    category: 'charcoal',
-    description: 'إسطنبولية محيرة مكس شهي يجمع بين القشطة والجبنة البلدية النابلسية محمرة على لهب الفحم.',
-    basePrice: 10,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-2-xs', name: 'حجم XS (صغير شخصي)', price: 10, dineInPrice: 10, isDefault: true },
-      { id: 'v-2-s', name: 'حجم S (شخصي)', price: 20, dineInPrice: 20, takeawayPrice: 30 },
-      { id: 'v-2-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
-      { id: 'v-2-l', name: 'حجم L (كبير)', price: 60, dineInPrice: 60, takeawayPrice: 70 },
-      { id: 'v-2-xl', name: 'حجم XL (عائلي)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-3',
-    name: 'إسطنبولية بالفستق الحلبي المطحون ناعم',
-    category: 'charcoal',
-    description: 'إسطنبولية مميزة ومغطاة ومحشوة بأجود أنواع الفستق الحلبي المطحون ناعماً ونكهة السمن البلدي.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-3-xs', name: 'حجم XS (صغير شخصي)', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-3-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
-      { id: 'v-3-m', name: 'حجم M (وسط)', price: 55, dineInPrice: 55, takeawayPrice: 63 },
-      { id: 'v-3-l', name: 'حجم L (كبير)', price: 80, dineInPrice: 80, takeawayPrice: 90 },
-      { id: 'v-3-xl', name: 'حجم XL (عائلي فاخر)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-4',
-    name: 'إسطنبولية إكسترا فستق حلبي',
-    category: 'charcoal',
-    description: 'لعشاق الفخامة: طبقات مضاعفة إكسترا من الفستق الحلبي الفاخر مع القرمشة الذهبية على جمر الفحم.',
-    basePrice: 15,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-4-xs', name: 'حجم XS (صغير شخصي)', price: 15, dineInPrice: 15, isDefault: true },
-      { id: 'v-4-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
-      { id: 'v-4-m', name: 'حجم M (وسط)', price: 60, dineInPrice: 60, takeawayPrice: 68 },
-      { id: 'v-4-l', name: 'حجم L (كبير)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
-      { id: 'v-4-xl', name: 'حجم XL (عائلي)', price: 110, dineInPrice: 110, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-5',
-    name: 'كنافة نابلسية ناعمة ع الفحم',
-    category: 'charcoal',
-    description: 'الكنافة النابلسية الناعمة الأصلية بالجبنة البلدية الفاخرة والسمن البقري الصافي على الفحم لحظة بلحظة.',
-    basePrice: 10,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-5-xs', name: 'صحن شخصي (XS)', price: 10, dineInPrice: 10, isDefault: true },
-      { id: 'v-5-s', name: 'حجم S (صغير)', price: 20, dineInPrice: 20 },
-      { id: 'v-5-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
-      { id: 'v-5-l', name: 'حجم L (كبير)', price: 58, dineInPrice: 58, takeawayPrice: 67 },
-      { id: 'v-5-xl', name: 'حجم XL (سدر عائلي)', price: 76, dineInPrice: 76, takeawayPrice: 86 },
-      { id: 'v-5-25k', name: 'سدر مناسبات 2.5 كغم', price: 90, dineInPrice: 90, takeawayPrice: 100 },
-      { id: 'v-5-3k', name: 'سدر مناسبات 3 كغم', price: 110, dineInPrice: 110, takeawayPrice: 120 },
-      { id: 'v-5-35k', name: 'سدر مناسبات 3.5 كغم', price: 125, dineInPrice: 125, takeawayPrice: 135 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-6',
-    name: 'إسطنبولية بالشوكولاتة (نوتيلا، لوتس، زبدة الفستق، شوكولاتة بيضاء)',
-    category: 'nutella',
-    description: 'تشكيلة صوصات مودرن فاخرة: نوتيلا، زبدة اللوتس، زبدة الفستق الحلبي، والشوكولاتة البيضاء البلجيكية.',
-    basePrice: 12,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-6-xs', name: 'صحن شخصي (XS)', price: 12, dineInPrice: 12, isDefault: true },
-      { id: 'v-6-s', name: 'حجم صغير (S)', price: 25, dineInPrice: 25 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-7',
-    name: 'إسطنبولية محشوة جبنة وفستق حلبي',
-    category: 'charcoal',
-    description: 'مزيج فاخر استثنائي من الجبنة البلدية النابلسية الذائبة مع حشوة الفستق الحلبي المحمص على نار الفحم.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-7-xs', name: 'حجم XS (صغير شخصي)', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-7-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
-      { id: 'v-7-m', name: 'حجم M (وسط)', price: 52, dineInPrice: 52, takeawayPrice: 60 },
-      { id: 'v-7-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
-      { id: 'v-7-xl', name: 'حجم XL (عائلي)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-8',
-    name: 'برجر كُومُر كُونافيه (Kömür Künefe Burger)',
-    category: 'charcoal',
-    description: 'ابتكار كومر كونافيه الحصري: طبقات الكنافة المقرمشة على شكل برجر محشو بالجبنة الغنية والإضافات الفاخرة.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-8-xs', name: 'حجم XS', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-8-s', name: 'حجم S', price: 30, dineInPrice: 30 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-];
+export const INITIAL_PRODUCTS: Product[] = OFFICIAL_PRODUCTS;
 
 const INITIAL_OFFERS: Offer[] = [
   {
@@ -283,7 +138,8 @@ const INITIAL_SETTINGS: StoreSettings = {
   facebookUrl: 'https://www.facebook.com/Komurkunefe/',
   instagramUrl: 'https://www.instagram.com/komurkunefe',
   logoUrl: '',
-  announcementBanner: '🔥 منيو الكنافة والإسطنبولية ع الفحم متوفر الآن | إمكانية إضافة بوظة لأي صنف بـ 3 شيكل!',
+  announcementBanner: '🔥 المنيو الجديد متوفر الآن | إضافة بوظة لبعض الأصناف بـ 4 شيكل',
+  healthySyrupNote: HEALTHY_SYRUP_NOTE,
   ourStory: 'بدأت قصة "كُومُر كُونافيه" من إيماننا بأن سر الكنافة النابلسية والإسطنبولية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية والقشطة الطازجة والفستق الحلبي الفاخر مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!',
   isStoryDraft: false,
 };

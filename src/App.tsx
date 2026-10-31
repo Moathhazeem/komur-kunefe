@@ -6,6 +6,8 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MobileNav } from './components/MobileNav';
 import { DeliverySurveyModal } from './components/DeliverySurveyModal';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import AuthPage from './pages/AuthPage';
 
 import { HomePage } from './pages/HomePage';
 import { MenuPage } from './pages/MenuPage';
@@ -18,10 +20,17 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminPage } from './pages/AdminPage';
 
-export default function App() {
+// ─── Inner Application Component ─────────────────────────────────────────────
+
+function AppInner() {
+  const { isAuthenticated, isAdmin } = useAuth();
+
   // Navigation tab state
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [currentProductId, setCurrentProductId] = useState<string | null>(null);
+
+  // Auth screen state
+  const [showAuth, setShowAuth] = useState(false);
 
   // Application data state
   const [products, setProducts] = useState<Product[]>(OFFICIAL_PRODUCTS);
@@ -42,52 +51,55 @@ export default function App() {
   // Modals
   const [isDeliverySurveyOpen, setIsDeliverySurveyOpen] = useState(false);
 
-  // Handle URL path / hash routing (e.g., /product/:id, /menu, /#menu, /checkout)
+  // Handle URL path / hash routing
   useEffect(() => {
     const handleRoute = () => {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.replace('#', '').toLowerCase();
 
-      // Check for /product/:id in path or hash (supports /product/prod-1 or #product/prod-1)
+      // Check for auth routes
+      if (hash === 'auth' || hash === 'login' || path === '/auth' || path === '/login') {
+        setShowAuth(true);
+        return;
+      }
+
+      // Check for /product/:id in path or hash
       const pathMatch = window.location.pathname.match(/^\/product\/([^\/?#]+)/i);
-      const hashMatch = window.location.hash.match(/^#?\/?product\/([^\/?#]+)/i) ||
-                        window.location.hash.match(/[?&]product=([^&#]+)/i);
+      const hashMatch =
+        window.location.hash.match(/^#?\/?product\/([^\/?#]+)/i) ||
+        window.location.hash.match(/[?&]product=([^&#]+)/i);
       const searchMatch = window.location.search.match(/[?&]product=([^&#]+)/i);
 
-      const matchedId = (pathMatch && pathMatch[1]) || (hashMatch && hashMatch[1]) || (searchMatch && searchMatch[1]);
+      const matchedId =
+        (pathMatch && pathMatch[1]) ||
+        (hashMatch && hashMatch[1]) ||
+        (searchMatch && searchMatch[1]);
+
       if (matchedId) {
         setCurrentProductId(decodeURIComponent(matchedId));
         setCurrentTab('product-details');
+        setShowAuth(false);
         return;
       }
 
       if (hash === 'menu' || path === '/menu') {
-        setCurrentTab('menu');
-        setCurrentProductId(null);
+        setCurrentTab('menu'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'order' || hash === 'checkout' || path === '/order' || path === '/checkout') {
-        setCurrentTab('checkout');
-        setCurrentProductId(null);
+        setCurrentTab('checkout'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'admin' || path === '/admin') {
-        setCurrentTab('admin');
-        setCurrentProductId(null);
+        setCurrentTab('admin'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'track' || path === '/track') {
-        setCurrentTab('track');
-        setCurrentProductId(null);
+        setCurrentTab('track'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'offers' || path === '/offers') {
-        setCurrentTab('offers');
-        setCurrentProductId(null);
+        setCurrentTab('offers'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'story' || path === '/story') {
-        setCurrentTab('story');
-        setCurrentProductId(null);
+        setCurrentTab('story'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'reviews' || path === '/reviews') {
-        setCurrentTab('reviews');
-        setCurrentProductId(null);
+        setCurrentTab('reviews'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'contact' || path === '/contact') {
-        setCurrentTab('contact');
-        setCurrentProductId(null);
+        setCurrentTab('contact'); setCurrentProductId(null); setShowAuth(false);
       } else {
-        setCurrentTab('home');
-        setCurrentProductId(null);
+        setCurrentTab('home'); setCurrentProductId(null); setShowAuth(false);
       }
     };
 
@@ -117,7 +129,7 @@ export default function App() {
       const [fetchedProducts, fetchedOffers, fetchedReviews, fetchedSettings] = await Promise.all([
         api.getProducts(),
         api.getOffers(),
-        api.getReviews(false), // only approved for public
+        api.getReviews(false),
         api.getSettings(),
       ]);
       setProducts(fetchedProducts && fetchedProducts.length > 0 ? fetchedProducts : OFFICIAL_PRODUCTS);
@@ -133,7 +145,7 @@ export default function App() {
   const handleAddToCart = (product: Product, variant: ProductVariant, quantity: number) => {
     setCart((prevCart) => {
       const existingIndex = prevCart.findIndex(
-        (item) => item.product.id === product.id && item.variant.id === variant.id
+        (item) => item.product.id === product.id && item.variant.id === variant.id && item.variant.name === variant.name && item.variant.price === variant.price
       );
       if (existingIndex >= 0) {
         const updated = [...prevCart];
@@ -161,13 +173,12 @@ export default function App() {
     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
 
-  const handleClearCart = () => {
-    setCart([]);
-  };
+  const handleClearCart = () => setCart([]);
 
   const handleNavigateToProduct = (productId: string) => {
     setCurrentProductId(productId);
     setCurrentTab('product-details');
+    setShowAuth(false);
     window.history.pushState(null, '', `/product/${productId}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -175,6 +186,8 @@ export default function App() {
   const handleNavigate = (tab: string) => {
     setCurrentProductId(null);
     setCurrentTab(tab);
+    setShowAuth(false);
+
     if (tab === 'home') {
       window.history.pushState(null, '', '/');
       window.location.hash = '';
@@ -185,11 +198,29 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Automatic smooth redirection to home after login or signup
+  const handleAuthSuccess = () => {
+    setShowAuth(false);
+    handleNavigate('home');
+  };
+
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Full-Screen Authentication View
+  if (showAuth) {
+    return (
+      <AuthPage
+        onSuccess={handleAuthSuccess}
+        onClose={() => {
+          setShowAuth(false);
+          handleNavigate('home');
+        }}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#FBF8F2] text-[#211814] flex flex-col font-sans selection:bg-[#C7652D] selection:text-white">
-      
+    <div className="min-h-screen bg-[#FBF8F2] text-[#211814] flex flex-col font-sans selection:bg-[#ff7b00] selection:text-white">
       {/* Header */}
       <Header
         settings={settings}
@@ -197,10 +228,14 @@ export default function App() {
         currentTab={currentTab}
         onNavigate={handleNavigate}
         onOpenCart={() => handleNavigate('checkout')}
+        onOpenAuth={() => setShowAuth(true)}
       />
 
       {/* Main Content Pages with smooth fade & slide-up */}
-      <main key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
+      <main
+        key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab}
+        className="flex-1 animate-soft-slide-up"
+      >
         {currentTab === 'home' && (
           <HomePage
             products={products}
@@ -305,7 +340,16 @@ export default function App() {
         onNavigate={handleNavigate}
         onOpenCart={() => handleNavigate('checkout')}
       />
-
     </div>
+  );
+}
+
+// ─── Root Application Component ──────────────────────────────────────────────
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppInner />
+    </AuthProvider>
   );
 }

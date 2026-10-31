@@ -138,6 +138,8 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     nawashef: 'نواشف العيد (موسمي)',
     other: 'مشروبات وأصناف أخرى',
     offers: 'عروض خاصة',
+    oriental: 'حلويات شرقية',
+    beverages: 'مشروبات',
   };
 
   return (

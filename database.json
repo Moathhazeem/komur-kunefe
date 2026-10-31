@@ -1,368 +1,1039 @@
 {
   "products": [
     {
-      "id": "prod-1",
-      "name": "إسطنبولية بالقشطة",
+      "id": "menu-1",
+      "name": "كنافة اسطنبولية بالفستق الناعم",
       "category": "charcoal",
-      "description": "إسطنبولية فاخرة محشوة بالقشطة البلدية الطازجة وحشوة الفستق الحلبي الغني، تُخبز على جمر الفحم الطبيعي. (إمكانية إضافة بوظة لأي صنف بـ 3 شيكل).",
-      "basePrice": 12,
-      "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80",
-      "isAvailable": true,
-      "featured": true,
-      "variants": [
-        {
-          "id": "v-1-xs",
-          "name": "حجم XS (صغير شخصي)",
-          "price": 12,
-          "dineInPrice": 12,
-          "isDefault": true
-        },
-        {
-          "id": "v-1-s",
-          "name": "حجم S (شخصي)",
-          "price": 25,
-          "dineInPrice": 25
-        },
-        {
-          "id": "v-1-m",
-          "name": "حجم M (وسط)",
-          "price": 50,
-          "dineInPrice": 50,
-          "takeawayPrice": 58
-        },
-        {
-          "id": "v-1-l",
-          "name": "حجم L (كبير)",
-          "price": 75,
-          "dineInPrice": 75,
-          "takeawayPrice": 85
-        },
-        {
-          "id": "v-1-xl",
-          "name": "حجم XL (عائلي فاخر)",
-          "price": 95,
-          "dineInPrice": 95,
-          "takeawayPrice": 105
-        }
-      ],
-      "createdAt": "2026-10-31T08:45:47.683Z"
-    },
-    {
-      "id": "prod-2",
-      "name": "إسطنبولية محيرة",
-      "category": "charcoal",
-      "description": "إسطنبولية محيرة مكس شهي يجمع بين القشطة والجبنة البلدية النابلسية محمرة على لهب الفحم.",
-      "basePrice": 10,
-      "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80",
-      "isAvailable": true,
-      "featured": true,
-      "variants": [
-        {
-          "id": "v-2-xs",
-          "name": "حجم XS (صغير شخصي)",
-          "price": 10,
-          "dineInPrice": 10,
-          "isDefault": true
-        },
-        {
-          "id": "v-2-s",
-          "name": "حجم S (شخصي)",
-          "price": 20,
-          "dineInPrice": 20,
-          "takeawayPrice": 30
-        },
-        {
-          "id": "v-2-m",
-          "name": "حجم M (وسط)",
-          "price": 40,
-          "dineInPrice": 40,
-          "takeawayPrice": 48
-        },
-        {
-          "id": "v-2-l",
-          "name": "حجم L (كبير)",
-          "price": 60,
-          "dineInPrice": 60,
-          "takeawayPrice": 70
-        },
-        {
-          "id": "v-2-xl",
-          "name": "حجم XL (عائلي)",
-          "price": 85,
-          "dineInPrice": 85,
-          "takeawayPrice": 95
-        }
-      ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
-    },
-    {
-      "id": "prod-3",
-      "name": "إسطنبولية بالفستق الحلبي المطحون ناعم",
-      "category": "charcoal",
-      "description": "إسطنبولية مميزة ومغطاة ومحشوة بأجود أنواع الفستق الحلبي المطحون ناعماً ونكهة السمن البلدي.",
-      "basePrice": 13,
-      "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80",
-      "isAvailable": true,
-      "featured": true,
-      "variants": [
-        {
-          "id": "v-3-xs",
-          "name": "حجم XS (صغير شخصي)",
-          "price": 13,
-          "dineInPrice": 13,
-          "isDefault": true
-        },
-        {
-          "id": "v-3-s",
-          "name": "حجم S (شخصي)",
-          "price": 30,
-          "dineInPrice": 30
-        },
-        {
-          "id": "v-3-m",
-          "name": "حجم M (وسط)",
-          "price": 55,
-          "dineInPrice": 55,
-          "takeawayPrice": 63
-        },
-        {
-          "id": "v-3-l",
-          "name": "حجم L (كبير)",
-          "price": 80,
-          "dineInPrice": 80,
-          "takeawayPrice": 90
-        },
-        {
-          "id": "v-3-xl",
-          "name": "حجم XL (عائلي فاخر)",
-          "price": 100,
-          "dineInPrice": 100,
-          "takeawayPrice": 110
-        }
-      ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
-    },
-    {
-      "id": "prod-4",
-      "name": "إسطنبولية إكسترا فستق حلبي",
-      "category": "charcoal",
-      "description": "لعشاق الفخامة: طبقات مضاعفة إكسترا من الفستق الحلبي الفاخر مع القرمشة الذهبية على جمر الفحم.",
+      "description": "",
       "basePrice": 15,
       "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
       "isAvailable": true,
-      "featured": true,
+      "featured": false,
       "variants": [
         {
-          "id": "v-4-xs",
-          "name": "حجم XS (صغير شخصي)",
+          "id": "menu-1-XS",
+          "name": "حجم XS",
           "price": 15,
           "dineInPrice": 15,
           "isDefault": true
         },
         {
-          "id": "v-4-s",
-          "name": "حجم S (شخصي)",
+          "id": "menu-1-S",
+          "name": "حجم S",
           "price": 30,
           "dineInPrice": 30
         },
         {
-          "id": "v-4-m",
-          "name": "حجم M (وسط)",
+          "id": "menu-1-M",
+          "name": "حجم M",
+          "price": 55,
+          "dineInPrice": 55,
+          "takeawayPrice": 63
+        },
+        {
+          "id": "menu-1-L",
+          "name": "حجم L",
+          "price": 80,
+          "dineInPrice": 80,
+          "takeawayPrice": 90
+        },
+        {
+          "id": "menu-1-XL",
+          "name": "حجم XL",
+          "price": 100,
+          "dineInPrice": 100,
+          "takeawayPrice": 110
+        },
+        {
+          "id": "menu-1-2-5",
+          "name": "حجم 2.5",
+          "price": 135,
+          "dineInPrice": 135,
+          "takeawayPrice": 145
+        },
+        {
+          "id": "menu-1-3",
+          "name": "حجم 3",
+          "price": 165,
+          "dineInPrice": 165,
+          "takeawayPrice": 175
+        },
+        {
+          "id": "menu-1-3-5",
+          "name": "حجم 3.5",
+          "price": 190,
+          "dineInPrice": 190,
+          "takeawayPrice": 200
+        }
+      ],
+      "addOns": [
+        {
+          "name": "إضافة بوظة",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "menu-2",
+      "name": "كنافة اسطنبولية فستق أكسترا",
+      "category": "charcoal",
+      "description": "",
+      "basePrice": 15,
+      "isInitialPrice": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-2-XS",
+          "name": "حجم XS",
+          "price": 15,
+          "dineInPrice": 15,
+          "isDefault": true
+        },
+        {
+          "id": "menu-2-S",
+          "name": "حجم S",
+          "price": 30,
+          "dineInPrice": 30
+        },
+        {
+          "id": "menu-2-M",
+          "name": "حجم M",
           "price": 60,
           "dineInPrice": 60,
           "takeawayPrice": 68
         },
         {
-          "id": "v-4-l",
-          "name": "حجم L (كبير)",
+          "id": "menu-2-L",
+          "name": "حجم L",
           "price": 85,
           "dineInPrice": 85,
-          "takeawayPrice": 95
+          "takeawayPrice": 90
         },
         {
-          "id": "v-4-xl",
-          "name": "حجم XL (عائلي)",
+          "id": "menu-2-XL",
+          "name": "حجم XL",
           "price": 110,
           "dineInPrice": 110,
           "takeawayPrice": 110
+        },
+        {
+          "id": "menu-2-2-5",
+          "name": "حجم 2.5",
+          "price": 150,
+          "dineInPrice": 150,
+          "takeawayPrice": 160
+        },
+        {
+          "id": "menu-2-3",
+          "name": "حجم 3",
+          "price": 180,
+          "dineInPrice": 180,
+          "takeawayPrice": 190
+        },
+        {
+          "id": "menu-2-3-5",
+          "name": "حجم 3.5",
+          "price": 210,
+          "dineInPrice": 210,
+          "takeawayPrice": 220
         }
       ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
+      "addOns": [
+        {
+          "name": "إضافة بوظة",
+          "price": 4
+        }
+      ]
     },
     {
-      "id": "prod-5",
-      "name": "كنافة نابلسية ناعمة ع الفحم",
+      "id": "menu-3",
+      "name": "كنافة نابلسية ناعمة",
       "category": "charcoal",
-      "description": "الكنافة النابلسية الناعمة الأصلية بالجبنة البلدية الفاخرة والسمن البقري الصافي على الفحم لحظة بلحظة.",
+      "description": "",
       "basePrice": 10,
       "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
       "isAvailable": true,
-      "featured": true,
+      "featured": false,
       "variants": [
         {
-          "id": "v-5-xs",
-          "name": "صحن شخصي (XS)",
+          "id": "menu-3-XS",
+          "name": "حجم XS",
           "price": 10,
           "dineInPrice": 10,
           "isDefault": true
         },
         {
-          "id": "v-5-s",
-          "name": "حجم S (صغير)",
+          "id": "menu-3-S",
+          "name": "حجم S",
           "price": 20,
           "dineInPrice": 20
         },
         {
-          "id": "v-5-m",
-          "name": "حجم M (وسط)",
+          "id": "menu-3-M",
+          "name": "حجم M",
           "price": 40,
           "dineInPrice": 40,
           "takeawayPrice": 48
         },
         {
-          "id": "v-5-l",
-          "name": "حجم L (كبير)",
+          "id": "menu-3-L",
+          "name": "حجم L",
           "price": 58,
           "dineInPrice": 58,
           "takeawayPrice": 67
         },
         {
-          "id": "v-5-xl",
-          "name": "حجم XL (سدر عائلي)",
+          "id": "menu-3-XL",
+          "name": "حجم XL",
           "price": 76,
           "dineInPrice": 76,
           "takeawayPrice": 86
         },
         {
-          "id": "v-5-25k",
-          "name": "سدر مناسبات 2.5 كغم",
+          "id": "menu-3-2-5",
+          "name": "حجم 2.5",
           "price": 90,
           "dineInPrice": 90,
           "takeawayPrice": 100
         },
         {
-          "id": "v-5-3k",
-          "name": "سدر مناسبات 3 كغم",
+          "id": "menu-3-3",
+          "name": "حجم 3",
           "price": 110,
           "dineInPrice": 110,
           "takeawayPrice": 120
         },
         {
-          "id": "v-5-35k",
-          "name": "سدر مناسبات 3.5 كغم",
+          "id": "menu-3-3-5",
+          "name": "حجم 3.5",
           "price": 125,
           "dineInPrice": 125,
           "takeawayPrice": 135
         }
       ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
+      "addOns": [
+        {
+          "name": "إضافة بوظة",
+          "price": 4
+        }
+      ]
     },
     {
-      "id": "prod-6",
-      "name": "إسطنبولية بالشوكولاتة (نوتيلا، لوتس، زبدة الفستق، شوكولاتة بيضاء)",
-      "category": "nutella",
-      "description": "تشكيلة صوصات مودرن فاخرة: نوتيلا، زبدة اللوتس، زبدة الفستق الحلبي، والشوكولاتة البيضاء البلجيكية.",
-      "basePrice": 12,
+      "id": "menu-4",
+      "name": "كنافة اسطنبولية محيرة",
+      "category": "charcoal",
+      "description": "",
+      "basePrice": 10,
       "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
       "isAvailable": true,
-      "featured": true,
+      "featured": false,
       "variants": [
         {
-          "id": "v-6-xs",
-          "name": "صحن شخصي (XS)",
-          "price": 12,
-          "dineInPrice": 12,
+          "id": "menu-4-XS",
+          "name": "حجم XS",
+          "price": 10,
+          "dineInPrice": 10,
           "isDefault": true
         },
         {
-          "id": "v-6-s",
-          "name": "حجم صغير (S)",
-          "price": 25,
-          "dineInPrice": 25
+          "id": "menu-4-S",
+          "name": "حجم S",
+          "price": 20,
+          "dineInPrice": 20,
+          "takeawayPrice": 30
+        },
+        {
+          "id": "menu-4-M",
+          "name": "حجم M",
+          "price": 40,
+          "dineInPrice": 40,
+          "takeawayPrice": 48
+        },
+        {
+          "id": "menu-4-L",
+          "name": "حجم L",
+          "price": 60,
+          "dineInPrice": 60,
+          "takeawayPrice": 70
+        },
+        {
+          "id": "menu-4-XL",
+          "name": "حجم XL",
+          "price": 85,
+          "dineInPrice": 85,
+          "takeawayPrice": 95
+        },
+        {
+          "id": "menu-4-2-5",
+          "name": "حجم 2.5",
+          "price": 110,
+          "dineInPrice": 110,
+          "takeawayPrice": 120
+        },
+        {
+          "id": "menu-4-3",
+          "name": "حجم 3",
+          "price": 120,
+          "dineInPrice": 120,
+          "takeawayPrice": 130
+        },
+        {
+          "id": "menu-4-3-5",
+          "name": "حجم 3.5",
+          "price": 140,
+          "dineInPrice": 140,
+          "takeawayPrice": 150
         }
       ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
-    },
-    {
-      "id": "prod-7",
-      "name": "إسطنبولية محشوة جبنة وفستق حلبي",
-      "category": "charcoal",
-      "description": "مزيج فاخر استثنائي من الجبنة البلدية النابلسية الذائبة مع حشوة الفستق الحلبي المحمص على نار الفحم.",
-      "basePrice": 13,
-      "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80",
-      "isAvailable": true,
-      "featured": true,
-      "variants": [
+      "addOns": [
         {
-          "id": "v-7-xs",
-          "name": "حجم XS (صغير شخصي)",
-          "price": 13,
-          "dineInPrice": 13,
-          "isDefault": true
-        },
-        {
-          "id": "v-7-s",
-          "name": "حجم S (شخصي)",
-          "price": 25,
-          "dineInPrice": 25
-        },
-        {
-          "id": "v-7-m",
-          "name": "حجم M (وسط)",
-          "price": 52,
-          "dineInPrice": 52,
-          "takeawayPrice": 60
-        },
-        {
-          "id": "v-7-l",
-          "name": "حجم L (كبير)",
-          "price": 75,
-          "dineInPrice": 75,
-          "takeawayPrice": 85
-        },
-        {
-          "id": "v-7-xl",
-          "name": "حجم XL (عائلي)",
-          "price": 100,
-          "dineInPrice": 100,
-          "takeawayPrice": 110
+          "name": "إضافة بوظة",
+          "price": 4
         }
-      ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
+      ]
     },
     {
-      "id": "prod-8",
-      "name": "برجر كُومُر كُونافيه (Kömür Künefe Burger)",
+      "id": "menu-5",
+      "name": "اسطنبولية بحشوة الجبن والفستق الحلبي",
       "category": "charcoal",
-      "description": "ابتكار كومر كونافيه الحصري: طبقات الكنافة المقرمشة على شكل برجر محشو بالجبنة الغنية والإضافات الفاخرة.",
+      "description": "",
       "basePrice": 13,
       "isInitialPrice": false,
-      "image": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
       "isAvailable": true,
-      "featured": true,
+      "featured": false,
       "variants": [
         {
-          "id": "v-8-xs",
+          "id": "menu-5-XS",
           "name": "حجم XS",
           "price": 13,
           "dineInPrice": 13,
           "isDefault": true
         },
         {
-          "id": "v-8-s",
+          "id": "menu-5-S",
           "name": "حجم S",
-          "price": 30,
-          "dineInPrice": 30
+          "price": 25,
+          "dineInPrice": 25
+        },
+        {
+          "id": "menu-5-M",
+          "name": "حجم M",
+          "price": 52,
+          "dineInPrice": 52,
+          "takeawayPrice": 60
+        },
+        {
+          "id": "menu-5-L",
+          "name": "حجم L",
+          "price": 75,
+          "dineInPrice": 75,
+          "takeawayPrice": 85
+        },
+        {
+          "id": "menu-5-XL",
+          "name": "حجم XL",
+          "price": 100,
+          "dineInPrice": 100,
+          "takeawayPrice": 110
+        },
+        {
+          "id": "menu-5-2-5",
+          "name": "حجم 2.5",
+          "price": 130,
+          "dineInPrice": 130,
+          "takeawayPrice": 140
+        },
+        {
+          "id": "menu-5-3",
+          "name": "حجم 3",
+          "price": 155,
+          "dineInPrice": 155,
+          "takeawayPrice": 165
+        },
+        {
+          "id": "menu-5-3-5",
+          "name": "حجم 3.5",
+          "price": 180,
+          "dineInPrice": 180,
+          "takeawayPrice": 190
         }
       ],
-      "createdAt": "2026-10-31T08:45:47.684Z"
+      "addOns": [
+        {
+          "name": "إضافة بوظة",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "menu-6",
+      "name": "اسطنبولية بالقشطة",
+      "category": "charcoal",
+      "description": "",
+      "basePrice": 12,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-6-XS",
+          "name": "حجم XS",
+          "price": 12,
+          "dineInPrice": 12,
+          "isDefault": true
+        },
+        {
+          "id": "menu-6-S",
+          "name": "حجم S",
+          "price": 25,
+          "dineInPrice": 25
+        },
+        {
+          "id": "menu-6-M",
+          "name": "حجم M",
+          "price": 50,
+          "dineInPrice": 50,
+          "takeawayPrice": 58
+        },
+        {
+          "id": "menu-6-L",
+          "name": "حجم L",
+          "price": 75,
+          "dineInPrice": 75,
+          "takeawayPrice": 85
+        },
+        {
+          "id": "menu-6-XL",
+          "name": "حجم XL",
+          "price": 95,
+          "dineInPrice": 95,
+          "takeawayPrice": 105
+        },
+        {
+          "id": "menu-6-2-5",
+          "name": "حجم 2.5",
+          "price": 125,
+          "dineInPrice": 125,
+          "takeawayPrice": 135
+        },
+        {
+          "id": "menu-6-3",
+          "name": "حجم 3",
+          "price": 150,
+          "dineInPrice": 150,
+          "takeawayPrice": 160
+        },
+        {
+          "id": "menu-6-3-5",
+          "name": "حجم 3.5",
+          "price": 175,
+          "dineInPrice": 175,
+          "takeawayPrice": 185
+        }
+      ],
+      "addOns": [
+        {
+          "name": "حشوة بالفستق",
+          "price": 3
+        },
+        {
+          "name": "إضافة بوظة",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "menu-7",
+      "name": "كنافة برغر",
+      "category": "charcoal",
+      "description": "",
+      "basePrice": 15,
+      "isInitialPrice": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-7-XS",
+          "name": "حجم XS",
+          "price": 15,
+          "dineInPrice": 15,
+          "isDefault": true
+        },
+        {
+          "id": "menu-7-S",
+          "name": "حجم S",
+          "price": 35,
+          "dineInPrice": 35
+        }
+      ],
+      "addOns": [
+        {
+          "name": "نوتيلا",
+          "price": 4
+        },
+        {
+          "name": "لوتس",
+          "price": 4
+        },
+        {
+          "name": "زبدة الفستق",
+          "price": 4
+        },
+        {
+          "name": "شوكولاته بيضاء",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "menu-8",
+      "name": "كنافة اسطنبولية بالشوكولاته",
+      "category": "nutella",
+      "description": "",
+      "basePrice": 12,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-8-XS",
+          "name": "حجم XS",
+          "price": 12,
+          "dineInPrice": 12,
+          "isDefault": true
+        },
+        {
+          "id": "menu-8-S",
+          "name": "حجم S",
+          "price": 25,
+          "dineInPrice": 25
+        }
+      ],
+      "addOns": [
+        {
+          "name": "نوتيلا",
+          "price": 4
+        },
+        {
+          "name": "لوتس",
+          "price": 4
+        },
+        {
+          "name": "زبدة الفستق",
+          "price": 4
+        },
+        {
+          "name": "شوكولاته بيضاء",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-1",
+      "name": "فطير السلطان",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 40,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-1-single",
+          "name": "حجم واحد",
+          "price": 40,
+          "dineInPrice": 40,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-2",
+      "name": "بقلاوة بالبوظة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 15,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-2-single",
+          "name": "حجم واحد",
+          "price": 15,
+          "dineInPrice": 15,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-3",
+      "name": "كنافة برمة بالجبنة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 36,
+      "isInitialPrice": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-3-single",
+          "name": "حجم واحد",
+          "price": 36,
+          "dineInPrice": 36,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-4",
+      "name": "بصله فستق",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 95,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-4-single",
+          "name": "حجم واحد",
+          "price": 95,
+          "dineInPrice": 95,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-5",
+      "name": "ععملية (عملية)",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 38,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-5-single",
+          "name": "حجم واحد",
+          "price": 38,
+          "dineInPrice": 38,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-6",
+      "name": "بين نارين",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 36,
+      "isInitialPrice": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-6-single",
+          "name": "حجم واحد",
+          "price": 36,
+          "dineInPrice": 36,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-7",
+      "name": "خدود",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 45,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-7-single",
+          "name": "حجم واحد",
+          "price": 45,
+          "dineInPrice": 45,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-8",
+      "name": "مدلوقة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 50,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-8-single",
+          "name": "حجم واحد",
+          "price": 50,
+          "dineInPrice": 50,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-9",
+      "name": "عش بلبل",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 55,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-9-single",
+          "name": "حجم واحد",
+          "price": 55,
+          "dineInPrice": 55,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-10",
+      "name": "حلاوة جبن",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 40,
+      "isInitialPrice": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "imageCredit": "Leen.salem — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-10-single",
+          "name": "حجم واحد",
+          "price": 40,
+          "dineInPrice": 40,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-11",
+      "name": "اصابع فستق دولما",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 95,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-11-single",
+          "name": "حجم واحد",
+          "price": 95,
+          "dineInPrice": 95,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-12",
+      "name": "ترليشيا",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 50,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-12-single",
+          "name": "حجم واحد",
+          "price": 50,
+          "dineInPrice": 50,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-13",
+      "name": "فطير بالجبنة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 34,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-13-single",
+          "name": "حجم واحد",
+          "price": 34,
+          "dineInPrice": 34,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-14",
+      "name": "فطير بالحليب",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 32,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-14-single",
+          "name": "حجم واحد",
+          "price": 32,
+          "dineInPrice": 32,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-15",
+      "name": "بسكويت بالقشطة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 38,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-15-single",
+          "name": "حجم واحد",
+          "price": 38,
+          "dineInPrice": 38,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-16",
+      "name": "اصابع بالقشطة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 40,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-16-single",
+          "name": "حجم واحد",
+          "price": 40,
+          "dineInPrice": 40,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-17",
+      "name": "وربات بالقشطة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 40,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-17-single",
+          "name": "حجم واحد",
+          "price": 40,
+          "dineInPrice": 40,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-18",
+      "name": "برمه حلبي بالقشطة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 45,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-18-single",
+          "name": "حجم واحد",
+          "price": 45,
+          "dineInPrice": 45,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-19",
+      "name": "هريسة بالقشطة",
+      "category": "oriental",
+      "description": "",
+      "basePrice": 40,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-19-single",
+          "name": "حجم واحد",
+          "price": 40,
+          "dineInPrice": 40,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-20",
+      "name": "مياه صغير",
+      "category": "beverages",
+      "description": "",
+      "basePrice": 3,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-20-single",
+          "name": "حجم واحد",
+          "price": 3,
+          "dineInPrice": 3,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-21",
+      "name": "مياه كبير",
+      "category": "beverages",
+      "description": "",
+      "basePrice": 5,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-21-single",
+          "name": "حجم واحد",
+          "price": 5,
+          "dineInPrice": 5,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-22",
+      "name": "كوكا كولا",
+      "category": "beverages",
+      "description": "",
+      "basePrice": 3,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1709240428510-0189e299c1fe?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-22-single",
+          "name": "حجم واحد",
+          "price": 3,
+          "dineInPrice": 3,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-23",
+      "name": "سودا",
+      "category": "beverages",
+      "description": "",
+      "basePrice": 3,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1696706980174-79c1c11aa683?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-23-single",
+          "name": "حجم واحد",
+          "price": 3,
+          "dineInPrice": 3,
+          "isDefault": true
+        }
+      ]
+    },
+    {
+      "id": "menu-fixed-24",
+      "name": "سبرايت",
+      "category": "beverages",
+      "description": "",
+      "basePrice": 3,
+      "isInitialPrice": false,
+      "image": "https://images.unsplash.com/photo-1696706980174-79c1c11aa683?auto=format&fit=crop&w=1200&q=85",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "menu-fixed-24-single",
+          "name": "حجم واحد",
+          "price": 3,
+          "dineInPrice": 3,
+          "isDefault": true
+        }
+      ]
     }
   ],
   "orders": [
@@ -893,6 +1564,7 @@
     "logoUrl": "",
     "announcementBanner": "🔥 منيو الكنافة والإسطنبولية ع الفحم متوفر الآن | إمكانية إضافة بوظة لأي صنف بـ 3 شيكل!",
     "ourStory": "بدأت قصة \"كُومُر كُونافيه\" من إيماننا بأن سر الكنافة النابلسية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة. نستخدم أجود أنواع الجبنة البلدية النابلسية الطازجة مع السمن الأصيل، ونخبز كل صحن وسدر على الفحم لنوفر نكهة مدخنة خفيفة وقرمشة ذهبية لا تنسى. زورونا في رافدية لتتذوقوا الفرق بأنفسكم!",
-    "isStoryDraft": true
+    "isStoryDraft": true,
+    "healthySyrupNote": "يوجد لدينا اصناف صحية، يمكن استبدال القطر العادي لقطر صحي"
   }
 }

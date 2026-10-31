@@ -7,6 +7,7 @@
     "dev": "tsx server.ts",
     "build": "vite build",
     "start": "tsx server.ts",
+    "seed:menu": "node scripts/seed-menu.mjs",
     "clean": "node -e \"const fs = require('fs'); fs.rmSync('dist', { recursive: true, force: true }); try { fs.unlinkSync('server.js'); } catch {}\"",
     "lint": "tsc --noEmit"
   },

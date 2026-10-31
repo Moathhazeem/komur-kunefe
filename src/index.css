@@ -95,3 +95,9 @@
   #printable-receipt, #printable-receipt * { visibility: visible; }
   #printable-receipt { position: absolute; inset: 0 auto auto 0; width: 100%; color: black !important; background: white !important; }
 }
+
+/* ── Auth page animation ─────────────────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

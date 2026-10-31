@@ -22,15 +22,18 @@ export interface Review {
 export interface Product {
   id: string;
   name: string;
-  category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';
+  category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers' | 'oriental' | 'beverages';
   description: string;
   basePrice: number;
   isInitialPrice: boolean;
   image: string;
+  imageCredit?: string;
+  imageCreditUrl?: string;
   isAvailable: boolean;
   variants: ProductVariant[];
   isSeasonal?: boolean;
   featured?: boolean;
+  addOns?: Array<{ name: string; price: number }>;
   createdAt?: string;
 }
 
@@ -96,6 +99,7 @@ export interface StoreSettings {
   instagramUrl: string;
   logoUrl: string;
   announcementBanner: string;
+  healthySyrupNote?: string;
   ourStory: string;
   isStoryDraft: boolean;
 }

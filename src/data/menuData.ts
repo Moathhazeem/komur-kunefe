@@ -1,154 +1,108 @@
 import { Product } from '../types';
 
-export const OFFICIAL_PRODUCTS: Product[] = [
-  {
-    id: 'prod-1',
-    name: 'إسطنبولية بالقشطة',
-    category: 'charcoal',
-    description: 'إسطنبولية فاخرة محشوة بالقشطة البلدية الطازجة وحشوة الفستق الحلبي الغني، تُخبز على جمر الفحم الطبيعي. (إمكانية إضافة بوظة لأي صنف بـ 3 شيكل).',
-    basePrice: 12,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-1-xs', name: 'حجم XS (شخصي صغير)', price: 12, dineInPrice: 12, isDefault: true },
-      { id: 'v-1-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
-      { id: 'v-1-m', name: 'حجم M (وسط)', price: 50, dineInPrice: 50, takeawayPrice: 58 },
-      { id: 'v-1-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
-      { id: 'v-1-xl', name: 'حجم XL (عائلي فاخر)', price: 95, dineInPrice: 95, takeawayPrice: 105 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-2',
-    name: 'إسطنبولية محيرة',
-    category: 'charcoal',
-    description: 'إسطنبولية محيرة مكس شهي يجمع بين القشطة والجبنة البلدية النابلسية، محمرة برفق على لهب جمر الفحم.',
-    basePrice: 10,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-2-xs', name: 'حجم XS (شخصي صغير)', price: 10, dineInPrice: 10, isDefault: true },
-      { id: 'v-2-s', name: 'حجم S (صغير)', price: 20, dineInPrice: 20, takeawayPrice: 30 },
-      { id: 'v-2-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
-      { id: 'v-2-l', name: 'حجم L (كبير)', price: 60, dineInPrice: 60, takeawayPrice: 70 },
-      { id: 'v-2-xl', name: 'حجم XL (عائلي)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-3',
-    name: 'إسطنبولية بالفستق الحلبي المطحون ناعم',
-    category: 'charcoal',
-    description: 'إسطنبولية مميزة ومغطاة ومحشوة بأجود أنواع الفستق الحلبي الأخضر المطحون ناعماً ونكهة السمن البلدي.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-3-xs', name: 'حجم XS (شخصي صغير)', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-3-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
-      { id: 'v-3-m', name: 'حجم M (وسط)', price: 55, dineInPrice: 55, takeawayPrice: 63 },
-      { id: 'v-3-l', name: 'حجم L (كبير)', price: 80, dineInPrice: 80, takeawayPrice: 90 },
-      { id: 'v-3-xl', name: 'حجم XL (عائلي فاخر)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-4',
-    name: 'إسطنبولية إكسترا فستق حلبي',
-    category: 'charcoal',
-    description: 'لعشاق الفخامة: طبقات مضاعفة إكسترا من الفستق الحلبي الفاخر مع القرمشة الذهبية على جمر الفحم.',
-    basePrice: 15,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-4-xs', name: 'حجم XS (شخصي صغير)', price: 15, dineInPrice: 15, isDefault: true },
-      { id: 'v-4-s', name: 'حجم S (شخصي)', price: 30, dineInPrice: 30 },
-      { id: 'v-4-m', name: 'حجم M (وسط)', price: 60, dineInPrice: 60, takeawayPrice: 68 },
-      { id: 'v-4-l', name: 'حجم L (كبير)', price: 85, dineInPrice: 85, takeawayPrice: 95 },
-      { id: 'v-4-xl', name: 'حجم XL (عائلي)', price: 110, dineInPrice: 110, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-5',
-    name: 'كنافة نابلسية ناعمة ع الفحم',
-    category: 'charcoal',
-    description: 'الكنافة النابلسية الناعمة الأصلية بالجبنة البلدية الفاخرة والسمن البقري الصافي على الفحم لحظة بلحظة.',
-    basePrice: 10,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-5-xs', name: 'صحن شخصي (XS)', price: 10, dineInPrice: 10, isDefault: true },
-      { id: 'v-5-s', name: 'حجم S (صغير)', price: 20, dineInPrice: 20 },
-      { id: 'v-5-m', name: 'حجم M (وسط)', price: 40, dineInPrice: 40, takeawayPrice: 48 },
-      { id: 'v-5-l', name: 'حجم L (كبير)', price: 58, dineInPrice: 58, takeawayPrice: 67 },
-      { id: 'v-5-xl', name: 'حجم XL (سدر كبير)', price: 76, dineInPrice: 76, takeawayPrice: 86 },
-      { id: 'v-5-25k', name: 'سدر مناسبات 2.5 كغم', price: 90, dineInPrice: 90, takeawayPrice: 100 },
-      { id: 'v-5-3k', name: 'سدر مناسبات 3 كغم', price: 110, dineInPrice: 110, takeawayPrice: 120 },
-      { id: 'v-5-35k', name: 'سدر مناسبات 3.5 كغم', price: 125, dineInPrice: 125, takeawayPrice: 135 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-6',
-    name: 'إسطنبولية بالشوكولاتة (نوتيلا، لوتس، زبدة الفستق، شوكولاتة بيضاء)',
-    category: 'nutella',
-    description: 'تشكيلة صوصات مودرن فاخرة: نوتيلا، زبدة اللوتس، زبدة الفستق الحلبي، والشوكولاتة البيضاء البلجيكية.',
-    basePrice: 12,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-6-xs', name: 'صحن شخصي (XS)', price: 12, dineInPrice: 12, isDefault: true },
-      { id: 'v-6-s', name: 'حجم صغير (S)', price: 25, dineInPrice: 25 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-7',
-    name: 'إسطنبولية محشوة جبنة وفستق حلبي',
-    category: 'charcoal',
-    description: 'مزيج فاخر استثنائي من الجبنة البلدية النابلسية الذائبة مع حشوة الفستق الحلبي المحمص على نار الفحم.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-7-xs', name: 'حجم XS (شخصي صغير)', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-7-s', name: 'حجم S (شخصي)', price: 25, dineInPrice: 25 },
-      { id: 'v-7-m', name: 'حجم M (وسط)', price: 52, dineInPrice: 52, takeawayPrice: 60 },
-      { id: 'v-7-l', name: 'حجم L (كبير)', price: 75, dineInPrice: 75, takeawayPrice: 85 },
-      { id: 'v-7-xl', name: 'حجم XL (عائلي)', price: 100, dineInPrice: 100, takeawayPrice: 110 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'prod-8',
-    name: 'برجر كُومُر كُونافيه (Kömür Künefe Burger)',
-    category: 'charcoal',
-    description: 'ابتكار كومر كونافيه الحصري: طبقات الكنافة المقرمشة على شكل برجر محشو بالجبنة الغنية والإضافات الفاخرة.',
-    basePrice: 13,
-    isInitialPrice: false,
-    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80',
-    isAvailable: true,
-    featured: true,
-    variants: [
-      { id: 'v-8-xs', name: 'حجم XS', price: 13, dineInPrice: 13, isDefault: true },
-      { id: 'v-8-s', name: 'حجم S', price: 30, dineInPrice: 30 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
+const sizes = ['XS', 'S', 'M', 'L', 'XL', '2.5', '3', '3.5'];
+const iceCream = [{ name: 'إضافة بوظة', price: 4 }];
+const sauces = ['نوتيلا', 'لوتس', 'زبدة الفستق', 'شوكولاته بيضاء'].map((name) => ({ name, price: 4 }));
+
+const images = {
+  nabulsiKnafeh: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg',
+  pistachioBaklava: 'https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85',
+  assortedSweets: 'https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85',
+  chocolate: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85',
+  water: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=1200&q=85',
+  cola: 'https://images.unsplash.com/photo-1709240428510-0189e299c1fe?auto=format&fit=crop&w=1200&q=85',
+  sprite: 'https://images.unsplash.com/photo-1696706980174-79c1c11aa683?auto=format&fit=crop&w=1200&q=85',
+};
+
+const productImages: Record<string, string> = {
+  'كنافة اسطنبولية بالفستق الناعم': images.nabulsiKnafeh,
+  'كنافة اسطنبولية فستق أكسترا': images.nabulsiKnafeh,
+  'كنافة نابلسية ناعمة': images.nabulsiKnafeh,
+  'كنافة اسطنبولية محيرة': images.nabulsiKnafeh,
+  'اسطنبولية بحشوة الجبن والفستق الحلبي': images.nabulsiKnafeh,
+  'اسطنبولية بالقشطة': images.assortedSweets,
+  'كنافة برغر': images.nabulsiKnafeh,
+  'كنافة اسطنبولية بالشوكولاته': images.chocolate,
+  'فطير السلطان': images.assortedSweets,
+  'بقلاوة بالبوظة': images.pistachioBaklava,
+  'كنافة برمة بالجبنة': images.nabulsiKnafeh,
+  'بصله فستق': images.pistachioBaklava,
+  'ععملية (عملية)': images.assortedSweets,
+  'بين نارين': images.nabulsiKnafeh,
+  'خدود': images.pistachioBaklava,
+  'مدلوقة': images.assortedSweets,
+  'عش بلبل': images.pistachioBaklava,
+  'حلاوة جبن': images.nabulsiKnafeh,
+  'اصابع فستق دولما': images.pistachioBaklava,
+  'ترليشيا': images.assortedSweets,
+  'فطير بالجبنة': images.assortedSweets,
+  'فطير بالحليب': images.assortedSweets,
+  'بسكويت بالقشطة': images.pistachioBaklava,
+  'اصابع بالقشطة': images.pistachioBaklava,
+  'وربات بالقشطة': images.pistachioBaklava,
+  'برمه حلبي بالقشطة': images.pistachioBaklava,
+  'هريسة بالقشطة': images.assortedSweets,
+  'مياه صغير': images.water,
+  'مياه كبير': images.water,
+  'كوكا كولا': images.cola,
+  'سودا': images.sprite,
+  'سبرايت': images.sprite,
+};
+
+const imageFields = (name: string, fallback: string) => {
+  const image = productImages[name] ?? fallback;
+  return {
+    image,
+    ...(image === images.nabulsiKnafeh ? {
+      imageCredit: 'Leen.salem — CC BY-SA 4.0',
+      imageCreditUrl: 'https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg',
+    } : {}),
+  };
+};
+
+const sized = [
+  ['كنافة اسطنبولية بالفستق الناعم', 'charcoal', [15, 30, 55, 80, 100, 135, 165, 190], [null, null, 63, 90, 110, 145, 175, 200], iceCream],
+  ['كنافة اسطنبولية فستق أكسترا', 'charcoal', [15, 30, 60, 85, 110, 150, 180, 210], [null, null, 68, 90, 110, 160, 190, 220], iceCream],
+  ['كنافة نابلسية ناعمة', 'charcoal', [10, 20, 40, 58, 76, 90, 110, 125], [null, null, 48, 67, 86, 100, 120, 135], iceCream],
+  ['كنافة اسطنبولية محيرة', 'charcoal', [10, 20, 40, 60, 85, 110, 120, 140], [null, 30, 48, 70, 95, 120, 130, 150], iceCream],
+  ['اسطنبولية بحشوة الجبن والفستق الحلبي', 'charcoal', [13, 25, 52, 75, 100, 130, 155, 180], [null, null, 60, 85, 110, 140, 165, 190], iceCream],
+  ['اسطنبولية بالقشطة', 'charcoal', [12, 25, 50, 75, 95, 125, 150, 175], [null, null, 58, 85, 105, 135, 160, 185], [{ name: 'حشوة بالفستق', price: 3 }, ...iceCream]],
+  ['كنافة برغر', 'charcoal', [15, 35], [null, null], sauces, ['XS', 'S']],
+  ['كنافة اسطنبولية بالشوكولاته', 'nutella', [12, 25], [null, null], sauces, ['XS', 'S']],
 ];
 
+const fixed = [
+  ['فطير السلطان', 40, 'oriental'], ['بقلاوة بالبوظة', 15, 'oriental'], ['كنافة برمة بالجبنة', 36, 'oriental'],
+  ['بصله فستق', 95, 'oriental'], ['ععملية (عملية)', 38, 'oriental'], ['بين نارين', 36, 'oriental'],
+  ['خدود', 45, 'oriental'], ['مدلوقة', 50, 'oriental'], ['عش بلبل', 55, 'oriental'], ['حلاوة جبن', 40, 'oriental'],
+  ['اصابع فستق دولما', 95, 'oriental'], ['ترليشيا', 50, 'oriental'], ['فطير بالجبنة', 34, 'oriental'],
+  ['فطير بالحليب', 32, 'oriental'], ['بسكويت بالقشطة', 38, 'oriental'], ['اصابع بالقشطة', 40, 'oriental'],
+  ['وربات بالقشطة', 40, 'oriental'], ['برمه حلبي بالقشطة', 45, 'oriental'], ['هريسة بالقشطة', 40, 'oriental'],
+  ['مياه صغير', 3, 'beverages'], ['مياه كبير', 5, 'beverages'], ['كوكا كولا', 3, 'beverages'],
+  ['سودا', 3, 'beverages'], ['سبرايت', 3, 'beverages'],
+];
+
+export const OFFICIAL_PRODUCTS: Product[] = [
+  ...sized.map(([name, category, dineIn, takeaway, addOns, customSizes]: any, index) => {
+    const itemSizes: string[] = customSizes ?? sizes;
+    const variants = itemSizes.map((size, i) => ({
+      id: `menu-${index + 1}-${size.replace('.', '-')}`,
+      name: `حجم ${size}`,
+      price: dineIn[i],
+      dineInPrice: dineIn[i],
+      ...(takeaway[i] == null ? {} : { takeawayPrice: takeaway[i] }),
+      ...(i === 0 ? { isDefault: true } : {}),
+    }));
+    return {
+      id: `menu-${index + 1}`, name, category, description: '', basePrice: variants[0].price,
+      isInitialPrice: false, ...imageFields(name, images.nabulsiKnafeh), isAvailable: true, featured: false, variants, addOns,
+    };
+  }),
+  ...fixed.map(([name, price, category]: any, index) => ({
+    id: `menu-fixed-${index + 1}`, name, category, description: '', basePrice: price,
+    isInitialPrice: false, ...imageFields(name, images.assortedSweets), isAvailable: true, featured: false,
+    variants: [{ id: `menu-fixed-${index + 1}-single`, name: 'حجم واحد', price, dineInPrice: price, isDefault: true }],
+  })),
+];
+
+export const HEALTHY_SYRUP_NOTE = 'يوجد لدينا اصناف صحية، يمكن استبدال القطر العادي لقطر صحي';

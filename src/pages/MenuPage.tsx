@@ -18,6 +18,8 @@ export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurv
     { id: 'charcoal', label: 'على الفحم' },
     { id: 'nutella', label: 'الشوكولاتة' },
     { id: 'nawashef', label: 'نواشف' },
+    { id: 'oriental', label: 'حلويات شرقية' },
+    { id: 'beverages', label: 'مشروبات' },
     { id: 'other', label: 'أخرى' },
   ];
   const filteredProducts = useMemo(() => products.filter((product) => {
@@ -31,7 +33,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurv
       <div className="mx-auto max-w-7xl">
         <header className="grid gap-8 border-b border-[#35241A]/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="max-w-2xl"><span className="inline-flex items-center gap-2 text-xs font-black text-[#C7652D]"><Flame className="h-4 w-4" /> تُخبز طازجة عند الطلب</span><h1 className="mt-3 text-4xl font-black text-[#211814] sm:text-6xl">المنيو</h1><p className="mt-4 text-sm leading-8 text-[#75675C] sm:text-base">اختار صنفك، حدّد الحجم، وخلي الباقي علينا. الأسعار والخيارات المعروضة مأخوذة من منيو الفرع مباشرة.</p></div>
-          <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">إمكانية إضافة بوظة لأي صنف بـ 3 شيكل.</span></div>
+          <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">يوجد لدينا اصناف صحية، يمكن استبدال القطر العادي لقطر صحي</span></div>
         </header>
 
         <div className="sticky top-[74px] z-20 -mx-4 mt-8 border-y border-[#35241A]/10 bg-[#FBF8F2]/95 px-4 py-4 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border sm:px-4">
