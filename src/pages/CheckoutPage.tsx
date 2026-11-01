@@ -27,7 +27,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   const [customerPhone, setCustomerPhone] = useState('');
   const [pickupTime, setPickupTime] = useState('خلال 20-30 دقيقة');
   const [notes, setNotes] = useState('');
-  
+
   // State
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [error, setError] = useState('');
@@ -116,12 +116,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   if (placedOrder) {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-right space-y-8 animate-soft-slide-up">
-        
+
         {/* Success Card */}
         <div className="bg-[#F7F0E5] border-2 border-[#DAB775]/50 rounded-[30px] p-6 sm:p-10 shadow-[0_20px_60px_rgba(53,36,26,.1)] space-y-6">
           <div className="text-center space-y-3">
             <div className="w-18 h-18 rounded-full bg-emerald-50 border-2 border-emerald-500 text-emerald-600 mx-auto flex items-center justify-center shadow-xs">
-              <CheckCircle2 className="w-10 h-10" /></label>
+              <CheckCircle2 className="w-10 h-10" />
             </div>
             <h1 className="text-2xl sm:text-4xl font-black text-[#211814] font-heading">
               تم استلام طلبك بنجاح!
@@ -198,7 +198,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           onClose={() => setShowPrintModal(false)}
           order={placedOrder}
           settings={settings}
-        /></label>
+        />
       </div>
     );
   }
@@ -208,7 +208,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
         <div className="w-20 h-20 rounded-full bg-[#F0E8DC] border border-[#DAB775]/40 text-[#C7652D] mx-auto flex items-center justify-center">
-          <ShoppingBag className="w-10 h-10" /></label>
+          <ShoppingBag className="w-10 h-10" />
         </div>
         <h2 className="text-2xl font-bold text-[#211814] font-heading">
           سلة الطلبات فارغة حالياً
@@ -228,7 +228,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
-      
+
       {error && <p role="alert" className="status-notice">{error}</p>}
       {/* Page Title */}
       <div className="border-b border-[#35241A]/10 pb-4 flex items-center justify-between">
@@ -250,10 +250,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Left Col (7/12 on LG): Cart items & Customer Form */}
         <div className="lg:col-span-7 space-y-6">
-          
+
           {/* Cart Items List */}
           <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
             <h3 className="text-base font-bold text-[#211814] font-heading flex items-center justify-between">
@@ -330,7 +330,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   الاسم الكريم <span className="text-[#C7652D]">*</span>
-                
+
               <input
                   type="text"
                   required
@@ -344,7 +344,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   رقم الهاتف أو الواتساب <span className="text-[#C7652D]">*</span>
-                
+
               <input
                   type="tel"
                   required
@@ -360,7 +360,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   موعد الاستلام المفضل
-                
+
               <select
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
@@ -376,7 +376,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   ملاحظات للتحضير (اختياري)
-                
+
               <input
                   type="text"
                   placeholder="مثال: قطر خفيف، زيادة فستق، تقطيع مربعات..."
@@ -460,7 +460,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         totalAmount={subtotal}
         onClose={() => setShowPaymentModal(false)}
         onPaymentSuccess={handlePaymentConfirmed}
-      /></label>
+      />
 
     </div>
   );

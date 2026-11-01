@@ -1,4 +1,5 @@
-export interface ProductVariant {
+import type { GeniusMetadata, VariantMetadata } from '../shared/commerce';
+export interface ProductVariant extends VariantMetadata {
   id: string;
   name: string;
   price: number;
@@ -20,6 +21,7 @@ export interface Review {
 }
 
 export interface Product {
+  genius?: GeniusMetadata;
   id: string;
   name: string;
   category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';

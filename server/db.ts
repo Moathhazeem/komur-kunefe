@@ -1,7 +1,8 @@
+import type { GeniusMetadata, VariantMetadata } from '../shared/commerce';
 import fs from 'fs';
 import path from 'path';
 
-export interface ProductVariant {
+export interface ProductVariant extends VariantMetadata {
   id: string;
   name: string;
   price: number;
@@ -11,6 +12,7 @@ export interface ProductVariant {
 }
 
 export interface Product {
+  genius?: GeniusMetadata;
   id: string;
   name: string;
   category: 'charcoal' | 'nutella' | 'nawashef' | 'other' | 'offers';
@@ -291,12 +293,12 @@ const INITIAL_SETTINGS: StoreSettings = {
 function generateSampleOrders(): Order[] {
   const sources: Order['source'][] = ['website', 'instagram', 'facebook', 'whatsapp'];
   const customerNames = [
-    'أحمد المصري', 'محمد حسونة', 'سامر خليل', 'خالد يعيش', 'رنا التميمي', 
+    'أحمد المصري', 'محمد حسونة', 'سامر خليل', 'خالد يعيش', 'رنا التميمي',
     'محمود الشكعة', 'ليلى جردانة', 'طارق عنبتاوي', 'يوسف دروزة', 'هبة صوالحة',
     'عمر حجاوي', 'نور المصري', 'علاء كنعان', 'بشار شاهين', 'فاطمة العالول'
   ];
   const phones = ['0599123456', '0568987654', '0598765432', '0569112233', '0595334455'];
-  
+
   const sampleOrders: Order[] = [];
   const now = Date.now();
 
