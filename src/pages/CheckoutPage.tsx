@@ -7,6 +7,7 @@ import { ReceiptPrintModal } from '../components/ReceiptPrintModal';
 
 interface CheckoutPageProps {
   cart: CartItem[];
+  onRefreshCart: ()=>Promise<void>;
   settings: StoreSettings | null;
   onUpdateQuantity: (index: number, quantity: number) => void;
   onRemoveItem: (index: number) => void;
@@ -16,6 +17,7 @@ interface CheckoutPageProps {
 
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   cart,
+  onRefreshCart,
   settings,
   onUpdateQuantity,
   onRemoveItem,
@@ -229,7 +231,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
 
-      {error && <p role="alert" className="status-notice">{error}</p>}
+      {error && <div className="status-notice"><p role="alert">{error}</p><button type="button" className="signature-button secondary mt-3" onClick={async()=>{try{await onRefreshCart();setError('تم تحديث الأسعار والكميات وإزالة غير المتوفر. راجع السلة ثم أكد الطلب.');}catch{setError('تعذر تحديث السلة');}}}>تحديث السلة من المنيو</button></div>}
       {/* Page Title */}
       <div className="border-b border-[#35241A]/10 pb-4 flex items-center justify-between">
         <div>

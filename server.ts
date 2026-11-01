@@ -160,8 +160,8 @@ async function startServer() {
       const newOrder = db.addOrder({
         customerName,
         customerPhone,
-        items,
-        total: Number(total),
+        items: checked.items,
+        total: checked.total,
         pickupTime: pickupTime || 'خلال 20-30 دقيقة',
         notes: notes || '',
         status: 'new',

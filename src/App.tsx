@@ -139,21 +139,19 @@ export default function App() {
 
   // Cart operations
   const handleAddSelection = (selection: CartItem[]) => {
-    setCart(previous => {
-      const next = previous.map(item=>({...item}));
-      for(const item of selection) {
-        const product=products.find(p=>p.id===item.product.id && p.isAvailable);
-        const variant=product?.variants.find(v=>v.id===item.variant.id);
-        if(!product || !variant || !Number.isInteger(item.quantity) || item.quantity<1) throw new Error('تغير توفر الصنف أو تجاوزت حد الكمية في السلة');
-        const existing=next.find(i=>i.product.id===product.id && i.variant.id===variant.id);
-        const quantity=(existing?.quantity || 0)+item.quantity;
-        if(quantity>quantityLimit(variant)) return previous;
-        const canonical={...variant,price:priceInCents(variant)/100};
-        if(existing){existing.quantity=quantity;existing.variant=canonical;existing.product=product;}
-        else next.push({product,variant:canonical,quantity});
-      }
-      return next;
-    });
+    const next = cart.map(item=>({...item}));
+    for(const item of selection) {
+      const product=products.find(p=>p.id===item.product.id && p.isAvailable);
+      const variant=product?.variants.find(v=>v.id===item.variant.id);
+      if(!product || !variant || !Number.isInteger(item.quantity) || item.quantity<1) throw new Error('تغير توفر الصنف');
+      const existing=next.find(i=>i.product.id===product.id && i.variant.id===variant.id);
+      const quantity=(existing?.quantity || 0)+item.quantity;
+      if(quantity>quantityLimit(variant)) throw new Error('تجاوزت حد الكمية لهذا الصنف في السلة');
+      const canonical={...variant,price:priceInCents(variant)/100};
+      if(existing){existing.quantity=quantity;existing.variant=canonical;existing.product=product;}
+      else next.push({product,variant:canonical,quantity});
+    }
+    setCart(next);
   };
   const handleAddToCart = (product:Product, variant:ProductVariant, quantity:number) => handleAddSelection([{product,variant,quantity}]);
 
@@ -172,6 +170,16 @@ export default function App() {
 
   const handleRemoveItem = (index: number) => {
     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+  };
+
+  const refreshCart = async () => {
+    const latest = await api.getProducts();
+    setProducts(latest);
+    setCart(previous => previous.flatMap(item => {
+      const product=latest.find(p=>p.id===item.product.id && p.isAvailable);
+      const variant=product?.variants.find(v=>v.id===item.variant.id);
+      return product && variant ? [{product,variant:{...variant,price:priceInCents(variant)/100},quantity:Math.min(item.quantity,quantityLimit(variant))}] : [];
+    }));
   };
 
   const handleClearCart = () => {
@@ -234,6 +242,7 @@ export default function App() {
         {currentTab === 'menu' && (
           <MenuPage
             products={products}
+            onNavigate={handleNavigate}
             onAddToCart={handleAddToCart}
             onNavigateToProduct={handleNavigateToProduct}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
@@ -253,6 +262,7 @@ export default function App() {
 
         {currentTab === 'checkout' && (
           <CheckoutPage
+            onRefreshCart={refreshCart}
             cart={cart}
             settings={settings}
             onUpdateQuantity={handleUpdateQuantity}
