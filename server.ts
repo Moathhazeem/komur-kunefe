@@ -1,3 +1,5 @@
+import { recommend, validateInput } from './server/genius/engine.js';
+import { quote } from './server/quote.js';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -21,6 +23,15 @@ async function startServer() {
 
   // --- API Routes ---
 
+  app.post('/api/genius/recommend', (req, res) => {
+    try { res.json(recommend(db.getProducts(), validateInput(req.body))); }
+    catch (error) { res.status(400).json({ success:false, error: error instanceof Error ? error.message : 'تعذر حساب التوصيات' }); }
+  });
+  app.post('/api/cart/quote', (req, res) => {
+    try { res.json({success:true,...quote(db.getProducts(), req.body.items)}); }
+    catch (error) { res.status(400).json({success:false,error:error instanceof Error ? error.message : 'تعذر التحقق من السلة'}); }
+  });
+
   // Products
   app.get('/api/products', (req, res) => {
     try {
@@ -37,7 +48,7 @@ async function startServer() {
 
   app.post('/api/products', (req, res) => {
     try {
-      const { name, category, description, basePrice, isInitialPrice, image, variants, featured, isSeasonal } = req.body;
+      const { name, category, description, basePrice, isInitialPrice, image, variants, featured, isSeasonal, genius } = req.body;
       if (!name || basePrice === undefined) {
         return res.status(400).json({ success: false, error: 'اسم المنتج والسعر الأساسي مطلوبان' });
       }
@@ -50,6 +61,7 @@ async function startServer() {
         isInitialPrice: isInitialPrice !== undefined ? isInitialPrice : false,
         image: image || '',
         isAvailable: true,
+        genius,
         featured: !!featured,
         isSeasonal: !!isSeasonal,
         variants: variants && variants.length > 0 ? variants : [
@@ -134,6 +146,17 @@ async function startServer() {
         return res.status(400).json({ success: false, error: 'يرجى إدخال الاسم ورقم الهاتف واختيار الأصناف' });
       }
 
+      let checked;
+      try { checked = quote(db.getProducts(), items); }
+      catch (error) { return res.status(400).json({success:false,error:error instanceof Error ? error.message : 'سلة غير صالحة'}); }
+      if(typeof total !== 'number' || Math.round(total*100)!==Math.round(checked.total*100)) {
+        return res.status(409).json({success:false,error:'تغير السعر. حدّث السلة قبل التأكيد', quote:checked});
+      }
+      if(typeof customerName !== 'string' || customerName.trim().length<2 || customerName.length>100 ||
+        typeof customerPhone !== 'string' || !/^[+0-9 ()-]{7,25}$/.test(customerPhone) ||
+        (notes !== undefined && (typeof notes !== 'string' || notes.length>1000))) {
+        return res.status(400).json({success:false,error:'تحقق من الاسم والهاتف والملاحظات'});
+      }
       const newOrder = db.addOrder({
         customerName,
         customerPhone,
@@ -147,7 +170,7 @@ async function startServer() {
         // cash on pickup until server-verified provider confirmation exists.
         paymentMethod: 'cash_on_pickup',
         paymentStatus: 'pending',
-        source: source || 'website'
+        source: ['website','instagram','facebook','whatsapp'].includes(source) ? source : 'website'
       });
 
       res.status(201).json({ success: true, order: newOrder });
