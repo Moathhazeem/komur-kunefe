@@ -1,3 +1,5 @@
+import { GeniusPage } from './pages/GeniusPage';
+import { quantityLimit, priceInCents } from '../shared/commerce';
 import React, { useState, useEffect } from 'react';
 import { Product, ProductVariant, CartItem, Offer, Review, StoreSettings } from './types';
 import { OFFICIAL_PRODUCTS } from './data/menuData';
@@ -27,13 +29,15 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>(OFFICIAL_PRODUCTS);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [dataState, setDataState] = useState<'loading'|'ready'|'error'>('loading');
   const [settings, setSettings] = useState<StoreSettings | null>(null);
 
   // Cart state persisted in localStorage
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('komur_cart');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed.filter(i=>i?.product?.id && i?.variant?.id && Number.isInteger(i.quantity) && i.quantity>0 && Number.isFinite(i.variant.price)) : [];
     } catch {
       return [];
     }
@@ -61,6 +65,7 @@ export default function App() {
         return;
       }
 
+      if (hash === 'genius' || path === '/genius') { setCurrentTab('genius'); setCurrentProductId(null); return; }
       if (hash === 'menu' || path === '/menu') {
         setCurrentTab('menu');
         setCurrentProductId(null);
@@ -120,30 +125,37 @@ export default function App() {
         api.getReviews(false), // only approved for public
         api.getSettings(),
       ]);
-      setProducts(fetchedProducts && fetchedProducts.length > 0 ? fetchedProducts : OFFICIAL_PRODUCTS);
+      setProducts(fetchedProducts);
       setOffers(fetchedOffers);
       setReviews(fetchedReviews);
       setSettings(fetchedSettings);
+      setDataState('ready');
     } catch (err) {
+      setDataState('error');
+      setProducts([]);
       console.error('Failed to load initial data:', err);
     }
   };
 
   // Cart operations
-  const handleAddToCart = (product: Product, variant: ProductVariant, quantity: number) => {
-    setCart((prevCart) => {
-      const existingIndex = prevCart.findIndex(
-        (item) => item.product.id === product.id && item.variant.id === variant.id
-      );
-      if (existingIndex >= 0) {
-        const updated = [...prevCart];
-        updated[existingIndex].quantity += quantity;
-        return updated;
-      } else {
-        return [...prevCart, { product, variant, quantity }];
+  const handleAddSelection = (selection: CartItem[]) => {
+    setCart(previous => {
+      const next = previous.map(item=>({...item}));
+      for(const item of selection) {
+        const product=products.find(p=>p.id===item.product.id && p.isAvailable);
+        const variant=product?.variants.find(v=>v.id===item.variant.id);
+        if(!product || !variant || !Number.isInteger(item.quantity) || item.quantity<1) return previous;
+        const existing=next.find(i=>i.product.id===product.id && i.variant.id===variant.id);
+        const quantity=(existing?.quantity || 0)+item.quantity;
+        if(quantity>quantityLimit(variant)) return previous;
+        const canonical={...variant,price:priceInCents(variant)/100};
+        if(existing){existing.quantity=quantity;existing.variant=canonical;existing.product=product;}
+        else next.push({product,variant:canonical,quantity});
       }
+      return next;
     });
   };
+  const handleAddToCart = (product:Product, variant:ProductVariant, quantity:number) => handleAddSelection([{product,variant,quantity}]);
 
   const handleUpdateQuantity = (index: number, quantity: number) => {
     if (quantity <= 0) {
@@ -152,7 +164,8 @@ export default function App() {
     }
     setCart((prevCart) => {
       const updated = [...prevCart];
-      updated[index].quantity = quantity;
+      if(!updated[index] || !Number.isInteger(quantity) || quantity>quantityLimit(updated[index].variant)) return prevCart;
+      updated[index] = {...updated[index], quantity};
       return updated;
     });
   };
@@ -202,6 +215,9 @@ export default function App() {
       {/* Main Content Pages with smooth fade & slide-up */}
       <a href="#content" className="skip-link">انتقل إلى المحتوى</a>
       <main id="content" key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
+        {dataState !== 'ready' && currentTab !== 'admin' && <div className="signature-page"><p className="status-notice" role="status">{dataState === 'loading' ? 'نحمّي الجمر… جارٍ تحميل المنيو' : 'تعذر تحميل بيانات الفرع. تحقق من الاتصال.'}</p>{dataState === 'error' && <button className="signature-button mt-3" onClick={loadAllData}>حاول مجدداً</button>}</div>}
+        {currentTab === 'genius' && <GeniusPage products={products} onAdd={handleAddSelection} onOpenCart={()=>handleNavigate('checkout')} />}
+
         {currentTab === 'home' && (
           <HomePage
             products={products}

@@ -23,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
   const navLinks = [
     { id: 'home', label: 'الرئيسية' },
     { id: 'menu', label: 'المنيو' },
+    { id: 'genius', label: 'Genius · لَمّتكم' },
     { id: 'story', label: 'حكاية الجمر' },
     { id: 'offers', label: 'العروض' },
     { id: 'contact', label: 'زورونا' },

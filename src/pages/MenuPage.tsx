@@ -5,12 +5,13 @@ import { ProductCard } from '../components/ProductCard';
 
 interface MenuPageProps {
   products: Product[];
+  onNavigate: (tab:string)=>void;
   onAddToCart: (product: Product, variant: ProductVariant, quantity: number) => void;
   onOpenDeliverySurvey: () => void;
   onNavigateToProduct: (productId: string) => void;
 }
 
-export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurvey, onNavigateToProduct }) => {
+export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurvey, onNavigateToProduct, onNavigate }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const categories = [
@@ -29,6 +30,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurv
   return (
     <div className="min-h-screen bg-[#FBF8F2] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
+        <button className="signature-button secondary mb-6" onClick={()=>onNavigate('genius')}>محتار للَمّة؟ اكتشف KÖMÜR GENIUS ←</button>
         <header className="grid gap-8 border-b border-[#35241A]/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="max-w-2xl"><span className="inline-flex items-center gap-2 text-xs font-black text-[#C7652D]"><Flame className="h-4 w-4" /> تُخبز طازجة عند الطلب</span><h1 className="mt-3 text-4xl font-black text-[#211814] sm:text-6xl">المنيو</h1><p className="mt-4 text-sm leading-8 text-[#75675C] sm:text-base">اختار صنفك، حدّد الحجم، وخلي الباقي علينا. الأسعار والخيارات المعروضة مأخوذة من منيو الفرع مباشرة.</p></div>
           <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">إمكانية إضافة بوظة لأي صنف بـ 3 شيكل.</span></div>

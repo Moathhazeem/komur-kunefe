@@ -138,3 +138,34 @@ button:disabled { cursor: not-allowed; opacity:.5; }
   .signature-story { grid-template-columns:1fr; gap:1.5rem; }
   main { padding-bottom:4.5rem; }
 }
+
+.genius-hero { display:flex; justify-content:space-between; gap:2rem; padding-bottom:3rem; }
+.genius-hero h1 { font-size:clamp(2.6rem,5.8vw,5.5rem); line-height:1.25; margin:1rem 0; }
+.genius-hero em { color:var(--brand-ember); font-style:normal; }
+.genius-hero p { max-width:38rem; color:var(--ink-muted); line-height:1.9; }
+.genius-seal { align-self:center; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; width:10rem; height:10rem; border-radius:50%; background:var(--brand-charcoal); color:var(--brand-gold); border:1px solid var(--brand-gold); box-shadow:0 0 0 10px var(--surface-muted); font:italic 4rem Georgia,serif; }
+.genius-seal span { font:700 .65rem 'Tajawal'; letter-spacing:.2em; }
+.genius-steps { display:flex; flex-wrap:wrap; gap:1rem; border-bottom:1px solid var(--line); padding-bottom:1.5rem; }
+.genius-steps button { display:flex; align-items:center; gap:.5rem; color:var(--ink-muted); font-size:.8rem; }
+.genius-steps button span { display:grid; place-items:center; border:1px solid var(--line); width:2rem; height:2rem; border-radius:50%; }
+.genius-steps [aria-current] { color:var(--brand-ember); font-weight:800; }
+.genius-steps [aria-current] span { background:var(--brand-charcoal); color:var(--brand-gold); }
+.genius-step { padding-top:2rem; min-height:16rem; }
+.genius-step h2 { font-size:2.5rem; font-weight:900; margin:.6rem 0 1.5rem; }
+.genius-step label { display:flex; flex-direction:column; gap:.6rem; }
+.genius-step input[type=number] { display:block; width:min(100%,18rem); padding:1rem; border-bottom:2px solid var(--brand-ember); font-size:2.5rem; font-weight:800; background:var(--surface); }
+.genius-step small { color:var(--ink-muted); line-height:1.8; }
+.taste-options { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+.taste-options label { border:1px solid var(--line); border-radius:1rem; padding:1rem; cursor:pointer; }
+.taste-options label:has(input:checked) { border-color:var(--brand-ember); background:var(--surface-muted); }
+.taste-options input { accent-color:var(--brand-ember); }
+.recommendation-card { min-width:0; }
+.recommendation-card h2 { font-size:1.7rem; font-weight:900; margin:.5rem 0 1.2rem; }
+.recommendation-photo { height:12rem; border-radius:1rem; overflow:hidden; }
+.selection-lines li { border-bottom:1px solid var(--line); padding:1rem 0; }
+.selection-lines label { display:block; font-size:.75rem; font-weight:700; }
+.selection-lines select { width:100%; padding:.75rem; margin:.5rem 0; background:var(--surface); border:1px solid var(--line); border-radius:.5rem; }
+.selection-lines input { display:block; width:5rem; padding:.6rem; border:1px solid var(--line); border-radius:.5rem; margin:.4rem 0; }
+.selection-total { display:flex; justify-content:space-between; gap:1rem; padding:1.3rem 0; margin:1rem 0; border-block:1px solid var(--line); font-size:.75rem; color:var(--ink-muted); }
+.selection-total strong { display:block; font-size:1.7rem; color:var(--brand-espresso); margin-top:.3rem; }
+@media(max-width:600px) { .genius-seal { display:none; } .taste-options { grid-template-columns:1fr; } .genius-steps button { font-size:.7rem; } }
