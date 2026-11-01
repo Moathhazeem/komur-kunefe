@@ -11,6 +11,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab, onNavigate, onOpenCart }) => {
+  const headerRef = useRef<HTMLElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const previousCount = useRef(cartCount);
   const [badgeKey, setBadgeKey] = useState(0);
@@ -19,6 +20,16 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
     if (cartCount > previousCount.current) setBadgeKey((key) => key + 1);
     previousCount.current = cartCount;
   }, [cartCount]);
+
+  useEffect(() => {
+    const node=headerRef.current;
+    if(!node) return;
+    const sync=()=>document.documentElement.style.setProperty('--site-header-height', node.getBoundingClientRect().height+'px');
+    sync();
+    const observer=new ResizeObserver(sync);
+    observer.observe(node);
+    return ()=>observer.disconnect();
+  }, []);
 
   const navLinks = [
     { id: 'home', label: 'الرئيسية' },
@@ -36,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#DAB775]/15 bg-[#17120F]/95 text-[#F7F0E5] backdrop-blur-xl">
+    <header ref={headerRef} className="site-header sticky top-0 z-40 border-b border-[#DAB775]/15 bg-[#17120F]/95 text-[#F7F0E5] backdrop-blur-xl">
       {settings?.announcementBanner && (
         <div className="flex min-h-8 items-center justify-center gap-2 bg-[#C7652D] px-4 py-1.5 text-center text-[11px] font-bold text-white sm:text-xs">
           <Sparkles className="h-3.5 w-3.5 text-[#F7F0E5]" />
@@ -85,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
             <span className="hidden sm:inline">السلة</span>
             {cartCount > 0 && <span key={badgeKey} className="animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#C7652D]">{cartCount}</span>}
           </button>
-          <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] lg:hidden" aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}>
+          <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] lg:hidden" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}>
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
           </button>
         </div>
