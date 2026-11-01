@@ -17,7 +17,7 @@ export function GeniusForm({ busy, onSubmit }: { busy: boolean; onSubmit: (input
   const [input, setInput] = useState<GeniusInput>({ people: 4, budget: 80, preference: 'balanced' });
   const reduced = useReducedMotion();
   const valid = Number.isInteger(input.people) && input.people >= 1 && input.people <= 50 && Number.isFinite(input.budget) && input.budget > 0 && input.budget <= 5000;
-  return <form className="signature-panel genius-form" onSubmit={e => { e.preventDefault(); if (valid && !busy) onSubmit(input); }}>
+  return <form className="signature-panel genius-form" onSubmit={e => { e.preventDefault(); if (!valid || busy) return; if (step < 2) setStep(step + 1); else onSubmit(input); }}>
     <nav aria-label="خطوات التفضيلات" className="genius-steps">
       {steps.map((label, i) => <motion.button key={label} type="button" aria-current={step === i ? 'step' : undefined} onClick={() => setStep(i)} whileTap={reduced ? undefined : { scale: .97 }}>
         <motion.span animate={{ scale: reduced ? 1 : step === i ? 1.1 : 1 }}>{i + 1}</motion.span>{label}

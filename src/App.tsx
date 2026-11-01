@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'motion/react';
 import { GeniusPage } from './pages/GeniusPage';
 import { quantityLimit, priceInCents } from '../shared/commerce';
 import React, { useState, useEffect } from 'react';
@@ -21,6 +22,7 @@ import { ContactPage } from './pages/ContactPage';
 import { AdminPage } from './pages/AdminPage';
 
 export default function App() {
+  const reduced = useReducedMotion();
   // Navigation tab state
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [currentProductId, setCurrentProductId] = useState<string | null>(null);
@@ -222,7 +224,7 @@ export default function App() {
 
       {/* Main Content Pages with smooth fade & slide-up */}
       <a href="#content" className="skip-link">انتقل إلى المحتوى</a>
-      <main id="content" key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
+      <motion.main id="content" key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1" initial={reduced || currentTab === 'admin' ? false : {opacity:0}} animate={{opacity:1}} transition={{duration:reduced?0:.22}}>
         {dataState !== 'ready' && currentTab !== 'admin' && <div className="signature-page"><p className="status-notice" role="status">{dataState === 'loading' ? 'نحمّي الجمر… جارٍ تحميل المنيو' : 'تعذر تحميل بيانات الفرع. تحقق من الاتصال.'}</p>{dataState === 'error' && <button className="signature-button mt-3" onClick={loadAllData}>حاول مجدداً</button>}</div>}
         {currentTab === 'genius' && <GeniusPage products={products} onAdd={handleAddSelection} onOpenCart={()=>handleNavigate('checkout')} />}
 
@@ -314,7 +316,7 @@ export default function App() {
             onNavigateHome={() => handleNavigate('home')}
           />
         )}
-      </main>
+      </motion.main>
 
       {/* Delivery Survey Popup Modal */}
       <DeliverySurveyModal
