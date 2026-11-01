@@ -1,3 +1,4 @@
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Flame, Menu as MenuIcon, Phone, ShoppingBag, Sparkles, X } from 'lucide-react';
 import { StoreSettings } from '../types';
@@ -11,6 +12,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab, onNavigate, onOpenCart }) => {
+  const reduced = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const previousCount = useRef(cartCount);
@@ -91,19 +93,22 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
             <Phone className="h-3.5 w-3.5" />
             <span>اتصل بنا</span>
           </a>
-          <button type="button" onClick={onOpenCart} className="relative flex items-center gap-2 rounded-full bg-[#C7652D] px-3.5 py-2.5 text-sm font-black text-white shadow-lg shadow-[#C7652D]/20 hover:bg-[#A94E20]" aria-label="عرض السلة">
+          <motion.button type="button" onClick={onOpenCart} whileHover={reduced ? undefined : {y:-2}} whileTap={reduced ? undefined : {scale:.95}} className="header-cart" aria-label="عرض السلة">
             <ShoppingBag className="h-4 w-4" />
             <span className="hidden sm:inline">السلة</span>
             {cartCount > 0 && <span key={badgeKey} className="animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#C7652D]">{cartCount}</span>}
-          </button>
-          <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] lg:hidden" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}>
+          </motion.button>
+          <button type="button" onClick={() => setMobileMenuOpen((open) => !open)} className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] lg:hidden" aria-controls="mobile-header-menu" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}>
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
+      <AnimatePresence initial={false}>
       {mobileMenuOpen && (
-        <div className="border-t border-white/10 bg-[#17120F] px-4 pb-5 pt-3 lg:hidden">
+        <motion.div id="mobile-header-menu" className="overflow-hidden lg:hidden"
+          initial={reduced ? false : {height:0, opacity:0}} animate={{height:'auto', opacity:1}} exit={{height:0, opacity:0}} transition={{duration:reduced?0:.25}}>
+        <div className="border-t border-white/10 bg-[#17120F] px-4 pb-5 pt-3">
           <nav className="space-y-1" aria-label="التنقل المحمول">
             {navLinks.map((link) => (
               <button key={link.id} type="button" onClick={() => navigate(link.id)} className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-right text-sm font-bold ${isActive(link.id) ? 'bg-[#DAB775]/15 text-[#DAB775]' : 'text-[#D5C7B9] hover:bg-white/5'}`}>
@@ -115,7 +120,9 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
             <Phone className="h-4 w-4" /> مراسلة واتساب
           </a>
         </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </header>
   );
 };
