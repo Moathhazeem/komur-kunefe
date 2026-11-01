@@ -229,7 +229,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   }
 
   return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
+      <div className="checkout-editorial max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
 
       {error && <div className="status-notice"><p role="alert">{error}</p><button type="button" className="signature-button secondary mt-3" onClick={async()=>{try{await onRefreshCart();setError('تم تحديث الأسعار والكميات وإزالة غير المتوفر. راجع السلة ثم أكد الطلب.');}catch{setError('تعذر تحديث السلة');}}}>تحديث السلة من المنيو</button></div>}
       {/* Page Title */}

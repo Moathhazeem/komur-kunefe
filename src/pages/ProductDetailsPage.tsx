@@ -51,7 +51,7 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ productI
   const share = () => navigator.clipboard?.writeText(`${window.location.origin}/product/${product.id}`);
 
   return (
-    <div className="min-h-screen bg-[#FBF8F2] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+    <div className="product-detail-page min-h-screen bg-[#FBF8F2] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-center justify-between gap-3"><button type="button" onClick={() => onNavigate('menu')} className="inline-flex items-center gap-2 text-sm font-black text-[#75675C] hover:text-[#C7652D]"><ArrowRight className="h-4 w-4" /> العودة للمنيو</button><button type="button" onClick={share} className="inline-flex items-center gap-2 rounded-full border border-[#35241A]/10 bg-white px-4 py-2.5 text-xs font-bold text-[#75675C] hover:border-[#C7652D]/40 hover:text-[#C7652D]"><Share2 className="h-3.5 w-3.5" /> مشاركة</button></div>
         <div className="grid items-start gap-10 lg:grid-cols-[.92fr_1.08fr] lg:gap-16">

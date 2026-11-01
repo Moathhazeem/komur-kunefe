@@ -9,7 +9,7 @@ export const MAIN_MENU_IMAGES = {
   sprite: 'https://images.unsplash.com/photo-1696706980174-79c1c11aa683?auto=format&fit=crop&w=1200&q=85',
 };
 export const KNAFEH_CREDIT_URL = 'https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg';
-const legacyPhotos = ['1579954115545', '1587314168485', '1541781774459', '1509440159596'];
+const legacyPhotos = ['1579954115545', '1587314168485', '1541781774459', '1509440159596', '1563729784474', '1606313564200'];
 export function menuImage(src: string | undefined, name: string) {
   // Preserve restaurant-uploaded media and all image URLs already present on main.
   if (src && (!src.includes('unsplash.com') || Object.values(MAIN_MENU_IMAGES).includes(src) || !legacyPhotos.some(id=>src.includes(id)))) return src;
