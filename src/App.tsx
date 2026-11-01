@@ -200,7 +200,8 @@ export default function App() {
       />
 
       {/* Main Content Pages with smooth fade & slide-up */}
-      <main key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
+      <a href="#content" className="skip-link">انتقل إلى المحتوى</a>
+      <main id="content" key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1 animate-soft-slide-up">
         {currentTab === 'home' && (
           <HomePage
             products={products}

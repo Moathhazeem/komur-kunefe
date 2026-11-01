@@ -9,7 +9,7 @@ interface OrderTrackingPageProps {
 }
 
 export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }) => {
-  const [orderQuery, setOrderQuery] = useState('');
+  const [orderQuery, setOrderQuery] = useState(() => new URLSearchParams(window.location.search).get('order') || '');
   const [order, setOrder] = useState<Order | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -55,19 +55,19 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
       
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-200 text-orange-600 mx-auto flex items-center justify-center">
+        <div className="w-14 h-14 rounded-2xl bg-[#F0E8DC] border border-[#DAB775]/40 text-[#C7652D] mx-auto flex items-center justify-center">
           <Clock className="w-7 h-7" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 font-heading">
+        <h1 className="text-3xl sm:text-4xl font-black text-[#211814] font-heading">
           تتبع حالة طلبك
         </h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-[#75675C]">
           أدخل رقم الطلب (مثال: KM-8042) لمعرفة مرحلة تحضير الكنافة على الفحم
         </p>
       </div>
 
       {/* Search Input Box */}
-      <form onSubmit={handleSearch} className="bg-white border border-orange-100 rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center gap-3">
+      <form onSubmit={handleSearch} className="bg-white border border-[#35241A]/10 rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center gap-3">
         <div className="relative flex-1 w-full">
           <Search className="w-5 h-5 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -82,7 +82,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
         <button
           type="submit"
           disabled={loading}
-          className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
+          className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#C7652D] to-[#A94E20] hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
         >
           {loading ? 'جارٍ البحث...' : 'تتبع الطلب'}
         </button>
@@ -90,12 +90,12 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
 
       {/* Result View */}
       {hasSearched && !order && !loading && (
-        <div className="bg-white border border-orange-100 rounded-2xl p-8 text-center space-y-3 shadow-xs">
+        <div className="bg-white border border-[#35241A]/10 rounded-2xl p-8 text-center space-y-3 shadow-xs">
           <Flame className="w-10 h-10 text-orange-300 mx-auto" />
-          <h3 className="text-lg font-bold text-slate-900 font-heading">
+          <h3 className="text-lg font-bold text-[#211814] font-heading">
             لم نتمكن من العثور على هذا الطلب
           </h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-[#75675C]">
             تأكد من كتابة رقم الطلب كما ظهر لك عند إتمام العملية (مثل KM-xxxx). أو تواصل معنا مباشرة عبر واتساب.
           </p>
           <a
@@ -111,26 +111,26 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
       )}
 
       {order && (
-        <div className="bg-white border-2 border-orange-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-white border-2 border-[#DAB775]/40 rounded-[24px] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
               <span className="text-xs text-slate-400 block">رقم الطلب</span>
-              <span className="text-2xl font-black text-orange-600 font-heading">{order.orderNumber}</span>
+              <span className="text-2xl font-black text-[#C7652D] font-heading">{order.orderNumber}</span>
             </div>
             <div className="text-left">
               <span className="text-xs text-slate-400 block">تاريخ الطلب</span>
-              <span className="text-xs text-slate-600 font-mono">
+              <span className="text-xs text-[#75675C] font-mono">
                 {new Date(order.createdAt).toLocaleDateString('ar-EG')} - {new Date(order.createdAt).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
           </div>
 
           {/* Status Tracker */}
-          <div className="bg-orange-50/50 p-5 rounded-2xl border border-orange-100 space-y-3">
+          <div className="bg-[#F0E8DC]/50 p-5 rounded-2xl border border-[#35241A]/10 space-y-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-900">الحالة الحالية:</span>
-              <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full border border-orange-200 font-bold">
+              <span className="font-bold text-[#211814]">الحالة الحالية:</span>
+              <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full border border-[#DAB775]/40 font-bold">
                 {getStatusLabel(order.status)}
               </span>
             </div>
@@ -151,7 +151,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
                     <div
                       className={`w-7 h-7 rounded-full text-xs font-black mx-auto flex items-center justify-center transition-all ${
                         isCurrent
-                          ? 'bg-orange-500 text-white ring-4 ring-orange-100 scale-110 shadow-xs'
+                          ? 'bg-[#F0E8DC]0 text-white ring-4 ring-orange-100 scale-110 shadow-xs'
                           : isPassed
                           ? 'bg-emerald-600 text-white'
                           : 'bg-slate-100 text-slate-400'
@@ -159,7 +159,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
                     >
                       {isPassed ? '✓' : s.step}
                     </div>
-                    <span className={`text-[11px] block font-bold ${isCurrent ? 'text-orange-600' : 'text-slate-500'}`}>
+                    <span className={`text-[11px] block font-bold ${isCurrent ? 'text-[#C7652D]' : 'text-[#75675C]'}`}>
                       {s.label}
                     </span>
                   </div>
@@ -172,9 +172,9 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
               <span className="text-slate-400 block">مكان الاستلام:</span>
-              <span className="font-bold text-slate-900 block">محل كُومُر كُونافيه</span>
-              <span className="text-slate-600 block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>
-              <span className="text-orange-600 font-bold block pt-1">موعد الاستلام المطلوب: {order.pickupTime}</span>
+              <span className="font-bold text-[#211814] block">محل كُومُر كُونافيه</span>
+              <span className="text-[#75675C] block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>
+              <span className="text-[#C7652D] font-bold block pt-1">موعد الاستلام المطلوب: {order.pickupTime}</span>
             </div>
 
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
@@ -183,13 +183,13 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
                 {order.items.map((it, idx) => (
                   <div key={idx} className="flex justify-between text-slate-800">
                     <span>{it.name} ({it.variantName}) × {it.quantity}</span>
-                    <span className="font-bold text-orange-600">{it.price * it.quantity} ₪</span>
+                    <span className="font-bold text-[#C7652D]">{it.price * it.quantity} ₪</span>
                   </div>
                 ))}
               </div>
-              <div className="pt-2 border-t border-slate-200 flex justify-between font-bold text-sm text-slate-900">
+              <div className="pt-2 border-t border-slate-200 flex justify-between font-bold text-sm text-[#211814]">
                 <span>المجموع:</span>
-                <span className="text-orange-600">{order.total} شيكل</span>
+                <span className="text-[#C7652D]">{order.total} شيكل</span>
               </div>
             </div>
           </div>

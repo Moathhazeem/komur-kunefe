@@ -30,6 +30,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   
   // State
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [placedOrder, setPlacedOrder] = useState<Order | null>(null);
   const [showPrintModal, setShowPrintModal] = useState(false);
@@ -50,9 +51,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   const handleOpenPayment = (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerName.trim() || !customerPhone.trim()) {
-      alert('يرجى كتابة الاسم ورقم الهاتف للمتابعة');
+      setError('يرجى كتابة الاسم ورقم الهاتف للمتابعة');
       return;
     }
+    setError('');
     setShowPaymentModal(true);
   };
 
@@ -84,7 +86,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       setPlacedOrder(newOrder);
       onClearCart();
     } catch (err: any) {
-      alert(err.message || 'حدث خطأ أثناء حفظ الطلب. يرجى المحاولة مرة أخرى.');
+      setError(err.message || 'تعذر حفظ الطلب. حاول مجدداً.');
     } finally {
       setIsSubmitting(false);
     }
@@ -119,12 +121,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         <div className="bg-[#F7F0E5] border-2 border-[#DAB775]/50 rounded-[30px] p-6 sm:p-10 shadow-[0_20px_60px_rgba(53,36,26,.1)] space-y-6">
           <div className="text-center space-y-3">
             <div className="w-18 h-18 rounded-full bg-emerald-50 border-2 border-emerald-500 text-emerald-600 mx-auto flex items-center justify-center shadow-xs">
-              <CheckCircle2 className="w-10 h-10" />
+              <CheckCircle2 className="w-10 h-10" /></label>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 font-heading">
+            <h1 className="text-2xl sm:text-4xl font-black text-[#211814] font-heading">
               تم استلام طلبك بنجاح!
             </h1>
-            <p className="text-sm sm:text-base text-slate-600">
+            <p className="text-sm sm:text-base text-[#75675C]">
               شكراً لاختيارك <span className="text-[#C7652D] font-bold">Kömür Künefe — كنافة ع الفحم</span>.
             </p>
             <div className="pt-2">
@@ -134,62 +136,22 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             </div>
           </div>
 
-          {/* Live Order Tracker */}
-          <div className="bg-orange-50/50 p-5 sm:p-6 rounded-2xl border border-orange-100 space-y-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              متابعة حالة الطلب المباشرة
-            </h3>
-            
-            {/* Steps visual */}
-            <div className="grid grid-cols-4 gap-2 text-center text-xs">
-              <div className="space-y-1.5">
-                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white font-black mx-auto flex items-center justify-center">
-                  ✓
-                </div>
-                <span className="font-bold text-slate-800 block">جديد</span>
-                <span className="text-[10px] text-slate-500">تم التأكيد</span>
-              </div>
-
-              <div className="space-y-1.5">
-                <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-black mx-auto flex items-center justify-center animate-pulse shadow-xs">
-                  2
-                </div>
-                <span className="font-bold text-orange-600 block">قيد التحضير</span>
-                <span className="text-[10px] text-slate-500">على جمر الفحم</span>
-              </div>
-
-              <div className="space-y-1.5 opacity-60">
-                <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-black mx-auto flex items-center justify-center">
-                  3
-                </div>
-                <span className="font-bold text-slate-500 block">جاهز للاستلام</span>
-                <span className="text-[10px] text-slate-400">في المحل</span>
-              </div>
-
-              <div className="space-y-1.5 opacity-60">
-                <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-black mx-auto flex items-center justify-center">
-                  4
-                </div>
-                <span className="font-bold text-slate-500 block">تم التسليم</span>
-                <span className="text-[10px] text-slate-400">صحتين وهنا</span>
-              </div>
-            </div>
-          </div>
-
+          <div className="status-notice"><p>حالة الطلب: {placedOrder.status === 'new' ? 'تم تسجيل الطلب — بانتظار بدء التحضير' : placedOrder.status}</p><button className="signature-button secondary mt-4" onClick={() => { window.history.replaceState(null, '', '/track?order=' + encodeURIComponent(placedOrder.orderNumber)); onNavigate('track'); }}>متابعة الطلب</button></div>
+          <ul className="divide-y divide-stone-200">{placedOrder.items.map(item => <li key={item.productId + item.variantId} className="py-3">{item.name} · {item.variantName} × {item.quantity} <strong>{item.price * item.quantity} ₪</strong></li>)}</ul>
           {/* Pickup Details & Summary */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
               <span className="text-slate-400 block">طريقة ومكان الاستلام:</span>
-              <span className="font-bold text-slate-900 text-sm block">استلام من المحل (فرع رافدية)</span>
-              <span className="text-slate-600 block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>
-              <span className="text-orange-600 font-bold block pt-1">موعد الاستلام المطلوب: {placedOrder.pickupTime}</span>
+              <span className="font-bold text-[#211814] text-sm block">استلام من المحل (فرع رافدية)</span>
+              <span className="text-[#75675C] block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>
+              <span className="text-[#C7652D] font-bold block pt-1">موعد الاستلام المطلوب: {placedOrder.pickupTime}</span>
             </div>
 
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
               <span className="text-slate-400 block">بيانات الدفع والطلب:</span>
-              <span className="font-bold text-slate-900 text-sm block">المجموع: {placedOrder.total} شيكل</span>
-              <span className="text-slate-600 block">
-                طريقة الدفع: الدفع عند الاستلام (كاش أو بطاقة بالمحل)
+              <span className="font-bold text-[#211814] text-sm block">المجموع: {placedOrder.total} شيكل</span>
+              <span className="text-[#75675C] block">
+                طريقة الدفع: كاش عند الاستلام
               </span>
               <span className="text-emerald-700 font-bold block pt-1">الاسم: {placedOrder.customerName} ({placedOrder.customerPhone})</span>
             </div>
@@ -210,9 +172,9 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowPrintModal(true)}
-                className="flex-1 py-3 px-4 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-800 border border-orange-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#F0E8DC] hover:bg-orange-100 text-orange-800 border border-[#DAB775]/40 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
               >
-                <Printer className="w-4 h-4 text-orange-600" />
+                <Printer className="w-4 h-4 text-[#C7652D]" />
                 <span>عرض وطباعة إيصال الطلب</span>
               </button>
 
@@ -221,7 +183,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   setPlacedOrder(null);
                   onNavigate('menu');
                 }}
-                className="py-3 px-6 rounded-xl bg-slate-100 text-slate-600 hover:text-slate-900 text-xs font-bold transition-colors"
+                className="py-3 px-6 rounded-xl bg-slate-100 text-[#75675C] hover:text-[#211814] text-xs font-bold transition-colors"
               >
                 طلب صنف آخر
               </button>
@@ -236,7 +198,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           onClose={() => setShowPrintModal(false)}
           order={placedOrder}
           settings={settings}
-        />
+        /></label>
       </div>
     );
   }
@@ -245,18 +207,18 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   if (cart.length === 0) {
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
-        <div className="w-20 h-20 rounded-full bg-orange-50 border border-orange-200 text-orange-500 mx-auto flex items-center justify-center">
-          <ShoppingBag className="w-10 h-10" />
+        <div className="w-20 h-20 rounded-full bg-[#F0E8DC] border border-[#DAB775]/40 text-[#C7652D] mx-auto flex items-center justify-center">
+          <ShoppingBag className="w-10 h-10" /></label>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 font-heading">
+        <h2 className="text-2xl font-bold text-[#211814] font-heading">
           سلة الطلبات فارغة حالياً
         </h2>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-[#75675C]">
           تصفح المنيو واختر ما تشتهيه من أصناف الكنافة النابلسية المخبوزة على الفحم.
         </p>
         <button
           onClick={() => onNavigate('menu')}
-          className="mt-4 px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm shadow-md hover:scale-105 transition-all"
+          className="mt-4 px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#C7652D] to-[#A94E20] text-white font-bold text-sm shadow-md hover:scale-105 transition-all"
         >
           تصفح المنيو الآن
         </button>
@@ -267,19 +229,20 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-right space-y-8 animate-soft-slide-up">
       
+      {error && <p role="alert" className="status-notice">{error}</p>}
       {/* Page Title */}
-      <div className="border-b border-orange-100 pb-4 flex items-center justify-between">
+      <div className="border-b border-[#35241A]/10 pb-4 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 font-heading">
+          <h1 className="text-2xl sm:text-4xl font-black text-[#211814] font-heading">
             سلة الطلب والدفع
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-[#75675C]">
             طريقة الاستلام: استلام مباشر من المحل (رافدية - الشارع الرئيسي)
           </p>
         </div>
         <button
           onClick={() => onNavigate('menu')}
-          className="text-xs font-bold text-orange-600 hover:underline flex items-center gap-1"
+          className="text-xs font-bold text-[#C7652D] hover:underline flex items-center gap-1"
         >
           <span>إضافة المزيد من الأصناف</span>
           <ArrowLeft className="w-3.5 h-3.5" />
@@ -293,7 +256,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           
           {/* Cart Items List */}
           <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
-            <h3 className="text-base font-bold text-slate-900 font-heading flex items-center justify-between">
+            <h3 className="text-base font-bold text-[#211814] font-heading flex items-center justify-between">
               <span>الأصناف المختارة ({cart.length})</span>
               <button
                 onClick={onClearCart}
@@ -305,12 +268,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
             <div className="divide-y divide-slate-100 space-y-3 pt-1">
               {cart.map((item, idx) => (
-                <div key={idx} className="pt-3 first:pt-0 flex items-center justify-between gap-3">
+                <div key={idx} className="pt-3 first:pt-0 flex flex-wrap items-center justify-between gap-3">
                   <div className="space-y-0.5">
                     <h4 className="text-sm font-bold text-slate-800 font-heading">
                       {item.product.name}
                     </h4>
-                    <span className="text-xs text-orange-600 font-medium block">
+                    <span className="text-xs text-[#C7652D] font-medium block">
                       {item.variant.name} ({item.variant.price} ₪)
                     </span>
                   </div>
@@ -320,7 +283,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                     <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity - 1)}
-                        className="p-1 hover:text-slate-900 text-slate-500"
+                        className="min-h-11 min-w-11 flex items-center justify-center hover:text-[#211814] text-[#75675C]"
                         aria-label="إنقاص"
                       >
                         <Minus className="w-3.5 h-3.5" />
@@ -330,7 +293,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                       </span>
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity + 1)}
-                        className="p-1 hover:text-slate-900 text-slate-500"
+                        className="min-h-11 min-w-11 flex items-center justify-center hover:text-[#211814] text-[#75675C]"
                         aria-label="زيادة"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -338,7 +301,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                     </div>
 
                     <div className="text-left min-w-[60px]">
-                      <span className="text-sm font-bold text-orange-600">
+                      <span className="text-sm font-bold text-[#C7652D]">
                         {item.variant.price * item.quantity} ₪
                       </span>
                     </div>
@@ -358,38 +321,38 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
           {/* Customer Details Form */}
           <form id="checkout-form" onSubmit={handleOpenPayment} className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
-            <h3 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-              <User className="w-4 h-4 text-orange-500" />
+            <h3 className="text-base font-bold text-[#211814] font-heading flex items-center gap-2">
+              <User className="w-4 h-4 text-[#C7652D]" />
               <span>بيانات الاستلام والتواصل</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  الاسم الكريم <span className="text-orange-500">*</span>
-                </label>
-                <input
+                  الاسم الكريم <span className="text-[#C7652D]">*</span>
+                
+              <input
                   type="text"
                   required
                   placeholder="مثال: أحمد كنعان"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
-                />
+                /></label>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  رقم الهاتف أو الواتساب <span className="text-orange-500">*</span>
-                </label>
-                <input
+                  رقم الهاتف أو الواتساب <span className="text-[#C7652D]">*</span>
+                
+              <input
                   type="tel"
                   required
                   placeholder="059xxxxxxx أو 056xxxxxxx"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all dir-ltr text-right"
-                />
+                /></label>
               </div>
             </div>
 
@@ -397,8 +360,8 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   موعد الاستلام المفضل
-                </label>
-                <select
+                
+              <select
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none transition-all"
@@ -407,28 +370,28 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   <option value="خلال 45 دقيقة">خلال 45 دقيقة</option>
                   <option value="خلال ساعة">خلال ساعة</option>
                   <option value="في وقت محدد الليلة (يرجى كتابته بالملاحظات)">في وقت محدد الليلة (اكتبه بالملاحظات)</option>
-                </select>
+                </select></label>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   ملاحظات للتحضير (اختياري)
-                </label>
-                <input
+                
+              <input
                   type="text"
                   placeholder="مثال: قطر خفيف، زيادة فستق، تقطيع مربعات..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
-                />
+                /></label>
               </div>
             </div>
 
             {/* Pickup Policy Notice */}
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-3 flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
-              <MapPin className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
+            <div className="bg-[#F0E8DC] border border-[#DAB775]/40 rounded-xl p-3 flex items-start gap-2.5 text-xs text-[#75675C] leading-relaxed">
+              <MapPin className="w-4 h-4 text-[#C7652D] shrink-0 mt-0.5" />
               <div>
-                <strong className="text-slate-900">طريقة الاستلام: </strong>
+                <strong className="text-[#211814]">طريقة الاستلام: </strong>
                 <span>
                   استلام من المحل فقط (فرع رافدية - الشارع الرئيسي). سيتم تحمير الكنافة على الفحم لتكون في أوج سخونتها وقرمشتها عند وصولك.
                 </span>
@@ -449,7 +412,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             <div className="space-y-2.5 text-sm">
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>مجموع الأصناف ({cart.reduce((s, i) => s + i.quantity, 0)})</span>
-                <span className="font-bold text-slate-900">{subtotal} ₪</span>
+                <span className="font-bold text-[#F7F0E5]">{subtotal} ₪</span>
               </div>
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>رسوم التجهيز والتغليف الفاخر</span>
@@ -457,13 +420,13 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               </div>
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>التوصيل</span>
-                <span className="text-xs text-orange-600 font-bold">استلام من الفرع (0 ₪)</span>
+                <span className="text-xs text-[#C7652D] font-bold">استلام من الفرع (0 ₪)</span>
               </div>
               <div className="pt-3 border-t border-white/10 flex justify-between items-baseline">
                 <span className="text-base font-bold text-[#F7F0E5]">المجموع النهائي:</span>
                 <div className="text-left">
                 <span className="text-2xl font-black text-[#DAB775] font-heading">{subtotal}</span>
-                  <span className="text-xs font-bold text-slate-500 mr-1">شيكل</span>
+                  <span className="text-xs font-bold text-[#75675C] mr-1">شيكل</span>
                 </div>
               </div>
             </div>
@@ -497,7 +460,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         totalAmount={subtotal}
         onClose={() => setShowPaymentModal(false)}
         onPaymentSuccess={handlePaymentConfirmed}
-      />
+      /></label>
 
     </div>
   );

@@ -1,3 +1,4 @@
+import { isActiveOffer } from '../utils/offers';
 import React from 'react';
 import { Sparkles, Calendar, Tag, ArrowLeft, Flame } from 'lucide-react';
 import { Offer } from '../types';
@@ -8,38 +9,38 @@ interface OffersPageProps {
 }
 
 export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) => {
-  const activeOffers = offers.filter((o) => o.isActive);
+  const activeOffers = offers.filter(isActiveOffer);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 text-right space-y-10">
       
       {/* Title */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-orange-200 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
-          <Sparkles className="w-4 h-4 text-orange-500" />
+        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-[#DAB775]/40 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
+          <Sparkles className="w-4 h-4 text-[#C7652D]" />
           <span>عروض العيد، رمضان، ونهاية الأسبوع</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 font-heading">
+        <h1 className="text-3xl sm:text-5xl font-black text-[#211814] font-heading">
           العروض والمناسبات الخاصة
         </h1>
-        <p className="text-sm sm:text-base text-slate-500">
+        <p className="text-sm sm:text-base text-[#75675C]">
           استمتع بأشهى باقات وسدور الكنافة على الفحم ونواشف العيد بخصومات وباقات عائلية مميزة.
         </p>
       </div>
 
       {/* Offers Grid */}
       {activeOffers.length === 0 ? (
-        <div className="bg-white border border-orange-100 rounded-3xl p-12 text-center space-y-3 max-w-lg mx-auto shadow-xs">
+        <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-12 text-center space-y-3 max-w-lg mx-auto shadow-xs">
           <Tag className="w-10 h-10 text-orange-400 mx-auto" />
-          <h3 className="text-lg font-bold text-slate-900 font-heading">
+          <h3 className="text-lg font-bold text-[#211814] font-heading">
             لا توجد عروض موسمية نشطة حالياً
           </h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-[#75675C]">
             تابعونا باستمرار أو تفقدوا حسابنا على الإنستغرام لإعلانات عروض الأعياد والمناسبات القادمة.
           </p>
           <button
             onClick={() => onNavigate('menu')}
-            className="mt-2 px-6 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs transition-colors"
+            className="mt-2 px-6 py-2.5 rounded-xl bg-[#F0E8DC]0 hover:bg-orange-600 text-white font-bold text-xs transition-colors"
           >
             تصفح المنيو الأساسي
           </button>
@@ -49,34 +50,34 @@ export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) =>
           {activeOffers.map((offer) => (
             <div
               key={offer.id}
-              className="bg-white border-2 border-orange-200 hover:border-orange-400 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md relative overflow-hidden flex flex-col justify-between group transition-all hover:-translate-y-1"
+              className="bg-white border-2 border-[#DAB775]/40 hover:border-orange-400 rounded-[24px] p-6 sm:p-8 shadow-sm hover:shadow-md relative overflow-hidden flex flex-col justify-between group transition-all hover:-translate-y-1"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-xs px-3 py-1 rounded-full shadow-xs">
+                  <span className="bg-gradient-to-r from-[#C7652D] to-[#A94E20] text-white font-black text-xs px-3 py-1 rounded-full shadow-xs">
                     {offer.badge}
                   </span>
                   {offer.discountPercent > 0 && (
-                    <span className="text-xl sm:text-2xl font-black text-orange-600 font-heading">
+                    <span className="text-xl sm:text-2xl font-black text-[#C7652D] font-heading">
                       خصم {offer.discountPercent}%
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-2xl font-black text-slate-900 font-heading leading-tight group-hover:text-orange-600 transition-colors">
+                <h3 className="text-2xl font-black text-[#211814] font-heading leading-tight group-hover:text-[#C7652D] transition-colors">
                   {offer.title}
                 </h3>
 
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-[#75675C] leading-relaxed">
                   {offer.description}
                 </p>
 
                 {offer.includedProductNames && offer.includedProductNames.length > 0 && (
                   <div className="pt-2 space-y-1.5 border-t border-slate-100">
-                    <span className="text-xs text-slate-500 block font-semibold">الأصناف المشمولة في العرض:</span>
+                    <span className="text-xs text-[#75675C] block font-semibold">الأصناف المشمولة في العرض:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {offer.includedProductNames.map((name, i) => (
-                        <span key={i} className="text-xs bg-orange-50 text-orange-700 px-2.5 py-1 rounded-lg border border-orange-200 font-medium">
+                        <span key={i} className="text-xs bg-[#F0E8DC] text-orange-700 px-2.5 py-1 rounded-lg border border-[#DAB775]/40 font-medium">
                           {name}
                         </span>
                       ))}
@@ -87,13 +88,13 @@ export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) =>
 
               <div className="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                  <Calendar className="w-3.5 h-3.5 text-orange-500" />
-                  <span>ساري حتى نهاية الموسم</span>
+                  <Calendar className="w-3.5 h-3.5 text-[#C7652D]" />
+                  <span>{offer.endDate ? `حتى ${offer.endDate}` : 'عرض نشط من الفرع'}</span>
                 </div>
 
                 <button
                   onClick={() => onNavigate('menu')}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-transform hover:scale-105"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#C7652D] to-[#A94E20] hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-transform hover:scale-105"
                 >
                   <span>اطلب العرض الآن</span>
                   <ArrowLeft className="w-3.5 h-3.5" />
@@ -105,16 +106,16 @@ export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) =>
       )}
 
       {/* Custom Event Orders Callout */}
-      <div className="bg-white border border-orange-200 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+      <div className="bg-white border border-[#DAB775]/40 rounded-[24px] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
         <div className="space-y-2 text-right">
-          <div className="flex items-center gap-2 text-xs font-bold text-orange-600">
-            <Flame className="w-4 h-4 text-orange-500" />
+          <div className="flex items-center gap-2 text-xs font-bold text-[#C7652D]">
+            <Flame className="w-4 h-4 text-[#C7652D]" />
             <span>سدور الأفراح والمناسبات الخاصة في نابلس</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-heading">
+          <h3 className="text-xl sm:text-2xl font-bold text-[#211814] font-heading">
             عندك مناسبة أو عزومة عائلية؟
           </h3>
-          <p className="text-xs sm:text-sm text-slate-500 max-w-xl">
+          <p className="text-xs sm:text-sm text-[#75675C] max-w-xl">
             نوفر سدور كنافة ع الفحم بأحجام كبيرة للأفراح، التخرج، والعزائم مع سخانات خاصة للمحافظة على حرارة الكنافة ومطة الجبنة.
           </p>
         </div>

@@ -13,14 +13,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
       
       {/* Title */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-orange-200 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
-          <MapPin className="w-4 h-4 text-orange-500" />
+        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-[#DAB775]/40 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
+          <MapPin className="w-4 h-4 text-[#C7652D]" />
           <span>فرع واحد رئيسي في نابلس</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 font-heading">
+        <h1 className="text-3xl sm:text-5xl font-black text-[#211814] font-heading">
           تواصل معنا وزُرنا في رافدية
         </h1>
-        <p className="text-sm sm:text-base text-slate-500">
+        <p className="text-sm sm:text-base text-[#75675C]">
           يسعدنا استقبالكم في محلنا لتناول الكنافة مباشرة من فوق جمر الفحم، أو استلام طلباتكم أونلاين.
         </p>
       </div>
@@ -31,12 +31,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
         <div className="lg:col-span-5 space-y-4">
           
           {/* Location */}
-          <div className="bg-white border border-orange-100 rounded-2xl p-5 space-y-2 shadow-xs">
-            <div className="flex items-center gap-2.5 text-orange-600">
-              <MapPin className="w-5 h-5 text-orange-500" />
-              <h3 className="text-base font-bold text-slate-900 font-heading">عنوان المحل</h3>
+          <div className="bg-white border border-[#35241A]/10 rounded-2xl p-5 space-y-2 shadow-xs">
+            <div className="flex items-center gap-2.5 text-[#C7652D]">
+              <MapPin className="w-5 h-5 text-[#C7652D]" />
+              <h3 className="text-base font-bold text-[#211814] font-heading">عنوان المحل</h3>
             </div>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-[#75675C] leading-relaxed">
               {settings?.branch || 'رافِدية - الشارع الرئيسي (نابلس، فلسطين)'}
             </p>
             <span className="text-xs text-slate-400 block">
@@ -45,13 +45,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
           </div>
 
           {/* Phone & WhatsApp */}
-          <div className="bg-white border border-orange-100 rounded-2xl p-5 space-y-3 shadow-xs">
+          <div className="bg-white border border-[#35241A]/10 rounded-2xl p-5 space-y-3 shadow-xs">
             <div className="flex items-center gap-2.5 text-emerald-600">
               <Phone className="w-5 h-5" />
-              <h3 className="text-base font-bold text-slate-900 font-heading">الهاتف والواتساب</h3>
+              <h3 className="text-base font-bold text-[#211814] font-heading">الهاتف والواتساب</h3>
             </div>
             <div className="space-y-1">
-              <span className="text-xl font-black text-slate-900 dir-ltr block text-right font-mono">
+              <span className="text-xl font-black text-[#211814] dir-ltr block text-right font-mono">
                 {settings?.phone || '+970 562 606 061'}
               </span>
               <p className="text-xs text-slate-400">
@@ -72,12 +72,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
           </div>
 
           {/* Hours */}
-          <div className="bg-white border border-orange-100 rounded-2xl p-5 space-y-2 shadow-xs">
-            <div className="flex items-center gap-2.5 text-orange-600">
-              <Clock className="w-5 h-5 text-orange-500" />
-              <h3 className="text-base font-bold text-slate-900 font-heading">ساعات العمل والدوام</h3>
+          <div className="bg-white border border-[#35241A]/10 rounded-2xl p-5 space-y-2 shadow-xs">
+            <div className="flex items-center gap-2.5 text-[#C7652D]">
+              <Clock className="w-5 h-5 text-[#C7652D]" />
+              <h3 className="text-base font-bold text-[#211814] font-heading">ساعات العمل والدوام</h3>
             </div>
-            <p className="text-sm text-slate-600 leading-relaxed">
+            <p className="text-sm text-[#75675C] leading-relaxed">
               {settings?.hours || 'يوميًا: 11:00 صباحًا – 12:00 منتصف الليل'}
             </p>
             <span className="text-xs text-slate-400 block">
@@ -86,8 +86,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
           </div>
 
           {/* Social Links */}
-          <div className="bg-white border border-orange-100 rounded-2xl p-5 space-y-3 shadow-xs">
-            <h3 className="text-base font-bold text-slate-900 font-heading">حسابات السوشال ميديا الرسمية</h3>
+          <div className="bg-white border border-[#35241A]/10 rounded-2xl p-5 space-y-3 shadow-xs">
+            <h3 className="text-base font-bold text-[#211814] font-heading">حسابات السوشال ميديا الرسمية</h3>
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={settings?.instagramUrl || 'https://www.instagram.com/komurkunefe'}
@@ -114,11 +114,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
         </div>
 
         {/* Embedded Interactive Map & Directions (7 Cols) */}
-        <div className="lg:col-span-7 bg-white border border-orange-100 rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm">
+        <div className="lg:col-span-7 bg-white border border-[#35241A]/10 rounded-[24px] p-6 sm:p-8 space-y-5 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Flame className="w-5 h-5 text-orange-500" />
-              <h3 className="text-lg font-bold text-slate-900 font-heading">
+              <Flame className="w-5 h-5 text-[#C7652D]" />
+              <h3 className="text-lg font-bold text-[#211814] font-heading">
                 خريطة الموقع في رافدية - نابلس
               </h3>
             </div>
@@ -126,7 +126,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
               href="https://maps.google.com/?q=Rafidia+Nablus+Palestine"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-orange-600 flex items-center gap-1 hover:underline font-bold"
+              className="text-xs text-[#C7652D] flex items-center gap-1 hover:underline font-bold"
             >
               <span>فتح في خرائط Google</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -146,14 +146,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ settings, onNavigate }
             />
           </div>
 
-          <div className="bg-orange-50 border border-orange-200 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="space-y-0.5 text-xs text-slate-600">
-              <strong className="text-slate-900 block font-bold">طلبك جاهز قبل وصولك!</strong>
+          <div className="bg-[#F0E8DC] border border-[#DAB775]/40 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-0.5 text-xs text-[#75675C]">
+              <strong className="text-[#211814] block font-bold">طلبك جاهز قبل وصولك!</strong>
               <span>يمكنك الطلب أونلاين عبر الموقع وتحديد موعد وصولك لنجهز سدر الكنافة ساخناً من على الفحم مباشرة.</span>
             </div>
             <button
               onClick={() => onNavigate('menu')}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shrink-0 shadow-md hover:scale-105 transition-transform"
+              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#C7652D] to-[#A94E20] text-white font-bold text-xs shrink-0 shadow-md hover:scale-105 transition-transform"
             >
               اطلب أونلاين الآن
             </button>

@@ -43,29 +43,29 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
       
       {/* Title */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-orange-200 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
+        <div className="inline-flex items-center gap-2 bg-white text-orange-700 border border-[#DAB775]/40 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
           <Heart className="w-4 h-4 text-rose-500" />
           <span>تجارب حقيقية لزبائننا في نابلس</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 font-heading">
+        <h1 className="text-3xl sm:text-5xl font-black text-[#211814] font-heading">
           آراء زوار كُومُر كُونافيه
         </h1>
-        <p className="text-sm sm:text-base text-slate-500">
+        <p className="text-sm sm:text-base text-[#75675C]">
           كل تقييم يمر على مراجعة الإدارة لضمان المصداقية وتوثيق تجربة حقيقية خالية من التقييمات المزيفة.
         </p>
       </div>
 
       {/* Submit Review Card */}
-      <div className="bg-white border-2 border-orange-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+      <div className="bg-white border-2 border-[#DAB775]/40 rounded-[24px] p-6 sm:p-8 shadow-sm space-y-5">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-[#F0E8DC] border border-[#DAB775]/40 flex items-center justify-center text-[#C7652D] shrink-0">
             <MessageSquarePlus className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-900 font-heading">
+            <h3 className="text-lg font-bold text-[#211814] font-heading">
               شاركنا تجربتك ورأيك
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#75675C]">
               جربت الكنافة ع الفحم في رافدية؟ اكتب رأيك وشارك محبي الكنافة انطباعك
             </p>
           </div>
@@ -99,7 +99,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
                     />
                   </button>
                 ))}
-                <span className="text-xs font-bold text-orange-600 mr-2">
+                <span className="text-xs font-bold text-[#C7652D] mr-2">
                   ({rating} من 5 نجوم)
                 </span>
               </div>
@@ -108,7 +108,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  اسمك الكريم <span className="text-orange-500">*</span>
+                  اسمك الكريم <span className="text-[#C7652D]">*</span>
                 </label>
                 <input
                   type="text"
@@ -122,7 +122,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
 
               <div className="sm:col-span-2">
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  رأيك وانطباعك عن الطعم والخدمة <span className="text-orange-500">*</span>
+                  رأيك وانطباعك عن الطعم والخدمة <span className="text-[#C7652D]">*</span>
                 </label>
                 <textarea
                   required
@@ -137,14 +137,14 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
               <span className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-orange-500" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#C7652D]" />
                 <span>سيتم مراجعة التقييم واعتماده من قبل الإدارة قبل ظهوره علناً بالموقع.</span>
               </span>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
+                className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#C7652D] to-[#A94E20] hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
               >
                 {isSubmitting ? 'جارٍ الإرسال...' : 'إرسال التقييم'}
               </button>
@@ -155,29 +155,29 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
 
       {/* Reviews List */}
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-slate-900 font-heading">
+        <h3 className="text-xl font-bold text-[#211814] font-heading">
           التقييمات المعتمدة ({reviews.length})
         </h3>
 
         {reviews.length === 0 ? (
-          <div className="bg-white border border-orange-100 rounded-3xl p-12 text-center space-y-3 shadow-xs">
+          <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-12 text-center space-y-3 shadow-xs">
             <Star className="w-12 h-12 text-orange-300 mx-auto opacity-50" />
-            <h4 className="text-lg font-bold text-slate-900 font-heading">
+            <h4 className="text-lg font-bold text-[#211814] font-heading">
               كن أول من يشاركنا رأيه
             </h4>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#75675C]">
               لا توجد تقييمات منشورة حالياً بعد مراجعة الإدارة. شاركنا رأيك أعلاه ليظهر هنا!
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {reviews.map((rev) => (
+            {reviews.filter((review) => review.isApproved && !review.isDemo).map((rev) => (
               <div
                 key={rev.id}
-                className="bg-white border border-orange-100 rounded-2xl p-6 space-y-3 shadow-xs relative flex flex-col justify-between"
+                className="bg-white border border-[#35241A]/10 rounded-2xl p-6 space-y-3 shadow-xs relative flex flex-col justify-between"
               >
                 {rev.isDemo && (
-                  <span className="absolute top-3 left-3 text-[9px] bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded font-medium">
+                  <span className="absolute top-3 left-3 text-[9px] bg-[#F0E8DC] text-orange-700 border border-[#DAB775]/40 px-2 py-0.5 rounded font-medium">
                     تجريبي للمعاينة
                   </span>
                 )}
