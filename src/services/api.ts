@@ -6,6 +6,7 @@ export const api = {
     const url = category && category !== 'all' ? `/api/products?category=${category}` : '/api/products';
     const res = await fetch(url);
     const data = await res.json();
+    if(!res.ok || !data.success) throw new Error(data.error || 'تعذر تحميل المنيو');
     return data.products || [];
   },
 

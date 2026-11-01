@@ -308,7 +308,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
                     <button
                       onClick={() => onRemoveItem(idx)}
-                      className="text-slate-300 hover:text-red-500 p-1 transition-colors"
+                      aria-label="حذف الصنف من السلة" className="text-slate-400 hover:text-red-500 min-h-11 min-w-11 flex items-center justify-center transition-colors"
                       title="حذف"
                     >
                       <Trash2 className="w-4 h-4" />

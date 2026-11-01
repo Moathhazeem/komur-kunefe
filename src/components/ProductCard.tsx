@@ -1,8 +1,7 @@
 import { ProductImage } from './ProductImage';
-import React, { useEffect, useState } from 'react';
-import { Flame, Share2, ShoppingBag, Sparkles, Star, Tag } from 'lucide-react';
+import React, { useState } from 'react';
+import { Share2, ShoppingBag, Sparkles, Tag } from 'lucide-react';
 import { Product } from '../types';
-import { calculateProductRating, getReviewsByProductId } from '../utils/reviewsStorage';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface ProductCardProps {
@@ -12,13 +11,10 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails, revealDelay = 0 }) => {
-  const [imageError, setImageError] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [rating, setRating] = useState({ averageRating: 5, totalReviews: 0 });
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ delay: revealDelay });
   const minPrice = product.variants.length ? Math.min(...product.variants.map((variant) => variant.price)) : product.basePrice;
 
-  useEffect(() => setRating(calculateProductRating(getReviewsByProductId(product.id))), [product.id]);
 
   const share = (platform: 'whatsapp' | 'copy') => {
     const url = `${window.location.origin}/product/${product.id}`;
@@ -31,7 +27,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
   return (
     <article ref={ref} className={`reveal-card ${isVisible ? 'is-visible' : ''} group overflow-hidden rounded-[26px] border border-[#35241A]/10 bg-white shadow-[0_12px_35px_rgba(53,36,26,.06)] transition-all duration-500 hover:-translate-y-1 hover:border-[#C7652D]/40 hover:shadow-[0_22px_48px_rgba(53,36,26,.12)]`}>
       <div className="relative aspect-[1.08] overflow-hidden bg-[#F0E8DC]">
-        {true ? <ProductImage src={product.image} name={product.name} /> : null}
+        <ProductImage src={product.image} name={product.name} />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
           <button type="button" onClick={() => setShareOpen((open) => !open)} aria-label="مشاركة الصنف" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#17120F]/70 text-white backdrop-blur-sm hover:bg-[#C7652D]"><Share2 className="h-4 w-4" /></button>
           <div className="flex flex-col items-end gap-1.5">
@@ -49,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
             <h3 className="text-lg font-black leading-tight text-[#211814]">{product.name}</h3>
             <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#75675C]">{product.description}</p>
           </div>
-          
+
         </div>
         <div className="flex items-end justify-between gap-3 border-t border-[#35241A]/10 pt-4">
           <div><span className="block text-[10px] font-medium text-[#75675C]">يبدأ من</span><span className="text-2xl font-black text-[#C7652D]">{minPrice}<small className="mr-1 text-xs text-[#75675C]">₪</small></span></div>

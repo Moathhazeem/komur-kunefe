@@ -144,7 +144,7 @@ export default function App() {
       for(const item of selection) {
         const product=products.find(p=>p.id===item.product.id && p.isAvailable);
         const variant=product?.variants.find(v=>v.id===item.variant.id);
-        if(!product || !variant || !Number.isInteger(item.quantity) || item.quantity<1) return previous;
+        if(!product || !variant || !Number.isInteger(item.quantity) || item.quantity<1) throw new Error('تغير توفر الصنف أو تجاوزت حد الكمية في السلة');
         const existing=next.find(i=>i.product.id===product.id && i.variant.id===variant.id);
         const quantity=(existing?.quantity || 0)+item.quantity;
         if(quantity>quantityLimit(variant)) return previous;
@@ -202,7 +202,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FBF8F2] text-[#211814] flex flex-col font-sans selection:bg-[#C7652D] selection:text-white">
-      
+
       {/* Header */}
       <Header
         settings={settings}
