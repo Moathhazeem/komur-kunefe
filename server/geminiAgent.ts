@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { GoogleGenAI } from '@google/genai';
 import { db } from './db.js';
 
@@ -6,7 +8,7 @@ let aiClient: GoogleGenAI | null = null;
 function getAiClient(): GoogleGenAI | null {
   if (aiClient) return aiClient;
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey || apiKey === 'MY_GEMINI_API_KEY' || apiKey.startsWith('TODO') || apiKey.trim() === '') {
+  if (!apiKey || apiKey === '[GCP_API_KEY]' || apiKey.startsWith('TODO') || apiKey.trim() === '') {
     return null;
   }
   try {
@@ -57,7 +59,6 @@ export async function askStoreAgent(params: {
   const ai = getAiClient();
 
   if (!ai) {
-    // High-quality local analytical response if Gemini API key isn't configured yet
     return {
       answer: generateFallbackAnalysis(params.question, contextData),
       metricsUsed: contextData,
@@ -147,8 +148,8 @@ export async function generateStoreReport(params: {
 - المبيعات: ${contextData.kpis.totalSales} شيكل عبر ${contextData.kpis.totalOrders} طلب.
 - متوسط الفاتورة: ${contextData.kpis.avgOrderValue} شيكل.
 - نسبة إعادة الشراء: ${contextData.kpis.repeatCustomers} زبون متكرر من أصل ${contextData.kpis.totalCustomers}.
-- أفضل مبيعًا: ${contextData.topSellers.map(p => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
-- الأقل مبيعًا: ${contextData.leastSellers.map(p => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
+- أفضل مبيعًا: ${contextData.topSellers.map((p: any) => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
+  - الأقل مبيعًا: ${contextData.leastSellers.map((p: any) => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
 - مصادر الطلبات: إنستغرام (${contextData.trafficSources.instagram})، فيسبوك (${contextData.trafficSources.facebook})، واتساب (${contextData.trafficSources.whatsapp})، الموقع المباشر (${contextData.trafficSources.website}).
 - أكثر مناطق التوصيل طلبًا: ${Object.entries(contextData.deliveryDemand.byArea).map(([a, count]) => `${a}: ${count} طلب`).join('، ')}.
 
@@ -161,7 +162,7 @@ export async function generateStoreReport(params: {
 `;
 
     const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+      model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
       contents: prompt,
       config: {
         systemInstruction: 'أنت مستشار استراتيجي رفيع المستوى في قطاع الأغذية والحلويات. اكتب التقرير بلهجة مهنية متفائلة وواضحة، مع التركيز على اتخاذ القرارات والربحية.',
@@ -221,7 +222,7 @@ function generateFallbackAnalysis(question: string, data: any): string {
 function generateLocalReport(data: any): string {
   const top = data.topSellers.map((p: any, i: number) => `${i + 1}. **${p.name}**: ${p.quantity} قطعة (${p.revenue} ₪)`).join('\n');
   const least = data.leastSellers.map((p: any, i: number) => `${i + 1}. **${p.name}**: ${p.quantity} قطعة (${p.revenue} ₪)`).join('\n');
-  
+
   return `# 📊 تقرير الأداء ومبيعات Kömür Künefe — كنافة ع الفحم
 **الفرع:** رافدية - الشارع الرئيسي، نابلس
 **تاريخ التقرير:** ${new Date().toLocaleDateString('ar-EG')}
@@ -268,171 +269,205 @@ ${least}
 }
 
 
-// ─── Customer-facing Chatbot ──────────────────────────────────────────────────
+// ─── Customer-facing Chatbot (Jamra / جمرة) ───────────────────────────────────
 
 /**
- * Full menu knowledge-base baked directly into the system prompt so the
- * chatbot can answer price, availability, and recommendation questions
- * instantly without any extra API round-trip.
+ * Formats live menu data from the database into a structured Arabic text block
+ * for injection into the system prompt on every request.
+ *
+ * Each product includes: name, category label, all variant names with their
+ * dine-in and takeaway prices (₪), any add-ons, and the description.
+ * This lets the model perform exact numerical comparisons (cheapest, priciest,
+ * ingredient queries) without hallucination.
  */
-const CUSTOMER_SYSTEM_PROMPT = `
-أنت "جمرة"، المساعدة الذكية الودودة لمطعم "كُومُر كُونافيه — كنافة ع الفحم" في رافِدية، نابلس.
-مهمتك: مساعدة الزبائن بأسلوب حار ومرحِّب باللغة العربية الفلسطينية الأصيلة.
+function buildFormattedMenu(): string {
+  const products = db.getProducts().filter(p => p.isAvailable);
 
-─────────────────────────────────────────
-🏠 معلومات المطعم
-─────────────────────────────────────────
-الاسم     : كُومُر كُونافيه — كنافة ع الفحم
-الموقع    : رافِدية — الشارع الرئيسي، نابلس، فلسطين
-أوقات العمل: يومياً من 11:00 صباحاً حتى 12:00 منتصف الليل
-الهاتف    : 0562-606-061
-واتساب    : 0562-606-061
-إنستغرام  : @komurkunefe
-فيسبوك    : facebook.com/Komurkunefe
+  const categoryLabels: Record<string, string> = {
+    charcoal: '🔥 كنافة على الفحم',
+    nutella: '🍫 كنافة شوكولاتة ونوتيلا',
+    oriental: '🌙 حلويات شرقية',
+    nawashef: '🫓 نواشف',
+    beverages: '🥤 مشروبات',
+    offers: '🎁 عروض',
+    other: '🍽️ أخرى',
+  };
 
-─────────────────────────────────────────
-🔥 قائمة الكنافة على الفحم (Charcoal)
-─────────────────────────────────────────
-تتوفر بأحجام: XS • S • M • L • XL • 2.5 كيلو • 3 كيلو • 3.5 كيلو
+  // Group products by category
+  const grouped = products.reduce<Record<string, typeof products>>((acc, p) => {
+    (acc[p.category] = acc[p.category] || []).push(p);
+    return acc;
+  }, {});
 
-1. كنافة اسطنبولية بالفستق الناعم
-   أكل داخل  : 15 | 30 | 55 | 80 | 100 | 135 | 165 | 190 ₪
-   تيك أواي  : — | — | 63 | 90 | 110 | 145 | 175 | 200 ₪
-   إضافة بوظة: +4 ₪
+  const lines: string[] = [];
 
-2. كنافة اسطنبولية فستق أكسترا
-   أكل داخل  : 15 | 30 | 60 | 85 | 110 | 150 | 180 | 210 ₪
-   تيك أواي  : — | — | 68 | 90 | 110 | 160 | 190 | 220 ₪
-   إضافة بوظة: +4 ₪
+  for (const [cat, items] of Object.entries(grouped)) {
+    lines.push(`\n${categoryLabels[cat] ?? cat}:`);
+    for (const item of items) {
+      // Build price string per variant (dine-in / takeaway where available)
+      const variantParts = item.variants.map(v => {
+        const dine = v.dineInPrice != null ? `${v.dineInPrice}₪ أكل داخل` : '';
+        const takeaway = v.takeawayPrice != null ? `${v.takeawayPrice}₪ تيك أواي` : '';
+        const combined = [dine, takeaway].filter(Boolean).join(' / ') || `${v.price}₪`;
+        return `${v.name}: ${combined}`;
+      }).join(' | ');
 
-3. كنافة نابلسية ناعمة
-   أكل داخل  : 10 | 20 | 40 | 58 | 76 | 90 | 110 | 125 ₪
-   تيك أواي  : — | — | 48 | 67 | 86 | 100 | 120 | 135 ₪
-   إضافة بوظة: +4 ₪
+      const addOns = item.addOns?.length
+        ? ` [إضافات: ${item.addOns.map(a => `${a.name} +${a.price}₪`).join('، ')}]`
+        : '';
 
-4. كنافة اسطنبولية محيرة
-   أكل داخل  : 10 | 20 | 40 | 60 | 85 | 110 | 120 | 140 ₪
-   تيك أواي  : — | 30 | 48 | 70 | 95 | 120 | 130 | 150 ₪
-   إضافة بوظة: +4 ₪
+      const desc = item.description ? ` — ${item.description}` : '';
 
-5. اسطنبولية بحشوة الجبن والفستق الحلبي
-   أكل داخل  : 13 | 25 | 52 | 75 | 100 | 130 | 155 | 180 ₪
-   تيك أواي  : — | — | 60 | 85 | 110 | 140 | 165 | 190 ₪
-   إضافة بوظة: +4 ₪
-
-6. اسطنبولية بالقشطة
-   أكل داخل  : 12 | 25 | 50 | 75 | 95 | 125 | 150 | 175 ₪
-   تيك أواي  : — | — | 58 | 85 | 105 | 135 | 160 | 185 ₪
-   إضافات    : حشوة بالفستق +3 ₪ | بوظة +4 ₪
-
-7. كنافة برغر (أحجام XS و S فقط)
-   أكل داخل  : 15 | 35 ₪
-   صلصات    : نوتيلا | لوتس | زبدة الفستق | شوكولاتة بيضاء (+4 ₪ لكل إضافة)
-
-─────────────────────────────────────────
-🍫 كنافة شوكولاتة ونوتيلا
-─────────────────────────────────────────
-8. كنافة اسطنبولية بالشوكولاته (أحجام XS و S فقط)
-   أكل داخل  : 12 | 25 ₪
-   صلصات    : نوتيلا | لوتس | زبدة الفستق | شوكولاتة بيضاء (+4 ₪)
-
-─────────────────────────────────────────
-🌙 حلويات شرقية
-─────────────────────────────────────────
-فطير السلطان      : 40 ₪    | بقلاوة بالبوظة    : 15 ₪
-كنافة برمة بالجبنة: 36 ₪    | بصله فستق         : 95 ₪
-ععملية (عملية)    : 38 ₪    | بين نارين         : 36 ₪
-خدود              : 45 ₪    | مدلوقة            : 50 ₪
-عش بلبل           : 55 ₪    | حلاوة جبن         : 40 ₪
-اصابع فستق دولما  : 95 ₪    | ترليشيا           : 50 ₪
-فطير بالجبنة      : 34 ₪    | فطير بالحليب      : 32 ₪
-بسكويت بالقشطة    : 38 ₪    | اصابع بالقشطة     : 40 ₪
-وربات بالقشطة     : 40 ₪    | برمه حلبي بالقشطة : 45 ₪
-هريسة بالقشطة     : 40 ₪
-
-─────────────────────────────────────────
-🥤 مشروبات
-─────────────────────────────────────────
-مياه صغير: 3 ₪  |  مياه كبير: 5 ₪  |  كوكا كولا: 3 ₪  |  سودا: 3 ₪  |  سبرايت: 3 ₪
-
-─────────────────────────────────────────
-🌿 الخيار الصحي
-─────────────────────────────────────────
-يتوفر بديل القطر الصحي لأصناف الكنافة على الفحم والحلويات الشرقية — اطلبه عند طلبك.
-
-─────────────────────────────────────────
-📋 قواعد الردود الصارمة
-─────────────────────────────────────────
-1. تحدث دائماً باللغة العربية بلهجة فلسطينية دافئة ومرحِّبة.
-2. أعطِ الأسعار الدقيقة من القائمة أعلاه عند السؤال عنها.
-3. التوصيل غير متاح حالياً — الاستلام من المحل فقط. لا تعد بأي شيء خلاف ذلك.
-4. إن لم تعرف الإجابة، أحل الزبون إلى: 0562-606-061 (هاتف/واتساب).
-5. لا تخترع أصنافاً أو أسعاراً غير موجودة في القائمة أعلاه.
-6. للمناسبات والطلبات الكبيرة، أنصح بالتواصل المسبق على الهاتف.
-7. ردودك موجزة وعملية مع لمسة ترحيب دافئة.
-`.trim();
-
-/**
- * Ask the customer-facing chatbot a question.
- * Falls back to a helpful Arabic message if Gemini is unavailable.
- */
-export async function askCustomerChatbot(message: string): Promise<string> {
-  const ai = getAiClient();
-
-  if (!ai) {
-    return buildChatbotFallback(message);
+      lines.push(`  • ${item.name}: ${variantParts}${addOns}${desc}`);
+    }
   }
 
-  try {
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-      contents: message,
-      config: {
-        systemInstruction: CUSTOMER_SYSTEM_PROMPT,
-        temperature: 0.7,
-        maxOutputTokens: 600,
-      },
-    });
-
-    const text = response.text?.trim();
-    if (!text) throw new Error('Empty response from Gemini');
-    return text;
-  } catch (error: any) {
-    console.error('[askCustomerChatbot] Gemini error:', error?.message || error);
-    return buildChatbotFallback(message);
-  }
+  return lines.join('\n');
 }
 
 /**
- * Smart keyword-based fallback when the AI is unavailable.
- * Provides useful Arabic answers for common questions.
+ * Builds the full dynamic systemInstruction for Jamra on every request.
+ * The live menu block is re-generated each time so price or availability
+ * changes in the DB are immediately reflected in the chatbot's knowledge.
  */
-function buildChatbotFallback(message: string): string {
+function buildJamraSystemInstruction(): string {
+  const menuBlock = buildFormattedMenu();
+
+  return `
+أنتِ "جمرة" (جمرة) 🔥 — المساعدة الذكية، الدافئة، والمحترفة لمطعم "Kömür Künefe — كنافة ع الفحم" في نابلس، رافدية — الشارع الرئيسي.
+هويتكِ: اسمكِ مشتق من "الجمر" — الحرارة الحقيقية التي تُنضج الكنافة على الفحم. تتحدثين بعربية فلسطينية دافئة وأصيلة 🔥💛.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 معلومات المطعم
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• الاسم      : Kömür Künefe — كنافة ع الفحم
+• الموقع     : رافدية — الشارع الرئيسي، نابلس، فلسطين
+• أوقات العمل: يومياً من 11:00 صباحاً حتى 12:00 منتصف الليل
+• هاتف/واتساب: 0562-606-061
+• إنستغرام   : @komurkunefe
+• فيسبوك     : facebook.com/Komurkunefe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 قائمة المنيو الحالية (مستخرجة مباشرة من بيانات الموقع)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${menuBlock}
+
+🌿 ملاحظة صحية: يتوفر بديل القطر الصحي (شراب السكر والماء) لجميع أصناف كنافة الفحم والحلويات الشرقية — يكفي أن يذكره الزبون عند الطلب.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 قواعد الإجابة الصارمة — اقرئيها بعناية
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. **دقة الأرقام والمقارنات — قاعدة صارمة**:
+   عندما يسأل الزبون عن (أرخص صنف، أغلى صنف، مقارنة أسعار، أو مكونات صنف معين)،
+   يجب أن تفحصي قائمة المنيو أعلاه بدقة رياضية وتجيبي فوراً باسم الصنف الحقيقي والرقم الدقيق بالشيكل.
+   ممنوع منعاً باتاً التهرب أو إعطاء إجابة عامة مجردة من الأرقام في مثل هذه الحالات.
+
+2. **منع الديباجات الجامدة والتكرار**:
+   لا تبدئي كل رد بنفس جملة الترحيب المحفوظة ولا تكرري رقم الواتساب في كل رسالة.
+   ردّك يجب أن يكون ديناميكياً، ذكياً، وموجهاً مباشرة لصميم سؤال الزبون.
+
+3. **الأسلوب واللهجة**:
+   عربية فلسطينية دافئة ومحبّبة، قريبة للقلب مثل أصحاب المحلات الأصيلين.
+   استخدمي إيموجي الكنافة والجمر باعتدال 🔥💛.
+
+4. **الاستنتاج الذكي والبدائل**:
+   إذا سأل الزبون عن شيء غير موجود، اخبريه بلطف وقدّمي أقرب بديل متوفر من المنيو.
+   لا تقولي "لا أعرف" طالما أن المعطيات موجودة في السياق.
+
+5. **الالتزام الصارم بالمنيو**:
+   لا تخترعي أصنافاً أو أسعاراً من عندكِ. اعتمدي حصراً على بيانات المنيو المرفقة أعلاه.
+
+6. **سياسة التوصيل**:
+   التوصيل غير متاح حالياً — الاستلام من المحل فقط. لا تعدي بغير ذلك.
+
+7. **الطلبات الكبيرة والمناسبات**:
+   أنصحي بالتواصل المسبق على 0562-606-061 للطلبات الكبيرة والمناسبات.
+`.trim();
+}
+
+/**
+ * Smart keyword-based fallback when the Gemini API is unavailable.
+ * Scans the user message for known intents (price, delivery, location, hours,
+ * healthy syrup, events) and returns a direct, useful Arabic answer.
+ *
+ * Named getSmartFallbackResponse so it matches the call-site in
+ * askCustomerChatbot.
+ */
+function getSmartFallbackResponse(message: string): string {
   const q = message;
 
-  if (/سعر|بكم|كم|تكلف|أسعار|قائمة/.test(q)) {
-    return `أهلاً وسهلاً! 😊 هاي أبرز أسعارنا:\n\n🔥 كنافة اسطنبولية بالفستق (أكل داخل):\nXS: 15₪ | S: 30₪ | M: 55₪ | L: 80₪ | XL: 100₪\n\n🔥 كنافة نابلسية ناعمة (أكل داخل):\nXS: 10₪ | S: 20₪ | M: 40₪ | L: 58₪ | XL: 76₪\n\nللاطلاع على كامل القائمة زورونا في رافِدية أو اتصلوا: 0562-606-061 💛`;
+  // Price / menu enquiry (including cheapest / most expensive)
+  if (/سعر|بكم|كم|تكلف|أسعار|قائمة|أرخص|أغلى/.test(q)) {
+    return `😊 هاي أبرز أسعارنا:\n\n🔥 كنافة اسطنبولية بالفستق الناعم (أكل داخل):\nXS: 15₪ | S: 30₪ | M: 55₪ | L: 80₪ | XL: 100₪\n\n🔥 كنافة نابلسية ناعمة (أكل داخل):\nXS: 10₪ | S: 20₪ | M: 40₪ | L: 58₪ | XL: 76₪\n\n🍫 كنافة شوكولاتة (XS فقط): 12₪\n\nللقائمة الكاملة زورونا في رافِدية أو اتصلوا: 0562-606-061 💛`;
   }
 
+  // Delivery enquiry
   if (/توصيل|دليفري|توصل/.test(q)) {
-    return `أهلاً! 🛵 حالياً خدمة التوصيل غير متاحة، بس يمكنك الطلب والاستلام من عندنا في رافِدية مباشرةً.\nللاستفسار: 0562-606-061 📞`;
+    return `🛵 حالياً خدمة التوصيل غير متاحة، بس الاستلام من عندنا في رافِدية سهل ومريح.\nللتفاصيل: 0562-606-061 📞`;
   }
 
+  // Opening hours
   if (/وقت|دوام|فتح|أوقات|ساعات/.test(q)) {
-    return `⏰ أوقات عملنا:\nيومياً من 11:00 صباحاً حتى 12:00 منتصف الليل 🔥\n\nنتشرف بزيارتك في رافِدية — الشارع الرئيسي، نابلس 💛`;
+    return `⏰ أوقات عملنا:\nيومياً من 11:00 صباحاً حتى 12:00 منتصف الليل 🔥\nنتشرف بزيارتك في رافِدية — الشارع الرئيسي، نابلس 💛`;
   }
 
+  // Location
   if (/موقع|وين|عنوان|مكان|رافدية/.test(q)) {
-    return `📍 تلاقينا في رافِدية — الشارع الرئيسي، نابلس.\nللتواصل: 0562-606-061\nأو عبر إنستغرام: @komurkunefe 💛`;
+    return `📍 تلاقينا في رافِدية — الشارع الرئيسي، نابلس.\nهاتف/واتساب: 0562-606-061\nإنستغرام: @komurkunefe 💛`;
   }
 
-  if (/صحي|قطر صحي|دايت/.test(q)) {
-    return `🌿 نعم! عندنا خيار القطر الصحي كبديل عن القطر العادي لأصناف الكنافة على الفحم والحلويات الشرقية.\nاطلبه عند طلبك 😊`;
+  // Healthy syrup option
+  if (/صحي|قطر صحي|دايت|سكر/.test(q)) {
+    return `🌿 نعم! عندنا خيار القطر الصحي (شراب السكر والماء) بديلاً عن القطر العادي لكل أصناف الكنافة على الفحم والحلويات الشرقية.\nاطلبه عند طلبك وبكل سرور 😊`;
   }
 
-  if (/مناسبة|حفلة|عرس|تجمع|عيلة|عائلة/.test(q)) {
-    return `🎉 لمناسباتكم الكبيرة، ننصح بـ:\n- كنافة اسطنبولية بالفستق الناعم (2.5 أو 3 كيلو)\n- أو باقة متنوعة من حلوياتنا الشرقية\n\nللطلبات الكبيرة تواصلوا معنا مسبقاً: 0562-606-061 💛`;
+  // Events / large orders
+  if (/مناسبة|حفلة|عرس|تجمع|عيلة|عائلة|كبير|كثير/.test(q)) {
+    return `🎉 لمناسباتكم الكبيرة، ننصح بـ:\n• كنافة اسطنبولية بالفستق الناعم (2.5 أو 3 كيلو)\n• أو باقة متنوعة من حلوياتنا الشرقية\n\nللطلبات الكبيرة تواصلوا معنا مسبقاً: 0562-606-061 💛`;
   }
 
-  return `أهلاً وسهلاً! 🔥 يسعدنا تواصلك مع كُومُر كُونافيه.\nللمساعدة الفورية:\n📞 هاتف/واتساب: 0562-606-061\n📍 رافِدية — الشارع الرئيسي، نابلس\n⏰ يومياً 11:00 ص – 12:00 منتصف الليل`;
+  // Generic fallback — no repeated static greeting
+  return `يسعدنا تواصلك مع كُومُر كُونافيه! 🔥\n📞 هاتف/واتساب: 0562-606-061\n📍 رافِدية — الشارع الرئيسي، نابلس\n⏰ يومياً 11:00 ص – 12:00 منتصف الليل`;
+}
+
+/**
+ * Ask the customer-facing "Jamra" (جمرة) chatbot a question.
+ *
+ * Flow:
+ *   1. Fetches the live product catalogue from the DB via buildFormattedMenu().
+ *   2. Injects it into a fresh systemInstruction (buildJamraSystemInstruction).
+ *   3. Calls Gemini with a low temperature for factual price accuracy.
+ *   4. On any API or network error, falls back to getSmartFallbackResponse()
+ *      which scans for keywords (price, delivery, location, hours, etc.) and
+ *      returns a direct, useful Arabic answer — no generic error messages.
+ */
+export async function askCustomerChatbot(userMessage: string): Promise<string> {
+  const ai = getAiClient();
+
+  if (!ai) {
+    // No API key configured — go straight to smart keyword fallback
+    return getSmartFallbackResponse(userMessage);
+  }
+
+  try {
+    // Build a fresh system instruction with live menu data on every request
+    const systemInstruction = buildJamraSystemInstruction();
+
+    const response = await ai.models.generateContent({
+      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+      contents: userMessage,
+      config: {
+        systemInstruction,
+        temperature: 0.55,     // Low enough for precise numerical accuracy
+        maxOutputTokens: 650,
+      },
+    });
+
+    return response.text?.trim() || getSmartFallbackResponse(userMessage);
+  } catch (error) {
+    console.error('Customer Chatbot (Jamra / جمرة) API Error:', error);
+    // Trigger smart fallback — never return a raw error message to the customer
+    return getSmartFallbackResponse(userMessage);
+  }
 }
