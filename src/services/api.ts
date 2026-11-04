@@ -1,4 +1,14 @@
-import { Product, Order, Offer, Review, DeliveryInterest, StoreSettings, DashboardStats, UserSession } from '../types';
+import {
+  Product,
+  Order,
+  Offer,
+  Review,
+  DeliveryInterest,
+  StoreSettings,
+  DashboardStats,
+  UserSession,
+  PublicAiContextResponse,
+} from '../types';
 
 export const api = {
   // Products
@@ -221,6 +231,42 @@ export const api = {
 
   async resetSampleData(): Promise<void> {
     await fetch('/api/seed/reset', { method: 'POST' });
+  },
+
+  // AI Public Context
+  async getPublicAiContext(): Promise<PublicAiContextResponse> {
+    const res = await fetch('/api/v1/ai/public-context');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Failed to fetch AI public context');
+    return data;
+  },
+
+  // n8n Customer AI Agent
+  async askKourAiAgent(userMessage: string): Promise<string> {
+    try {
+      // استخدم رابط Production الخاص بـ n8n
+      const response = await fetch('http://localhost:5678/webhook/7bacd75e-d944-48f6-a66b-baaaacd82f31', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('فشل الاتصال بمساعد كنافة على الفحم');
+      }
+
+      const data = await response.json();
+
+      // نرجع نص الرد الناتج من الـ AI Agent
+      return data.reply || data.output || 'أهلاً بك! لم أستطع فهم الطلب بالكامل، هل يمكنك إعادة التوضيح؟';
+    } catch (error) {
+      console.error('AI Agent Error:', error);
+      return 'عذراً، حدث خطأ في الاتصال بالمساعد الذكي حالياً.';
+    }
   },
 
   // Auth

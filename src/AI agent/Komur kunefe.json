@@ -1,0 +1,170 @@
+{
+  "name": "Komur kunefe",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7bacd75e-d944-48f6-a66b-baaaacd82f31",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -80,
+        -32
+      ],
+      "id": "525e7fe4-90d0-495b-9c8d-cdb54ff71ed1",
+      "name": "Webhook",
+      "webhookId": "7bacd75e-d944-48f6-a66b-baaaacd82f31"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body?.message || $json.message || '' }}",
+        "options": {
+          "systemMessage": "أنت \"مساعد كنافة على فحم الذكي\" التابع لمطعم وموقع \"Kömür Künefe — كنافة على فحم\".\nدورك هو الإجابة عن جميع استفسارات الزبائن المتعلقة بالمنتجات، الأسعار، العروض، ومعلومات المطعم، بالإضافة لتقديم تجربة \"اختبر ذوقك.. واكتشف كنافتك\".\n\nبداية المحادثة:\nعندما يبدأ أي زبون محادثة جديدة، يجب أن تبدأ بالترحيب التالي حصراً:\n\"أهلاً بك، معك مساعد كنافة على فحم الذكي. احكِلي بشو بقدر أساعدك اليوم؟ هل تحب استكشاف المنيو والعروض بالموقع، أم نبدأ تجربة 'اختبر ذوقك.. واكتشف كنافتك' لنقترح عليك أطيب صينية كنافة؟\"\n\nاستخدام الأدوات والبيانات:\n- عندما يسألك الزبون عن المنيو، أسعار صنف معين، أو العروض الحالية، استدعِ أداة `get_public_context` لجلب أحدث البيانات المباشرة من الموقع.\n- تجربة \"اختبر ذوقك.. واكتشف كنافتك\": اطرح 3 أسئلة بسيطة (التفضيل: حلو/معتدل، عدد الأشخاص، والميزانية)، ثم اقترح المنتج الأنسب والكمية المناسبة بناءً على البيانات.\n\nقواعد أساسية:\n- يمنع منعاً باتاً ذكر أسماء المنافسين أو المقارنة معهم أمام الزبائن.\n- حافظ على أسلوب ودود ومحبب."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        128,
+        -32
+      ],
+      "id": "b1a4f476-f82c-4910-a3c7-7a2fc70e87a3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        176
+      ],
+      "id": "15e39e83-78bb-4300-aba9-5916f74be680",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "5bQnUFfdkzbJs3Ln",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        224,
+        176
+      ],
+      "id": "20509ec1-3f7c-4eb8-9a64-c82fe255e9ec",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to retrieve the complete public menu, active offers, category listings, healthy options notes, and restaurant information for Kömür Künefe.",
+        "url": "http://localhost:3000/api/v1/ai/public-context",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        368,
+        176
+      ],
+      "id": "cc740201-838c-40df-ac57-9e7eb651a0bb",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"reply\": {{ JSON.stringify($json.output || $json.text || \"\") }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        -32
+      ],
+      "id": "c0f94319-1faf-401c-bca3-279881774ffa",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b157de8e-5aa2-43fe-8f8a-fde0812d99cd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "312b8e1c27ba1ae94b15ee40f5b475cef18128657bfd8917a13927efa9db76b9"
+  },
+  "nodeGroups": [],
+  "id": "vTMikqMT2uOUedkg",
+  "tags": []
+}

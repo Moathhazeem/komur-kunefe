@@ -105,7 +105,7 @@ export const NotificationCenter: React.FC = () => {
             </button>
           </header>
 
-          <ul className="max-h-[min(65vh,24rem)] overflow-y-auto p-2">
+          <ul className="max-h-[min(65vh,24rem)] overflow-y-auto p-3 space-y-3">
             {notifications.map((notification) => {
               const Icon = notification.kind === 'purchase' ? ShoppingBag : Tag;
               return (
@@ -113,18 +113,20 @@ export const NotificationCenter: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => markRead(notification.id)}
-                    className={`flex w-full items-start gap-3 rounded-xl p-3 text-right transition hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] ${notification.read ? 'opacity-70' : 'bg-[#26201b]'}`}
+                    className={`flex w-full items-start gap-3 rounded-xl border border-stone-200/60 bg-[#FAF7F2] p-3.5 text-right shadow-sm transition hover:bg-[#F5F0E8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] ${
+                      notification.read ? 'opacity-75' : ''
+                    }`}
                   >
-                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#ff7b00]/20 bg-[#ff7b00]/10 text-[#ff9a2f]">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#ff7b00]/20 bg-[#ff7b00]/10 text-[#ff7b00]">
                       <Icon className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-black text-[#F7F0E5]">{notification.title}</span>
+                        <span className="text-xs font-black text-[#2D231E]">{notification.title}</span>
                         {!notification.read && <span className="h-2 w-2 shrink-0 rounded-full bg-[#ff7b00]" aria-label="غير مقروء" />}
                       </span>
-                      <span className="mt-1.5 block text-xs leading-6 text-[#c7b9ae]">{notification.message}</span>
-                      <span className="mt-1.5 block text-[10px] text-[#8d7e73]">{notification.timestamp}</span>
+                      <span className="mt-1.5 block text-xs leading-6 text-stone-700">{notification.message}</span>
+                      <span className="mt-1.5 block text-[10px] font-medium text-stone-500">{notification.timestamp}</span>
                     </span>
                   </button>
                 </li>

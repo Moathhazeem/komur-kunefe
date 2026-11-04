@@ -20,6 +20,7 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminPage } from './pages/AdminPage';
 import { AccountSettingsPage } from './pages/AccountSettingsPage';
+import ChatbotWidget from './components/ChatbotWidget';
 
 // ─── Inner Application Component ─────────────────────────────────────────────
 
@@ -359,6 +360,9 @@ function AppInner() {
         onNavigate={handleNavigate}
         onOpenCart={() => handleNavigate('checkout')}
       />
+
+      {/* Floating Chatbot Widget */}
+      <ChatbotWidget />
     </div>
   );
 }

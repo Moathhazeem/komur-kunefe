@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { db } from './server/db.js';
-import { askStoreAgent, generateStoreReport } from './server/geminiAgent.js';
+import { askStoreAgent, generateStoreReport, askCustomerChatbot } from './server/geminiAgent.js';
 
 dotenv.config();
 
@@ -18,6 +18,17 @@ async function startServer() {
 
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+  // CORS Middleware for external AI agents (e.g., n8n)
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+    next();
+  });
 
   // --- API Routes ---
 
@@ -103,7 +114,7 @@ async function startServer() {
       }
       if (search && typeof search === 'string') {
         const q = search.toLowerCase();
-        orders = orders.filter(o => 
+        orders = orders.filter(o =>
           o.orderNumber.toLowerCase().includes(q) ||
           o.customerName.toLowerCase().includes(q) ||
           o.customerPhone.includes(q)
@@ -351,6 +362,119 @@ async function startServer() {
   });
 
   // Gemini AI Agent
+  // Public Context Endpoint for AI Agent (n8n / Customers)
+  app.get('/api/v1/ai/public-context', (req, res) => {
+    try {
+      const settings = db.getSettings();
+      const rawProducts = db.getProducts();
+      const rawOffers = db.getOffers();
+
+      const categoryLabels: Record<string, string> = {
+        charcoal: 'كنافة على الفحم',
+        nutella: 'نوتيلا وشوكولاتة',
+        oriental: 'حلويات شرقية',
+        nawashef: 'نواشف وبقلاوة',
+        beverages: 'مشروبات',
+        offers: 'عروض خاصة',
+        other: 'أصناف متنوعة',
+      };
+
+      const categories = [
+        { id: 'charcoal', name: 'كنافة على الفحم', description: 'محضرة ومخبوزة على جمر الفحم الطبيعي' },
+        { id: 'nutella', name: 'شوكولاتة ونوتيلا', description: 'كنافة بلمسات الشوكولاتة والخلطات الحديثة' },
+        { id: 'oriental', name: 'حلويات شرقية', description: 'بقلاوة، فطائر، بين نارين، أصناف شرقية فاخرة' },
+        { id: 'nawashef', name: 'نواشف وبقلاوة', description: 'حلويات ناشفة ومقرمشة' },
+        { id: 'beverages', name: 'مشروبات', description: 'مشروبات باردة وغازية ومياه' },
+        { id: 'healthy', name: 'خيارات صحية', description: 'إمكانية استبدال القطر العادي بقطر صحي خفيف' },
+      ];
+
+      const healthyNote = settings.healthySyrupNote || 'يوجد لدينا أصناف صحية، يمكن استبدال القطر العادي بقطر صحي';
+
+      // Sanitize & map menu items (no internal, cost, or sales info)
+      const menu_items = rawProducts.map(p => {
+        const options: Array<{
+          id?: string;
+          name: string;
+          price: number;
+          dineInPrice?: number;
+          takeawayPrice?: number;
+        }> = (p.variants || []).map(v => ({
+          id: v.id,
+          name: v.name,
+          price: v.price ?? v.dineInPrice ?? p.basePrice,
+          dineInPrice: v.dineInPrice,
+          takeawayPrice: v.takeawayPrice,
+        }));
+
+        if (p.addOns && p.addOns.length > 0) {
+          p.addOns.forEach(addon => {
+            options.push({
+              name: `إضافة: ${addon.name}`,
+              price: addon.price,
+            });
+          });
+        }
+
+        const isHealthyEligible = p.category === 'charcoal' || p.category === 'oriental';
+
+        return {
+          id: p.id,
+          name: p.name,
+          category: p.category,
+          category_label: categoryLabels[p.category] || p.category,
+          price: p.basePrice,
+          is_available: p.isAvailable !== false,
+          options,
+          description: p.description && p.description.trim() !== ''
+            ? p.description
+            : (isHealthyEligible ? `${p.name} الأصيلة على الفحم. ${healthyNote}` : p.name),
+          healthy_syrup_available: isHealthyEligible,
+        };
+      });
+
+      // Filter active offers only and sanitize internal dates/IDs if needed
+      const nowStr = new Date().toISOString().split('T')[0];
+      const active_offers = rawOffers
+        .filter(o => o.isActive && (!o.endDate || o.endDate >= nowStr))
+        .map(o => ({
+          id: o.id,
+          title: o.title,
+          description: o.description,
+          discount_percent: o.discountPercent,
+          badge: o.badge || 'عرض خاص',
+          valid_until: o.endDate || 'حتى نفاد الكمية',
+          applicable_products: o.includedProductNames || [],
+        }));
+
+      const restaurant_info = {
+        name: settings.storeName || 'Kömür Künefe — كنافة ع الفحم',
+        tagline: settings.tagline || 'المذاق النابلسي الأصيل على جمر الفحم الطبيعي',
+        branch: settings.branch || 'رافِدية - نابلس',
+        hours: settings.hours || 'يوميًا: 11:00 صباحًا – 12:00 منتصف الليل',
+        contact: {
+          phone: settings.phone || '+970 562 606 061',
+          whatsapp: settings.whatsapp || '970562606061',
+          facebookUrl: settings.facebookUrl || 'https://www.facebook.com/Komurkunefe/',
+          instagramUrl: settings.instagramUrl || 'https://www.instagram.com/komurkunefe',
+        },
+        healthy_options_note: healthyNote,
+        is_store_open: settings.isStoreOpen !== false,
+        story_of_the_embers: settings.ourStory || 'بدأت قصة كُومُر كُونافيه من إيماننا بأن سر الكنافة النابلسية الحقيقي لا يكتمل إلا مع حرارة جمر الفحم الهادئة وسمنها الأصيل.',
+      };
+
+      res.status(200).json({
+        success: true,
+        timestamp: new Date().toISOString(),
+        restaurant_info,
+        categories,
+        menu_items,
+        active_offers,
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message || 'Internal server error' });
+    }
+  });
+
   app.post('/api/ai/ask', async (req, res) => {
     try {
       const { question, range, from, to } = req.body;
@@ -371,6 +495,27 @@ async function startServer() {
       res.json({ success: true, ...reportData });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // ── Customer Chatbot: powered directly by Gemini AI ───────────────────────
+  // Calls the Gemini API server-side — no n8n, no webhooks, no CORS issues.
+  // Returns { reply: "..." } which ChatbotWidget.tsx reads from data.reply.
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { message } = req.body;
+      if (!message || typeof message !== 'string' || !message.trim()) {
+        return res.status(400).json({ success: false, error: 'message is required' });
+      }
+
+      const reply = await askCustomerChatbot(message.trim());
+      return res.json({ reply });
+    } catch (err: any) {
+      console.error('[/api/chat] Chatbot error:', err?.message || err);
+      // Always return a friendly Arabic message — never expose a raw 500 error
+      return res.status(200).json({
+        reply: 'عذراً، نواجه ضغطاً على الخدمة حالياً. يرجى المحاولة مجدداً أو التواصل معنا على واتساب: 0562-606-061 💛',
+      });
     }
   });
 

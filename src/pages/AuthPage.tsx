@@ -33,13 +33,13 @@ function InputField({
 }: InputFieldProps) {
   return (
     <div className="space-y-1.5 text-right">
-      <label htmlFor={id} className="block text-xs font-bold text-[#D5C7B9]">
+      <label htmlFor={id} className="block text-xs font-bold text-[#4A3B32]">
         {label}
-        {required && <span className="mr-1 text-[#ff7b00]" aria-hidden="true">*</span>}
+        {required && <span className="mr-1 text-[#C7652D]" aria-hidden="true">*</span>}
       </label>
       <div className="relative">
         {/* RTL: icon on the right side */}
-        <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#7d6f64]">
+        <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9E8E81]">
           {icon}
         </span>
         <input
@@ -52,13 +52,14 @@ function InputField({
           required={required}
           dir="rtl"
           className={`
-            w-full rounded-xl border bg-[#14110f] py-3 pr-10 pl-${suffix ? '11' : '4'}
-            text-sm text-[#F7F0E5] placeholder-[#574c43] outline-none
+            w-full rounded-xl border bg-[#FDFBF7] py-3 pr-10 pl-${suffix ? '11' : '4'}
+            text-sm text-[#211814] placeholder-[#A89A8E] outline-none
             transition-all duration-200
-            focus:ring-2 focus:ring-[#ff7b00]/40
+            shadow-sm shadow-[#35241A]/5
+            focus:ring-2 focus:ring-[#C7652D]/25 focus:bg-white
             ${error
-              ? 'border-red-500/60 focus:border-red-500'
-              : 'border-[rgba(255,123,0,0.18)] focus:border-[#ff7b00]'
+              ? 'border-red-400 focus:border-red-500'
+              : 'border-[rgba(53,36,26,0.15)] focus:border-[#C7652D]'
             }
           `}
           aria-invalid={!!error}
@@ -69,7 +70,7 @@ function InputField({
         )}
       </div>
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-xs text-red-400 font-medium">
+        <p id={`${id}-error`} role="alert" className="text-xs text-red-500 font-medium">
           {error}
         </p>
       )}
@@ -105,7 +106,7 @@ function PasswordInput({
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
-          className="text-[#7d6f64] transition-colors hover:text-[#ff7b00] cursor-pointer p-1"
+          className="text-[#9E8E81] transition-colors hover:text-[#C7652D] cursor-pointer p-1"
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
@@ -121,11 +122,11 @@ function PasswordInput({
 function BrandHeader() {
   return (
     <div className="mb-7 text-center" dir="rtl">
-      <div className="mx-auto mb-3.5 flex h-16 w-16 items-center justify-center rounded-2xl border border-[rgba(255,123,0,0.3)] bg-[#26201b] shadow-xl shadow-[#ff7b00]/15">
-        <Flame className="h-9 w-9 text-[#ff7b00] animate-pulse" aria-hidden="true" />
+      <div className="mx-auto mb-3.5 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#C7652D]/20 bg-[#F5ECE0] shadow-md shadow-[#C7652D]/10">
+        <Flame className="h-9 w-9 text-[#C7652D] animate-pulse" aria-hidden="true" />
       </div>
-      <h1 className="text-2xl font-black tracking-wide text-[#F7F0E5]">كُومُر كُونافيه</h1>
-      <p className="mt-1.5 text-xs font-medium text-[#bcaaa0]">
+      <h1 className="text-2xl font-black tracking-wide text-[#211814]">كُومُر كُونافيه</h1>
+      <p className="mt-1.5 text-xs font-semibold text-[#75675C]">
         مرحباً بك في عالم الكنافة على الفحم الأصيلة
       </p>
     </div>
@@ -227,13 +228,13 @@ function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
         <button
           type="button"
           onClick={handleFillAdmin}
-          className="text-[11px] font-bold text-[#ff7b00]/80 hover:text-[#ff7b00] underline underline-offset-4 cursor-pointer"
+          className="text-[11px] font-bold text-[#C7652D] hover:text-[#A94E20] underline underline-offset-4 cursor-pointer"
         >
           تجربة حساب المسؤول تلقائياً
         </button>
         <button
           type="button"
-          className="text-xs text-[#9a8278] transition-colors hover:text-[#ff7b00] cursor-pointer"
+          className="text-xs text-[#75675C] transition-colors hover:text-[#C7652D] cursor-pointer"
           onClick={() => alert('يمكنك تسجيل الدخول مباشرة بأي بريد وكلمة مرور، أو تجربة حساب المسؤول: admin@gmail.com')}
         >
           نسيت كلمة المرور؟
@@ -245,11 +246,11 @@ function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
         disabled={loading || isSuccess}
         className="
           mt-2 flex w-full items-center justify-center gap-2 rounded-xl
-          bg-[#ff7b00] py-3.5 text-sm font-black text-white
-          shadow-lg shadow-[#ff7b00]/25
+          bg-[#C7652D] py-3.5 text-sm font-black text-white
+          shadow-md shadow-[#C7652D]/25
           transition-all duration-200
-          hover:bg-[#ea580c] hover:shadow-[#ea580c]/30
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#221d19]
+          hover:bg-[#A94E20] hover:shadow-lg hover:shadow-[#A94E20]/30
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7652D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF7F2]
           disabled:cursor-not-allowed disabled:opacity-60
           cursor-pointer
         "
@@ -270,12 +271,12 @@ function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
       </button>
 
       <div className="pt-1 text-center">
-        <p className="text-xs text-[#a69286]">
+        <p className="text-xs text-[#75675C]">
           ليس لديك حساب؟{' '}
           <button
             type="button"
             onClick={onSwitch}
-            className="font-black text-[#ff7b00] transition-colors hover:text-[#ea580c] cursor-pointer mr-1"
+            className="font-black text-[#C7652D] transition-colors hover:text-[#A94E20] cursor-pointer mr-1"
           >
             انشئ حساباً جديداً
           </button>
@@ -283,10 +284,10 @@ function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
       </div>
 
       {/* Admin Demo helper card */}
-      <div className="mt-4 rounded-xl border border-[rgba(255,123,0,0.15)] bg-[#17120F] p-3 text-right">
-        <p className="text-[11px] font-bold text-[#ff7b00] mb-0.5">🔥 بيانات حساب المسؤول المعتمد:</p>
-        <p className="text-[11px] text-[#D5C7B9]">البريد: <code className="text-[#ff7b00]">admin@gmail.com</code></p>
-        <p className="text-[11px] text-[#D5C7B9]">كلمة المرور: <code className="text-[#ff7b00]">123456</code></p>
+      <div className="mt-4 rounded-xl border border-[rgba(199,101,45,0.2)] bg-[#FAF5EC] p-3.5 text-right">
+        <p className="text-[11px] font-bold text-[#C7652D] mb-1">🔥 بيانات حساب المسؤول المعتمد:</p>
+        <p className="text-[11px] text-[#55463D]">البريد: <code className="font-bold text-[#C7652D]">admin@gmail.com</code></p>
+        <p className="text-[11px] text-[#55463D]">كلمة المرور: <code className="font-bold text-[#C7652D]">123456</code></p>
       </div>
     </form>
   );
@@ -411,11 +412,11 @@ function SignUpForm({ onSwitch, onSuccess }: SignUpFormProps) {
         disabled={loading || isSuccess}
         className="
           mt-2 flex w-full items-center justify-center gap-2 rounded-xl
-          bg-[#ff7b00] py-3.5 text-sm font-black text-white
-          shadow-lg shadow-[#ff7b00]/25
+          bg-[#C7652D] py-3.5 text-sm font-black text-white
+          shadow-md shadow-[#C7652D]/25
           transition-all duration-200
-          hover:bg-[#ea580c] hover:shadow-[#ea580c]/30
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#221d19]
+          hover:bg-[#A94E20] hover:shadow-lg hover:shadow-[#A94E20]/30
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7652D] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF7F2]
           disabled:cursor-not-allowed disabled:opacity-60
           cursor-pointer
         "
@@ -436,12 +437,12 @@ function SignUpForm({ onSwitch, onSuccess }: SignUpFormProps) {
       </button>
 
       <div className="pt-1 text-center">
-        <p className="text-xs text-[#a69286]">
+        <p className="text-xs text-[#75675C]">
           لديك حساب بالفعل؟{' '}
           <button
             type="button"
             onClick={onSwitch}
-            className="font-black text-[#ff7b00] transition-colors hover:text-[#ea580c] cursor-pointer mr-1"
+            className="font-black text-[#C7652D] transition-colors hover:text-[#A94E20] cursor-pointer mr-1"
           >
             تسجيل الدخول
           </button>
@@ -472,13 +473,13 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
 
   return (
     <div
-      className="relative flex min-h-screen items-center justify-center bg-[#14110f] px-4 py-8"
+      className="relative flex min-h-screen items-center justify-center bg-[#FAF7F2] px-4 py-8"
       dir="rtl"
     >
       {/* Background Ambience Glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#ff7b00]/10 blur-[90px]" />
-        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-[#ea580c]/8 blur-[80px]" />
+        <div className="absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#C7652D]/8 blur-[90px]" />
+        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-[#DAB775]/12 blur-[80px]" />
       </div>
 
       {/* Return to home button if available */}
@@ -486,7 +487,7 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
         <button
           type="button"
           onClick={onClose}
-          className="fixed top-5 left-5 z-20 flex items-center gap-1.5 rounded-full border border-white/10 bg-[#221d19]/80 px-3.5 py-2 text-xs font-bold text-[#D5C7B9] backdrop-blur-md hover:border-[#ff7b00]/40 hover:text-white cursor-pointer"
+          className="fixed top-5 left-5 z-20 flex items-center gap-1.5 rounded-full border border-[rgba(53,36,26,0.12)] bg-white/80 px-3.5 py-2 text-xs font-bold text-[#4A3B32] shadow-sm backdrop-blur-md hover:border-[#C7652D]/40 hover:text-[#C7652D] cursor-pointer"
         >
           <span>العودة للمتجر</span>
           <ArrowRight className="h-3.5 w-3.5 rotate-180" />
@@ -496,7 +497,7 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
       <div className="relative w-full max-w-md">
         {/* Main Card */}
         <div
-          className="rounded-2xl border border-[rgba(255,123,0,0.18)] bg-[#221d19] p-6 sm:p-8 shadow-2xl backdrop-blur-xl"
+          className="rounded-3xl border border-[rgba(53,36,26,0.1)] bg-white p-6 sm:p-8 shadow-xl shadow-[#35241A]/5 backdrop-blur-xl"
           role="main"
         >
           <BrandHeader />
@@ -505,7 +506,7 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
           <div
             role="tablist"
             aria-label="نوع الحساب"
-            className="mb-6 flex rounded-xl border border-[rgba(255,123,0,0.15)] bg-[#14110f] p-1"
+            className="mb-6 flex rounded-xl border border-[rgba(53,36,26,0.1)] bg-[#F5ECE0]/60 p-1"
           >
             <button
               role="tab"
@@ -515,8 +516,8 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
               className={`
                 flex-1 rounded-lg py-2.5 text-xs font-black transition-all duration-200 cursor-pointer
                 ${mode === 'login'
-                  ? 'bg-[#ff7b00] text-white shadow-md shadow-[#ff7b00]/25'
-                  : 'text-[#9a8278] hover:text-[#D5C7B9]'
+                  ? 'bg-white text-[#C7652D] shadow-sm shadow-[#35241A]/5'
+                  : 'text-[#75675C] hover:text-[#211814]'
                 }
               `}
             >
@@ -530,8 +531,8 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
               className={`
                 flex-1 rounded-lg py-2.5 text-xs font-black transition-all duration-200 cursor-pointer
                 ${mode === 'signup'
-                  ? 'bg-[#ff7b00] text-white shadow-md shadow-[#ff7b00]/25'
-                  : 'text-[#9a8278] hover:text-[#D5C7B9]'
+                  ? 'bg-white text-[#C7652D] shadow-sm shadow-[#35241A]/5'
+                  : 'text-[#75675C] hover:text-[#211814]'
                 }
               `}
             >
@@ -556,7 +557,7 @@ export default function AuthPage({ onSuccess, onClose, initialMode = 'login' }: 
         </div>
 
         {/* Footer info */}
-        <p className="mt-4 text-center text-[11px] text-[#635348]">
+        <p className="mt-4 text-center text-[11px] text-[#8C7D72]">
           كُومُر كُونافيه · نكهة نابلسية أصيلة على الجمر © {new Date().getFullYear()}
         </p>
       </div>

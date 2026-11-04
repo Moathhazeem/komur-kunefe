@@ -134,3 +134,65 @@ export interface UserSession {
   name: string;
   token: string;
 }
+
+export interface MenuItemOption {
+  id?: string;
+  name: string;
+  price?: number;
+  dineInPrice?: number;
+  takeawayPrice?: number;
+}
+
+export interface PublicMenuItem {
+  id: string;
+  name: string;
+  category: string;
+  category_label: string;
+  price: number;
+  is_available: boolean;
+  options: MenuItemOption[];
+  description: string;
+  healthy_syrup_available: boolean;
+}
+
+export interface PublicCategory {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+export interface PublicRestaurantInfo {
+  name: string;
+  tagline: string;
+  branch: string;
+  hours: string;
+  contact: {
+    phone: string;
+    whatsapp: string;
+    facebookUrl: string;
+    instagramUrl: string;
+  };
+  healthy_options_note: string;
+  is_store_open: boolean;
+  story_of_the_embers: string;
+}
+
+export interface PublicActiveOffer {
+  id: string;
+  title: string;
+  description: string;
+  discount_percent: number;
+  badge: string;
+  valid_until: string;
+  applicable_products: string[];
+}
+
+export interface PublicAiContextResponse {
+  success: boolean;
+  timestamp: string;
+  restaurant_info: PublicRestaurantInfo;
+  categories: PublicCategory[];
+  menu_items: PublicMenuItem[];
+  active_offers: PublicActiveOffer[];
+}
+

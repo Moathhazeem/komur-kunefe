@@ -34,7 +34,41 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [loginError, setLoginError] = useState<string | null>(null);
 
   // Active Admin Tab
-  const [activeTab, setActiveTab] = useState<'orders' | 'products' | 'offers' | 'reviews' | 'delivery' | 'analytics' | 'ai' | 'settings'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'products' | 'offers' | 'reviews' | 'delivery' | 'analytics' | 'ai' | 'settings'>(() => {
+    try {
+      const stored = sessionStorage.getItem('komur_admin_target_tab');
+      if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(stored)) {
+        sessionStorage.removeItem('komur_admin_target_tab');
+        return stored as any;
+      }
+      const hashMatch = window.location.hash.match(/tab=([a-z]+)/i);
+      if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
+        return hashMatch[1] as any;
+      }
+    } catch {}
+    return 'orders';
+  });
+
+  // Listen for hash & cross-page navigation triggers to sync tabs
+  useEffect(() => {
+    const handleTabSync = () => {
+      try {
+        const stored = sessionStorage.getItem('komur_admin_target_tab');
+        if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(stored)) {
+          sessionStorage.removeItem('komur_admin_target_tab');
+          setActiveTab(stored as any);
+          return;
+        }
+        const hashMatch = window.location.hash.match(/tab=([a-z]+)/i);
+        if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
+          setActiveTab(hashMatch[1] as any);
+        }
+      } catch {}
+    };
+
+    window.addEventListener('hashchange', handleTabSync);
+    return () => window.removeEventListener('hashchange', handleTabSync);
+  }, []);
 
   // Orders State
   const [orders, setOrders] = useState<Order[]>([]);
