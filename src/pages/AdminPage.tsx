@@ -45,7 +45,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
         return hashMatch[1] as any;
       }
-    } catch {}
+    } catch { }
     return 'orders';
   });
 
@@ -63,7 +63,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
           setActiveTab(hashMatch[1] as any);
         }
-      } catch {}
+      } catch { }
     };
 
     window.addEventListener('hashchange', handleTabSync);
@@ -454,7 +454,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   // Authenticated Admin Dashboard
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 text-right space-y-8">
-      
+
       {/* Admin Top Header Bar */}
       <div className="bg-white border border-amber-100 rounded-3xl p-4 sm:p-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3 w-full md:w-auto">
@@ -504,48 +504,49 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       </div>
 
       {/* Admin Tabs Bar */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none border-b border-orange-100">
-        {[
-          { id: 'orders', label: 'الطلبات الحية', icon: ShoppingBag, badge: orders.filter((o) => o.status === 'new').length },
-          { id: 'products', label: 'المنيو والأسعار', icon: Utensils },
-          { id: 'offers', label: 'العروض الموسمية', icon: Sparkles },
-          { id: 'reviews', label: 'آراء الزبائن', icon: MessageSquare, badge: reviews.filter((r) => !r.isApproved).length },
-          { id: 'delivery', label: 'اهتمام التوصيل', icon: Bike, badge: deliveryInterests.length },
-          { id: 'analytics', label: 'الداشبورد الذكي', icon: BarChart3 },
-          { id: 'ai', label: 'مساعد كُومُر AI', icon: Bot },
-          { id: 'settings', label: 'إعدادات المحل', icon: Settings },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const active = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border ${
-                active
+      <div className="w-full max-w-full overflow-hidden">
+        <div className="flex items-center gap-2 overflow-x-auto flex-nowrap pb-2.5 scrollbar-none border-b border-orange-100">
+          {[
+            { id: 'orders', label: 'الطلبات الحية', icon: ShoppingBag, badge: orders.filter((o) => o.status === 'new').length },
+            { id: 'products', label: 'المنيو والأسعار', icon: Utensils },
+            { id: 'offers', label: 'العروض الموسمية', icon: Sparkles },
+            { id: 'reviews', label: 'آراء الزبائن', icon: MessageSquare, badge: reviews.filter((r) => !r.isApproved).length },
+            { id: 'delivery', label: 'اهتمام التوصيل', icon: Bike, badge: deliveryInterests.length },
+            { id: 'analytics', label: 'الداشبورد الذكي', icon: BarChart3 },
+            { id: 'ai', label: 'مساعد كُومُر AI', icon: Bot },
+            { id: 'settings', label: 'إعدادات المحل', icon: Settings },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`shrink-0 flex items-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
                   ? 'bg-orange-500 text-white border-orange-500 shadow-md shadow-orange-500/20'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-orange-200 hover:text-orange-600'
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              <span>{tab.label}</span>
-              {tab.badge !== undefined && tab.badge > 0 && (
-                <span className="bg-white text-orange-600 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
-                  {tab.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
+                  : 'bg-white text-slate-600 border-slate-200 hover:border-orange-200 hover:text-orange-600 hover:bg-orange-50/40'
+                  }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span>{tab.label}</span>
+                {tab.badge !== undefined && tab.badge > 0 && (
+                  <span className="bg-white text-orange-600 text-[10px] font-black min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* TAB 1: ORDERS MANAGEMENT */}
       {activeTab === 'orders' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           {/* Controls bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm transition-all">
-            <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+            <div className="flex items-center gap-2 overflow-x-auto flex-nowrap w-full sm:w-auto pb-1 scrollbar-none">
               {[
                 { id: 'all', label: 'الكل' },
                 { id: 'new', label: 'جديد' },
@@ -556,11 +557,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 <button
                   key={st.id}
                   onClick={() => setOrderFilter(st.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    orderFilter === st.id
-                      ? 'bg-orange-500 text-white shadow-sm'
-                      : 'bg-slate-50 text-slate-500 hover:text-orange-600 hover:bg-amber-50 border border-slate-200'
-                  }`}
+                  className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${orderFilter === st.id
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'bg-slate-50 text-slate-500 hover:text-orange-600 hover:bg-amber-50 border border-slate-200'
+                    }`}
                 >
                   {st.label}
                 </button>
@@ -589,11 +589,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  className={`bg-white border rounded-2xl p-4 sm:p-5 transition-all shadow-sm hover:shadow-md ${
-                    order.status === 'new'
-                      ? 'border-orange-300 ring-1 ring-orange-200'
-                      : 'border-amber-100 hover:border-amber-200'
-                  }`}
+                  className={`bg-white border rounded-2xl p-4 sm:p-5 transition-all shadow-sm hover:shadow-md ${order.status === 'new'
+                    ? 'border-orange-300 ring-1 ring-orange-200'
+                    : 'border-amber-100 hover:border-amber-200'
+                    }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-3">
                     <div className="flex items-center gap-3">
@@ -613,17 +612,16 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                       <select
                         value={order.status}
                         onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value as any)}
-                        className={`text-xs font-black px-3 py-1.5 rounded-xl border focus:outline-none transition-colors ${
-                          order.status === 'new'
-                            ? 'bg-orange-50 text-orange-600 border-orange-200'
-                            : order.status === 'preparing'
+                        className={`text-xs font-black px-3 py-1.5 rounded-xl border focus:outline-none transition-colors ${order.status === 'new'
+                          ? 'bg-orange-50 text-orange-600 border-orange-200'
+                          : order.status === 'preparing'
                             ? 'bg-amber-50 text-amber-600 border-amber-200'
                             : order.status === 'ready'
-                            ? 'bg-blue-50 text-blue-600 border-blue-200'
-                            : order.status === 'completed'
-                            ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                            : 'bg-slate-50 text-slate-500 border-slate-200'
-                        }`}
+                              ? 'bg-blue-50 text-blue-600 border-blue-200'
+                              : order.status === 'completed'
+                                ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                                : 'bg-slate-50 text-slate-500 border-slate-200'
+                          }`}
                       >
                         <option value="new">جديد (بانتظار التحضير)</option>
                         <option value="preparing">قيد التحضير (ع الفحم)</option>
@@ -691,7 +689,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 2: PRODUCTS & PRICING MANAGEMENT */}
       {activeTab === 'products' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">
@@ -795,11 +793,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                       await api.updateProduct(product.id, { isAvailable: !product.isAvailable });
                       loadProducts();
                     }}
-                    className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border transition-colors ${
-                      product.isAvailable
-                        ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-emerald-200'
-                        : 'bg-rose-50 text-rose-500 hover:bg-rose-100 border-rose-100'
-                    }`}
+                    className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border transition-colors ${product.isAvailable
+                      ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-emerald-200'
+                      : 'bg-rose-50 text-rose-500 hover:bg-rose-100 border-rose-100'
+                      }`}
                   >
                     {product.isAvailable ? 'معروض للبيع' : 'مخفي من المنيو'}
                   </button>
@@ -814,7 +811,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 3: SEASONAL OFFERS */}
       {activeTab === 'offers' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">
@@ -892,11 +889,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                       await api.updateOffer(offer.id, { isActive: !offer.isActive });
                       loadOffers();
                     }}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold border transition-colors ${
-                      offer.isActive
-                        ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                        : 'bg-rose-50 text-rose-500 border-rose-100'
-                    }`}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold border transition-colors ${offer.isActive
+                      ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                      : 'bg-rose-50 text-rose-500 border-rose-100'
+                      }`}
                   >
                     {offer.isActive ? 'نشط ويظهر بالموقع' : 'معطل ومخفي'}
                   </button>
@@ -911,7 +907,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 4: REVIEWS MODERATION */}
       {activeTab === 'reviews' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">
@@ -924,7 +920,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
             <button
               onClick={handleClearDemoReviews}
-              className="px-4 py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 text-xs font-bold transition-colors self-start sm:self-auto"
+              className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white border border-red-500 text-xs font-bold transition-colors shadow-sm self-start sm:self-auto"
             >
               حذف التقييمات التجريبية (إبقاء الحقيقي فقط)
             </button>
@@ -945,11 +941,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                         تجريبي
                       </span>
                     )}
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold border ${
-                      rev.isApproved
-                        ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                        : 'bg-amber-50 text-amber-600 border-amber-200'
-                    }`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold border ${rev.isApproved
+                      ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                      : 'bg-amber-50 text-amber-600 border-amber-200'
+                      }`}>
                       {rev.isApproved ? 'معتمد ومنشور' : 'بانتظار الموافقة'}
                     </span>
                   </div>
@@ -964,11 +959,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => handleToggleReviewStatus(rev.id, !rev.isApproved)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${
-                      rev.isApproved
-                        ? 'bg-slate-50 text-slate-500 hover:bg-slate-100 border-slate-200'
-                        : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-emerald-200'
-                    }`}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${rev.isApproved
+                      ? 'bg-slate-50 text-slate-500 hover:bg-slate-100 border-slate-200'
+                      : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border-emerald-200'
+                      }`}
                   >
                     {rev.isApproved ? 'إخفاء عن الزوار' : 'موافقة ونشر بالموقع'}
                   </button>
@@ -990,7 +984,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 5: DELIVERY INTEREST ANALYTICS */}
       {activeTab === 'delivery' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           {/* Geographic Bar Chart Ranking */}
           <NeighborhoodsBarChart
             demandByArea={dashboardStats?.deliveryDemand?.byArea}
@@ -1038,7 +1032,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 6: SMART DASHBOARD (DECISION INTELLIGENCE) */}
       {activeTab === 'analytics' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           {/* Time filter */}
           <div className="bg-white border border-amber-100 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
             <div className="flex items-center gap-2">
@@ -1047,11 +1041,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 <button
                   key={r}
                   onClick={() => setDateRange(r)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    dateRange === r
-                      ? 'bg-orange-500 text-white font-black shadow-sm'
-                      : 'bg-slate-50 text-slate-500 hover:text-orange-600 hover:bg-amber-50 border border-slate-200'
-                  }`}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${dateRange === r
+                    ? 'bg-orange-500 text-white font-black shadow-sm'
+                    : 'bg-slate-50 text-slate-500 hover:text-orange-600 hover:bg-amber-50 border border-slate-200'
+                    }`}
                 >
                   {r === 'today' ? 'اليوم' : r === '7d' ? 'آخر 7 أيام' : 'آخر 30 يومًا'}
                 </button>
@@ -1106,7 +1099,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
               {/* Top & Least Selling Products Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+
                 {/* Top Sellers */}
                 <div className="bg-white border border-amber-100 rounded-2xl p-5 space-y-4 shadow-sm hover:shadow-md transition-all">
                   <div className="flex items-center gap-2 text-emerald-600 font-heading font-bold text-base">
@@ -1174,7 +1167,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 7: AI AGENT & STRATEGIC REPORT */}
       {activeTab === 'ai' && (
         <div className="space-y-6 animate-fadeIn">
-          
+
           <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
@@ -1227,9 +1220,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               {aiChatMessages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex gap-3 text-xs sm:text-sm leading-relaxed ${
-                    msg.role === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
+                  className={`flex gap-3 text-xs sm:text-sm leading-relaxed ${msg.role === 'user' ? 'justify-end' : 'justify-start'
+                    }`}
                 >
                   {msg.role === 'assistant' && (
                     <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
@@ -1237,11 +1229,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                     </div>
                   )}
                   <div
-                    className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl ${
-                      msg.role === 'user'
-                        ? 'bg-orange-500 text-white font-bold shadow-sm'
-                        : 'bg-white text-slate-600 border border-slate-200 shadow-sm whitespace-pre-line'
-                    }`}
+                    className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl ${msg.role === 'user'
+                      ? 'bg-orange-500 text-white font-bold shadow-sm'
+                      : 'bg-white text-slate-600 border border-slate-200 shadow-sm whitespace-pre-line'
+                      }`}
                   >
                     {msg.text}
                   </div>
@@ -1307,7 +1298,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       {/* TAB 8: STORE SETTINGS & LOGO */}
       {activeTab === 'settings' && settingsForm && (
         <form onSubmit={handleSaveSettings} className="space-y-6 animate-fadeIn">
-          
+
           <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
             <h2 className="text-xl font-bold text-slate-700 font-heading border-b border-slate-100 pb-3">
               إعدادات المحل والهوية (فرع رافدية - نابلس)

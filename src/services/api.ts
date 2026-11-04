@@ -71,6 +71,19 @@ export const api = {
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.error || 'فشل إنشاء الطلب');
+    
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = JSON.parse(localStorage.getItem('komur_my_order_ids') || '[]');
+        if (!stored.includes(data.order.id)) {
+          stored.unshift(data.order.id);
+          localStorage.setItem('komur_my_order_ids', JSON.stringify(stored));
+        }
+        localStorage.setItem('komur_last_order_event', JSON.stringify({ type: 'order_created', order: data.order, time: Date.now() }));
+      } catch {}
+      window.dispatchEvent(new CustomEvent('komur_order_created', { detail: data.order }));
+      window.dispatchEvent(new CustomEvent('komur_order_status_updated', { detail: data.order }));
+    }
     return data.order;
   },
 
@@ -86,7 +99,57 @@ export const api = {
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.error);
+
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('komur_last_order_event', JSON.stringify({ type: 'order_status_updated', order: data.order, time: Date.now() }));
+      } catch {}
+      window.dispatchEvent(new CustomEvent('komur_order_status_updated', { detail: data.order }));
+    }
     return data.order;
+  },
+
+  subscribeToOrderUpdates(callback: (order: Order) => void): () => void {
+    if (typeof window === 'undefined') return () => {};
+
+    let es: EventSource | null = null;
+    try {
+      es = new EventSource('/api/events');
+      const handleSse = (e: MessageEvent) => {
+        try {
+          const parsed = JSON.parse(e.data);
+          if (parsed && (parsed.id || parsed.orderNumber)) {
+            callback(parsed);
+          }
+        } catch {}
+      };
+      es.addEventListener('order_status_updated', handleSse);
+      es.addEventListener('order_created', handleSse);
+    } catch {}
+
+    const handleCustom = (e: Event) => {
+      const customEvent = e as CustomEvent<Order>;
+      if (customEvent.detail) callback(customEvent.detail);
+    };
+    window.addEventListener('komur_order_status_updated', handleCustom);
+    window.addEventListener('komur_order_created', handleCustom);
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'komur_last_order_event' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed?.order) callback(parsed.order);
+        } catch {}
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+
+    return () => {
+      if (es) es.close();
+      window.removeEventListener('komur_order_status_updated', handleCustom);
+      window.removeEventListener('komur_order_created', handleCustom);
+      window.removeEventListener('storage', handleStorage);
+    };
   },
 
   // Offers

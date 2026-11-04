@@ -26,7 +26,7 @@ export interface Product {
   isSeasonal?: boolean;
   featured?: boolean;
   addOns?: Array<{ name: string; price: number }>;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface OrderItem {

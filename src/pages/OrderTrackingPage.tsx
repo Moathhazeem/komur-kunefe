@@ -14,6 +14,22 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  React.useEffect(() => {
+    try {
+      const savedQuery = sessionStorage.getItem('komur_track_query');
+      if (savedQuery) {
+        sessionStorage.removeItem('komur_track_query');
+        setOrderQuery(savedQuery);
+        setLoading(true);
+        setHasSearched(true);
+        api.getOrder(savedQuery.trim())
+          .then((found) => setOrder(found))
+          .catch(() => setOrder(null))
+          .finally(() => setLoading(false));
+      }
+    } catch {}
+  }, []);
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orderQuery.trim()) return;

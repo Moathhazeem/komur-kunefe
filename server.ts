@@ -30,6 +30,44 @@ async function startServer() {
     next();
   });
 
+  // --- Real-time Server-Sent Events (SSE) for Order Notifications ---
+  const sseClients = new Set<express.Response>();
+
+  const broadcastEvent = (eventType: string, data: any) => {
+    const payload = `event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`;
+    for (const client of sseClients) {
+      try {
+        client.write(payload);
+      } catch {
+        sseClients.delete(client);
+      }
+    }
+  };
+
+  app.get('/api/events', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders?.();
+
+    res.write(`event: connected\ndata: ${JSON.stringify({ connected: true, timestamp: new Date().toISOString() })}\n\n`);
+
+    sseClients.add(res);
+
+    req.on('close', () => {
+      sseClients.delete(res);
+    });
+  });
+
+  app.get('/api/notifications', (req, res) => {
+    try {
+      const orders = db.getOrders().slice(0, 15);
+      res.json({ success: true, orders });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
   // --- API Routes ---
 
   // Products
@@ -164,6 +202,9 @@ async function startServer() {
         source: source || 'website'
       });
 
+      broadcastEvent('order_created', newOrder);
+      broadcastEvent('order_status_updated', newOrder);
+
       res.status(201).json({ success: true, order: newOrder });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
@@ -180,6 +221,7 @@ async function startServer() {
       if (!updated) {
         return res.status(404).json({ success: false, error: 'الطلب غير موجود' });
       }
+      broadcastEvent('order_status_updated', updated);
       res.json({ success: true, order: updated });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });

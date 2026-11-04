@@ -5,58 +5,89 @@ const iceCream = [{ name: 'إضافة بوظة', price: 4 }];
 const sauces = ['نوتيلا', 'لوتس', 'زبدة الفستق', 'شوكولاته بيضاء'].map((name) => ({ name, price: 4 }));
 
 const images = {
-  nabulsiKnafeh: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg/960px-%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg',
-  pistachioBaklava: 'https://images.unsplash.com/photo-1676014959543-81df1079b423?auto=format&fit=crop&w=1200&q=85',
-  assortedSweets: 'https://images.unsplash.com/photo-1762806965030-b8399ae9f068?auto=format&fit=crop&w=1200&q=85',
-  chocolate: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85',
-  water: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=1200&q=85',
-  cola: 'https://images.unsplash.com/photo-1709240428510-0189e299c1fe?auto=format&fit=crop&w=1200&q=85',
-  sprite: 'https://images.unsplash.com/photo-1696706980174-79c1c11aa683?auto=format&fit=crop&w=1200&q=85',
+  kunefePistachio: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/K%C3%BCnefe_Pistachio.JPG/1280px-K%C3%BCnefe_Pistachio.JPG',
+  nabulsiKnafeh: 'https://img-global.cpcdn.com/recipes/276d7237ed1de5a8/680x781cq80/%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3%D9%8A%D8%A9-%D9%84%D9%88%D8%B5%D9%81%D8%A9%D9%83%D9%86%D8%A7%D9%81%D8%A9-%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9-%D9%86%D8%A7%D8%B9%D9%85%D8%A9.jpg',
+  kunefeAshta: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/K%C3%BCnefe_-_pistachio.jpg/1280px-K%C3%BCnefe_-_pistachio.jpg',
+  burgerKunafa: 'https://img.ananinja.com/media/ninja-catalog-42/restaurants/shuqkz9369sm88dixqaq86ux48ls/69918cd794c5410346ece04f.jpg?q=75&w=1080',
+  chocolateKunefe: 'https://static.wixstatic.com/media/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg/v1/fill/w_980%2Ch_667%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_auto/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg',
+  feteer: 'https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg',
+  baklavaIceCream: 'https://d1w7312wesee68.cloudfront.net/zs8MP5aUHuJ4BTNjjlx5AIX_aRZPuBvx_oX_LPcoW0M/resize%3Afit%3A720%3A720/plain/s3%3A/toasttab/restaurants/restaurant-206988000000000000/menu/images/item-c9b0020c-30fe-457d-a053-f8a8d4b53546.jpg',
+  bormaPistachio: 'https://sweetsjerusalem.com/cdn/shop/files/DSC03682.jpg?v=1745324737&width=1946',
+  creamRolls: 'https://www.zamanalwsl.net/CustomImage/get/700/500/365-fe1a53fb0c.jpg',
+  osmalieh: '/amalieh.jpg',
+  creamFingers: 'https://img.ananinja.com/media/ninja-catalog-42/restaurants/4zlelh8lj2pvnw6ttwh3l51nvbq1/3333881.jpg?q=75&w=1080',
+  burmaCream: 'https://media.zid.store/thumbs/909c78da-e62f-4a46-9c02-d266b83c09f3/054e3ba7-c1a1-4fb1-ba88-b1be64dcc91d-thumbnail-770x770-70.jpg',
+  cheeseKunafa: 'https://images.deliveryhero.io/image/menu-import-gateway-prd/regions/ME/chains/HS-HMF/56cf4da9599c6835fd40f5514d0089aa.jpg?quality=75&webp=true&width=1440',
+  khodood: 'https://www.her-news.com/Upload/libfiles/14/8/650.jpg',
+  madlouqa: 'https://www.jabri.com.jo/sites/default/files/madlooa_2.jpg',
+  birdNest: 'https://cdn.salla.sa/ZwNrO/HoDSVP6l0p2E8Z8mTCfpRO6ATEXoVorx53LxVndt.jpg',
+  halawetJibn: 'https://cdn.tasteatlas.com/images/dishes/a1008d8c9b664b20a8fddda74ef7093c.jpg?h=560&w=1920',
+  pistachioBurma: 'https://static.wixstatic.com/media/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg/v1/fill/w_480%2Ch_534%2Cal_c%2Cq_80%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg',
+  trilece: 'https://www.ismailkaratas.com.tr/img/yenitarif/2285/trelice.jpg',
+  feteerMilk: 'https://www.eldahan.com/foods/Milk_Cr%C3%A8me_Feteer.jpg',
+  creamBiscuits: 'https://wholesale.herbsnbeans.co.uk/cdn/shop/files/abu-walad-sandwich-biscuits.jpg?v=1772104055&width=3840',
+  warbat: 'https://falasteenifoodie.com/wp-content/uploads/2025/03/Middle-Eastern-Warbat-Bil-Ashta-1024x754.jpg',
+  harissaAshta: 'https://alsultanoglu.com/cdn/shop/files/1_0cbbf28e-63a2-4ad6-8c4c-0afd9966bfc8_1024x1024.png?v=1720509901',
+  waterSmall: 'https://ik.imagekit.io/pimberly/595e406f0f15f30010780448/6e6a9e01/66788e6c4b07950019667018/NL10016_01.jpg?tr=w-600%2Ch-600%2Ccm-pad_resize%2Cbg-FFFFFF',
+  waterLarge: 'https://aqua-amore.com/cdn/shop/collections/Radnor-1500ml-Plastic-Bottl-247x300_large.jpg?v=1755596553',
+  cola: '/coca-cola.jpg',
+  soda: 'https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038',
+  sprite: 'https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg',
 };
 
 const productImages: Record<string, string> = {
-  'كنافة اسطنبولية بالفستق الناعم': images.nabulsiKnafeh,
-  'كنافة اسطنبولية فستق أكسترا': images.nabulsiKnafeh,
+  'كنافة اسطنبولية بالفستق الناعم': images.kunefePistachio,
+  'كنافة اسطنبولية فستق أكسترا': images.kunefePistachio,
   'كنافة نابلسية ناعمة': images.nabulsiKnafeh,
-  'كنافة اسطنبولية محيرة': images.nabulsiKnafeh,
-  'اسطنبولية بحشوة الجبن والفستق الحلبي': images.nabulsiKnafeh,
-  'اسطنبولية بالقشطة': images.assortedSweets,
-  'كنافة برغر': images.nabulsiKnafeh,
-  'كنافة اسطنبولية بالشوكولاته': images.chocolate,
-  'فطير السلطان': images.assortedSweets,
-  'بقلاوة بالبوظة': images.pistachioBaklava,
-  'كنافة برمة بالجبنة': images.nabulsiKnafeh,
-  'بصله فستق': images.pistachioBaklava,
-  'ععملية (عملية)': images.assortedSweets,
-  'بين نارين': images.nabulsiKnafeh,
-  'خدود': images.pistachioBaklava,
-  'مدلوقة': images.assortedSweets,
-  'عش بلبل': images.pistachioBaklava,
-  'حلاوة جبن': images.nabulsiKnafeh,
-  'اصابع فستق دولما': images.pistachioBaklava,
-  'ترليشيا': images.assortedSweets,
-  'فطير بالجبنة': images.assortedSweets,
-  'فطير بالحليب': images.assortedSweets,
-  'بسكويت بالقشطة': images.pistachioBaklava,
-  'اصابع بالقشطة': images.pistachioBaklava,
-  'وربات بالقشطة': images.pistachioBaklava,
-  'برمه حلبي بالقشطة': images.pistachioBaklava,
-  'هريسة بالقشطة': images.assortedSweets,
-  'مياه صغير': images.water,
-  'مياه كبير': images.water,
+  'كنافة اسطنبولية محيرة': images.kunefeAshta,
+  'اسطنبولية بحشوة الجبن والفستق الحلبي': images.kunefePistachio,
+  'اسطنبولية بالقشطة': images.kunefeAshta,
+  'كنافة برغر': images.burgerKunafa,
+  'كنافة اسطنبولية بالشوكولاته': images.chocolateKunefe,
+  'فطير السلطان': images.feteer,
+  'بقلاوة بالبوظة': images.baklavaIceCream,
+  'كنافة برمة بالجبنة': images.kunefeAshta,
+  'بصله فستق': images.bormaPistachio,
+  'ععملية (عملية)': images.osmalieh,
+  'بين نارين': images.cheeseKunafa,
+  'خدود': images.khodood,
+  'مدلوقة': images.madlouqa,
+  'عش بلبل': images.birdNest,
+  'حلاوة جبن': images.halawetJibn,
+  'اصابع فستق دولما': images.pistachioBurma,
+  'ترليشيا': images.trilece,
+  'فطير بالجبنة': images.feteer,
+  'فطير بالحليب': images.feteerMilk,
+  'بسكويت بالقشطة': images.creamBiscuits,
+  'اصابع بالقشطة': images.creamFingers,
+  'وربات بالقشطة': images.warbat,
+  'برمه حلبي بالقشطة': images.burmaCream,
+  'هريسة بالقشطة': images.harissaAshta,
+  'مياه صغير': images.waterSmall,
+  'مياه كبير': images.waterLarge,
   'كوكا كولا': images.cola,
-  'سودا': images.sprite,
+  'سودا': images.soda,
   'سبرايت': images.sprite,
 };
 
 const imageFields = (name: string, fallback: string) => {
   const image = productImages[name] ?? fallback;
+  const isPistachioKunefe = image === images.kunefePistachio;
+  const isKaymakKunefe = image === images.kunefeAshta;
+  const isLocalCola = image === images.cola;
+  const isLocalOsmalieh = image === images.osmalieh;
   return {
     image,
-    ...(image === images.nabulsiKnafeh ? {
-      imageCredit: 'Leen.salem — CC BY-SA 4.0',
-      imageCreditUrl: 'https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%83%D9%86%D8%A7%D9%81%D8%A9_%D8%A7%D9%84%D9%86%D8%A7%D8%A8%D9%84%D8%B3%D9%8A%D8%A9.jpg',
-    } : {}),
+    imageCredit: isPistachioKunefe ? 'Benreis — CC BY 3.0'
+      : isKaymakKunefe ? 'E4024 — CC BY-SA 4.0'
+      : isLocalCola ? 'Ossewa — CC BY-SA 4.0'
+      : isLocalOsmalieh ? 'Image source: Baitiana'
+      : `Image source: ${new URL(image).hostname}`,
+    imageCreditUrl: isPistachioKunefe ? 'https://commons.wikimedia.org/wiki/File:K%C3%BCnefe_Pistachio.JPG'
+      : isKaymakKunefe ? 'https://commons.wikimedia.org/wiki/File:K%C3%BCnefe_-_pistachio.jpg'
+      : isLocalCola ? 'https://commons.wikimedia.org/wiki/File:Coca-Cola_330ml_can.jpg'
+      : isLocalOsmalieh ? 'https://baitiana.com/2024/03/11/osmaliyi-bil-ashta-dessert/'
+      : image,
   };
 };
 

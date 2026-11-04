@@ -133,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({
           </a>
 
           {/* Notifications */}
-          <NotificationCenter />
+          <NotificationCenter onNavigate={navigate} />
 
           {/* Cart Button */}
           <button
