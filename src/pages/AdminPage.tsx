@@ -4,8 +4,7 @@ import {
   Shield, ShoppingBag, Utensils, Sparkles, MessageSquare, Bike,
   BarChart3, Bot, Settings, LogOut, CheckCircle, Clock, AlertTriangle,
   Plus, Edit2, Trash2, Printer, Search, RefreshCw, Eye, EyeOff, Send,
-  FileText, Download, Check, X, Tag, DollarSign, TrendingUp, Users, Flame,
-  ChevronLeft, ChevronRight
+  FileText, Download, Check, X, Tag, DollarSign, TrendingUp, Users, Flame
 } from 'lucide-react';
 import { Product, Order, Offer, Review, DeliveryInterest, StoreSettings, DashboardStats, UserSession } from '../types';
 import { api } from '../services/api';
@@ -74,34 +73,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   // Orders State
   const tabsContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const checkTabsScroll = () => {
-    const el = tabsContainerRef.current;
-    if (!el) return;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    const current = Math.abs(el.scrollLeft);
-    setCanScrollLeft(current < maxScroll - 5);
-    setCanScrollRight(current > 5);
-  };
-
-  const handleScrollTabs = (direction: 'left' | 'right') => {
-    const el = tabsContainerRef.current;
-    if (!el) return;
-    const distance = 240;
-    el.scrollBy({
-      left: direction === 'left' ? -distance : distance,
-      behavior: 'smooth'
-    });
-  };
-
-  useEffect(() => {
-    checkTabsScroll();
-    const handleResize = () => checkTabsScroll();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     // Auto-scroll active tab into visible view
@@ -111,7 +82,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     if (activeEl) {
       activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
-    checkTabsScroll();
   }, [activeTab]);
 
   const [orders, setOrders] = useState<Order[]>([]);
@@ -546,40 +516,16 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         </div>
       </div>
 
-      {/* Admin Tabs Bar: Interactive, Horizontally Scrollable & Moveable */}
-      <div className="relative w-full group">
-        {/* Right Arrow (Scroll towards first tabs in RTL) */}
-        <button
-          type="button"
-          onClick={() => handleScrollTabs('right')}
-          className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-amber-100 text-slate-900 hover:bg-amber-200 shadow-md flex items-center justify-center transition-all opacity-90 hover:opacity-100 hover:scale-105 border border-amber-300"
-          title="تمرير الرموز لليمين"
-          aria-label="Scroll tabs right"
-        >
-          <ChevronRight className="w-4 h-4 text-slate-800" />
-        </button>
-
-        {/* Left Arrow (Scroll towards later tabs in RTL) */}
-        <button
-          type="button"
-          onClick={() => handleScrollTabs('left')}
-          className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-amber-100 text-slate-900 hover:bg-amber-200 shadow-md flex items-center justify-center transition-all opacity-90 hover:opacity-100 hover:scale-105 border border-amber-300"
-          title="تمرير الرموز لليسار"
-          aria-label="Scroll tabs left"
-        >
-          <ChevronLeft className="w-4 h-4 text-slate-800" />
-        </button>
-
-        {/* Scrollable Container with Mouse Wheel & Touch Swipe Support */}
+      {/* Admin Tabs Bar: Native Touch/Mouse Horizontal Scroll without Arrow Buttons */}
+      <div className="w-full">
         <div
           ref={tabsContainerRef}
-          onScroll={checkTabsScroll}
           onWheel={(e) => {
             if (tabsContainerRef.current && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
               tabsContainerRef.current.scrollLeft += e.deltaY;
             }
           }}
-          className="flex items-center gap-2 overflow-x-auto flex-nowrap pb-2.5 pt-1 px-8 scrollbar-thin scrollbar-thumb-amber-200 hover:scrollbar-thumb-amber-400 border-b border-amber-200/60 touch-pan-x cursor-grab active:cursor-grabbing select-none"
+          className="flex items-center gap-2.5 overflow-x-auto flex-nowrap pb-3 pt-1 px-1 scrollbar-none border-b border-amber-200/60 touch-pan-x cursor-grab active:cursor-grabbing select-none"
         >
           {[
             { id: 'orders', label: 'الطلبات الحية', icon: ShoppingBag, badge: orders.filter((o) => o.status === 'new').length },
@@ -600,16 +546,16 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 data-tab={tab.id}
                 data-active={active}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`shrink-0 flex items-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
-                  ? 'bg-amber-100 text-slate-900 border-amber-300 shadow-md ring-2 ring-amber-400/40 font-black'
-                  : 'bg-white text-slate-700 border-slate-200 hover:border-amber-300 hover:text-amber-800 hover:bg-amber-50/50'
+                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
+                  ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50 font-black'
+                  : 'bg-[#FDFBF7] text-slate-700 border-amber-200/70 hover:border-amber-300 hover:text-amber-900 hover:bg-[#F7F0E5]/60'
                   }`}
               >
                 <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className={`text-[10px] font-black min-w-5 h-5 px-1 rounded-full flex items-center justify-center ${
-                    active ? 'bg-amber-800 text-white' : 'bg-amber-100 text-amber-900'
+                  <span className={`text-[10px] font-black min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center ${
+                    active ? 'bg-amber-800 text-white' : 'bg-amber-200 text-amber-900'
                   }`}>
                     {tab.badge}
                   </span>

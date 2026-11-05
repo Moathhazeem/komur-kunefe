@@ -33,6 +33,7 @@ const images = {
   cola: '/coca-cola.jpg',
   soda: 'https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038',
   sprite: 'https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg',
+  assortedSweets: 'https://images.deliveryhero.io/image/menu-import-gateway-prd/regions/ME/chains/HS-HMF/56cf4da9599c6835fd40f5514d0089aa.jpg?quality=75&webp=true&width=1440',
 };
 
 const productImages: Record<string, string> = {

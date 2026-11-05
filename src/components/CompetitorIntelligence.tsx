@@ -3,8 +3,7 @@ import {
   TrendingUp, TrendingDown, Minus, Star, MapPin,
   ThumbsUp, MessageCircle, Share2, Eye, Zap, Award, AlertTriangle,
   Target, Shield, ChevronDown, ChevronUp, Users, Tag, BarChart2,
-  CheckCircle, XCircle, Lightbulb, Info, Flame, Layers, Sparkles,
-  ChevronLeft, ChevronRight
+  CheckCircle, XCircle, Lightbulb, Info, Flame, Layers, Sparkles
 } from 'lucide-react';
 
 // ─── Brand Design Tokens ─────────────────────────────────────────────────────
@@ -350,37 +349,9 @@ export const CompetitorIntelligence: React.FC = () => {
 
   // Sub-tabs smooth scroll & drag state
   const subTabsContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollStart, setScrollStart] = useState(0);
-
-  const checkSubTabsScroll = () => {
-    const el = subTabsContainerRef.current;
-    if (!el) return;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    const current = Math.abs(el.scrollLeft);
-    setCanScrollLeft(current < maxScroll - 5);
-    setCanScrollRight(current > 5);
-  };
-
-  const handleScrollSubTabs = (direction: 'left' | 'right') => {
-    const el = subTabsContainerRef.current;
-    if (!el) return;
-    const distance = 200;
-    el.scrollBy({
-      left: direction === 'left' ? -distance : distance,
-      behavior: 'smooth'
-    });
-  };
-
-  useEffect(() => {
-    checkSubTabsScroll();
-    const handleResize = () => checkSubTabsScroll();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     // Auto-scroll selected sub-tab into visible area
@@ -390,7 +361,6 @@ export const CompetitorIntelligence: React.FC = () => {
     if (activeEl) {
       activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
-    checkSubTabsScroll();
   }, [activeTab]);
 
   // Mouse drag handlers for desktop smooth dragging
@@ -410,7 +380,6 @@ export const CompetitorIntelligence: React.FC = () => {
     const x = e.pageX - el.offsetLeft;
     const walk = (x - startX) * 1.5; // Drag sensitivity
     el.scrollLeft = scrollStart - walk;
-    checkSubTabsScroll();
   };
 
   const handleMouseUpOrLeave = () => {
@@ -466,34 +435,11 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
         </div>
 
-        {/* ─── Scrollable & Interactive Sub-tabs Navigation Bar ─── */}
-        <div className="mt-6 pt-5 border-t border-amber-200/80 relative group">
-          {/* Right Scroll Arrow (Previous / RTL Start) */}
-          <button
-            type="button"
-            onClick={() => handleScrollSubTabs('right')}
-            className="absolute -right-2 top-1/2 mt-2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white text-slate-800 hover:text-orange-700 hover:bg-amber-100 shadow-md flex items-center justify-center transition-all opacity-95 hover:opacity-100 hover:scale-105 border border-amber-300"
-            title="تمرير التبويبات لليمين"
-            aria-label="Scroll tabs right"
-          >
-            <ChevronRight className="w-4 h-4 text-slate-800" />
-          </button>
-
-          {/* Left Scroll Arrow (Next / RTL End) */}
-          <button
-            type="button"
-            onClick={() => handleScrollSubTabs('left')}
-            className="absolute -left-2 top-1/2 mt-2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white text-slate-800 hover:text-orange-700 hover:bg-amber-100 shadow-md flex items-center justify-center transition-all opacity-95 hover:opacity-100 hover:scale-105 border border-amber-300"
-            title="تمرير التبويبات لليسار"
-            aria-label="Scroll tabs left"
-          >
-            <ChevronLeft className="w-4 h-4 text-slate-800" />
-          </button>
-
-          {/* Horizontal Scrollable Container (Touch, Wheel & Drag) */}
+        {/* ─── Scrollable & Interactive Sub-tabs Navigation Bar (Native Touch/Drag, Arrowless) ─── */}
+        <div className="mt-6 pt-5 border-t border-amber-200/80 w-full">
+          {/* Horizontal Scrollable Container (Touch, Wheel & Drag without side buttons) */}
           <div
             ref={subTabsContainerRef}
-            onScroll={checkSubTabsScroll}
             onWheel={(e) => {
               if (subTabsContainerRef.current && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                 subTabsContainerRef.current.scrollLeft += e.deltaY;
@@ -503,7 +449,7 @@ export const CompetitorIntelligence: React.FC = () => {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUpOrLeave}
             onMouseLeave={handleMouseUpOrLeave}
-            className={`flex items-center gap-2 overflow-x-auto flex-nowrap py-1.5 px-6 scrollbar-thin scrollbar-thumb-amber-200 hover:scrollbar-thumb-amber-400 touch-pan-x select-none ${
+            className={`flex items-center gap-2.5 overflow-x-auto flex-nowrap py-1.5 px-1 scrollbar-none touch-pan-x select-none ${
               isDragging ? 'cursor-grabbing' : 'cursor-grab'
             }`}
           >
@@ -523,13 +469,13 @@ export const CompetitorIntelligence: React.FC = () => {
                   data-tab={tab.id}
                   data-active={active}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border whitespace-nowrap ${
+                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer ${
                     active
-                      ? 'bg-amber-100 text-slate-900 border-amber-300 shadow-sm ring-2 ring-amber-400/40 font-black'
-                      : 'bg-white text-slate-700 border-amber-200/80 hover:bg-amber-50 hover:text-amber-900'
+                      ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50 font-black'
+                      : 'bg-[#FDFBF7] text-slate-700 border-amber-200/70 hover:border-amber-300 hover:text-amber-900 hover:bg-[#F7F0E5]/60'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -545,11 +491,11 @@ export const CompetitorIntelligence: React.FC = () => {
             {COMPETITORS.map(comp => (
               <div
                 key={comp.id}
-                className="bg-white border border-slate-200 hover:border-orange-300 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                className="bg-[#FDFBF7] border border-amber-200/80 hover:border-amber-300 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-4">
                   {/* Top Bar: Name & Platforms */}
-                  <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
+                  <div className="flex items-start justify-between gap-2 border-b border-amber-100 pb-3">
                     <div>
                       <h3 className="text-lg font-black text-slate-900 font-heading">
                         {comp.nameAr}
@@ -558,13 +504,13 @@ export const CompetitorIntelligence: React.FC = () => {
                         {comp.nameEn}
                       </span>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200 shrink-0">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#F7F0E5] text-slate-800 border border-amber-200 shrink-0">
                       {comp.priceTier}
                     </span>
                   </div>
 
                   {/* Public Ratings Card */}
-                  <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                  <div className="bg-[#F7F0E5]/70 p-3.5 rounded-2xl border border-amber-200/80 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-black">
                         <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
@@ -574,24 +520,24 @@ export const CompetitorIntelligence: React.FC = () => {
                           <span className="text-base font-black text-slate-900 font-mono">
                             {comp.rating.toFixed(1)}
                           </span>
-                          <span className="text-xs text-slate-400">/ 5.0</span>
+                          <span className="text-xs text-slate-500">/ 5.0</span>
                         </div>
-                        <span className="text-[10px] text-slate-500 block font-medium">
+                        <span className="text-[10px] text-slate-600 block font-medium">
                           {comp.reviewCount}
                         </span>
                       </div>
                     </div>
-                    <span className="text-xs font-bold text-slate-600 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                    <span className="text-xs font-bold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-amber-200">
                       {comp.rating >= 4.6 ? 'ممتاز جداً ★' : 'جيد جداً'}
                     </span>
                   </div>
 
                   {/* Locations & Branches */}
                   <div className="space-y-1.5 text-xs">
-                    <span className="text-slate-400 font-bold block text-[11px]">الفروع والمواقع في نابلس:</span>
+                    <span className="text-slate-500 font-bold block text-[11px]">الفروع والمواقع في نابلس:</span>
                     {comp.locations.map((loc, i) => (
-                      <div key={i} className="flex items-center gap-2 text-slate-700 font-medium bg-slate-50/70 p-2 rounded-xl">
-                        <MapPin className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                      <div key={i} className="flex items-center gap-2 text-slate-800 font-medium bg-[#F7F0E5]/50 p-2 rounded-xl border border-amber-100/60">
+                        <MapPin className="w-3.5 h-3.5 text-orange-600 shrink-0" />
                         <span>{loc}</span>
                       </div>
                     ))}
@@ -599,10 +545,10 @@ export const CompetitorIntelligence: React.FC = () => {
 
                   {/* Ordering Channels */}
                   <div className="space-y-1.5 text-xs">
-                    <span className="text-slate-400 font-bold block text-[11px]">قنوات الطلب والتوصيل:</span>
+                    <span className="text-slate-500 font-bold block text-[11px]">قنوات الطلب والتوصيل:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {comp.orderingPlatforms.map((plat, idx) => (
-                        <span key={idx} className="bg-slate-100 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-200">
+                        <span key={idx} className="bg-white text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-amber-200/80">
                           {plat}
                         </span>
                       ))}
@@ -611,9 +557,9 @@ export const CompetitorIntelligence: React.FC = () => {
                 </div>
 
                 {/* Price baseline note */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <div className="pt-3 border-t border-amber-100 flex items-center justify-between text-xs text-slate-600">
                   <span>سعر كيلو الكنافة المقدر:</span>
-                  <span className="font-mono font-black text-slate-800">{comp.equivalentKgPrice} ₪</span>
+                  <span className="font-mono font-black text-slate-900">{comp.equivalentKgPrice} ₪</span>
                 </div>
               </div>
             ))}
@@ -623,8 +569,8 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 2: Relative Pricing Analysis ─── */}
       {activeTab === 'pricing' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-slate-900 font-heading">
                 مؤشر ومقياس الأسعار النسبي (مقارنة بـ كُومُر كُونافيه)
@@ -633,7 +579,7 @@ export const CompetitorIntelligence: React.FC = () => {
                 مقارنة سعر كيلو الكنافة الكلاسيكية وتوزيع الفئات السعرية بالنسبة لخطنا المرجعي (38 ₪/كيلو)
               </p>
             </div>
-            <span className="px-3 py-1.5 rounded-xl bg-orange-50 text-orange-700 border border-orange-200 font-bold text-xs self-start sm:self-auto">
+            <span className="px-3 py-1.5 rounded-xl bg-[#F7F0E5] text-orange-800 border border-amber-200 font-bold text-xs self-start sm:self-auto">
               خط الأساس: 38 ₪ (كُومُر ع الفحم)
             </span>
           </div>
@@ -641,7 +587,7 @@ export const CompetitorIntelligence: React.FC = () => {
           {/* Pricing Comparison Bars */}
           <div className="space-y-5">
             {/* Our Baseline Bar */}
-            <div className="p-4 rounded-2xl bg-amber-50/70 text-slate-900 border-2 border-amber-300 shadow-sm space-y-2">
+            <div className="p-4 rounded-2xl bg-[#F7F0E5] text-slate-900 border-2 border-amber-300 shadow-sm space-y-2">
               <div className="flex items-center justify-between text-xs sm:text-sm">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
@@ -666,11 +612,11 @@ export const CompetitorIntelligence: React.FC = () => {
               const barWidth = Math.min(100, Math.max(20, 70 + (c.priceDelta * 1.5)));
 
               return (
-                <div key={c.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div key={c.id} className="p-4 rounded-2xl bg-white border border-amber-200/70 space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs sm:text-sm">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-slate-800">{c.nameAr}</span>
-                      <span className="text-xs text-slate-400">({c.priceTier})</span>
+                      <span className="text-xs text-slate-500">({c.priceTier})</span>
                     </div>
 
                     <div className="flex items-center gap-3 self-end sm:self-auto">
@@ -692,7 +638,7 @@ export const CompetitorIntelligence: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-[#F7F0E5] h-2.5 rounded-full overflow-hidden border border-amber-100">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         isHigher ? 'bg-slate-700' : 'bg-amber-600'
@@ -710,9 +656,9 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Pricing Strategy Insights */}
-          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200 text-xs text-slate-700 space-y-1.5">
+          <div className="p-4 rounded-2xl bg-[#F7F0E5]/80 border border-amber-200 text-xs text-slate-800 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-slate-900">
-              <Info className="w-4 h-4 text-amber-600" />
+              <Info className="w-4 h-4 text-amber-700" />
               <span>الاستنتاج التسعيري للمحل:</span>
             </div>
             <p className="leading-relaxed">
@@ -728,16 +674,16 @@ export const CompetitorIntelligence: React.FC = () => {
         <div className="space-y-6 animate-fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {COMPETITORS.map(comp => (
-              <div key={comp.id} className="bg-white border border-slate-200 rounded-3xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+              <div key={comp.id} className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="flex items-center justify-between border-b border-amber-100 pb-3">
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
                       <h4 className="font-black text-slate-900 text-base font-heading">
                         {comp.nameAr}
                       </h4>
                     </div>
-                    <span className="text-[10px] text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] text-slate-600 font-mono bg-[#F7F0E5] px-2 py-0.5 rounded-md border border-amber-100">
                       {comp.offers.length} عروض مرصودة
                     </span>
                   </div>
@@ -745,19 +691,19 @@ export const CompetitorIntelligence: React.FC = () => {
                   {/* Offers List */}
                   <div className="space-y-3">
                     {comp.offers.map((offer, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 space-y-2 hover:bg-slate-50/90 transition-colors">
+                      <div key={idx} className="bg-white border border-amber-200/70 rounded-2xl p-3.5 space-y-2 hover:bg-[#F7F0E5]/30 transition-colors shadow-2xs">
                         <div className="flex items-start justify-between gap-2">
                           <span className="font-bold text-slate-900 text-xs font-heading leading-tight">
                             {offer.title}
                           </span>
-                          <span className="bg-orange-100 text-orange-800 border border-orange-200 text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0">
+                          <span className="bg-[#F7F0E5] text-orange-900 border border-amber-200 text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0">
                             {offer.badge}
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-600 leading-relaxed">
                           {offer.description}
                         </p>
-                        <div className="flex items-center justify-between pt-1 border-t border-slate-200/60 text-[10px] text-slate-400">
+                        <div className="flex items-center justify-between pt-1 border-t border-amber-100 text-[10px] text-slate-400">
                           <span>المنصة / القناة:</span>
                           <span className="font-bold text-slate-700">{offer.platform}</span>
                         </div>
@@ -777,9 +723,9 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 4: Facebook Social Media Engagement Widget (ALL 4 ENTITIES COMPARED) ─── */}
       {activeTab === 'social' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-slate-900 font-heading">
                 مقارنة تفاعل منصة فيسبوك (Facebook Engagement Analytics)
@@ -790,7 +736,7 @@ export const CompetitorIntelligence: React.FC = () => {
             </div>
 
             {/* Metric Switcher Tabs */}
-            <div className="flex items-center gap-1.5 bg-amber-50 p-1.5 rounded-2xl border border-amber-200 overflow-x-auto">
+            <div className="flex items-center gap-1.5 bg-[#F7F0E5] p-1.5 rounded-2xl border border-amber-200 overflow-x-auto">
               {[
                 { id: 'likes', label: 'متوسط الإعجابات', icon: ThumbsUp },
                 { id: 'comments', label: 'متوسط التعليقات', icon: MessageCircle },
@@ -805,8 +751,8 @@ export const CompetitorIntelligence: React.FC = () => {
                     onClick={() => setSocialMetric(m.id as any)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                       active
-                        ? 'bg-amber-200/80 text-slate-900 border border-amber-300 shadow-sm font-black'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-amber-100/50'
+                        ? 'bg-amber-100 text-slate-900 border border-amber-300 shadow-sm font-black'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                     }`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
@@ -858,8 +804,8 @@ export const CompetitorIntelligence: React.FC = () => {
                   key={entity.id}
                   className={`p-4 rounded-2xl border transition-all ${
                     entity.isBaseline
-                      ? 'bg-amber-50/80 text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/40'
-                      : 'bg-slate-50 text-slate-800 border-slate-200'
+                      ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50'
+                      : 'bg-white text-slate-800 border-amber-200/70'
                   }`}
                 >
                   <div className="flex items-center justify-between text-xs sm:text-sm mb-2">
@@ -873,7 +819,7 @@ export const CompetitorIntelligence: React.FC = () => {
                           علامتنا
                         </span>
                       )}
-                      <span className={`text-[11px] font-mono ${entity.isBaseline ? 'text-amber-800' : 'text-slate-500'}`}>
+                      <span className={`text-[11px] font-mono ${entity.isBaseline ? 'text-amber-900' : 'text-slate-500'}`}>
                         (20 منشور مسحوب)
                       </span>
                     </div>
@@ -908,9 +854,9 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Detailed Side-by-Side Comparison Table */}
-          <div className="overflow-x-auto rounded-2xl border border-slate-200">
-            <table className="w-full text-xs text-right divide-y divide-slate-200">
-              <thead className="bg-slate-100 text-slate-700 font-bold font-heading">
+          <div className="overflow-x-auto rounded-2xl border border-amber-200">
+            <table className="w-full text-xs text-right divide-y divide-amber-200">
+              <thead className="bg-[#F7F0E5] text-slate-800 font-bold font-heading">
                 <tr>
                   <th className="py-3 px-4">المنشأة</th>
                   <th className="py-3 px-3 text-center">المنشورات</th>
@@ -921,9 +867,9 @@ export const CompetitorIntelligence: React.FC = () => {
                   <th className="py-3 px-4">استراتيجية المحتوى الرئيسية</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-700 bg-white">
+              <tbody className="divide-y divide-amber-100 text-slate-700 bg-white">
                 {ALL_COMPETITORS_FOR_SOCIAL.map(e => (
-                  <tr key={e.id} className={e.isBaseline ? 'bg-orange-50/50 font-bold' : 'hover:bg-slate-50'}>
+                  <tr key={e.id} className={e.isBaseline ? 'bg-[#F7F0E5]/40 font-bold' : 'hover:bg-[#FDFBF7]'}>
                     <td className="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-1.5">
                       {e.isBaseline && <Flame className="w-3.5 h-3.5 text-orange-500 shrink-0" />}
                       <span>{e.nameAr}</span>
@@ -937,7 +883,7 @@ export const CompetitorIntelligence: React.FC = () => {
                     <td className="py-3.5 px-3 text-center font-mono font-bold text-slate-900">
                       {e.social.avgShares.toFixed(2)}
                       {e.social.avgShares >= 0.8 && (
-                        <span className="text-[9px] block text-amber-600 font-bold">الأعلى مشاركة</span>
+                        <span className="text-[9px] block text-amber-700 font-bold">الأعلى مشاركة</span>
                       )}
                     </td>
                     <td className="py-3.5 px-3 text-center font-mono text-slate-800">
@@ -953,7 +899,7 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Social Insights Callout */}
-          <div className="p-4 rounded-2xl bg-amber-50/80 text-slate-800 text-xs space-y-2 border-2 border-amber-200 shadow-sm">
+          <div className="p-4 rounded-2xl bg-[#F7F0E5]/80 text-slate-800 text-xs space-y-2 border-2 border-amber-200 shadow-sm">
             <div className="flex items-center gap-2 font-bold text-amber-900">
               <Sparkles className="w-4 h-4 text-amber-700" />
               <span>خلاصة ذكاء السوشيال ميديا للمحل:</span>
@@ -970,9 +916,9 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 5: SWOT Analysis Grid for Competitors ─── */}
       {activeTab === 'swot' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header & Competitor Selector */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-slate-900 font-heading">
                 مصفوفة SWOT التحليلية للمنافسين في سوق نابلس
@@ -988,10 +934,10 @@ export const CompetitorIntelligence: React.FC = () => {
                 <button
                   key={comp.id}
                   onClick={() => setSelectedSwotId(comp.id)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer ${
                     selectedSwotId === comp.id
                       ? 'bg-amber-100 text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/40 font-black'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-amber-50'
+                      : 'bg-white text-slate-700 border-amber-200/80 hover:bg-[#F7F0E5]'
                   }`}
                 >
                   {comp.nameAr}
@@ -1003,8 +949,8 @@ export const CompetitorIntelligence: React.FC = () => {
           {/* 2x2 SWOT Matrix */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* Strengths */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-slate-200 pb-2.5">
+            <div className="bg-white border border-emerald-200/80 rounded-2xl p-5 space-y-3 shadow-2xs">
+              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-emerald-100 pb-2.5">
                 <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-700 flex items-center justify-center">
                   <CheckCircle className="w-4 h-4" />
                 </div>
@@ -1021,8 +967,8 @@ export const CompetitorIntelligence: React.FC = () => {
             </div>
 
             {/* Weaknesses */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-slate-200 pb-2.5">
+            <div className="bg-white border border-rose-200/80 rounded-2xl p-5 space-y-3 shadow-2xs">
+              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-rose-100 pb-2.5">
                 <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-700 flex items-center justify-center">
                   <XCircle className="w-4 h-4" />
                 </div>
@@ -1039,8 +985,8 @@ export const CompetitorIntelligence: React.FC = () => {
             </div>
 
             {/* Opportunities */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-slate-200 pb-2.5">
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-5 space-y-3 shadow-2xs">
+              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-amber-100 pb-2.5">
                 <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center">
                   <Lightbulb className="w-4 h-4" />
                 </div>
@@ -1057,9 +1003,9 @@ export const CompetitorIntelligence: React.FC = () => {
             </div>
 
             {/* Threats */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-slate-200 pb-2.5">
-                <div className="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center">
+            <div className="bg-white border border-amber-200/80 rounded-2xl p-5 space-y-3 shadow-2xs">
+              <div className="flex items-center gap-2 text-slate-900 font-bold font-heading border-b border-amber-100 pb-2.5">
+                <div className="w-7 h-7 rounded-lg bg-amber-100 text-slate-700 flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4" />
                 </div>
                 <span>التهديدات الواجب تحصين المحل ضدها (Threats)</span>
@@ -1067,7 +1013,7 @@ export const CompetitorIntelligence: React.FC = () => {
               <ul className="space-y-2 text-xs text-slate-700">
                 {selectedSwotCompetitor.swot.threats.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 leading-relaxed">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-500 mt-1.5 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600 mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -1122,15 +1068,15 @@ export const CompetitorIntelligence: React.FC = () => {
               return (
                 <div
                   key={comp.id}
-                  className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm transition-all"
+                  className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl overflow-hidden shadow-sm transition-all"
                 >
                   <button
                     onClick={() => setExpandedEdgeId(isOpen ? null : comp.id)}
-                    className="w-full flex items-center justify-between p-5 text-right hover:bg-slate-50 transition-colors"
+                    className="w-full flex items-center justify-between p-5 text-right hover:bg-[#F7F0E5]/60 transition-colors cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center font-bold">
-                        <Zap className="w-4 h-4 text-amber-600" />
+                      <div className="w-9 h-9 rounded-xl bg-[#F7F0E5] text-slate-800 flex items-center justify-center font-bold border border-amber-200/60">
+                        <Zap className="w-4 h-4 text-amber-700" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
@@ -1145,17 +1091,17 @@ export const CompetitorIntelligence: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="p-2 rounded-xl bg-slate-100 text-slate-500">
+                    <div className="p-2 rounded-xl bg-white text-slate-600 border border-amber-200/60">
                       {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </div>
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 border-t border-slate-100">
+                    <div className="px-5 pb-5 pt-1 border-t border-amber-100">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
                         {comp.differentiators.map((item, i) => (
-                          <div key={i} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-2.5 text-xs text-slate-700">
-                            <span className="w-2 h-2 rounded-full bg-slate-700 mt-1.5 shrink-0" />
+                          <div key={i} className="p-3.5 rounded-2xl bg-white border border-amber-200/70 flex items-start gap-2.5 text-xs text-slate-800 shadow-2xs">
+                            <span className="w-2 h-2 rounded-full bg-amber-600 mt-1.5 shrink-0" />
                             <span className="leading-relaxed font-medium">{item}</span>
                           </div>
                         ))}
@@ -1168,7 +1114,7 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Strategic Decision Recommendation Card */}
-          <div className="bg-amber-50/80 border-2 border-amber-300 rounded-3xl p-6 text-slate-800 space-y-3 shadow-sm">
+          <div className="bg-[#F7F0E5]/80 border-2 border-amber-300 rounded-3xl p-6 text-slate-800 space-y-3 shadow-sm">
             <div className="flex items-center gap-2 text-amber-900 font-bold font-heading text-sm">
               <Shield className="w-5 h-5 text-orange-600" />
               <span>التوجيه الاستراتيجي لصاحب المحل وطاقم الإدارة:</span>
