@@ -94,11 +94,11 @@ export const SourceDonutChart: React.FC<SourceDonutChartProps> = ({
       name: 'فيسبوك (Facebook)',
       count: facebook,
       percentage: Math.round((facebook / total) * 100),
-      color: '#3b82f6', // blue-500
-      hoverColor: '#2563eb',
-      textColor: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      color: '#d97706', // amber-600 warm charcoal brand theme
+      hoverColor: '#b45309',
+      textColor: 'text-amber-700',
+      bgColor: 'bg-amber-100',
+      borderColor: 'border-amber-300',
       icon: Facebook,
     },
     {

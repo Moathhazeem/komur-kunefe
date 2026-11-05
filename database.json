@@ -389,6 +389,8 @@
       "basePrice": 12,
       "isInitialPrice": false,
       "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/K%C3%BCnefe_-_pistachio.jpg/1280px-K%C3%BCnefe_-_pistachio.jpg",
+      "imageCredit": "E4024 — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:K%C3%BCnefe_-_pistachio.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -457,9 +459,7 @@
           "name": "إضافة بوظة",
           "price": 4
         }
-      ],
-      "imageCredit": "E4024 — CC BY-SA 4.0",
-      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:K%C3%BCnefe_-_pistachio.jpg"
+      ]
     },
     {
       "id": "menu-7",
@@ -515,6 +515,8 @@
       "basePrice": 12,
       "isInitialPrice": false,
       "image": "https://static.wixstatic.com/media/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg/v1/fill/w_980%2Ch_667%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_auto/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg",
+      "imageCredit": "Image source: static.wixstatic.com",
+      "imageCreditUrl": "https://static.wixstatic.com/media/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg/v1/fill/w_980%2Ch_667%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_auto/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -549,9 +551,7 @@
           "name": "شوكولاته بيضاء",
           "price": 4
         }
-      ],
-      "imageCredit": "Image source: static.wixstatic.com",
-      "imageCreditUrl": "https://static.wixstatic.com/media/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg/v1/fill/w_980%2Ch_667%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_auto/99649a_3ae3c95ff023440b84fd5ed1c7bfd877~mv2.jpg"
+      ]
     },
     {
       "id": "menu-fixed-1",
@@ -561,6 +561,8 @@
       "basePrice": 40,
       "isInitialPrice": false,
       "image": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg",
+      "imageCredit": "Image source: sceneeats.com",
+      "imageCreditUrl": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -571,9 +573,7 @@
           "dineInPrice": 40,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: sceneeats.com",
-      "imageCreditUrl": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg"
+      ]
     },
     {
       "id": "menu-fixed-2",
@@ -583,6 +583,8 @@
       "basePrice": 15,
       "isInitialPrice": false,
       "image": "https://d1w7312wesee68.cloudfront.net/zs8MP5aUHuJ4BTNjjlx5AIX_aRZPuBvx_oX_LPcoW0M/resize%3Afit%3A720%3A720/plain/s3%3A/toasttab/restaurants/restaurant-206988000000000000/menu/images/item-c9b0020c-30fe-457d-a053-f8a8d4b53546.jpg",
+      "imageCredit": "Image source: d1w7312wesee68.cloudfront.net",
+      "imageCreditUrl": "https://d1w7312wesee68.cloudfront.net/zs8MP5aUHuJ4BTNjjlx5AIX_aRZPuBvx_oX_LPcoW0M/resize%3Afit%3A720%3A720/plain/s3%3A/toasttab/restaurants/restaurant-206988000000000000/menu/images/item-c9b0020c-30fe-457d-a053-f8a8d4b53546.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -593,9 +595,7 @@
           "dineInPrice": 15,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: d1w7312wesee68.cloudfront.net",
-      "imageCreditUrl": "https://d1w7312wesee68.cloudfront.net/zs8MP5aUHuJ4BTNjjlx5AIX_aRZPuBvx_oX_LPcoW0M/resize%3Afit%3A720%3A720/plain/s3%3A/toasttab/restaurants/restaurant-206988000000000000/menu/images/item-c9b0020c-30fe-457d-a053-f8a8d4b53546.jpg"
+      ]
     },
     {
       "id": "menu-fixed-3",
@@ -627,6 +627,8 @@
       "basePrice": 95,
       "isInitialPrice": false,
       "image": "https://sweetsjerusalem.com/cdn/shop/files/DSC03682.jpg?v=1745324737&width=1946",
+      "imageCredit": "Image source: sweetsjerusalem.com",
+      "imageCreditUrl": "https://sweetsjerusalem.com/cdn/shop/files/DSC03682.jpg?v=1745324737&width=1946",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -637,9 +639,7 @@
           "dineInPrice": 95,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: sweetsjerusalem.com",
-      "imageCreditUrl": "https://sweetsjerusalem.com/cdn/shop/files/DSC03682.jpg?v=1745324737&width=1946"
+      ]
     },
     {
       "id": "menu-fixed-5",
@@ -649,6 +649,8 @@
       "basePrice": 38,
       "isInitialPrice": false,
       "image": "/amalieh.jpg",
+      "imageCredit": "Image source: Baitiana",
+      "imageCreditUrl": "https://baitiana.com/2024/03/11/osmaliyi-bil-ashta-dessert/",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -659,9 +661,7 @@
           "dineInPrice": 38,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: Baitiana",
-      "imageCreditUrl": "https://baitiana.com/2024/03/11/osmaliyi-bil-ashta-dessert/"
+      ]
     },
     {
       "id": "menu-fixed-6",
@@ -693,6 +693,8 @@
       "basePrice": 45,
       "isInitialPrice": false,
       "image": "https://www.her-news.com/Upload/libfiles/14/8/650.jpg",
+      "imageCredit": "Image source: www.her-news.com",
+      "imageCreditUrl": "https://www.her-news.com/Upload/libfiles/14/8/650.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -703,9 +705,7 @@
           "dineInPrice": 45,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: www.her-news.com",
-      "imageCreditUrl": "https://www.her-news.com/Upload/libfiles/14/8/650.jpg"
+      ]
     },
     {
       "id": "menu-fixed-8",
@@ -715,6 +715,8 @@
       "basePrice": 50,
       "isInitialPrice": false,
       "image": "https://www.jabri.com.jo/sites/default/files/madlooa_2.jpg",
+      "imageCredit": "Image source: www.jabri.com.jo",
+      "imageCreditUrl": "https://www.jabri.com.jo/sites/default/files/madlooa_2.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -725,9 +727,7 @@
           "dineInPrice": 50,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: www.jabri.com.jo",
-      "imageCreditUrl": "https://www.jabri.com.jo/sites/default/files/madlooa_2.jpg"
+      ]
     },
     {
       "id": "menu-fixed-9",
@@ -737,6 +737,8 @@
       "basePrice": 55,
       "isInitialPrice": false,
       "image": "https://cdn.salla.sa/ZwNrO/HoDSVP6l0p2E8Z8mTCfpRO6ATEXoVorx53LxVndt.jpg",
+      "imageCredit": "Image source: cdn.salla.sa",
+      "imageCreditUrl": "https://cdn.salla.sa/ZwNrO/HoDSVP6l0p2E8Z8mTCfpRO6ATEXoVorx53LxVndt.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -747,9 +749,7 @@
           "dineInPrice": 55,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: cdn.salla.sa",
-      "imageCreditUrl": "https://cdn.salla.sa/ZwNrO/HoDSVP6l0p2E8Z8mTCfpRO6ATEXoVorx53LxVndt.jpg"
+      ]
     },
     {
       "id": "menu-fixed-10",
@@ -781,6 +781,8 @@
       "basePrice": 95,
       "isInitialPrice": false,
       "image": "https://static.wixstatic.com/media/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg/v1/fill/w_480%2Ch_534%2Cal_c%2Cq_80%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg",
+      "imageCredit": "Image source: static.wixstatic.com",
+      "imageCreditUrl": "https://static.wixstatic.com/media/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg/v1/fill/w_480%2Ch_534%2Cal_c%2Cq_80%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -791,9 +793,7 @@
           "dineInPrice": 95,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: static.wixstatic.com",
-      "imageCreditUrl": "https://static.wixstatic.com/media/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg/v1/fill/w_480%2Ch_534%2Cal_c%2Cq_80%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/d21864_408b6b37d6a049008fd3b5d02ba37f60~mv2.jpg"
+      ]
     },
     {
       "id": "menu-fixed-12",
@@ -803,6 +803,8 @@
       "basePrice": 50,
       "isInitialPrice": false,
       "image": "https://www.ismailkaratas.com.tr/img/yenitarif/2285/trelice.jpg",
+      "imageCredit": "Image source: www.ismailkaratas.com.tr",
+      "imageCreditUrl": "https://www.ismailkaratas.com.tr/img/yenitarif/2285/trelice.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -813,9 +815,7 @@
           "dineInPrice": 50,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: www.ismailkaratas.com.tr",
-      "imageCreditUrl": "https://www.ismailkaratas.com.tr/img/yenitarif/2285/trelice.jpg"
+      ]
     },
     {
       "id": "menu-fixed-13",
@@ -825,6 +825,8 @@
       "basePrice": 34,
       "isInitialPrice": false,
       "image": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg",
+      "imageCredit": "Image source: sceneeats.com",
+      "imageCreditUrl": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -835,9 +837,7 @@
           "dineInPrice": 34,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: sceneeats.com",
-      "imageCreditUrl": "https://sceneeats.com/Content/Admin/Uploads/Articles/ArticleImages/4c8499ea-1027-4753-805e-344007eb5920.jpg"
+      ]
     },
     {
       "id": "menu-fixed-14",
@@ -847,6 +847,8 @@
       "basePrice": 32,
       "isInitialPrice": false,
       "image": "https://www.eldahan.com/foods/Milk_Cr%C3%A8me_Feteer.jpg",
+      "imageCredit": "Image source: www.eldahan.com",
+      "imageCreditUrl": "https://www.eldahan.com/foods/Milk_Cr%C3%A8me_Feteer.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -857,9 +859,7 @@
           "dineInPrice": 32,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: www.eldahan.com",
-      "imageCreditUrl": "https://www.eldahan.com/foods/Milk_Cr%C3%A8me_Feteer.jpg"
+      ]
     },
     {
       "id": "menu-fixed-15",
@@ -869,6 +869,8 @@
       "basePrice": 38,
       "isInitialPrice": false,
       "image": "https://wholesale.herbsnbeans.co.uk/cdn/shop/files/abu-walad-sandwich-biscuits.jpg?v=1772104055&width=3840",
+      "imageCredit": "Image source: wholesale.herbsnbeans.co.uk",
+      "imageCreditUrl": "https://wholesale.herbsnbeans.co.uk/cdn/shop/files/abu-walad-sandwich-biscuits.jpg?v=1772104055&width=3840",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -879,9 +881,7 @@
           "dineInPrice": 38,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: wholesale.herbsnbeans.co.uk",
-      "imageCreditUrl": "https://wholesale.herbsnbeans.co.uk/cdn/shop/files/abu-walad-sandwich-biscuits.jpg?v=1772104055&width=3840"
+      ]
     },
     {
       "id": "menu-fixed-16",
@@ -891,6 +891,8 @@
       "basePrice": 40,
       "isInitialPrice": false,
       "image": "https://img.ananinja.com/media/ninja-catalog-42/restaurants/4zlelh8lj2pvnw6ttwh3l51nvbq1/3333881.jpg?q=75&w=1080",
+      "imageCredit": "Image source: img.ananinja.com",
+      "imageCreditUrl": "https://img.ananinja.com/media/ninja-catalog-42/restaurants/4zlelh8lj2pvnw6ttwh3l51nvbq1/3333881.jpg?q=75&w=1080",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -901,9 +903,7 @@
           "dineInPrice": 40,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: Ninja",
-      "imageCreditUrl": "https://ananinja.com/sa/ar/restaurants/kunafa-baghajati-43430/cream-konafa-fingers-1-kg-1562933"
+      ]
     },
     {
       "id": "menu-fixed-17",
@@ -913,6 +913,8 @@
       "basePrice": 40,
       "isInitialPrice": false,
       "image": "https://falasteenifoodie.com/wp-content/uploads/2025/03/Middle-Eastern-Warbat-Bil-Ashta-1024x754.jpg",
+      "imageCredit": "Image source: falasteenifoodie.com",
+      "imageCreditUrl": "https://falasteenifoodie.com/wp-content/uploads/2025/03/Middle-Eastern-Warbat-Bil-Ashta-1024x754.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -923,9 +925,7 @@
           "dineInPrice": 40,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: falasteenifoodie.com",
-      "imageCreditUrl": "https://falasteenifoodie.com/wp-content/uploads/2025/03/Middle-Eastern-Warbat-Bil-Ashta-1024x754.jpg"
+      ]
     },
     {
       "id": "menu-fixed-18",
@@ -935,6 +935,8 @@
       "basePrice": 45,
       "isInitialPrice": false,
       "image": "https://media.zid.store/thumbs/909c78da-e62f-4a46-9c02-d266b83c09f3/054e3ba7-c1a1-4fb1-ba88-b1be64dcc91d-thumbnail-770x770-70.jpg",
+      "imageCredit": "Image source: media.zid.store",
+      "imageCreditUrl": "https://media.zid.store/thumbs/909c78da-e62f-4a46-9c02-d266b83c09f3/054e3ba7-c1a1-4fb1-ba88-b1be64dcc91d-thumbnail-770x770-70.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -945,9 +947,7 @@
           "dineInPrice": 45,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: BKTown",
-      "imageCreditUrl": "https://bktown.com/products/Mbrouma-with-Cream"
+      ]
     },
     {
       "id": "menu-fixed-19",
@@ -957,6 +957,8 @@
       "basePrice": 40,
       "isInitialPrice": false,
       "image": "https://alsultanoglu.com/cdn/shop/files/1_0cbbf28e-63a2-4ad6-8c4c-0afd9966bfc8_1024x1024.png?v=1720509901",
+      "imageCredit": "Image source: alsultanoglu.com",
+      "imageCreditUrl": "https://alsultanoglu.com/cdn/shop/files/1_0cbbf28e-63a2-4ad6-8c4c-0afd9966bfc8_1024x1024.png?v=1720509901",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -967,9 +969,7 @@
           "dineInPrice": 40,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: alsultanoglu.com",
-      "imageCreditUrl": "https://alsultanoglu.com/cdn/shop/files/1_0cbbf28e-63a2-4ad6-8c4c-0afd9966bfc8_1024x1024.png?v=1720509901"
+      ]
     },
     {
       "id": "menu-fixed-20",
@@ -979,6 +979,8 @@
       "basePrice": 3,
       "isInitialPrice": false,
       "image": "https://ik.imagekit.io/pimberly/595e406f0f15f30010780448/6e6a9e01/66788e6c4b07950019667018/NL10016_01.jpg?tr=w-600%2Ch-600%2Ccm-pad_resize%2Cbg-FFFFFF",
+      "imageCredit": "Image source: ik.imagekit.io",
+      "imageCreditUrl": "https://ik.imagekit.io/pimberly/595e406f0f15f30010780448/6e6a9e01/66788e6c4b07950019667018/NL10016_01.jpg?tr=w-600%2Ch-600%2Ccm-pad_resize%2Cbg-FFFFFF",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -989,9 +991,7 @@
           "dineInPrice": 3,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: ik.imagekit.io",
-      "imageCreditUrl": "https://ik.imagekit.io/pimberly/595e406f0f15f30010780448/6e6a9e01/66788e6c4b07950019667018/NL10016_01.jpg?tr=w-600%2Ch-600%2Ccm-pad_resize%2Cbg-FFFFFF"
+      ]
     },
     {
       "id": "menu-fixed-21",
@@ -1001,6 +1001,8 @@
       "basePrice": 5,
       "isInitialPrice": false,
       "image": "https://aqua-amore.com/cdn/shop/collections/Radnor-1500ml-Plastic-Bottl-247x300_large.jpg?v=1755596553",
+      "imageCredit": "Image source: aqua-amore.com",
+      "imageCreditUrl": "https://aqua-amore.com/cdn/shop/collections/Radnor-1500ml-Plastic-Bottl-247x300_large.jpg?v=1755596553",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -1011,9 +1013,7 @@
           "dineInPrice": 5,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: aqua-amore.com",
-      "imageCreditUrl": "https://aqua-amore.com/cdn/shop/collections/Radnor-1500ml-Plastic-Bottl-247x300_large.jpg?v=1755596553"
+      ]
     },
     {
       "id": "menu-fixed-22",
@@ -1023,6 +1023,8 @@
       "basePrice": 3,
       "isInitialPrice": false,
       "image": "/coca-cola.jpg",
+      "imageCredit": "Ossewa — CC BY-SA 4.0",
+      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Coca-Cola_330ml_can.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -1033,9 +1035,7 @@
           "dineInPrice": 3,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Ossewa — CC BY-SA 4.0",
-      "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Coca-Cola_330ml_can.jpg"
+      ]
     },
     {
       "id": "menu-fixed-23",
@@ -1045,6 +1045,8 @@
       "basePrice": 3,
       "isInitialPrice": false,
       "image": "https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038",
+      "imageCredit": "Image source: www.ready2drink.de",
+      "imageCreditUrl": "https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -1055,9 +1057,7 @@
           "dineInPrice": 3,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: www.ready2drink.de",
-      "imageCreditUrl": "https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038"
+      ]
     },
     {
       "id": "menu-fixed-24",
@@ -1067,6 +1067,8 @@
       "basePrice": 3,
       "isInitialPrice": false,
       "image": "https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg",
+      "imageCredit": "Image source: clickandcollect.scandipark.dk",
+      "imageCreditUrl": "https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg",
       "isAvailable": true,
       "featured": false,
       "variants": [
@@ -1077,9 +1079,7 @@
           "dineInPrice": 3,
           "isDefault": true
         }
-      ],
-      "imageCredit": "Image source: clickandcollect.scandipark.dk",
-      "imageCreditUrl": "https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg"
+      ]
     }
   ],
   "orders": [

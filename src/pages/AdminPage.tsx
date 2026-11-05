@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Shield, ShoppingBag, Utensils, Sparkles, MessageSquare, Bike,
   BarChart3, Bot, Settings, LogOut, CheckCircle, Clock, AlertTriangle,
   Plus, Edit2, Trash2, Printer, Search, RefreshCw, Eye, EyeOff, Send,
-  FileText, Download, Check, X, Tag, DollarSign, TrendingUp, Users, Flame
+  FileText, Download, Check, X, Tag, DollarSign, TrendingUp, Users, Flame,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { Product, Order, Offer, Review, DeliveryInterest, StoreSettings, DashboardStats, UserSession } from '../types';
 import { api } from '../services/api';
@@ -12,6 +13,7 @@ import { ReceiptPrintModal } from '../components/ReceiptPrintModal';
 import { NeighborhoodsBarChart } from '../components/charts/NeighborhoodsBarChart';
 import { SourceDonutChart } from '../components/charts/SourceDonutChart';
 import { PeakHoursAreaChart } from '../components/charts/PeakHoursAreaChart';
+import { CompetitorIntelligence } from '../components/CompetitorIntelligence';
 
 interface AdminPageProps {
   settings: StoreSettings | null;
@@ -34,15 +36,15 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [loginError, setLoginError] = useState<string | null>(null);
 
   // Active Admin Tab
-  const [activeTab, setActiveTab] = useState<'orders' | 'products' | 'offers' | 'reviews' | 'delivery' | 'analytics' | 'ai' | 'settings'>(() => {
+  const [activeTab, setActiveTab] = useState<'orders' | 'products' | 'offers' | 'reviews' | 'delivery' | 'analytics' | 'ai' | 'competitors' | 'settings'>(() => {
     try {
       const stored = sessionStorage.getItem('komur_admin_target_tab');
-      if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(stored)) {
+      if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'competitors', 'settings'].includes(stored)) {
         sessionStorage.removeItem('komur_admin_target_tab');
         return stored as any;
       }
       const hashMatch = window.location.hash.match(/tab=([a-z]+)/i);
-      if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
+      if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'competitors', 'settings'].includes(hashMatch[1])) {
         return hashMatch[1] as any;
       }
     } catch { }
@@ -54,13 +56,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({
     const handleTabSync = () => {
       try {
         const stored = sessionStorage.getItem('komur_admin_target_tab');
-        if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(stored)) {
+        if (stored && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'competitors', 'settings'].includes(stored)) {
           sessionStorage.removeItem('komur_admin_target_tab');
           setActiveTab(stored as any);
           return;
         }
         const hashMatch = window.location.hash.match(/tab=([a-z]+)/i);
-        if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'settings'].includes(hashMatch[1])) {
+        if (hashMatch && ['orders', 'products', 'offers', 'reviews', 'delivery', 'analytics', 'ai', 'competitors', 'settings'].includes(hashMatch[1])) {
           setActiveTab(hashMatch[1] as any);
         }
       } catch { }
@@ -71,6 +73,47 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   }, []);
 
   // Orders State
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkTabsScroll = () => {
+    const el = tabsContainerRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const current = Math.abs(el.scrollLeft);
+    setCanScrollLeft(current < maxScroll - 5);
+    setCanScrollRight(current > 5);
+  };
+
+  const handleScrollTabs = (direction: 'left' | 'right') => {
+    const el = tabsContainerRef.current;
+    if (!el) return;
+    const distance = 240;
+    el.scrollBy({
+      left: direction === 'left' ? -distance : distance,
+      behavior: 'smooth'
+    });
+  };
+
+  useEffect(() => {
+    checkTabsScroll();
+    const handleResize = () => checkTabsScroll();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Auto-scroll active tab into visible view
+    const el = tabsContainerRef.current;
+    if (!el) return;
+    const activeEl = el.querySelector('[data-active="true"]') as HTMLElement | null;
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+    checkTabsScroll();
+  }, [activeTab]);
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [orderSearch, setOrderSearch] = useState('');
@@ -503,9 +546,41 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         </div>
       </div>
 
-      {/* Admin Tabs Bar */}
-      <div className="w-full max-w-full overflow-hidden">
-        <div className="flex items-center gap-2 overflow-x-auto flex-nowrap pb-2.5 scrollbar-none border-b border-orange-100">
+      {/* Admin Tabs Bar: Interactive, Horizontally Scrollable & Moveable */}
+      <div className="relative w-full group">
+        {/* Right Arrow (Scroll towards first tabs in RTL) */}
+        <button
+          type="button"
+          onClick={() => handleScrollTabs('right')}
+          className="absolute -right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-amber-100 text-slate-900 hover:bg-amber-200 shadow-md flex items-center justify-center transition-all opacity-90 hover:opacity-100 hover:scale-105 border border-amber-300"
+          title="تمرير الرموز لليمين"
+          aria-label="Scroll tabs right"
+        >
+          <ChevronRight className="w-4 h-4 text-slate-800" />
+        </button>
+
+        {/* Left Arrow (Scroll towards later tabs in RTL) */}
+        <button
+          type="button"
+          onClick={() => handleScrollTabs('left')}
+          className="absolute -left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-amber-100 text-slate-900 hover:bg-amber-200 shadow-md flex items-center justify-center transition-all opacity-90 hover:opacity-100 hover:scale-105 border border-amber-300"
+          title="تمرير الرموز لليسار"
+          aria-label="Scroll tabs left"
+        >
+          <ChevronLeft className="w-4 h-4 text-slate-800" />
+        </button>
+
+        {/* Scrollable Container with Mouse Wheel & Touch Swipe Support */}
+        <div
+          ref={tabsContainerRef}
+          onScroll={checkTabsScroll}
+          onWheel={(e) => {
+            if (tabsContainerRef.current && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+              tabsContainerRef.current.scrollLeft += e.deltaY;
+            }
+          }}
+          className="flex items-center gap-2 overflow-x-auto flex-nowrap pb-2.5 pt-1 px-8 scrollbar-thin scrollbar-thumb-amber-200 hover:scrollbar-thumb-amber-400 border-b border-amber-200/60 touch-pan-x cursor-grab active:cursor-grabbing select-none"
+        >
           {[
             { id: 'orders', label: 'الطلبات الحية', icon: ShoppingBag, badge: orders.filter((o) => o.status === 'new').length },
             { id: 'products', label: 'المنيو والأسعار', icon: Utensils },
@@ -514,6 +589,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             { id: 'delivery', label: 'اهتمام التوصيل', icon: Bike, badge: deliveryInterests.length },
             { id: 'analytics', label: 'الداشبورد الذكي', icon: BarChart3 },
             { id: 'ai', label: 'مساعد كُومُر AI', icon: Bot },
+            { id: 'competitors', label: 'ذكاء المنافسين', icon: TrendingUp },
             { id: 'settings', label: 'إعدادات المحل', icon: Settings },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -521,16 +597,20 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             return (
               <button
                 key={tab.id}
+                data-tab={tab.id}
+                data-active={active}
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`shrink-0 flex items-center gap-2 px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
-                  ? 'bg-orange-500 text-white border-orange-500 shadow-md shadow-orange-500/20'
-                  : 'bg-white text-slate-600 border-slate-200 hover:border-orange-200 hover:text-orange-600 hover:bg-orange-50/40'
+                  ? 'bg-amber-100 text-slate-900 border-amber-300 shadow-md ring-2 ring-amber-400/40 font-black'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-amber-300 hover:text-amber-800 hover:bg-amber-50/50'
                   }`}
               >
-                <Icon className="w-4 h-4 shrink-0" />
+                <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className="bg-white text-orange-600 text-[10px] font-black min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
+                  <span className={`text-[10px] font-black min-w-5 h-5 px-1 rounded-full flex items-center justify-center ${
+                    active ? 'bg-amber-800 text-white' : 'bg-amber-100 text-amber-900'
+                  }`}>
                     {tab.badge}
                   </span>
                 )}
@@ -617,7 +697,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                           : order.status === 'preparing'
                             ? 'bg-amber-50 text-amber-600 border-amber-200'
                             : order.status === 'ready'
-                              ? 'bg-blue-50 text-blue-600 border-blue-200'
+                              ? 'bg-amber-100 text-amber-900 border-amber-300'
                               : order.status === 'completed'
                                 ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
                                 : 'bg-slate-50 text-slate-500 border-slate-200'
@@ -1295,7 +1375,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         </div>
       )}
 
-      {/* TAB 8: STORE SETTINGS & LOGO */}
+      {/* TAB 8: COMPETITOR INTELLIGENCE & MARKET ANALYSIS */}
+      {activeTab === 'competitors' && (
+        <CompetitorIntelligence />
+      )}
+
+      {/* TAB 9: STORE SETTINGS & LOGO */}
       {activeTab === 'settings' && settingsForm && (
         <form onSubmit={handleSaveSettings} className="space-y-6 animate-fadeIn">
 

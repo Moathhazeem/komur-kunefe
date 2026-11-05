@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "databasePurpose": "Separate competitor research database",
+  "lastCollectedAt": "2026-11-05",
+  "competitors": [
+    {
+      "id": "osmanlipal-unverified",
+      "name": { "ar": null, "en": "OsmanliPal (Facebook page identifier)" },
+      "sourcesProvided": {
+        "facebook": "https://www.facebook.com/OsmanliPal/",
+        "googleMaps": "https://www.google.com/maps/place/AL-OSMALLI+RESTAURAN/@32.0393174,35.7239895,17z/data=!3m1!4b1!4m6!3m5!1s0x151cbd25ed0d7bdb:0xf327eeaefb49844d!8m2!3d32.0393129!4d35.7265644!16s%2Fg%2F11fs020_tz"
+      },
+      "identityResolution": {
+        "status": "unresolved",
+        "note": "The Facebook page could not be read without login; the supplied Google Maps URL identifies AL-OSMALLI RESTAURAN in As-Salt, Jordan. These sources have not been confirmed to refer to the same competitor.",
+        "facebookPageTitle": null,
+        "googleMapsPlaceName": "AL-OSMALLI RESTAURAN",
+        "googleMapsCoordinates": { "latitude": 32.0393129, "longitude": 35.7265644 }
+      },
+      "products": [],
+      "prices": [],
+      "reviews": [],
+      "offers": [],
+      "socialMediaActivity": {
+        "facebook": "Not collected: page content was unavailable to the research browser.",
+        "instagram": null,
+        "postingFrequency": null
+      },
+      "collectionNotes": [
+        "The previous record incorrectly combined data about AL-OSMALLI RESTAURAN in As-Salt with the OsmanliPal Facebook URL.",
+        "All previously collected As-Salt menu, review, rating, pricing, hours, and social details have been removed because the match was not established.",
+        "The Facebook URL without the locale parameter is the same page identifier the user supplied earlier."
+      ]
+    },
+    {
+      "id": "abu-salha-rafidia",
+      "name": { "ar": "حلويات أبو صالحة", "en": "Abu Saleha Sweets" },
+      "businessProfile": {
+        "dataSource": "User-provided competitor analysis",
+        "capturedAt": "2026-11-05",
+        "location": "رفيديا، نابلس؛ توجد فروع أخرى",
+        "branches": ["رفيديا", "المخفية", "دوار الحسين"],
+        "googleRating": { "score": 4.1, "reviewCountApprox": 417 },
+        "additionalProducts": ["كنافة أم النارين بالقشطة", "كنافة البرمة بالجبنة", "زنود الست", "بلورية بالفستق الحلبي", "قطايف بالجبنة والقشطة", "بوظة عربية", "حلويات المناسبات"],
+        "pricePositioning": "متوسط وتنافسي؛ ورد في التحليل أن الكنافة التقليدية أقل سعرًا نسبيًا من عصملي، دون أرقام مقارنة موثقة.",
+        "marketing": ["التركيز على الحلويات الشرقية التقليدية", "إبراز تنوع الأصناف", "استخدام الجودة والطعم في الهوية التسويقية", "التركيز على المناسبات والضيافة"],
+        "customerFeedback": "التحليل المقدم يصف رضا عامًا عن الطعم والخدمة مع اختلاف آراء بعض الزبائن.",
+        "offers": "لم تُرصد عروض أو خصومات معلنة بوضوح في المصادر التي استند إليها التحليل.",
+        "ordering": "طلبات جاهزة؛ أرقام التواصل متاحة لدى المحل.",
+        "strengths": ["تنوع الحلويات الشرقية", "ثلاثة فروع مدرجة في نابلس", "أصناف تقليدية وأقل شيوعًا", "منتجات للضيافة والمناسبات", "خبرة ووجود محلي في سوق الحلويات والصواني"]
+      },
+      "branch": "رفيديا، نابلس، فلسطين",
+      "dataSource": "Wells app menu and delivery listing, provided by user",
+      "orderingPlatforms": ["Wells"],
+      "capturedAt": "2026-11-05",
+      "currency": "ILS",
+      "operatingInfo": {
+        "hours": "10:14-22:00",
+        "estimatedDeliveryMinutes": { "min": 30, "max": 45 },
+        "deliveryFee": 20.0,
+        "rating": 4.4,
+        "ratingCountText": "9+"
+      },
+      "menuSections": [
+        {
+          "name": "الحلويات",
+          "products": [
+            { "name": "أصابع جوز", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "فطير قشطة", "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "كنافة", "variants": ["خشنة", "محيرة", "ناعمة"], "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "هريسة", "prices": [{ "unit": "كيلو", "price": 25 }, { "unit": "نصف كيلو", "price": 15 }] }
+          ]
+        },
+        {
+          "name": "نواشف",
+          "products": [
+            { "name": "بقلاوة مشكلة", "prices": [{ "unit": "600 غرام", "price": 50 }, { "unit": "700 غرام", "price": 75 }, { "unit": "كيلو", "price": 90 }] },
+            { "name": "سمسمية أو فستقية", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "حلقوم", "prices": [{ "unit": "كيلو", "price": 70 }, { "unit": "نصف كيلو", "price": 35 }] }
+          ]
+        },
+        {
+          "name": "حلويات باردة",
+          "products": [
+            { "name": "وربات شامية", "prices": [{ "unit": "كيلو", "price": 45 }, { "unit": "نصف كيلو", "price": 23 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "أصابع قشطة", "prices": [{ "unit": "كيلو", "price": 45 }, { "unit": "نصف كيلو", "price": 23 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "حلاوة الجبن", "prices": [{ "unit": "كيلو", "price": 50 }, { "unit": "نصف كيلو", "price": 25 }, { "unit": "وقية", "price": 15 }] },
+            { "name": "مدلوقة مع قشطة", "prices": [{ "unit": "كيلو", "price": 45 }, { "unit": "نصف كيلو", "price": 23 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "خدود الست", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "نواعم", "prices": [{ "unit": "كيلو", "price": 50 }, { "unit": "نصف كيلو", "price": 25 }, { "unit": "وقية", "price": 15 }] },
+            { "name": "عش البلبل", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "بين نارين", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }, { "unit": "وقية", "price": 12 }] },
+            { "name": "أصابع نوتيلا", "prices": [{ "unit": "الحصة", "price": 15 }] },
+            { "name": "عش شوكولاته", "prices": [{ "unit": "الحصة", "price": 15 }] }
+          ]
+        },
+        {
+          "name": "نثريات",
+          "products": [
+            { "name": "برازق", "prices": [{ "unit": "علبة نصف كيلو", "price": 18 }] },
+            { "name": "غريبة", "prices": [{ "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "غريبة محشية حلبي", "prices": [{ "unit": "حبة", "price": 5 }] }
+          ]
+        },
+        {
+          "name": "شعبيات",
+          "products": [
+            { "name": "حلبة", "prices": [{ "unit": "كيلو", "price": 25 }, { "unit": "نصف كيلو", "price": 15 }, { "unit": "وقية", "price": 10 }] },
+            { "name": "قراريش", "prices": [{ "unit": "كيلو", "price": 30 }, { "unit": "نصف كيلو", "price": 15 }] },
+            { "name": "أصابع زينب", "prices": [{ "unit": "كيلو", "price": 30 }, { "unit": "نصف كيلو", "price": 15 }] },
+            { "name": "عوامة", "prices": [{ "unit": "كيلو", "price": 25 }, { "unit": "نصف كيلو", "price": 15 }, { "unit": "وقية", "price": 10 }] }
+          ]
+        }
+      ],
+      "offers": [],
+      "analysisNotes": ["الأسعار والتفاصيل منقولة كما أرسلها المستخدم؛ لم تُتحقق خارجيًا.", "لم تُذكر عروض خاصة."]
+    },
+    {
+      "id": "al-saraya-sweets",
+      "name": { "ar": "حلويات السرايا", "en": "Al-Saraya Sweets" },
+      "businessProfile": {
+        "dataSource": "User-provided competitor analysis",
+        "capturedAt": "2026-11-05",
+        "locations": ["رفيديا، نابلس", "حوارة"],
+        "contactPhone": "092591414",
+        "website": "متوفر لعرض المنتجات؛ الرابط غير وارد في البيانات المقدمة.",
+        "branchRatings": [{ "branch": "رفيديا", "score": 4.7, "reviewCount": 46, "platform": "Google" }, { "branch": "حوارة", "score": 4.5, "platform": "unspecified" }],
+        "additionalProducts": ["الكنافة النابلسية", "البقلاوة بالسمن الحيواني", "المبرومة", "الوربات بالقشطة", "البصلة بالفستق الحلبي", "التريليتشا", "البسبوسة بالكريمة", "البيتي فور", "حلويات الشوكولاتة"],
+        "pricePositioning": "متوسط إلى مرتفع؛ لا تتوفر قائمة أسعار محلية كاملة وموثوقة للفرعين بحسب التحليل.",
+        "marketing": ["تصوير المنتجات وإبراز تفاصيلها", "التأكيد على أصالة الحلويات النابلسية والتراث الفلسطيني", "محتوى تعريفي بالفروق بين الأصناف", "الترويج للمبرومة والبصلة بالفستق الحلبي", "محتوى للمناسبات والأعياد", "إبراز شهادة ISO 22000:2018", "تغطية المعارض والفعاليات"],
+        "engagementAndOffers": ["حضور قوي على منصات التواصل", "صور وفيديوهات تعريفية", "محتوى تفاعلي وتعريفي", "تغطية فعاليات منها إكسبو جامعة النجاح", "مشاركة تجارب الزبائن", "خصومات على بعض منتجات المتجر الإلكتروني"],
+        "ordering": "توصيل واستقبال الطلبات والاستفسارات هاتفيًا.",
+        "strengths": ["تنوع الحلويات الشرقية والغربية", "الاهتمام بالجودة وسلامة الغذاء", "إبراز الهوية والتراث الفلسطيني والنابلسي", "عرض وتصوير المنتجات", "فرعان في نابلس ومحيطها", "المشاركة في معارض محلية ودولية", "التوجه للأسواق الخارجية؛ وردت مشاركة في 2026 Global Food Week بأبوظبي بهدف التعريف بالمنتجات الفلسطينية"]
+      },
+      "dataSource": "Wells app menu and delivery listing, provided by user",
+      "orderingPlatforms": ["Wells"],
+      "capturedAt": "2026-11-05",
+      "currency": "ILS",
+      "operatingInfo": {
+        "hours": "10:05-23:05",
+        "estimatedDeliveryMinutes": { "min": 55, "max": 70 },
+        "deliveryFee": 22.0,
+        "rating": 4.4,
+        "ratingCountText": "500+"
+      },
+      "menuSections": [
+        {
+          "name": "حلويات ساخنة",
+          "products": [
+            { "name": "كنافة ناعمة", "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "كنافة برمة جبنة", "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "فطير جبنة", "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "فطير قشطة", "prices": [{ "unit": "كيلو", "price": 30 }, { "unit": "نصف كيلو", "price": 15 }] },
+            { "name": "كلاج عربي بالجبنة", "prices": [{ "unit": "كيلو", "price": 35 }, { "unit": "نصف كيلو", "price": 18 }] },
+            { "name": "فيصليات قشطة", "prices": [{ "unit": "كيلو", "price": 30 }, { "unit": "نصف كيلو", "price": 15 }] },
+            { "name": "اسطنبولية قشطة", "prices": [{ "unit": "الحصة", "price": 15 }] },
+            { "name": "اسطنبولية حلبي", "prices": [{ "unit": "وقية", "price": 18 }] },
+            { "name": "كنافة اسطنبولية جبنة", "prices": [{ "unit": "الحصة", "price": 8 }] },
+            { "name": "كنافة اسطنبولية بالحلبى والجبنة", "prices": [{ "unit": "الحصة", "price": 15 }] },
+            { "name": "كاتمر شوكولاتة وفستق حلبي", "prices": [{ "unit": "الحصة", "price": 10 }] },
+            { "name": "كاتمر قشطة وفستق حلبي", "prices": [{ "unit": "الحصة", "price": 15 }] },
+            { "name": "كاتمر بندق وشوكولاتة", "prices": [{ "unit": "الحصة", "price": 10 }] }
+          ]
+        },
+        {
+          "name": "نواشف",
+          "products": [
+            { "name": "مكشوفة مشكل", "prices": [{ "unit": "كيلو", "price": 60 }, { "unit": "نصف كيلو", "price": 30 }] },
+            { "name": "مكشوفة حلبي", "prices": [{ "unit": "كيلو", "price": 100 }, { "unit": "نصف كيلو", "price": 50 }] },
+            { "name": "بلورية حلبي", "prices": [{ "unit": "كيلو", "price": 100 }, { "unit": "نصف كيلو", "price": 50 }] },
+            { "name": "برمة حلبي", "prices": [{ "unit": "كيلو", "price": 100 }, { "unit": "نصف كيلو", "price": 50 }] },
+            { "name": "مشكل ملوكي", "prices": [{ "unit": "1350 غرام", "price": 150 }, { "unit": "850 غرام", "price": 90 }] },
+            { "name": "كنافة تركية", "prices": [{ "unit": "كيلو", "price": 60 }, { "unit": "نصف كيلو", "price": 30 }] },
+            { "name": "بقلاوة حلبي", "prices": [{ "unit": "كيلو", "price": 85 }, { "unit": "نصف كيلو", "price": 43 }] },
+            { "name": "مشكل نابلسي", "prices": [{ "unit": "كيلو", "price": 85 }, { "unit": "كيلو ونصف", "price": 128 }, { "unit": "نصف كيلو", "price": 43 }] },
+            { "name": "مشكل شامي", "prices": [{ "unit": "كيلو", "price": 110 }, { "unit": "كيلو ونصف", "price": 165 }, { "unit": "نصف كيلو", "price": 55 }] },
+            { "name": "مشكل تركي", "prices": [{ "unit": "كيلو", "price": 110 }, { "unit": "كيلو ونصف", "price": 165 }, { "unit": "نصف كيلو", "price": 55 }] },
+            { "name": "بقلاوة تركية", "description": "12 قطعة", "prices": [{ "unit": "العلبة", "price": 12 }] }
+          ]
+        },
+        {
+          "name": "نثريات",
+          "products": [
+            { "name": "مشكل نثريات", "prices": [{ "unit": "600 غرام", "price": 35 }] },
+            { "name": "أصابع جوز", "prices": [{ "unit": "كيلو", "price": 40 }, { "unit": "نصف كيلو", "price": 20 }] },
+            { "name": "كلاج تركي", "prices": [{ "unit": "كيلو", "price": 45 }, { "unit": "نصف كيلو", "price": 23 }] },
+            { "name": "غريبة شامي", "prices": [{ "unit": "500 غرام", "price": 25 }] },
+            { "name": "غريبة عادي", "prices": [{ "unit": "نصف كيلو", "price": 14 }] },
+            { "name": "عيون المها", "prices": [{ "unit": "نصف كيلو", "price": 26 }] },
+            { "name": "برازق", "prices": [{ "unit": "نصف كيلو", "price": 20 }] },
+            { "name": "كعك شامي", "prices": [{ "unit": "600 غرام", "price": 30 }] },
+            { "name": "جمبري", "prices": [{ "unit": "500 غرام", "price": 20 }] }
+          ]
+        }
+      ],
+      "offers": [],
+      "analysisNotes": ["الأسعار والتفاصيل منقولة كما أرسلها المستخدم؛ لم تُتحقق خارجيًا.", "لم تُذكر عروض خاصة."]
+    },
+    {
+      "id": "osmali-sweets",
+      "name": { "ar": "حلويات عصملي", "en": "Osmali Sweets" },
+      "businessProfile": {
+        "dataSource": "User-provided competitor analysis",
+        "capturedAt": "2026-11-05",
+        "location": "رفيديا، نابلس",
+        "contactPhone": "0598001608",
+        "ratingSnapshots": [
+          { "score": 4.6, "reviewCountText": "300+", "platform": "Wells app", "source": "Earlier user-provided listing details" },
+          { "score": 4.5, "reviewCountApprox": 290, "platform": "Yummy app", "source": "User-provided competitor analysis" }
+        ],
+        "additionalProductSummary": ["كنافة ناعمة على الفحم", "كنافة محيرة على الفحم/إسطنبولية", "كنافة بالقشطة", "كنافة دايت", "كنافة بالفستق الحلبي", "كنافة باللوتس والنوتيلا", "كنافة مبرومة بالجبنة", "اليوزباشي", "العصملية", "حلويات شرقية وتركية وشامية"],
+        "pricePositioning": "متوسط إلى مرتفع، خصوصًا للأصناف ذات الإضافات والنكهات المميزة.",
+        "marketing": ["تصوير تحضير الكنافة على الفحم أمام الزبائن", "إبراز تنوع أصناف الكنافة", "أسئلة تفاعلية مثل اختيار الصنف المفضل", "محتوى للمناسبات والأعياد", "نشر آراء وتجارب الزبائن", "أسئلة ومسابقات واختيارات تشجع المشاركة"],
+        "engagementAndOffers": ["تقييمات على تطبيق يمي", "محتوى تفاعلي لترويج الأصناف", "عرض تجارب الزبائن", "ترويج موسمي مرتبط بالمناسبات بحسب التحليل المقدم"],
+        "ordering": { "platforms": ["Wells", "Yummy"], "options": ["توصيل", "استلام"], "estimatedDeliveryMinutes": { "min": 50, "max": 60 }, "note": "متاح للطلب عبر يمي أيضًا؛ مدة التوصيل المذكورة تخص تقدير يمي وقد تختلف حسب العنوان." },
+        "strengths": ["التخصص الواضح في الكنافة المشوية على الفحم", "تنوع النكهات والإضافات مثل اللوتس والبستاشيو والنوتيلا", "إمكانية مشاهدة التحضير أمام الزبائن", "الجمع بين الكنافة التقليدية والنكهات الحديثة", "استخدام المحتوى التفاعلي لتشجيع المشاركة"]
+      },
+      "dataSource": "Wells app menu and delivery listing, provided by user",
+      "orderingPlatforms": ["Wells", "Yummy"],
+      "capturedAt": "2026-11-05",
+      "currency": "ILS",
+      "operatingInfo": {
+        "hours": "11:55-23:55",
+        "estimatedDeliveryMinutes": { "min": 40, "max": 55 },
+        "deliveryFee": 23.0,
+        "rating": 4.6,
+        "ratingCountText": "300+"
+      },
+      "menuSections": [
+        {
+          "name": "كنافة",
+          "products": [
+            { "name": "كنافة ناعمة على الفحم", "prices": [{ "unit": "XS", "price": 7 }, { "unit": "S", "price": 12 }, { "unit": "M", "price": 20 }, { "unit": "L", "price": 40 }, { "unit": "XL", "price": 60 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "محيرة على الفحم / اسطنبولية", "prices": [{ "unit": "XS", "price": 8 }, { "unit": "S", "price": 12 }, { "unit": "M", "price": 22 }, { "unit": "L", "price": 42 }, { "unit": "XL", "price": 60 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "كنافة مبرومة على الفحم", "prices": [{ "unit": "L", "price": 42 }, { "unit": "XL", "price": 60 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "كنافة بالقشطة", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 8 }, { "unit": "S", "price": 12 }, { "unit": "M", "price": 20 }, { "unit": "L", "price": 40 }, { "unit": "XL", "price": 60 }] },
+            { "name": "كنافة دايت", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 10 }, { "unit": "S", "price": 15 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "كنافة البستاشيو", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 10 }, { "unit": "S", "price": 14 }, { "unit": "M", "price": 30 }, { "unit": "L", "price": 55 }, { "unit": "XL", "price": 75 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "كنافة النوتيلا", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 10 }, { "unit": "S", "price": 14 }, { "unit": "M", "price": 25 }, { "unit": "L", "price": 50 }, { "unit": "XL", "price": 70 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "كنافة اللوتس", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 10 }, { "unit": "S", "price": 14 }, { "unit": "M", "price": 25 }, { "unit": "L", "price": 50 }, { "unit": "XL", "price": 70 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "اليوزباشي", "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 10 }, { "unit": "S", "price": 15 }, { "unit": "M", "price": 27 }, { "unit": "L", "price": 50 }, { "unit": "XL", "price": 75 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "عصملية أبو سير", "ingredients": ["فستق حلبي حب", "فستق حلبي مطحون", "جبنة", "قشطة", "بوظة"], "variants": ["خشنة", "ناعمة"], "prices": [{ "unit": "XS", "price": 14 }, { "unit": "S", "price": 20 }, { "unit": "M", "price": 35 }, { "unit": "L", "price": 70 }, { "unit": "XL", "price": 100 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] }
+          ]
+        },
+        {
+          "name": "حلويات شرقية وتركية وشامية",
+          "products": [
+            { "name": "فطير بالقشطة", "prices": [{ "unit": "شخصي (4 قطع)", "price": 7 }, { "unit": "كيلو", "price": 34 }, { "unit": "كيلو تواصي", "price": 36 }] },
+            { "name": "فطير بالجبنة (تواصي)", "prices": [{ "unit": "شخصي (4 قطع)", "price": 7 }, { "unit": "كيلو", "price": 36 }, { "unit": "كيلو تواصي", "price": 40 }] },
+            { "name": "بسكوت شهرزاد", "prices": [{ "unit": "4 حبات", "price": 7 }, { "unit": "كيلو", "price": 40 }] },
+            { "name": "أصابع بالجوز", "prices": [{ "unit": "4 حبات", "price": 7 }, { "unit": "كيلو", "price": 40 }] },
+            { "name": "بين النارين", "prices": [{ "unit": "حبتان", "price": 7 }, { "unit": "كيلو", "price": 36 }] },
+            { "name": "وربات شامية", "prices": [{ "unit": "3 حبات", "price": 7 }, { "unit": "كيلو", "price": 45 }] },
+            { "name": "كلاج بالجبنة", "prices": [{ "unit": "قطعة", "price": 7 }, { "unit": "كيلو", "price": 40 }] },
+            { "name": "فطير شهرزاد مطبق", "prices": [{ "unit": "ربع فطيرة", "price": 10 }, { "unit": "كيلو", "price": 40 }] },
+            { "name": "خدود الست بالقشطة الطبيعية", "prices": [{ "unit": "قطعتان", "price": 7 }, { "unit": "كيلو", "price": 50 }] },
+            { "name": "حلاوة الجبن", "prices": [{ "unit": "4 حبات", "price": 8 }, { "unit": "كيلو", "price": 50 }] },
+            { "name": "مدلوقة", "prices": [{ "unit": "قطعة", "price": 8 }, { "unit": "كيلو", "price": 55 }] },
+            { "name": "أصابع الفستق الحلبي", "prices": [{ "unit": "قطعتان", "price": 7 }, { "unit": "كيلو", "price": 120 }] },
+            { "name": "البقلاوة التركية", "prices": [{ "unit": "قطعة", "price": 12 }], "addOns": [{ "name": "بوظة", "price": 2 }, { "name": "قشطة", "price": 2 }] },
+            { "name": "مشكل تركي", "description": "تواصي", "prices": [{ "unit": "الطلب", "price": 120 }] },
+            { "name": "كيلو نواشف حلبي", "prices": [{ "unit": "كيلو", "price": 95 }] },
+            { "name": "كيلو نواشف مشكل", "prices": [{ "unit": "كيلو", "price": 85 }] }
+          ]
+        },
+        {
+          "name": "مشروبات",
+          "products": [
+            { "name": "ماء", "prices": [{ "unit": "صغير", "price": 1 }, { "unit": "كبير", "price": 4 }] }
+          ]
+        }
+      ],
+      "offers": [],
+      "analysisNotes": ["الأسعار والتفاصيل منقولة كما أرسلها المستخدم؛ لم تُتحقق خارجيًا.", "لم تُذكر عروض خاصة."]
+    }
+  ]
+}

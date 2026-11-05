@@ -1,0 +1,2446 @@
+{
+  "schemaVersion": 1,
+  "databaseName": "competitor-database-social_media",
+  "purpose": "Dashboard-ready Facebook post and engagement metrics, grouped by business page",
+  "generatedAt": "2026-11-05",
+  "source": {
+    "platform": "Facebook",
+    "importedFrom": "scraped post records",
+    "originalRecordCount": 80,
+    "notes": [
+      "Metric values preserve the supplied scrape; null means the source omitted the metric, while zero is a reported zero.",
+      "Aggregates sum and average only posts where that metric was present.",
+      "Post comments are counts; up to five comment text excerpts are kept separately per post."
+    ]
+  },
+  "competitors": [
+    {
+      "id": "osmali-sweets",
+      "name": "حلويات عصملي (Osmali Sweets)",
+      "url": "https://www.facebook.com/OsmanliPal/",
+      "pageName": "OsmanliPal",
+      "platform": "Facebook",
+      "postCount": 20,
+      "dataLastPostAt": "2026-11-05T11:00:13.000Z",
+      "dataFirstPostAt": "2026-10-01T15:52:46.000Z",
+      "engagement": {
+        "likes": {
+          "total": 167,
+          "average": 8.35,
+          "measuredPosts": 20
+        },
+        "comments": {
+          "total": 3,
+          "average": 1,
+          "measuredPosts": 3
+        },
+        "shares": {
+          "total": 17,
+          "average": 0.85,
+          "measuredPosts": 20
+        },
+        "views": {
+          "total": 10400,
+          "average": 2600,
+          "measuredPosts": 4
+        }
+      },
+      "posts": [
+        {
+          "postId": "1508151158033801",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0RJErbzKrKF8HmibXeZyvhctTUn5CVKmgZvkPD8brGZzjZYtWQx6hzDReZeNhE4zLl",
+          "publishedAt": "2026-11-05T11:00:13.000Z",
+          "text": "طبقات مقرمشة، فستق غني، وطعم بيستاهل كل لقمة. 🤎 جرّبوا البقلاوة التركية من العصملي!\n #osmanli #حلويات_عربية #عصملي #حلويات #حلويات_عربية_شرقية #dessert",
+          "hashtags": [
+            "#osmanli",
+            "#حلويات_عربية",
+            "#عصملي",
+            "#حلويات",
+            "#حلويات_عربية_شرقية",
+            "#dessert"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 0,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 0,
+            "reactionBreakdown": {}
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1506203151561935",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02jGKbrd7BPVAFL3n4bcB1JSbxxzBCz7wRsb4TQankVMYTP2nF7JprL9gKLBYxhMJil",
+          "publishedAt": "2026-11-03T12:46:28.000Z",
+          "text": "لما تكون الكنافة على أصولها… أكيد من العصملي! 🧡",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 33,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 32,
+              "wow": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1505109305004653",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02prtn7iYGfMvgopWrQNYjFTZ6jnuzCWswtXifBRPijK5Kawpf7L8UGp9Hcs7g9ukol",
+          "publishedAt": "2026-11-02T10:00:16.000Z",
+          "text": "الصحن مش مشكلة ، المشكلة لما تحتار شو تختار \n #dessert #حلويات #حلويات_عربية_شرقي #حلويات_عربية_شرقية #عصملي #osmanli #حلويات_عربية",
+          "hashtags": [
+            "#dessert",
+            "#حلويات",
+            "#حلويات_عربية_شرقي",
+            "#حلويات_عربية_شرقية",
+            "#عصملي",
+            "#osmanli",
+            "#حلويات_عربية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 6
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1503317181850532",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0pVvhXGAogpjQeR4jrwQctWzZnaEeRwzML5LDGqZiY1V5GWXqS8kmc1QFzagGygShl",
+          "publishedAt": "2026-10-31T15:00:10.000Z",
+          "text": "لا تقول \"بس قطعة\" وإحنا عارفين شو رح يصير\n #عصملي #حلويات_عربية_شرقي #dessert #حلويات_عربية_شرقية #osmanli #حلويات",
+          "hashtags": [
+            "#عصملي",
+            "#حلويات_عربية_شرقي",
+            "#dessert",
+            "#حلويات_عربية_شرقية",
+            "#osmanli",
+            "#حلويات"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 48,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 46,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1502353371946913",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0x3K7ewtBoj11YvhU51SezeWTojJjRxnrEUqMoBpQwggVN2Sc41QXvrMuYPdVJ96rl",
+          "publishedAt": "2026-10-30T15:44:51.000Z",
+          "text": "اليوم بده عصملي\n #حلويات_عربية_شرقية #حلويات_عربية_شرقي #dessert #osmanli #عصملي",
+          "hashtags": [
+            "#حلويات_عربية_شرقية",
+            "#حلويات_عربية_شرقي",
+            "#dessert",
+            "#osmanli",
+            "#عصملي"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1501233015392282",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02y6uY62euyZQHAiWBZ5soSXheAgBQq6hMX8pnChJNt9Yqw7mEF7Fvido2HM2ofmLMl",
+          "publishedAt": "2026-10-29T12:58:03.000Z",
+          "text": "اختيارك ما بخيّب لما يكون من عصملي \n #osmanli #حلويات #حلويات_عربية_شرقية #حلويات_عربية_شرقي #عصملي #dessert",
+          "hashtags": [
+            "#osmanli",
+            "#حلويات",
+            "#حلويات_عربية_شرقية",
+            "#حلويات_عربية_شرقي",
+            "#عصملي",
+            "#dessert"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1500490385466545",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0BN5srFHcP8UMoDjsoFLBJ5jUmDRv9AcR3E4EVwFextY1KNVKAH9564VtUStYpA6Rl",
+          "publishedAt": "2026-10-28T18:00:13.000Z",
+          "text": "في اختيارات بتندم عليها هاي مش منها\n #حلويات_عربية_شرقية #حلويات #osmanli #حلويات_عربية_شرقي #عصملي #dessert",
+          "hashtags": [
+            "#حلويات_عربية_شرقية",
+            "#حلويات",
+            "#osmanli",
+            "#حلويات_عربية_شرقي",
+            "#عصملي",
+            "#dessert"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1500145198834397",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02S3p8sdZmJVGr4ggruyTZG3okYDedEF12DZBMg29cVbrehpgnjN2LEyf15dTiCCd9l",
+          "publishedAt": "2026-10-28T10:51:26.000Z",
+          "text": "هذا الصحن تحديدًا؟ ما بنختلف عليه\n #osmanli #dessert #حلويات_عربية_شرقي #عصملي #حلويات_عربية_شرقية #حلويات",
+          "hashtags": [
+            "#osmanli",
+            "#dessert",
+            "#حلويات_عربية_شرقي",
+            "#عصملي",
+            "#حلويات_عربية_شرقية",
+            "#حلويات"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1499504012231849",
+          "url": "https://www.facebook.com/reel/1008721141534194/",
+          "publishedAt": "2026-10-27T18:11:25.000Z",
+          "text": "و انت احكيلنا، ليش عصملي؟\n #عصملي #حلويات_عربية_شرقي #حلويات_عربية_شرقية #dessert #osmanli",
+          "hashtags": [
+            "#عصملي",
+            "#حلويات_عربية_شرقي",
+            "#حلويات_عربية_شرقية",
+            "#dessert",
+            "#osmanli"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 5,
+            "comments": 1,
+            "shares": 0,
+            "views": 746,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 5
+            }
+          },
+          "topCommentTexts": [
+            "بالتوفيق والنجاح دائما 🙏❤️🌹"
+          ]
+        },
+        {
+          "postId": "1497581092424141",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02WL3jzJ5VV9abEveZPkEf12KaDzHoxqSEGGFNZcyhoWUQ8M72wNSZD9psArofKwu5l",
+          "publishedAt": "2026-10-25T18:00:38.000Z",
+          "text": "اعمل منشن للي بيعرف يختار🥰\n \n#حلويات_عربية_شرقية #حلويات_عربية_شرقي #dessert #حلويات #osmanli #عصملي",
+          "hashtags": [
+            "#حلويات_عربية_شرقية",
+            "#حلويات_عربية_شرقي",
+            "#dessert",
+            "#حلويات",
+            "#osmanli",
+            "#عصملي"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 3,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 3
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1493472679501649",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0X2tndKFN8YKPDEdFBhTiPPXAH7yZsnpgwQCcXwwfPryvZMrRx9pigMpzs1LQ1zP7l",
+          "publishedAt": "2026-10-21T09:55:48.000Z",
+          "text": "لما الخبر يكون حلو… كمّله بحلو\n #dessert #عصملي #حلويات_عربية_شرقية #حلويات #osmanli",
+          "hashtags": [
+            "#dessert",
+            "#عصملي",
+            "#حلويات_عربية_شرقية",
+            "#حلويات",
+            "#osmanli"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 2,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1491826989666218",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02hE9zE6qw3xpJVZxwijTGcz9B4FcPWcRnHXRyWHgawtyt2EcFDvq7N5tAqjY5aaGJl",
+          "publishedAt": "2026-10-19T15:00:16.000Z",
+          "text": "مناسبة صغيرة؟ \nفرحتها كبيرة مع عصملي",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 3,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 3
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1489945103187740",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid0YBjJuM9SHubMkFTfmV4f2ZtNENX9oStGfcq7Qn8Y1tfkFyt2oG7hXx61qHt9gHgMl",
+          "publishedAt": "2026-10-17T15:00:09.000Z",
+          "text": "إنت من جماعة \"صنف واحد\" ولا \"خلينا ناخد مشكل\"\n\n #osmanli #عصملي #حلويات_عربية_شرقية #حلويات #dessert",
+          "hashtags": [
+            "#osmanli",
+            "#عصملي",
+            "#حلويات_عربية_شرقية",
+            "#حلويات",
+            "#dessert"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1489026253279625",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02JKcdqt8hGtTTYPD5Kq3KPtTYpfptx5Tf1Z57WftJ5u53w8daqmwGW7VXLUHKZQpdl",
+          "publishedAt": "2026-10-16T15:00:03.000Z",
+          "text": "مين عنده الجرأة ياخد آخر قطعة؟\n\n #osmanli #dessert #حلويات_عربية_شرقية #عصملي #حلويات",
+          "hashtags": [
+            "#osmanli",
+            "#dessert",
+            "#حلويات_عربية_شرقية",
+            "#عصملي",
+            "#حلويات"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 2,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1487023156813268",
+          "url": "https://www.facebook.com/reel/1390262966637947/",
+          "publishedAt": "2026-10-14T13:26:52.000Z",
+          "text": "يوم التراث الفلسطيني مع عصملي 🤍 وجودكم احلى تحلايه\n\n#نابلس #كنافه #حلويات_نابلسية #فلسطين #حلويات",
+          "hashtags": [
+            "#نابلس",
+            "#كنافه",
+            "#حلويات_نابلسية",
+            "#فلسطين",
+            "#حلويات"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 3,
+            "comments": null,
+            "shares": 0,
+            "views": 1523,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 2,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1486911240157793",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02uswQj4Ykc5L7Y6Gp95jggfGCnCYC1dd16bZEp2vteMo4zCsS2QDAr83PH86pZcUUl",
+          "publishedAt": "2026-10-14T11:00:29.000Z",
+          "text": "شو الصنف اللي مستحيل تقوله لأ؟\n\n #osmanli #dessert #عصملي #حلويات_عربية_شرقية #حلويات",
+          "hashtags": [
+            "#osmanli",
+            "#dessert",
+            "#عصملي",
+            "#حلويات_عربية_شرقية",
+            "#حلويات"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 6
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1486047616910822",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02FCmCV2ep46ivrmN3RF3ti5SoqccZkDUQA1ryyQ4WGcKgmqeeP3Y87HW1SyiZvAmYl",
+          "publishedAt": "2026-10-13T13:00:12.000Z",
+          "text": "رتّبهم من 1 لـ3:\n كنافة، مدلوقة، بقلاوة.\n\n #حلويات #عصملي #حلويات_عربية_شرقية #osmanli #dessert",
+          "hashtags": [
+            "#حلويات",
+            "#عصملي",
+            "#حلويات_عربية_شرقية",
+            "#osmanli",
+            "#dessert"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 5,
+            "comments": 1,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 4,
+              "angry": 1
+            }
+          },
+          "topCommentTexts": [
+            "كلهم طيبين بعطيهم رقم ١. كلهم🌹🌹🌹"
+          ]
+        },
+        {
+          "postId": "1484976707017913",
+          "url": "https://www.facebook.com/OsmanliPal/posts/pfbid02cowzAeEf6e3noJd5rcpftHLXGumzuskojZJYKVcN5wGSdyMYWjiSA2KSELEZCn3Vl",
+          "publishedAt": "2026-10-12T11:00:43.000Z",
+          "text": "لو عصملي على حساب صاحبك اليوم شو بتختار؟",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1481557754026475",
+          "url": "https://www.facebook.com/reel/1146196158094486/",
+          "publishedAt": "2026-10-08T16:38:21.000Z",
+          "text": "من أراء ضيوف زفاف بسام خويري ❤️❤️\n\n#عصملي #حلويات #حلويات_عربية_شرقية #كنافه #كنافه_نابلسيه",
+          "hashtags": [
+            "#عصملي",
+            "#حلويات",
+            "#حلويات_عربية_شرقية",
+            "#كنافه",
+            "#كنافه_نابلسيه"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 31,
+            "comments": null,
+            "shares": 0,
+            "views": 6217,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 26,
+              "love": 5
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1475043211344596",
+          "url": "https://www.facebook.com/reel/1335985005105579/",
+          "publishedAt": "2026-10-01T15:52:46.000Z",
+          "text": "",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 14,
+            "comments": 1,
+            "shares": 2,
+            "views": 1914,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 10,
+              "love": 3,
+              "care": 1
+            }
+          },
+          "topCommentTexts": [
+            "Abood 😂😂😂صحة صحة"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "komur-kunefe",
+      "name": "كومور كنافة (Kömür Künefe)",
+      "url": "https://www.facebook.com/Komurkunefe",
+      "isOwnBusiness": true,
+      "pageName": "Komurkunefe",
+      "platform": "Facebook",
+      "postCount": 20,
+      "dataLastPostAt": "2026-11-05T17:38:11.000Z",
+      "dataFirstPostAt": "2026-08-31T16:55:45.000Z",
+      "engagement": {
+        "likes": {
+          "total": 191,
+          "average": 9.55,
+          "measuredPosts": 20
+        },
+        "comments": {
+          "total": 15,
+          "average": 1.5,
+          "measuredPosts": 10
+        },
+        "shares": {
+          "total": 6,
+          "average": 0.3,
+          "measuredPosts": 20
+        },
+        "views": {
+          "total": 21811,
+          "average": 1817.58,
+          "measuredPosts": 12
+        }
+      },
+      "posts": [
+        {
+          "postId": "1572876997977024",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid0fqESUP8CQ9RQ5YkifdEZFL49bdNuVYGL7wxZ8Z1DvYDb436qWBjdUKqeqgX3bcdjl",
+          "publishedAt": "2026-11-05T17:38:11.000Z",
+          "text": "بقلاوة برغر محشية بالبوظة.\n\nطبقات مقرمشة وحشوة غنية… تجربة مختلفة في Kömür Künefe.\n\nنابلس – رفيديا 📍\n056-260-6061\n\n #حلويات #Kunafa #DessertLovers #كنافة_عالفحم #Nablus⁩⁩⁩",
+          "hashtags": [
+            "#حلويات",
+            "#Kunafa",
+            "#DessertLovers",
+            "#كنافة_عالفحم",
+            "#Nablus"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 0,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 0,
+            "reactionBreakdown": {}
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1570995554831835",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid0wz36AsEwxFyPVZY3SKXoeMCWbbzHg6byyfqP1FKVNBgj1YgCaayEr3ehqtUUXGXJl",
+          "publishedAt": "2026-11-03T20:33:20.000Z",
+          "text": "البقلاوة التركية من Kömür Künefe. توليفة من الفستق الحلبي الفاخر والبوظة التركيه المميزه .\n\nنابلس – رفيديا 📍\n056-260-6061\n\n#KömürKünefe #بقلاوة_تركية #حلويات_نابلس #Nablus #PalestineFood",
+          "hashtags": [
+            "#KömürKünefe",
+            "#بقلاوة_تركية",
+            "#حلويات_نابلس",
+            "#Nablus",
+            "#PalestineFood"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 2,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 2
+            }
+          },
+          "topCommentTexts": [
+            "ممممممم🔥 🔥 بتشهي منكمًً وبس"
+          ]
+        },
+        {
+          "postId": "1570990724832318",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid0T7xMAAugymcd5SSW73F9zARu4QVVuL2FXH7gm6ZQMZEfsdcmn4fxMQNdHHRsGpRvl",
+          "publishedAt": "2026-11-03T20:25:14.000Z",
+          "text": "البقلاوة التركية من Kömür Künefe. توليفة من الفستق الحلبي الفاخر  والبوظة التركيه .\n\nنابلس – رفيديا 📍\n056-260-6061\n\n#KömürKünefe #بقلاوة_تركية #حلويات_نابلس #Nablus #PalestineFood",
+          "hashtags": [
+            "#KömürKünefe",
+            "#بقلاوة_تركية",
+            "#حلويات_نابلس",
+            "#Nablus",
+            "#PalestineFood"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1558702476061143",
+          "url": "https://www.facebook.com/reel/2295619467644226/",
+          "publishedAt": "2026-10-22T11:06:29.000Z",
+          "text": "كنافتنا غير 😋♥️♥️♥️\n#explore #حلويات #foryou #fyp",
+          "hashtags": [
+            "#explore",
+            "#حلويات",
+            "#foryou",
+            "#fyp"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 15,
+            "comments": null,
+            "shares": 0,
+            "views": 6821,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 15
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1551361303461927",
+          "url": "https://www.facebook.com/reel/960603399967799/",
+          "publishedAt": "2026-10-14T15:37:10.000Z",
+          "text": "من الفعاليات بيوم التراث في مدرسة الراهبات ♥️\n#explore #fyp #foryou",
+          "hashtags": [
+            "#explore",
+            "#fyp",
+            "#foryou"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 82,
+            "comments": 5,
+            "shares": 1,
+            "views": 4932,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 67,
+              "love": 12,
+              "care": 3
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1546623723935685",
+          "url": "https://www.facebook.com/reel/2501746416959526/",
+          "publishedAt": "2026-10-09T16:03:51.000Z",
+          "text": "انو لازم نسحج 😂😂😂\n#explore #foryou #fyp",
+          "hashtags": [
+            "#explore",
+            "#foryou",
+            "#fyp"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": 1,
+            "shares": 0,
+            "views": 853,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 4,
+              "haha": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1543769567554434",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid0khYHb3UWQ1MDdW4Cpub8PaD3kSFam7phjT5yw2nMhPVpfJuyDdSK8X1KfHBuFdiYl",
+          "publishedAt": "2026-10-06T13:10:16.000Z",
+          "text": "كنافتنا النابلسية غير 😋♥️\n#foryou #fyp #explore",
+          "hashtags": [
+            "#foryou",
+            "#fyp",
+            "#explore"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 7,
+            "comments": null,
+            "shares": 2,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 7
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1542855187645872",
+          "url": "https://www.facebook.com/reel/1647375830353433/",
+          "publishedAt": "2026-10-05T13:40:48.000Z",
+          "text": "بنحب نشارككم فرحتكم ، ونكون جزء منها ❤️\n#explore #fyp #foryou",
+          "hashtags": [
+            "#explore",
+            "#fyp",
+            "#foryou"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 14,
+            "comments": null,
+            "shares": 0,
+            "views": 667,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 10,
+              "love": 4
+            }
+          },
+          "topCommentTexts": [
+            "ما شاء الله الله يديم الأفراح كنافه زاكيه  من الآخر"
+          ]
+        },
+        {
+          "postId": "1528953045702753",
+          "url": "https://www.facebook.com/reel/3005055756501423/",
+          "publishedAt": "2026-09-20T18:07:14.000Z",
+          "text": "بتحبوا نحضر طلبيات مع بعض دائماً؟!🫣🤍\n#explore #حلويات #طلبية #trend #foryou",
+          "hashtags": [
+            "#explore",
+            "#حلويات",
+            "#طلبية",
+            "#trend",
+            "#foryou"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": null,
+            "shares": 0,
+            "views": 717,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 6
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1527903829141008",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid02UsQkKEAA16MVPDsJMqEpgJrtsJPTSq8B3hxuqKyAjGonX3wCUAfG9ZycugzS6RXSl",
+          "publishedAt": "2026-09-19T13:03:29.000Z",
+          "text": "بقلاوة تركية بالبوظة ، الطعم خيال!😋🤍\n#اكسبلور #حلويات #اكل #foryou #fyp",
+          "hashtags": [
+            "#اكسبلور",
+            "#حلويات",
+            "#اكل",
+            "#foryou",
+            "#fyp"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 1,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1526273102637414",
+          "url": "https://www.facebook.com/reel/1674318847823007/",
+          "publishedAt": "2026-09-17T14:41:25.000Z",
+          "text": "بقلاوة تركية ❤️😋😋😋\n#explore #explorepage #حلويات #foryou #fyp",
+          "hashtags": [
+            "#explore",
+            "#explorepage",
+            "#حلويات",
+            "#foryou",
+            "#fyp"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 3,
+            "comments": 1,
+            "shares": 0,
+            "views": 696,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 3
+            }
+          },
+          "topCommentTexts": [
+            "مممممممم بتشهي والله"
+          ]
+        },
+        {
+          "postId": "1524643316133726",
+          "url": "https://www.facebook.com/reel/1116134470985626/",
+          "publishedAt": "2026-09-15T16:23:40.000Z",
+          "text": "غيرلنا بكنافة الشكلاتة وخلينا حشوتها قشطة \nوهلا صرتوا بتقدروا تطلبوها يا بحشوة شوكلاتة يا قشطة🍫\n#explore #حلويات #explorepage #foryou #جامعة_النجاح_الوطنية",
+          "hashtags": [
+            "#explore",
+            "#حلويات",
+            "#explorepage",
+            "#foryou",
+            "#جامعة_النجاح_الوطنية"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 4,
+            "comments": 2,
+            "shares": 0,
+            "views": 489,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 4
+            }
+          },
+          "topCommentTexts": [
+            "احلى معلم علاء"
+          ]
+        },
+        {
+          "postId": "1522906312974093",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid02VGtaBZnbm4zeGZvC4KmwAffFccafFQbcRkEf6Jp1s27BjckCTYMiX63nUwm92eXhl",
+          "publishedAt": "2026-09-13T15:38:13.000Z",
+          "text": "الشكل لحالو بحكي ، والطعم حكاية تانية😋🤍\n#ترند #حلويات #نابلس #اكل #اكسبلور",
+          "hashtags": [
+            "#ترند",
+            "#حلويات",
+            "#نابلس",
+            "#اكل",
+            "#اكسبلور"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 4,
+            "comments": 1,
+            "shares": 2,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 4
+            }
+          },
+          "topCommentTexts": [
+            "شو زاكي"
+          ]
+        },
+        {
+          "postId": "1522785659652825",
+          "url": "https://www.facebook.com/reel/1078764191189835/",
+          "publishedAt": "2026-09-13T12:40:43.000Z",
+          "text": "طب بالله مهي فن؟!🫣\n#explore #حلويات #explorepage #جامعة_النجاح_الوطنية #اكل",
+          "hashtags": [
+            "#explore",
+            "#حلويات",
+            "#explorepage",
+            "#جامعة_النجاح_الوطنية",
+            "#اكل"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 9,
+            "comments": 1,
+            "shares": 0,
+            "views": 1631,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 8,
+              "care": 1
+            }
+          },
+          "topCommentTexts": [
+            "بشهي ممممم"
+          ]
+        },
+        {
+          "postId": "1520153386582719",
+          "url": "https://www.facebook.com/reel/2945782732423010/",
+          "publishedAt": "2026-09-10T11:53:49.000Z",
+          "text": "هالمرة انتو احزروا اسم الصنف؟!🙂‍↔️\n#explore #nablus☺️🇵🇸 #حلويات #explorepage✨ #foryou",
+          "hashtags": [
+            "#explore",
+            "#nablus",
+            "#حلويات",
+            "#explorepage",
+            "#foryou"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": 1,
+            "shares": 0,
+            "views": 1801,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 6
+            }
+          },
+          "topCommentTexts": [
+            "تسلم الايدين الحلوه"
+          ]
+        },
+        {
+          "postId": "1518627696735288",
+          "url": "https://www.facebook.com/reel/2374609679959018/",
+          "publishedAt": "2026-09-08T15:54:53.000Z",
+          "text": "من اجواء عرس امبارح \nومن طاقم كنافة على الفحم بنباركلكم وبنتمنالكم كل الخير😍❤️\n#explore #explorepage #حلويات #اعراس #foryou",
+          "hashtags": [
+            "#explore",
+            "#explorepage",
+            "#حلويات",
+            "#اعراس",
+            "#foryou"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 10,
+            "comments": 1,
+            "shares": 0,
+            "views": 1026,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 8,
+              "love": 2
+            }
+          },
+          "topCommentTexts": [
+            "ازكي كنافه ممممممم"
+          ]
+        },
+        {
+          "postId": "1516998546898203",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid02LgEhjRJkfbJVSd21tgXC3KbEprwatK7J5fWKptgEqKFAM7Jh44h1HNpJwEGHtDyDl",
+          "publishedAt": "2026-09-06T16:59:20.000Z",
+          "text": "هل تعلم عزيزي المتابع ..\nانو هاد الصنف محبوب الجماهير🫣🤎\n#اكسبلور #fpy #foryou #حلويات #اكل",
+          "hashtags": [
+            "#اكسبلور",
+            "#fpy",
+            "#foryou",
+            "#حلويات",
+            "#اكل"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 5,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 3,
+              "love": 2
+            }
+          },
+          "topCommentTexts": [
+            "مممممممممم بشهي"
+          ]
+        },
+        {
+          "postId": "1516117080319683",
+          "url": "https://www.facebook.com/reel/1068023466089323/",
+          "publishedAt": "2026-09-05T15:54:16.000Z",
+          "text": "حبيتوا الفقرة نعتمدها؟!😂🫣🤍\n#explore #حلويات #foodporn #foryou #fpy",
+          "hashtags": [
+            "#explore",
+            "#حلويات",
+            "#foodporn",
+            "#foryou",
+            "#fpy"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 5,
+            "comments": null,
+            "shares": 0,
+            "views": 874,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 5
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1513426690588722",
+          "url": "https://www.facebook.com/Komurkunefe/posts/pfbid02cB34DNmw9TnCB2fHCo3cdkkT6Yq7YUs11nYx4i7RpgLJcSkgiXaugekzXra7U2Qml",
+          "publishedAt": "2026-09-02T14:01:20.000Z",
+          "text": "اصنافنا المميزة بطعمها مش باسمها !🌝\n والطعم بخليك تدمن عليهم من لذتهم 😋\nوانتو احكولنا شو صنفكم المُفضل ؟! \n#حلويات #ترند #fpy #foryou #اكل",
+          "hashtags": [
+            "#حلويات",
+            "#ترند",
+            "#fpy",
+            "#foryou",
+            "#اكل"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 4,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 3,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1511854114079313",
+          "url": "https://www.facebook.com/reel/1396368655775347/",
+          "publishedAt": "2026-08-31T16:55:45.000Z",
+          "text": "فش احلى من انكم تطلعوا عنا صح؟!🫣\n#explore #foryou #fpy #حلويات #food",
+          "hashtags": [
+            "#explore",
+            "#foryou",
+            "#fpy",
+            "#حلويات",
+            "#food"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 7,
+            "comments": null,
+            "shares": 0,
+            "views": 1304,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 5,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        }
+      ]
+    },
+    {
+      "id": "al-saraya-sweets",
+      "name": "حلويات السرايا (Al-Saraya Sweets)",
+      "url": "https://www.facebook.com/alsaraya.sweets",
+      "pageName": "alsaraya.sweets",
+      "platform": "Facebook",
+      "postCount": 20,
+      "dataLastPostAt": "2026-11-05T11:55:12.000Z",
+      "dataFirstPostAt": "2026-10-05T12:35:05.000Z",
+      "engagement": {
+        "likes": {
+          "total": 996,
+          "average": 49.8,
+          "measuredPosts": 20
+        },
+        "comments": {
+          "total": 124,
+          "average": 13.78,
+          "measuredPosts": 9
+        },
+        "shares": {
+          "total": 5,
+          "average": 0.25,
+          "measuredPosts": 20
+        },
+        "views": {
+          "total": 47144,
+          "average": 6734.86,
+          "measuredPosts": 7
+        }
+      },
+      "posts": [
+        {
+          "postId": "1576409271196999",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid07ZNVCey69R2mUwom252Y1Hvg6V5Ymh6DKP5CMxWajKSqA3LTvzNxSPrWbHe1Ygbfl",
+          "publishedAt": "2026-11-05T11:55:12.000Z",
+          "text": "كلاج بالجبنة حلاوة بالطعم💛\nجرّبوه من حلويات السرايا واستمتعوا بكل لقمة!\n📍 حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n📍 نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n☎️ 092591414",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 5,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 5
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1575391137965479",
+          "url": "https://www.facebook.com/reel/1839052133792224/",
+          "publishedAt": "2026-11-04T13:25:15.000Z",
+          "text": "مش بس زبائننا… إنتوا جزء من عيلة  السرايا ❤️\nكل زيارة إلها ذكرى، وكل لمّة إلها طعم، وكل قطعة حلو بتصير أحلى بوجودكم.\n\nحلويات السرايا…حلي اوقاتك\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 93,
+            "comments": 9,
+            "shares": 0,
+            "views": 4661,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 86,
+              "love": 6,
+              "care": 1
+            }
+          },
+          "topCommentTexts": [
+            "👏🏻👏🏻👏🏻"
+          ]
+        },
+        {
+          "postId": "1569914035179856",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid028F855CnteAGvQbbAqNeNaM3eKxaNVK8BaCAzUzN4cZn5yb3S3M2uoEKjGFERS3K5l",
+          "publishedAt": "2026-10-30T12:00:26.000Z",
+          "text": "بقلاوة مقرمشة، فستق حلبي وبوظة.. مكس بستاهل التجربة 💚✨\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 15,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 12,
+              "love": 3
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1567592895411970",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid02AzTeatx58YyjVpzRxBEgmpNGw3LtgEPC3r4pF2BFtNmUg2TA9qkiSx9wNh2xyij4l",
+          "publishedAt": "2026-10-28T12:00:38.000Z",
+          "text": "للبقلاوة التركية مزاج ثاني 🤍 \nجرّبوها من حلويات السرايا ✨\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 18,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 16,
+              "love": 2
+            }
+          },
+          "topCommentTexts": [
+            "❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥"
+          ]
+        },
+        {
+          "postId": "1565324125638847",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid02zZDWBFfpqXr5sYEKEL1pRFjQWSo2XGvQ9ae9CFrMzNrncDUh4Zt2Vjkn1iAHEZV5l",
+          "publishedAt": "2026-10-26T12:00:12.000Z",
+          "text": "اللمّة بتحلى لما كل واحد يلاقي القطعة اللي بحبها 🤍\nتشكيلة البقلاوة التركية من حلويات السرايا، عشان كل واحد يختار قطعته المفضلة ✨\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 27,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 24,
+              "love": 3
+            }
+          },
+          "topCommentTexts": [
+            "تعطم خيال ياخذك الى عالم اخر \nممممممممم 🤤"
+          ]
+        },
+        {
+          "postId": "1562073082630618",
+          "url": "https://www.facebook.com/reel/2310272459817841/",
+          "publishedAt": "2026-10-23T12:00:55.000Z",
+          "text": "في مناسبات بتضل بالذاكرة… وفي ضيافة بتحكي عن ذوق أصحابها 🤍✨\nحلويات السرايا حاضرة بعزايمكم وأفراحكم وأجمل لحظاتكم 🥰\nحوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 60,
+            "comments": 1,
+            "shares": 0,
+            "views": 4653,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 55,
+              "love": 5
+            }
+          },
+          "topCommentTexts": [
+            "يفتح عليكم يارب بزياده"
+          ]
+        },
+        {
+          "postId": "1560913536079906",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid02JwSFQMgmn6QwbK6kPGkMLR2r3fSMLPTxcxRdXEiKf948Dk9zuw6bDKNN1y5UFZ1Cl",
+          "publishedAt": "2026-10-22T09:00:57.000Z",
+          "text": "صعب تكتفي بواحدة من صُرة الفستق الحلبي 💚\nجربوها من السرايا واستمتعوا بالطعم الزاكي✨\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 12,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 12
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1558909702946956",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid029iCQH5jKqmFtZY3M2NFLf7CmTKt95Mhz1cCwHqZsjrpYYYhypGcgyDfFPYTKGzgBl",
+          "publishedAt": "2026-10-20T09:00:32.000Z",
+          "text": "نص القمر بالفستق الحلبي.. اسم على مسمّى 🤍🌙\nمن حلويات السرايا اللي بتستاهل تكون على سفرتكم، خصوصا مع قعدة حلوة ولمّة أحلى ✨\nجرّبوها واحكولنا رأيكم؟!\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 26,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 23,
+              "love": 3
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1556810353156891",
+          "url": "https://www.facebook.com/reel/1603465191323305/",
+          "publishedAt": "2026-10-18T08:30:13.000Z",
+          "text": "ايش اكتر الاصناف بتحبوها عند حلويات السرايا ؟ \nجاوبونا بالتعليقات 🥰🥰\n#حلويات_السرايا #حلويات_شرقية\n\n📍 حوارة | الشارع الرئيسي – بجانب بنك الاستثمار\n📍 نابلس | شارع رفيديا – بالقرب من الأكاديمية\n📞 للاستفسار والحجز: 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 40,
+            "comments": 3,
+            "shares": 0,
+            "views": 3326,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 35,
+              "love": 5
+            }
+          },
+          "topCommentTexts": [
+            "كل إشي عندهم زاكي ومميز \nوبالأخص الوربات الشامية"
+          ]
+        },
+        {
+          "postId": "1555788516592408",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid02xfa1H1ZCbRhRZaz4VJqZkXwTaBnXLDeAn4aQ7EB93zcXDXXFnu5ERJxKQ6iomVkJl",
+          "publishedAt": "2026-10-17T09:00:47.000Z",
+          "text": "البقلاوة التركية بالفستق الحلبي إلها عشّاقها 💚\nوإذا إنتوا منهم، هاي لازم تكون ضمن اختياراتكم الجاية من حلويات السرايا ✨\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 23,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 22,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1555214289983164",
+          "url": "https://www.facebook.com/reel/1758512122099841/",
+          "publishedAt": "2026-10-16T18:20:50.000Z",
+          "text": "",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 427,
+            "comments": 76,
+            "shares": 3,
+            "views": 25590,
+            "topReactionsCount": 4,
+            "reactionBreakdown": {
+              "like": 382,
+              "love": 41,
+              "care": 3,
+              "angry": 1
+            }
+          },
+          "topCommentTexts": [
+            "بالتوفيق انشاء الله 💐"
+          ]
+        },
+        {
+          "postId": "1554829636688296",
+          "url": "https://www.facebook.com/reel/931069469853592/",
+          "publishedAt": "2026-10-16T11:00:41.000Z",
+          "text": "الي جربوا حلاوة الجبن في حلويات السرايا احكولنا عن تجربتكم ؟👀\n#حلويات_السرايا #حلويات_شرقية\n\n📍 حوارة | الشارع الرئيسي – بجانب بنك الاستثمار\n📍 نابلس | شارع رفيديا – بالقرب من الأكاديمية\n📞 للاستفسار والحجز: 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 36,
+            "comments": 2,
+            "shares": 0,
+            "views": 3980,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 31,
+              "love": 5
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1553709576800302",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid05rD3cdfjBpk7BWa3ewh3TM5SwrgHN9P5SkcE4FueWKBJYeK9XyNZQLozaMJ2mKPJl",
+          "publishedAt": "2026-10-15T09:00:33.000Z",
+          "text": "عين الجمل بالفستق الحلبي.. مع القهوة بتكون حكايتها غير 💚☕\n#حلويات_السرايا #مبرومة_فستق #حلويات_شرقية\n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 17,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 16,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1553680196803240",
+          "url": "https://www.facebook.com/reel/1525677086244845/",
+          "publishedAt": "2026-10-15T08:19:36.000Z",
+          "text": "لما نحكي عن النكهة الشامية الأصيلة… منحكي عن الوربات من حلويات السرايا 🤎🔥\n\nقرمشة من أول لقمة، وحلاوة إلها حكاية\n\n#حلويات_السرايا #حلويات_شرقية\n\n📍 حوارة | الشارع الرئيسي – بجانب بنك الاستثمار\n📍 نابلس | شارع رفيديا – بالقرب من الأكاديمية\n📞 للاستفسار والحجز: 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 29,
+            "comments": null,
+            "shares": 0,
+            "views": 2785,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 27,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1550628373775089",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid05nvzhKPPVgqcj9Q7jSymL7SXXJ2esgowKtUjmX6hEkwu2ghjgXkJQB5ST8pxgicfl",
+          "publishedAt": "2026-10-12T10:35:57.000Z",
+          "text": "الكنافة التركية مع الفستق الحلبي اختيار صعب تقاومه 😋\n#حلويات_السرايا #حلويات_شرقية \n حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز: 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#حلويات_شرقية"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 30,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 29,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1549697687201491",
+          "url": "https://www.facebook.com/reel/1088097927465713/",
+          "publishedAt": "2026-10-11T13:00:51.000Z",
+          "text": "كل واحد مرشّح صاحبه… وإحنا مستنيين نشوف مين رح يعزم 😂👀\n\n#حلويات_السرايا \n📍حوارة | الشارع الرئيسي - بجانب بنك الاستثمار \n📍نابلس | شارع رفيديا - بالقرب من الأكاديمية \n☎️للاستفسار والحجز:092591414",
+          "hashtags": [
+            "#حلويات_السرايا"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 14,
+            "comments": null,
+            "shares": 0,
+            "views": 2149,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 12,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1547473227423937",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid0iQ5uoPBuvrcoxYw5KjyFKfnbchmvAsQjcV2MFeiwcosDgEwmpKDdJJKNNXa67754l",
+          "publishedAt": "2026-10-09T06:00:37.000Z",
+          "text": "الفحص المبكر خطوة بسيطة، بس بتفرق كتير.\nافحصي وطمنينا 🎀\n#شهر_التوعية_بسرطان_الثدي #اكتوبر_الوردي",
+          "hashtags": [
+            "#شهر_التوعية_بسرطان_الثدي",
+            "#اكتوبر_الوردي"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 7,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 5,
+              "love": 1,
+              "angry": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1546675260837067",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid0QurKhCxxABycHN3x6BnZBuGpx9Tyi5N7zmjjx1npY9qUWVHTk3tRUeYBwArmwn52l",
+          "publishedAt": "2026-10-08T10:28:04.000Z",
+          "text": "في إطار رؤيتنا الاستراتيجية للإنطلاق بالمنتج الفلسطيني من السوق المحلي إلى الأسواق الدولية، شاركت شركة حلويات السرايا، ممثلةً بمديرها التنفيذي السيد شادي القصص، في فعاليات الأسبوع العالمي للغذاء 2026 المقام في أبوظبي\nوقد تشرّف جناح الشركة بزيارة كريمة من سعادة سفيرة دولة فلسطين لدى دولة الإمارات العربية المتحدة، السيدة عبير الرمحي، خلال جولتها في الجناح الفلسطيني، إلى جانب السيد عمار الكردي، رئيس نادي الصداقة الإماراتي الفلسطيني، والسيد رامي حزبون، رئيس لجنة العلاقات العامة والإعلام في النادي.\nوشكّلت هذه المشاركة فرصة مميزة لتسليط الضوء على المنتجات الفلسطينية المحلية، التي تجسّد الهوية الفلسطينية الأصيلة وإرثها العريق في صناعة الحلويات، وتُقدَّم وفق أعلى معايير الجودة العالمية.",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 67,
+            "comments": 23,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 48,
+              "love": 18,
+              "care": 1
+            }
+          },
+          "topCommentTexts": [
+            "حلويات السرايا مذاق يجوب العالم ولذوي الذوق الرفيع كل الاحترام والتقدير للمدير الغالي شادي(ابو خلدون)."
+          ]
+        },
+        {
+          "postId": "1546525400852053",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid02936joHtueLmYVCtsWZ6rdGEUsCfKmmxFg3MRV772b7r9j9tP3xGKQpQgW4gNtUFSl",
+          "publishedAt": "2026-10-08T06:29:09.000Z",
+          "text": "مبرومة السرايا إلها حكاية تانية 💚\nاطلبوها اليوم وضيّفوا أحبابكم منها ✨\n#حلويات_السرايا #مبرومة_فستق \n📍 حوارة | الشارع الرئيسي - بجانب بنك الاستثمار\n📍 نابلس | شارع رفيديا - بالقرب من الأكاديمية\nللاستفسار والحجز:\n☎️ 092591414",
+          "hashtags": [
+            "#حلويات_السرايا",
+            "#مبرومة_فستق"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 9,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 9
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1543886837782576",
+          "url": "https://www.facebook.com/alsaraya.sweets/posts/pfbid0E163ix2mBvLWc8HDzUUkYfBCCmbiQkB6ZW1awb8RRZjAQr2TTeDbzLvt1sxcz1e6l",
+          "publishedAt": "2026-10-05T12:35:05.000Z",
+          "text": "من نابلس، فلسطين 🇵🇸 إلى أبو ظبي، الإمارات 🇦🇪\n\nبكل فخر، نعلن عن مشاركتنا في Global Food Week 2026، لنحمل معنا أصالة المذاق النابلسي ونشارك حكاية حلويات السرايا مع زوار من مختلف أنحاء العالم. 🌍\n\nونفخر بأن منتجاتنا تُصنع وفق نظام إدارة سلامة الغذاء المعتمد ISO 22000، تأكيدًا لالتزامنا بالجودة والسلامة.\n\nخطوة جديدة نحو العالمية… وحكاية بدأت من نابلس وتستمر إلى العالم.\n\n📍 ADNEC – Abu Dhabi\n📅 من 6 إلى 8 أكتوبر 2026\n\nننتظركم في جناح حلويات السرايا ❤️\n\nحلويات السرايا — حلّي أوقاتك.✨\n\nFrom Nablus, Palestine 🇵🇸 to Abu Dhabi, UAE 🇦🇪\n\nWe are proud to announce our participation in Global Food Week 2026, to carry with us the authenticity of the Nabulsi taste and share the story of Saraya sweets with visitors from around the world. 🌍\n\nWe are proud that our products are manufactured according to the ISO 22000 approved food safety management system, in confirmation of our commitment to quality and safety.\n\nA new step towards globalisation... and a story that started from Nablus and continues to the world.\n\n📅 from 6 to 8 October 2026\n\nWe are waiting for you in the Saraya sweets suite ❤️\n\nAl-Saraya sweets — sweete your time.✨",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 41,
+            "comments": 8,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 33,
+              "love": 8
+            }
+          },
+          "topCommentTexts": [
+            "موفقييين ❤️❤️"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abu-salha-rafidia",
+      "name": "حلويات أبو صالحة - رفيديا",
+      "url": "https://www.facebook.com/abusalha.sweet",
+      "pageName": "abusalha.sweet",
+      "platform": "Facebook",
+      "postCount": 20,
+      "dataLastPostAt": "2026-09-12T12:12:20.000Z",
+      "dataFirstPostAt": "2025-07-15T18:10:50.000Z",
+      "engagement": {
+        "likes": {
+          "total": 391,
+          "average": 19.55,
+          "measuredPosts": 20
+        },
+        "comments": {
+          "total": 19,
+          "average": 1.73,
+          "measuredPosts": 11
+        },
+        "shares": {
+          "total": 5,
+          "average": 0.25,
+          "measuredPosts": 20
+        },
+        "views": {
+          "total": 66283,
+          "average": 5523.58,
+          "measuredPosts": 12
+        }
+      },
+      "posts": [
+        {
+          "postId": "1545840267584194",
+          "url": "https://www.facebook.com/reel/1381936184152970/",
+          "publishedAt": "2026-09-12T12:12:20.000Z",
+          "text": "لأصحاب الذوق الرفيع 😉💚\nالتشكيلة التركية الفاخرة.. الفستق الصح والطعم الأصيل!\nالفخامة بالتفاصيل! \nأفخم تشكيلة حلويات تركية جاهزة لجمعاتكم العائلية ومناسباتكم\nللطلب تواصلوا معنا على رسائل الصفحه 📩\nاو على الرقم :- \n📞0599505818\n📞092382325",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 20,
+            "comments": 4,
+            "shares": 0,
+            "views": 1813,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 18,
+              "love": 2
+            }
+          },
+          "topCommentTexts": [
+            "حلويات ابو صالحه وبس ❤️"
+          ]
+        },
+        {
+          "postId": "1545830797585141",
+          "url": "https://www.facebook.com/reel/1386961253032266/",
+          "publishedAt": "2026-09-12T11:59:35.000Z",
+          "text": "أفراح آل جنيدي",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 18,
+            "comments": null,
+            "shares": 0,
+            "views": 2342,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 16,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1498788555622699",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid033TWWWoMdJ3RxULaQfBtABMMH4CYEP2S9UfzcfHruLhidigbbCDT87ubvTe3sMv18l",
+          "publishedAt": "2026-07-23T14:03:31.000Z",
+          "text": "عرض خاص لطلاب #التوجيهي بمناسبة النجاح\nلأن فرحتكم تستحق أحلى ضيافة… 💛\nاحتفلوا مع الأهل والأحباب بأطيب الحلويات، وخلي فرحة النجاح بطعم لا يُنسى. \n\n📍 خصم 10 ٪ على قيمة مشترياتك بقيمة 100 شيكل فأكثر \n\n📍 زورونا: نابلس – المجمع التجاري \nرفيديا مفرق البدوي\n📞 احجزوا الآن عبر: 0599505818\n092341561\n\n⏳ العرض لمدة 3 أيام",
+          "hashtags": [
+            "#التوجيهي"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 13,
+            "comments": 2,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 13
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1481097350725153",
+          "url": "https://www.facebook.com/reel/1050380694186520/",
+          "publishedAt": "2026-07-03T16:52:59.000Z",
+          "text": "توزيعاتنا اليوم بإطلالة تركية! 🇹🇷✨\nوين ما تروحوا، شغلنا بيلحقكم بالحب والجودة! 🥰 لقطات من مشاركة توزيعاتنا في حفل مميز بتركيا.. عقبال عند حبايبكم جميعاً!",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 13,
+            "comments": null,
+            "shares": 0,
+            "views": 1654,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 8,
+              "love": 5
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1474683911366497",
+          "url": "https://www.facebook.com/reel/2478947389233510/",
+          "publishedAt": "2026-06-26T19:44:37.000Z",
+          "text": "الحلو مش مجرد طعم... الحلو إحساس. ✨\n\nمع حلويات أبو صالحة بتلاقي الجودة، والطعم الأصيل، والمذاق اللي بضل في الذاكرة، وبأسعار تناسب الجميع.\n\nبنستناكم تشرفونا وتجربوا أطيب الحلويات الشرقية 🤗\n وخلو كل مناسباتكم الها ذكرى حلوه \n📞0599505818 فرع الدوار\n📞0599209143 فرع رفيديا",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 24,
+            "comments": null,
+            "shares": 0,
+            "views": 3449,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 24
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1463845342450354",
+          "url": "https://www.facebook.com/reel/1326391072213895/",
+          "publishedAt": "2026-06-14T20:41:23.000Z",
+          "text": "من  فرح العريس محمد ابو هنطش محمد ابو هنطش",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 21,
+            "comments": null,
+            "shares": 1,
+            "views": 3254,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 19,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1458825496285672",
+          "url": "https://www.facebook.com/reel/1716102839397280/",
+          "publishedAt": "2026-06-09T11:53:44.000Z",
+          "text": "",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 20,
+            "comments": 1,
+            "shares": 0,
+            "views": 2031,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 19,
+              "love": 1
+            }
+          },
+          "topCommentTexts": [
+            "الفخامة"
+          ]
+        },
+        {
+          "postId": "1457977303037158",
+          "url": "https://www.facebook.com/reel/1341437608079263/",
+          "publishedAt": "2026-06-08T13:20:00.000Z",
+          "text": "",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 23,
+            "comments": null,
+            "shares": 0,
+            "views": 2317,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 21,
+              "love": 1,
+              "care": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1446203150881240",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid0nVj8Dd8buBZ5C6YDMDXLXgqbKQv9yqrmpjSZak46B37hKd5zpwYiudV8aRScZH4Ul",
+          "publishedAt": "2026-05-26T21:18:12.000Z",
+          "text": "تهنئة مقدمة من شركة أبو صالحة للحلويات إلى الأمة العربية والإسلامية بمناسبة قدوم عيد الأضحى المبارك ✨\nأعاده الله علينا بالخير والبركات \nنستقبلكم في #فرع الدوار /المجمع التجاري #ثاني أيام العيد \n092382325📞\n0599505818📞",
+          "hashtags": [
+            "#فرع",
+            "#ثاني"
+          ],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 15,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 15
+            }
+          },
+          "topCommentTexts": [
+            "كل عام وانتم بألف خير وسلامه"
+          ]
+        },
+        {
+          "postId": "1441818764653012",
+          "url": "https://www.facebook.com/reel/964581206181124/",
+          "publishedAt": "2026-05-21T19:29:11.000Z",
+          "text": "✨ لأنو العيد بستاهل يكون مختلف…\nخلّوا ضيافتكم تحكي عنكم \nتشكيلة فاخرة بتجمع الذوق والجودة بكل قطعة  \nعيد مبارك وكل عام وأنتم بخير😉\nسارعوا بالحجز قبل نفاذ الكمية 📞\nفروعنا\nالفرع الأول : نابلس الدوار / المجمع التجاري الطابق الارضي\n092382325 / 0599505818\nالفرع الثاني : نابلس رفيديا - الشارع الرئيسي مفرق البدوي \n092341564 / 0599209143",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 19,
+            "comments": 1,
+            "shares": 0,
+            "views": 1447,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 15,
+              "love": 4
+            }
+          },
+          "topCommentTexts": [
+            "الله يطرحلكم البركة وكل عام وانتم بالف خير"
+          ]
+        },
+        {
+          "postId": "1436495501852005",
+          "url": "https://www.facebook.com/reel/2212003189636191/",
+          "publishedAt": "2026-05-15T17:26:52.000Z",
+          "text": "⁨ اكتشف طعم الكنافة الأصيل والمتميز من حلويات أبو صالحة❤\n📍نابلس - وسط البلد - مجمع نابلس التجاري\n📍رفيديا - الشارع الرئيسي - اشارة البدوي⁩",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 38,
+            "comments": 1,
+            "shares": 0,
+            "views": 11359,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 35,
+              "love": 3
+            }
+          },
+          "topCommentTexts": [
+            "كم سعر كيلو خشنه"
+          ]
+        },
+        {
+          "postId": "1426838779484344",
+          "url": "https://www.facebook.com/reel/1718030966296315/",
+          "publishedAt": "2026-05-04T21:22:35.000Z",
+          "text": "على أتم الاستعداد لمشاركتكم كافة مناسباتكم في داخل وخارج مدينة نابلس \nوبأسعار منافسة ومناسبة للجميع🤗\n📞 0599505818\n📞092382325\n#بلدـالخيرـيانابلس",
+          "hashtags": [
+            "#بلدـالخيرـيانابلس"
+          ],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 50,
+            "comments": 1,
+            "shares": 1,
+            "views": 32452,
+            "topReactionsCount": 3,
+            "reactionBreakdown": {
+              "like": 48,
+              "love": 1,
+              "sad": 1
+            }
+          },
+          "topCommentTexts": [
+            "💙💙💙💙"
+          ]
+        },
+        {
+          "postId": "1424074999760722",
+          "url": "https://www.facebook.com/reel/980670514435154/",
+          "publishedAt": "2026-05-01T13:48:19.000Z",
+          "text": "نسعد بمشاركتكم أجمل لحظاتكم؛ 🤗\nنحن على أتمّ الاستعداد لتلبية كافة طلباتكم لمختلف الحفلات والمناسبات داخل وخارج مدنية نابلس\nماتترددو وتواصلو معنا \n📞0599209143\n📞092382325",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 28,
+            "comments": 4,
+            "shares": 1,
+            "views": 2072,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 22,
+              "love": 6
+            }
+          },
+          "topCommentTexts": [
+            "ما شاءالله  بس ابو صالحه كل الاحترام بالتوفيق"
+          ]
+        },
+        {
+          "postId": "1371751454993077",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid0Bt1Sjn5rkhP4xgFPVH4YC1E2ETvxvi7b3fWssbHSX5Uv5kD3A6PQ9kAmpKcD6wpyl",
+          "publishedAt": "2026-03-01T11:21:53.000Z",
+          "text": "🌙 تحلاية خفيفة بعد الفطور بترضي جميع الأذواق🤗😋\nسارعوا بالحجز الكمية محدودة 👌😉\nفرع رفيديا📞 092341561\nفرع الدوار  📞092382325\nفرع المخفية📞 092345003",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 15,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 15
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1368279645340258",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid0k3eMBxDp6PptJoEsWAGSudHkJGdWu4vukUquJUeivU7vYWF1EXGLY5FZRqhFZwSVl",
+          "publishedAt": "2026-02-25T10:49:26.000Z",
+          "text": "🌙الثامن من رمضان🌙\n\"«اللَّهُمَّ اجْعَلْ أعْمَالَنَا خَالِصَةً لِوَجْهِكَ الكَرِيمِ»\"\nمن تشكيلة اليوم 🤗\nمتوفر بجميع الفروع \nللتواصل \n📞 092382325 فرع الدوار \n📞 092341561 فرع رفيديا \n📞 092345003 فرع المخفية",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": []
+          },
+          "metrics": {
+            "likes": 7,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 7
+            }
+          },
+          "topCommentTexts": [
+            "للامانه افخم وارتب محل بكل نابلس"
+          ]
+        },
+        {
+          "postId": "1366485288853027",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid02EtR5cDVmvky46nA11qbCzpKyvpB7X5ZDidXwX9D7K6SoSe9wA4gyRjssn7RsXKuul",
+          "publishedAt": "2026-02-23T10:05:47.000Z",
+          "text": "🌙من أصنافنا لليوم🌙 \nمتوفر بجميع الفروع🤗",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 13,
+            "comments": 1,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 13
+            }
+          },
+          "topCommentTexts": [
+            "بتوفيق للجميع وكل عام وانتم بخير"
+          ]
+        },
+        {
+          "postId": "1363855992449290",
+          "url": "https://www.facebook.com/reel/1961985831015561/",
+          "publishedAt": "2026-02-20T10:26:29.000Z",
+          "text": "من تشكيلة اليوم 🤗 \nمتوفر  بفروعنا الدوار 092382325\nفرع المخفية 092345003\nفرع رفيديا 092341561",
+          "hashtags": [],
+          "content": {
+            "isVideo": true,
+            "mediaTypes": [
+              "Video"
+            ]
+          },
+          "metrics": {
+            "likes": 6,
+            "comments": null,
+            "shares": 0,
+            "views": 2093,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 4,
+              "love": 2
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1363833072451582",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid0d4hBkTfVhMtQ9u9V4SfS5DMEhuD6koMvS9GeHgtTWe4cdMBCshfn925yXiymUDo9l",
+          "publishedAt": "2026-02-20T09:53:44.000Z",
+          "text": "من تشكيلة اليوم 🤗\nصنف جديد 👌🫠بدون قطر \nلمرضى السكري وأصحاب الدايت \nوالطعم ولا أروع 🤤  \nللحجز تواصلو معنا ع الرقم 📞092382325\nأو 📞 0599209143",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 13,
+            "comments": null,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 12,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1361439282690961",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid0P9CBrhWoVaz7ABaBrH3ogrFpHyB5mr2mUDRscwPb4eoikGykg1DtSFg8NWUzcD7al",
+          "publishedAt": "2026-02-17T15:47:39.000Z",
+          "text": "كل عام وأنتم بخير من حلويات أبو صالحة أعاده اللّٰه علينا وعليكم بالخير والأمان🌹",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 19,
+            "comments": 2,
+            "shares": 1,
+            "views": null,
+            "topReactionsCount": 2,
+            "reactionBreakdown": {
+              "like": 18,
+              "love": 1
+            }
+          },
+          "topCommentTexts": []
+        },
+        {
+          "postId": "1175995757901982",
+          "url": "https://www.facebook.com/abusalha.sweet/posts/pfbid02H4LPythvLct9knUZkZJNb7Hi3jRLhoURcb3EgDRjk9cWTDaxuyg9nqgwEHfXc1KEl",
+          "publishedAt": "2025-07-15T18:10:50.000Z",
+          "text": "🔥زباينا وحبايبنا بتقدرو تطلبوا  وتوفروا ع حالكم الوقت والتعب من تطبيق ويلز\n🤗🤗",
+          "hashtags": [],
+          "content": {
+            "isVideo": null,
+            "mediaTypes": [
+              "Photo"
+            ]
+          },
+          "metrics": {
+            "likes": 16,
+            "comments": null,
+            "shares": 0,
+            "views": null,
+            "topReactionsCount": 1,
+            "reactionBreakdown": {
+              "like": 16
+            }
+          },
+          "topCommentTexts": []
+        }
+      ]
+    }
+  ]
+}
