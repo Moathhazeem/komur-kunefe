@@ -241,6 +241,37 @@ const INITIAL_REVIEWS: Review[] = [
     isDemo: true,
     createdAt: '2026-10-28T21:00:00Z'
   }
+,
+  {
+    id: 'rev-4', customerName: 'سارة الخطيب', rating: 5,
+    comment: 'الكنافة وصلت سخنة ومقرمشة، والجبنة طعمها طيب كثير. أكيد رح أكرر التجربة.',
+    isApproved: true, isDemo: true, createdAt: '2026-10-29T19:20:00Z'
+  },
+  {
+    id: 'rev-5', customerName: 'ليث حمدان', rating: 4,
+    comment: 'خدمة سريعة وطعم زاكي، الحجم مناسب والسعر معقول. بنصح فيها.',
+    isApproved: true, isDemo: true, createdAt: '2026-10-30T20:10:00Z'
+  },
+  {
+    id: 'rev-6', customerName: 'نور ياسين', rating: 5,
+    comment: 'إسطنبولية الفستق طيبة ومقرمشة، والتقديم كان مرتب. تجربة حلوة.',
+    isApproved: true, isDemo: true, createdAt: '2026-10-31T18:45:00Z'
+  },
+  {
+    id: 'rev-7', customerName: 'محمد شرف', rating: 5,
+    comment: 'أحلى شي إنها بتنخبز على الفحم قدامك، بتوصل طازجة وطعمها مميز.',
+    isApproved: true, isDemo: true, createdAt: '2026-11-01T21:05:00Z'
+  },
+  {
+    id: 'rev-8', customerName: 'ريم عودة', rating: 4,
+    comment: 'الكنافة طيبة والقطر موزون، والموظفين تعاملهم لطيف. زيارة موفقة.',
+    isApproved: true, isDemo: true, createdAt: '2026-11-02T19:35:00Z'
+  },
+  {
+    id: 'rev-9', customerName: 'يزن المصري', rating: 5,
+    comment: 'طلبنا أكثر من صنف وكلهم زاكيين، خصوصاً الكنافة النابلسية على الفحم.',
+    isApproved: true, isDemo: true, createdAt: '2026-11-03T20:25:00Z'
+  }
 ];
 
 const INITIAL_DELIVERY_INTERESTS: DeliveryInterest[] = [

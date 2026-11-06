@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Clock3, Flame, MapPin, Phone, Sparkles, Star } from 'lucide-react';
 import { Offer, Product, ProductVariant, Review, StoreSettings } from '../types';
 import { ProductCard } from '../components/ProductCard';
+
+const HOME_REVIEW_SELECTION_KEY = 'komur_home_review_selection';
+
+function chooseHomepageReviews(reviews: Review[]): Review[] {
+  const shuffled = [...reviews].sort(() => Math.random() - 0.5);
+  let previousIds: string[] = [];
+  try {
+    previousIds = JSON.parse(sessionStorage.getItem(HOME_REVIEW_SELECTION_KEY) || '[]');
+  } catch { /* Ignore unavailable or malformed session storage. */ }
+
+  const unseen = shuffled.filter((review) => !previousIds.includes(review.id));
+  const selected = (unseen.length >= 3 ? unseen : shuffled).slice(0, 3);
+  try {
+    sessionStorage.setItem(HOME_REVIEW_SELECTION_KEY, JSON.stringify(selected.map((review) => review.id)));
+  } catch { /* The random selection still works without session storage. */ }
+  return selected;
+}
 
 interface HomePageProps {
   products: Product[];
@@ -15,6 +32,11 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ products, offers, reviews, settings, onNavigate, onNavigateToProduct }) => {
+  const [featuredReviews, setFeaturedReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    setFeaturedReviews(chooseHomepageReviews(reviews));
+  }, [reviews]);
   const featuredProducts = products.filter((product) => product.featured || product.category === 'charcoal').slice(0, 4);
   const activeOffers = offers.filter((offer) => offer.isActive);
   const heroProduct = featuredProducts[0] || products[0];
@@ -54,7 +76,7 @@ export const HomePage: React.FC<HomePageProps> = ({ products, offers, reviews, s
 
       {activeOffers.length > 0 && <section className="mx-auto max-w-7xl px-4 py-16 sm:py-20 sm:px-6 lg:px-8"><div className="relative overflow-hidden rounded-[30px] bg-[#C7652D] p-6 sm:p-10 text-white"><div className="absolute -left-12 -top-16 h-52 w-52 rounded-full border-[24px] border-white/10" /><div className="relative flex flex-col justify-between gap-8 md:flex-row md:items-end"><div className="max-w-2xl"><span className="rounded-full bg-white/15 px-3 py-1 text-xs font-black">{activeOffers[0].badge}</span><h2 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-black">{activeOffers[0].title}</h2><p className="mt-3 text-sm leading-7 text-white/80">{activeOffers[0].description}</p></div><button type="button" onClick={() => onNavigate('offers')} className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-full bg-[#17120F] px-6 py-3.5 text-sm font-black text-white hover:bg-[#35241A] active:scale-95 transition-all">شوف العرض <ArrowLeft className="h-4 w-4" /></button></div></div></section>}
 
-      {reviews.length > 0 && <section className="mx-auto max-w-7xl space-y-8 px-4 pb-16 sm:pb-20 sm:px-6 lg:px-8"><div className="text-center"><span className="text-xs font-black text-[#C7652D]">تجارب حقيقية</span><h2 className="mt-2 text-2xl sm:text-3xl font-black text-[#211814]">كلام الناس بعد أول لقمة</h2></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{reviews.slice(0, 3).map((review) => <article key={review.id} className="rounded-[24px] border border-[#35241A]/10 bg-white p-5 sm:p-6"><div className="flex gap-1 text-[#DAB775]">{Array.from({ length: review.rating }).map((_, index) => <Star key={index} className="h-4 w-4" />)}</div><p className="mt-4 text-sm leading-7 sm:leading-8 text-[#75675C]">“{review.comment}”</p><div className="mt-4 border-t border-[#35241A]/10 pt-4 text-xs font-bold text-[#211814]">{review.customerName || review.userName || 'زبوننا'}</div></article>)}</div></section>}
+      {featuredReviews.length > 0 && <section className="mx-auto max-w-7xl space-y-8 px-4 pb-16 sm:pb-20 sm:px-6 lg:px-8"><div className="text-center"><span className="text-xs font-black text-[#C7652D]">تجارب زبائننا</span><h2 className="mt-2 text-2xl sm:text-3xl font-black text-[#211814]">كلام الناس بعد أول لقمة</h2></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{featuredReviews.map((review) => <article key={review.id} className="rounded-[24px] border border-[#35241A]/10 bg-white p-5 sm:p-6"><div className="flex items-center gap-2"><div className="flex gap-1 text-[#DAB775]">{Array.from({ length: review.rating }).map((_, index) => <Star key={index} className="h-4 w-4 fill-current" />)}</div><span className="text-sm font-black text-[#211814]">{review.rating}/5</span></div><p className="mt-4 text-sm leading-7 sm:leading-8 text-[#75675C]">“{review.comment}”</p><div className="mt-4 border-t border-[#35241A]/10 pt-4 text-xs font-bold text-[#211814]">{review.customerName || review.userName || 'زبوننا'}</div></article>)}</div></section>}
 
       <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8"><div className="grid gap-8 rounded-[30px] bg-[#17120F] p-6 sm:p-10 text-[#F7F0E5] md:grid-cols-[1fr_auto] md:items-center"><div><span className="text-xs font-black text-[#DAB775]">زورونا في رافدية</span><h2 className="mt-3 text-2xl sm:text-3xl font-black">خلّي أول تجربة تبدأ من الفرع.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-[#D5C7B9]">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس، فلسطين'}</p><div className="mt-5 flex flex-wrap gap-5 text-xs font-bold text-[#BDAFA2]"><span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-[#DAB775]" /> رافدية، نابلس</span><span className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#DAB775]" /> {settings?.phone || '+970 562 606 061'}</span></div></div><div className="flex flex-col gap-3 sm:flex-row"><a href={`tel:${settings?.phone || '+970562606061'}`} className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/15 px-6 py-3 text-center text-sm font-bold hover:border-[#DAB775]/50 hover:text-[#DAB775] active:scale-95 transition-all">اتصل بنا</a><button type="button" onClick={() => onNavigate('menu')} className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#DAB775] px-6 py-3 text-sm font-black text-[#35241A] hover:bg-[#E3C78F] active:scale-95 transition-all">اطلب الآن</button></div></div></section>
     </div>

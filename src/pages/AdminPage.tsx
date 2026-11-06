@@ -117,7 +117,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [aiChatMessages, setAiChatMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string }>>([
     {
       role: 'assistant',
-      text: 'مرحباً بك! أنا "مساعد كُومُر الذكي". أحلل بيانات مبيعات وسلوك زبائن المحل في رافدية بدقة. اسألني عن أكثر الأصناف مبيعاً، المنتجات الراكدة، أوقات الذروة، أو اطلب تقرير عمل شامل!'
+      text: 'مرحباً بك! أنا "مساعد كُومُر الذكي"، مساعدك لتحليل أعمال المحل والمبيعات والمنافسين والتسويق. اسألني عن بيانات المحل أو المنافسين أو السوشال ميديا، وسأساعدك بتحليل واضح وتوصيات عملية.'
     }
   ]);
   const [aiInput, setAiInput] = useState('');
