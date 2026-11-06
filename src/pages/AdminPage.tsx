@@ -546,12 +546,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 data-tab={tab.id}
                 data-active={active}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
-                  ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50 font-black'
-                  : 'bg-[#FDFBF7] text-slate-700 border-amber-200/70 hover:border-amber-300 hover:text-amber-900 hover:bg-[#F7F0E5]/60'
+                className={`group shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
+                  ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
+                  : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
                   }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#DAB775]' : 'text-[#75675C] group-hover:text-[#C7652D]'}`} />
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
                   <span className={`text-[10px] font-black min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center ${
@@ -626,7 +626,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                         {order.orderNumber}
                       </span>
                       <span className="text-xs text-slate-400 tabular-nums">
-                        {new Date(order.createdAt).toLocaleDateString('ar-EG')} - {new Date(order.createdAt).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(order.createdAt).toLocaleDateString('ar-EG-u-nu-latn')} - {new Date(order.createdAt).toLocaleTimeString('ar-EG-u-nu-latn', { hour: '2-digit', minute: '2-digit' })}
                       </span>
                       <span className="text-[11px] bg-slate-50 text-slate-500 px-2 py-0.5 rounded border border-slate-200">
                         المصدر: {order.source || 'الموقع'}
@@ -978,7 +978,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                     "{rev.comment}"
                   </p>
                   <span className="text-[10px] text-slate-400 block tabular-nums">
-                    {new Date(rev.createdAt).toLocaleDateString('ar-EG')}
+                    {new Date(rev.createdAt).toLocaleDateString('ar-EG-u-nu-latn')}
                   </span>
                 </div>
 
@@ -1044,7 +1044,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                   <div className="text-left">
                     <span className="text-amber-600 dir-ltr block font-mono">{item.customerPhone || 'بدون رقم'}</span>
                     <span className="text-[10px] text-slate-400 block tabular-nums">
-                      {new Date(item.createdAt).toLocaleDateString('ar-EG')}
+                      {new Date(item.createdAt).toLocaleDateString('ar-EG-u-nu-latn')}
                     </span>
                   </div>
                 </div>

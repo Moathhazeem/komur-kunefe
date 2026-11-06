@@ -392,7 +392,7 @@ export const CompetitorIntelligence: React.FC = () => {
     <div className="space-y-6 animate-fadeIn text-right" dir="rtl">
 
       {/* ─── Hero Banner (Warm Cream & Terracotta/Amber Brand Theme) ─── */}
-      <div className="bg-gradient-to-br from-amber-50 via-[#F7F0E5] to-orange-50/60 border-2 border-amber-200/90 rounded-3xl p-6 sm:p-8 shadow-sm text-slate-900 relative overflow-hidden">
+      <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm text-slate-900 relative overflow-hidden">
         <div className="absolute -left-12 -top-12 w-48 h-48 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -right-12 -bottom-12 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -471,11 +471,11 @@ export const CompetitorIntelligence: React.FC = () => {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer ${
                     active
-                      ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50 font-black'
-                      : 'bg-[#FDFBF7] text-slate-700 border-amber-200/70 hover:border-amber-300 hover:text-amber-900 hover:bg-[#F7F0E5]/60'
+                      ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
+                      : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#DAB775]' : 'text-[#75675C]'}`} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -491,7 +491,7 @@ export const CompetitorIntelligence: React.FC = () => {
             {COMPETITORS.map(comp => (
               <div
                 key={comp.id}
-                className="bg-[#FDFBF7] border border-amber-200/80 hover:border-amber-300 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                className="bg-white border border-amber-100 hover:border-amber-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-4">
                   {/* Top Bar: Name & Platforms */}
@@ -513,7 +513,7 @@ export const CompetitorIntelligence: React.FC = () => {
                   <div className="bg-[#F7F0E5]/70 p-3.5 rounded-2xl border border-amber-200/80 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-black">
-                        <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
+                        <Star className="w-4 h-4 text-amber-500" />
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5">
@@ -569,7 +569,7 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 2: Relative Pricing Analysis ─── */}
       {activeTab === 'pricing' && (
-        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-slate-900 font-heading">
@@ -600,7 +600,7 @@ export const CompetitorIntelligence: React.FC = () => {
                 </div>
               </div>
               <div className="w-full bg-amber-200/60 h-3 rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-orange-500 to-amber-500 h-full rounded-full w-[70%]" />
+                <div className="bg-[#C7652D] h-full rounded-full w-[70%]" />
               </div>
             </div>
 
@@ -641,7 +641,7 @@ export const CompetitorIntelligence: React.FC = () => {
                   <div className="w-full bg-[#F7F0E5] h-2.5 rounded-full overflow-hidden border border-amber-100">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        isHigher ? 'bg-slate-700' : 'bg-amber-600'
+                        isHigher ? 'bg-[#C7652D]' : 'bg-[#DAB775]'
                       }`}
                       style={{ width: `${barWidth}%` }}
                     />
@@ -674,7 +674,7 @@ export const CompetitorIntelligence: React.FC = () => {
         <div className="space-y-6 animate-fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {COMPETITORS.map(comp => (
-              <div key={comp.id} className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
+                <div key={comp.id} className="bg-white border border-amber-100 rounded-3xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b border-amber-100 pb-3">
                     <div className="flex items-center gap-2">
@@ -723,7 +723,7 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 4: Facebook Social Media Engagement Widget (ALL 4 ENTITIES COMPARED) ─── */}
       {activeTab === 'social' && (
-        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
             <div>
@@ -736,7 +736,7 @@ export const CompetitorIntelligence: React.FC = () => {
             </div>
 
             {/* Metric Switcher Tabs */}
-            <div className="flex items-center gap-1.5 bg-[#F7F0E5] p-1.5 rounded-2xl border border-amber-200 overflow-x-auto">
+            <div className="flex flex-nowrap items-center gap-2.5 overflow-x-auto border-b border-amber-200/60 px-1 pb-3 pt-1 scrollbar-none touch-pan-x">
               {[
                 { id: 'likes', label: 'متوسط الإعجابات', icon: ThumbsUp },
                 { id: 'comments', label: 'متوسط التعليقات', icon: MessageCircle },
@@ -749,13 +749,13 @@ export const CompetitorIntelligence: React.FC = () => {
                   <button
                     key={m.id}
                     onClick={() => setSocialMetric(m.id as any)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                    className={`group flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${
                       active
-                        ? 'bg-amber-100 text-slate-900 border border-amber-300 shadow-sm font-black'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                        ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
+                        : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 ${active ? 'text-amber-800' : 'text-slate-500'}`} />
+                    <Icon className={`w-3.5 h-3.5 ${active ? 'text-[#DAB775]' : 'text-slate-500'}`} />
                     <span>{m.label}</span>
                   </button>
                 );
@@ -804,8 +804,8 @@ export const CompetitorIntelligence: React.FC = () => {
                   key={entity.id}
                   className={`p-4 rounded-2xl border transition-all ${
                     entity.isBaseline
-                      ? 'bg-[#F7F0E5] text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/50'
-                      : 'bg-white text-slate-800 border-amber-200/70'
+                      ? 'bg-[#F4DFD0] text-[#35241A] border-[#E6A16F] shadow-sm'
+                      : 'bg-white text-slate-800 border-amber-100'
                   }`}
                 >
                   <div className="flex items-center justify-between text-xs sm:text-sm mb-2">
@@ -826,7 +826,7 @@ export const CompetitorIntelligence: React.FC = () => {
 
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] opacity-75 font-mono hidden sm:inline">
-                        إجمالي: {totalValue.toLocaleString('ar-EG')}
+                         إجمالي: {totalValue.toLocaleString('ar-EG-u-nu-latn')}
                       </span>
                       <span className={`font-mono font-black text-base ${entity.isBaseline ? 'text-orange-700' : 'text-slate-900'}`}>
                         {metricValue.toFixed(socialMetric === 'shares' || socialMetric === 'comments' ? 2 : 1)}
@@ -838,12 +838,12 @@ export const CompetitorIntelligence: React.FC = () => {
                   </div>
 
                   {/* Visual Progress Bar */}
-                  <div className={`w-full h-3 rounded-full overflow-hidden ${entity.isBaseline ? 'bg-amber-200/70' : 'bg-slate-200'}`}>
+                  <div className="w-full h-3 rounded-full overflow-hidden bg-[#FBF8F2]">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         entity.isBaseline
-                          ? 'bg-gradient-to-r from-orange-500 to-amber-500'
-                          : 'bg-slate-600'
+                          ? 'bg-[#C7652D]'
+                          : 'bg-[#DAB775]'
                       }`}
                       style={{ width: `${barPercent}%` }}
                     />
@@ -887,7 +887,7 @@ export const CompetitorIntelligence: React.FC = () => {
                       )}
                     </td>
                     <td className="py-3.5 px-3 text-center font-mono text-slate-800">
-                      {e.social.avgViews.toLocaleString('ar-EG', { maximumFractionDigits: 0 })}
+                       {e.social.avgViews.toLocaleString('ar-EG-u-nu-latn', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="py-3.5 px-4 text-[11px] text-slate-600 leading-relaxed max-w-xs">
                       {e.social.contentStrategy}
@@ -916,7 +916,7 @@ export const CompetitorIntelligence: React.FC = () => {
 
       {/* ─── MODULE 5: SWOT Analysis Grid for Competitors ─── */}
       {activeTab === 'swot' && (
-        <div className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
+        <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header & Competitor Selector */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
             <div>
@@ -924,20 +924,20 @@ export const CompetitorIntelligence: React.FC = () => {
                 مصفوفة SWOT التحليلية للمنافسين في سوق نابلس
               </h3>
               <p className="text-xs text-slate-500">
-                اختر المنافس لاستعراض نقاط القوة، الضعف، الفرص التنافسية المتاحة لنا، والتهديدات المحتملة
+                اختر المنافس لاستعراض نقاط القوة والضعف والفرص والتهديدات الخاصة به
               </p>
             </div>
 
             {/* Competitor Selector Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto">
+            <div className="flex flex-nowrap items-center gap-2 overflow-x-auto border-b border-amber-200/60 px-1 pb-3 pt-1 scrollbar-none touch-pan-x">
               {COMPETITORS.map(comp => (
                 <button
                   key={comp.id}
                   onClick={() => setSelectedSwotId(comp.id)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer ${
+                  className={`group shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${
                     selectedSwotId === comp.id
-                      ? 'bg-amber-100 text-slate-900 border-amber-300 shadow-sm ring-1 ring-amber-400/40 font-black'
-                      : 'bg-white text-slate-700 border-amber-200/80 hover:bg-[#F7F0E5]'
+                      ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
+                      : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]' 
                   }`}
                 >
                   {comp.nameAr}
@@ -990,7 +990,7 @@ export const CompetitorIntelligence: React.FC = () => {
                 <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center">
                   <Lightbulb className="w-4 h-4" />
                 </div>
-                <span>الفرص المتاحة لنا (Opportunities for Kömür)</span>
+                <span>الفرص (Opportunities)</span>
               </div>
               <ul className="space-y-2 text-xs text-slate-700">
                 {selectedSwotCompetitor.swot.opportunities.map((item, idx) => (
@@ -1008,7 +1008,7 @@ export const CompetitorIntelligence: React.FC = () => {
                 <div className="w-7 h-7 rounded-lg bg-amber-100 text-slate-700 flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4" />
                 </div>
-                <span>التهديدات الواجب تحصين المحل ضدها (Threats)</span>
+                <span>التهديدات (Threats)</span>
               </div>
               <ul className="space-y-2 text-xs text-slate-700">
                 {selectedSwotCompetitor.swot.threats.map((item, idx) => (
@@ -1068,7 +1068,7 @@ export const CompetitorIntelligence: React.FC = () => {
               return (
                 <div
                   key={comp.id}
-                  className="bg-[#FDFBF7] border border-amber-200/80 rounded-3xl overflow-hidden shadow-sm transition-all"
+                className="bg-white border border-amber-100 rounded-3xl overflow-hidden shadow-sm transition-all"
                 >
                   <button
                     onClick={() => setExpandedEdgeId(isOpen ? null : comp.id)}

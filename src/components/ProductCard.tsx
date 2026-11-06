@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flame, Share2, ShoppingBag, Sparkles, Star, Tag } from 'lucide-react';
+import { Droplets, Flame, Share2, ShoppingBag, Sparkles, Star, Tag } from 'lucide-react';
 import { Product } from '../types';
 import { calculateProductRating, getReviewsByProductId } from '../utils/reviewsStorage';
 import { useScrollReveal } from '../hooks/useScrollReveal';
@@ -34,8 +34,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
           <img src={product.image} alt={product.name} loading="lazy" onError={() => setImageError(true)} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 bg-[#35241A] text-center text-[#F7F0E5]">
-            <Flame className="h-10 w-10 text-[#DAB775]" />
-            <span className="text-sm font-bold">تُخبز على جمر الفحم</span>
+            {product.id === 'healthy-syrup' ? <Droplets className="h-10 w-10 text-[#DAB775]" /> : <Flame className="h-10 w-10 text-[#DAB775]" />}
+            <span className="text-sm font-bold">{product.id === 'healthy-syrup' ? 'قطر صحي بأحجام متعددة' : 'تُخبز على جمر الفحم'}</span>
           </div>
         )}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
@@ -55,7 +55,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
             <h3 className="text-lg font-black leading-tight text-[#211814]">{product.name}</h3>
             <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#75675C]">{product.description}</p>
           </div>
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#F7F0E5] px-2 py-1 text-[10px] font-bold text-[#75675C]"><Star className="h-3 w-3 fill-[#DAB775] text-[#DAB775]" /> {rating.averageRating.toFixed(1)}</span>
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#F7F0E5] px-2 py-1 text-[10px] font-bold text-[#75675C]"><Star className="h-3 w-3 text-[#DAB775]" /> {rating.averageRating.toFixed(1)}</span>
         </div>
         <div className="flex items-end justify-between gap-3 border-t border-[#35241A]/10 pt-4">
           <div><span className="block text-[10px] font-medium text-[#75675C]">يبدأ من</span><span className="text-2xl font-black text-[#C7652D]">{minPrice}<small className="mr-1 text-xs text-[#75675C]">₪</small></span></div>

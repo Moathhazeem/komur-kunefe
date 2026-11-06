@@ -181,16 +181,25 @@ async function startServer() {
       if (db.getSettings().isStoreOpen === false) {
         return res.status(409).json({ success: false, error: 'المحل مغلق حالياً ولا يستقبل الطلبات.' });
       }
-      const { customerName, customerPhone, items, total, pickupTime, notes, paymentMethod, source } = req.body;
+      const { customerName, customerPhone, items, fulfillment, deliveryAddress, pickupTime, notes, paymentMethod, source } = req.body;
       if (!customerName || !customerPhone || !items || items.length === 0) {
         return res.status(400).json({ success: false, error: 'يرجى إدخال الاسم ورقم الهاتف واختيار الأصناف' });
       }
+      if (fulfillment === 'delivery' && !String(deliveryAddress || '').trim()) {
+        return res.status(400).json({ success: false, error: 'يرجى إدخال عنوان التوصيل' });
+      }
 
+      const orderFulfillment = fulfillment === 'delivery' ? 'delivery' : 'pickup';
+      const deliveryFee = orderFulfillment === 'delivery' ? 15 : 0;
+      const subtotal = items.reduce((sum: number, item: any) => sum + Number(item.price) * Number(item.quantity), 0);
       const newOrder = db.addOrder({
         customerName,
         customerPhone,
         items,
-        total: Number(total),
+        total: subtotal + deliveryFee,
+        deliveryFee,
+        fulfillment: orderFulfillment,
+        deliveryAddress: orderFulfillment === 'delivery' ? String(deliveryAddress).trim() : undefined,
         pickupTime: pickupTime || 'خلال 20-30 دقيقة',
         notes: notes || '',
         status: 'new',
@@ -457,7 +466,13 @@ async function startServer() {
           });
         }
 
-        const isHealthyEligible = p.category === 'charcoal' || p.category === 'oriental';
+        const isHealthyEligible = p.addOnGroups?.some(group => group.name === 'استبدال القطر العادي بقطر صحي') ?? false;
+
+        p.addOnGroups?.forEach(group => {
+          group.options.forEach(option => {
+            options.push({ name: `${group.name}: ${option.name}`, price: option.price });
+          });
+        });
 
         return {
           id: p.id,

@@ -26,6 +26,7 @@ export interface Product {
   isSeasonal?: boolean;
   featured?: boolean;
   addOns?: Array<{ name: string; price: number }>;
+  addOnGroups?: Array<{ name: string; options: Array<{ name: string; price: number }> }>;
   createdAt?: string;
 }
 
@@ -45,6 +46,9 @@ export interface Order {
   customerPhone: string;
   items: OrderItem[];
   total: number;
+  deliveryFee?: number;
+  fulfillment?: 'pickup' | 'delivery';
+  deliveryAddress?: string;
   pickupTime: string;
   notes?: string;
   status: 'new' | 'preparing' | 'ready' | 'completed' | 'cancelled';

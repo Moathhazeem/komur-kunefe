@@ -57,8 +57,8 @@ export const StarRating: React.FC<StarRatingProps> = ({
             <Star
               className={`${sizeClasses[size]} transition-colors duration-150 ${
                 isFilled
-                  ? 'fill-amber-400 text-amber-400 drop-shadow-[0_1px_2px_rgba(251,191,36,0.3)]'
-                  : 'fill-stone-100 text-stone-300'
+                  ? 'text-amber-400'
+                  : 'text-stone-300'
               }`}
             />
           </button>

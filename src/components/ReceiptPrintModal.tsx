@@ -66,7 +66,7 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
             </p>
             <div className="pt-2">
               <span className="inline-block bg-black text-white px-3 py-1 rounded text-sm font-black">
-                طلب استلام: {order.orderNumber}
+                {order.deliveryFee ? 'طلب توصيل:' : 'طلب استلام:'} {order.orderNumber}
               </span>
             </div>
           </div>
@@ -81,17 +81,23 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
               <span>اسم الزبون:</span>
               <span className="font-bold">{order.customerName}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between">
               <span>الهاتف:</span>
               <span className="dir-ltr">{order.customerPhone}</span>
             </div>
+            {order.fulfillment === 'delivery' && (
+              <div className="w-full flex justify-between">
+                <span>عنوان التوصيل:</span>
+                <span className="max-w-[65%] text-left">{order.deliveryAddress}</span>
+              </div>
+            )}
             <div className="flex justify-between">
-              <span>وقت الاستلام:</span>
+              <span>{order.deliveryFee ? 'موعد الطلب:' : 'وقت الاستلام:'}</span>
               <span className="font-bold text-orange-950">{order.pickupTime}</span>
             </div>
             <div className="flex justify-between">
               <span>طريقة الدفع:</span>
-              <span>{order.paymentMethod === 'mock_online' ? 'دفع إلكتروني تجريبي غير متاح' : 'عند الاستلام في المحل'}</span>
+              <span>{order.fulfillment === 'delivery' ? 'الدفع عند استلام الطلب' : 'الدفع عند الاستلام في المحل'}</span>
             </div>
             {order.notes && (
               <div className="pt-1 text-[11px] text-gray-600">
@@ -122,7 +128,8 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
             </div>
           </div>
 
-          {/* Total */}
+          {/* Delivery & Total */}
+          {order.deliveryFee ? <div className="pt-2 flex justify-between text-gray-700"><span>رسوم التوصيل (مرة واحدة):</span><span>{order.deliveryFee} شيكل</span></div> : null}
           <div className="pt-3 pb-2 flex justify-between items-center text-sm font-black text-gray-900">
             <span>المجموع النهائي:</span>
             <span className="text-base">{order.total} شيكل</span>

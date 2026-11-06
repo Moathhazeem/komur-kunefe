@@ -44,7 +44,19 @@ function AppInner() {
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('komur_cart');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed.map((item: CartItem) => {
+        const name = String(item.variant?.name || '');
+        const hadDeliveryFee = name.includes('توصيل');
+        return {
+          ...item,
+          variant: {
+            ...item.variant,
+            name: name.replace(/\s*·\s*(توصيل|استلام من الفرع)/g, '').trim(),
+            price: Math.max(0, (Number(item.variant?.price) || 0) - (hadDeliveryFee ? 15 : 0)),
+          },
+        };
+      }) : [];
     } catch {
       return [];
     }

@@ -1,6 +1,8 @@
 import { Product } from '../types';
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL', '2.5', '3', '3.5'];
+const healthySyrupOptions = sizes.map((name, index) => ({ name, price: (index + 1) * 2 }));
+const healthySyrupAddOnGroup = { name: 'استبدال القطر العادي بقطر صحي', options: healthySyrupOptions };
 const iceCream = [{ name: 'إضافة بوظة', price: 4 }];
 const sauces = ['نوتيلا', 'لوتس', 'زبدة الفستق', 'شوكولاته بيضاء'].map((name) => ({ name, price: 4 }));
 
@@ -34,6 +36,7 @@ const images = {
   soda: 'https://www.ready2drink.de/cdn/shop/products/10227_r2d_Schweppes_SodaWater_1A_1080x1080px_230321_720x.png?v=1679399038',
   sprite: 'https://clickandcollect.scandipark.dk/media/image/product/9712/lg/sprite-05l-plus-pant.jpg',
   assortedSweets: 'https://images.deliveryhero.io/image/menu-import-gateway-prd/regions/ME/chains/HS-HMF/56cf4da9599c6835fd40f5514d0089aa.jpg?quality=75&webp=true&width=1440',
+  healthySyrup: 'https://herbal-dynasty.com/5697-large_default/%D8%AC%D9%88%D8%B3%D9%88%D9%8A%D8%AA-%D9%82%D8%B7%D8%B1-%D9%84%D9%84%D8%AD%D9%84%D9%88%D9%8A%D8%A7%D8%AA-%D8%AF%D9%88%D9%86-%D8%B3%D9%83%D8%B1-500-%D9%85%D9%84.webp',
 };
 
 const productImages: Record<string, string> = {
@@ -128,13 +131,20 @@ export const OFFICIAL_PRODUCTS: Product[] = [
     return {
       id: `menu-${index + 1}`, name, category, description: '', basePrice: variants[0].price,
       isInitialPrice: false, ...imageFields(name, images.nabulsiKnafeh), isAvailable: true, featured: false, variants, addOns,
+      addOnGroups: name === 'قطر صحي' ? [] : [healthySyrupAddOnGroup],
     };
   }),
   ...fixed.map(([name, price, category]: any, index) => ({
     id: `menu-fixed-${index + 1}`, name, category, description: '', basePrice: price,
     isInitialPrice: false, ...imageFields(name, images.assortedSweets), isAvailable: true, featured: false,
     variants: [{ id: `menu-fixed-${index + 1}-single`, name: 'حجم واحد', price, dineInPrice: price, isDefault: true }],
+    addOnGroups: [healthySyrupAddOnGroup],
   })),
+  { 
+    id: 'healthy-syrup', name: 'قطر صحي', category: 'other', description: 'قطر صحي بديل للقطر العادي، متوفر بأحجام متعددة.',
+    basePrice: healthySyrupOptions[0].price, isInitialPrice: false, image: images.healthySyrup, imageCredit: 'Herbal Dynasty — جوسويت قطر للحلويات دون سكر', imageCreditUrl: 'https://herbal-dynasty.com/%D8%B9%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D9%85%D8%AD%D9%84%D9%8A%D8%A7%D8%AA/1007-%D8%AC%D9%88%D8%B3%D9%88%D9%8A%D8%AA-%D9%82%D8%B7%D8%B1-%D9%84%D9%84%D8%AD%D9%84%D9%88%D9%8A%D8%A7%D8%AA-%D8%AF%D9%88%D9%86-%D8%B3%D9%83%D8%B1-500-%D9%85%D9%84', isAvailable: true, featured: false,
+    variants: healthySyrupOptions.map(({ name, price }) => ({ id: `healthy-syrup-${name.replace('.', '-')}`, name: `حجم ${name}`, price, dineInPrice: price, isDefault: name === 'XS' })),
+  },
 ];
 
-export const HEALTHY_SYRUP_NOTE = 'يوجد لدينا اصناف صحية، يمكن استبدال القطر العادي لقطر صحي';
+export const HEALTHY_SYRUP_NOTE = 'يوجد لدينا أصناف صحية، ويمكن استبدال القطر العادي بقطر صحي بأحجام متعددة وأسعار تبدأ من 2 شيكل.';

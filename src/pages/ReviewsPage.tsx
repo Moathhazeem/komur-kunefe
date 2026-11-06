@@ -93,7 +93,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
                     <Star
                       className={`w-7 h-7 ${
                         star <= rating
-                          ? 'text-amber-400 fill-amber-400'
+                          ? 'text-amber-400'
                           : 'text-slate-200'
                       }`}
                     />
@@ -187,7 +187,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
                       <Star
                         key={i}
                         className={`w-4 h-4 ${
-                          i < rev.rating ? 'fill-amber-400' : 'text-slate-200'
+                          i < rev.rating ? 'text-amber-400' : 'text-slate-200'
                         }`}
                       />
                     ))}

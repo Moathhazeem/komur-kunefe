@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={() => navigate('home')}
-          className="group flex min-w-0 items-center gap-3 text-right cursor-pointer"
+          className="group flex w-max shrink-0 items-center gap-3 text-right cursor-pointer"
         >
           {settings?.logoUrl ? (
             <img
@@ -78,20 +78,20 @@ export const Header: React.FC<HeaderProps> = ({
               <Flame className="h-5 w-5 animate-pulse" />
             </span>
           )}
-          <span className="min-w-0">
-            <span className="block truncate text-[17px] font-black leading-none text-[#F7F0E5] sm:text-xl">كُومُر كُونافيه</span>
+          <span className="shrink-0 whitespace-nowrap">
+            <span className="block whitespace-nowrap text-[17px] font-black leading-none text-[#F7F0E5] sm:text-xl">كُومُر كُونافيه</span>
             <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[#ff7b00] sm:block">من الجمر، إلى قلبك</span>
           </span>
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="التنقل الرئيسي">
+        <nav className="hidden min-w-max shrink-0 flex-nowrap items-center gap-1 whitespace-nowrap lg:flex" aria-label="التنقل الرئيسي">
           {navLinks.map((link) => (
             <button
               key={link.id}
               type="button"
               onClick={() => navigate(link.id)}
-              className={`rounded-full px-3.5 py-2 text-sm font-bold transition-all duration-200 cursor-pointer ${
+              className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-bold transition-all duration-200 cursor-pointer ${
                 isActive(link.id)
                   ? 'bg-[#ff7b00]/15 text-[#ff7b00] font-black'
                   : 'text-[#D5C7B9] hover:bg-white/5 hover:text-white'

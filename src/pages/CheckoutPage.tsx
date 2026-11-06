@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShoppingBag, ArrowLeft, Trash2, Plus, Minus, MapPin, CheckCircle2, MessageCircle, Printer, User } from 'lucide-react';
 import { CartItem, Order, StoreSettings } from '../types';
 import { api } from '../services/api';
@@ -26,7 +26,13 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [pickupTime, setPickupTime] = useState('خلال 20-30 دقيقة');
+  const [fulfillment, setFulfillment] = useState<'pickup' | 'delivery'>(() => localStorage.getItem('komur_fulfillment') === 'delivery' ? 'delivery' : 'pickup');
   const [notes, setNotes] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('komur_fulfillment', fulfillment);
+  }, [fulfillment]);
   
   // State
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -34,8 +40,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   const [placedOrder, setPlacedOrder] = useState<Order | null>(null);
   const [showPrintModal, setShowPrintModal] = useState(false);
 
-  // Subtotal
+  // Delivery is a single order-level fee, regardless of the number of delivered items.
   const subtotal = cart.reduce((sum, item) => sum + item.variant.price * item.quantity, 0);
+  const deliveryFee = fulfillment === 'delivery' ? 15 : 0;
+  const total = subtotal + deliveryFee;
 
   // Detect UTM source from URL query parameter
   const getTrafficSource = (): 'website' | 'instagram' | 'facebook' | 'whatsapp' => {
@@ -62,7 +70,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
     try {
       const newOrder = await api.createOrder({
+      
         customerName: customerName.trim(),
+        fulfillment,
+        deliveryAddress: fulfillment === 'delivery' ? deliveryAddress.trim() : undefined,
         customerPhone: customerPhone.trim(),
         pickupTime,
         notes: notes.trim(),
@@ -74,7 +85,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           price: i.variant.price,
           quantity: i.quantity,
         })),
-        total: subtotal,
+        total,
         paymentMethod: result.paymentMethod,
         paymentStatus: result.paymentStatus,
         transactionId: result.transactionId,
@@ -82,6 +93,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       });
 
       setPlacedOrder(newOrder);
+      setFulfillment('pickup');
       onClearCart();
     } catch (err: any) {
       alert(err.message || 'حدث خطأ أثناء حفظ الطلب. يرجى المحاولة مرة أخرى.');
@@ -102,9 +114,9 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       ...ord.items.map((i) => `• ${i.name} (${i.variantName}) × ${i.quantity} = ${i.price * i.quantity} ₪`),
       `---------------------`,
       `*المجموع النهائي:* ${ord.total} شيكل`,
-      `*طريقة الدفع:* عند الاستلام في المحل`,
+      `*طريقة الدفع:* عند استلام الطلب`,
       ord.notes ? `*ملاحظات:* ${ord.notes}` : '',
-      `\nاستلام من فرع رافدية - الشارع الرئيسي، نابلس`,
+      ord.fulfillment === 'delivery' ? `*عنوان التوصيل:* ${ord.deliveryAddress || ''} · رسوم التوصيل: ${ord.deliveryFee || 0} شيكل` : `\nاستلام من فرع رافدية - الشارع الرئيسي، نابلس`,
     ].filter(Boolean);
 
     return `https://wa.me/${settings?.whatsapp || '970562606061'}?text=${encodeURIComponent(lines.join('\n'))}`;
@@ -179,17 +191,17 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
           {/* Pickup Details & Summary */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
-              <span className="text-slate-400 block">طريقة ومكان الاستلام:</span>
-              <span className="font-bold text-slate-900 text-sm block">استلام من المحل (فرع رافدية)</span>
-              <span className="text-slate-600 block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>
-              <span className="text-orange-600 font-bold block pt-1">موعد الاستلام المطلوب: {placedOrder.pickupTime}</span>
+              <span className="text-slate-400 block">طريقة الاستلام:</span>
+              <span className="font-bold text-slate-900 text-sm block">{placedOrder.fulfillment === 'delivery' ? 'توصيل' : 'استلام من المحل (فرع رافدية)'}</span>
+              {placedOrder.fulfillment === 'delivery' ? <span className="text-slate-600 block">العنوان: {placedOrder.deliveryAddress}</span> : <span className="text-slate-600 block">{settings?.branch || 'رافدية - الشارع الرئيسي، نابلس'}</span>}
+              <span className="text-orange-600 font-bold block pt-1">موعد الطلب: {placedOrder.pickupTime}</span>
             </div>
 
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-1.5">
               <span className="text-slate-400 block">بيانات الدفع والطلب:</span>
               <span className="font-bold text-slate-900 text-sm block">المجموع: {placedOrder.total} شيكل</span>
               <span className="text-slate-600 block">
-                طريقة الدفع: الدفع عند الاستلام (كاش أو بطاقة بالمحل)
+                طريقة الدفع: الدفع عند استلام الطلب
               </span>
               <span className="text-emerald-700 font-bold block pt-1">الاسم: {placedOrder.customerName} ({placedOrder.customerPhone})</span>
             </div>
@@ -274,7 +286,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             سلة الطلب والدفع
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            طريقة الاستلام: استلام مباشر من المحل (رافدية - الشارع الرئيسي)
+            طريقة الاستلام: {fulfillment === 'delivery' ? 'توصيل للعنوان الذي ستدخله أدناه' : 'استلام من الفرع (رافدية)'}
           </p>
         </div>
         <button
@@ -290,6 +302,20 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         
         {/* Left Col (7/12 on LG): Cart items & Customer Form */}
         <div className="lg:col-span-7 space-y-6">
+          <fieldset className="rounded-[24px] border border-[#35241A]/10 bg-white p-4 sm:p-5 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
+            <legend className="px-2 text-base font-black text-slate-900">طريقة الاستلام للطلب بالكامل</legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className={`flex cursor-pointer items-center justify-between gap-3 rounded-2xl border-2 p-4 ${fulfillment === 'pickup' ? 'border-[#C7652D] bg-[#F0E8DC]' : 'border-[#35241A]/10 bg-white hover:border-[#C7652D]/35'}`}>
+                <span className="flex items-center gap-3"><input type="radio" name="order-fulfillment" value="pickup" checked={fulfillment === 'pickup'} onChange={() => setFulfillment('pickup')} className="h-5 w-5 accent-[#C7652D]" /><span className="text-sm font-black text-[#211814]">استلام من الفرع</span></span>
+                <strong className="text-sm font-black text-[#C7652D]">0 ₪</strong>
+              </label>
+              <label className={`flex cursor-pointer items-center justify-between gap-3 rounded-2xl border-2 p-4 ${fulfillment === 'delivery' ? 'border-[#C7652D] bg-[#F0E8DC]' : 'border-[#35241A]/10 bg-white hover:border-[#C7652D]/35'}`}>
+                <span className="flex items-center gap-3"><input type="radio" name="order-fulfillment" value="delivery" checked={fulfillment === 'delivery'} onChange={() => setFulfillment('delivery')} className="h-5 w-5 accent-[#C7652D]" /><span className="text-sm font-black text-[#211814]">توصيل</span></span>
+                <strong className="text-sm font-black text-[#C7652D]">15 ₪ للطلب</strong>
+              </label>
+            </div>
+            <p className="mt-3 text-xs text-slate-500">تُضاف رسوم التوصيل مرة واحدة على الطلب بالكامل.</p>
+          </fieldset>
           
           {/* Cart Items List */}
           <div className="bg-white border border-[#35241A]/10 rounded-[24px] p-4 sm:p-6 space-y-4 shadow-[0_12px_35px_rgba(53,36,26,.06)]">
@@ -424,13 +450,17 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               </div>
             </div>
 
+            {fulfillment === 'delivery' && <div>
+              <label htmlFor="delivery-address" className="mb-1 block text-xs font-bold text-slate-700">عنوان التوصيل <span className="text-orange-500">*</span></label>
+              <textarea id="delivery-address" required value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="المدينة، الحي، الشارع، وأقرب معلم" className="w-full resize-y rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100" rows={2} />
+            </div>}
             {/* Pickup Policy Notice */}
             <div className="bg-orange-50 border border-orange-200 rounded-xl p-3 flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
               <MapPin className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
               <div>
                 <strong className="text-slate-900">طريقة الاستلام: </strong>
                 <span>
-                  استلام من المحل فقط (فرع رافدية - الشارع الرئيسي). سيتم تحمير الكنافة على الفحم لتكون في أوج سخونتها وقرمشتها عند وصولك.
+                  {fulfillment === 'delivery' ? 'سيتم توصيل الطلب بالكامل، ورسوم التوصيل محسوبة مرة واحدة.' : 'استلام من المحل (فرع رافدية - الشارع الرئيسي). سيتم تحمير الكنافة على الفحم لتكون في أوج سخونتها وقرمشتها عند وصولك.'}
                 </span>
               </div>
             </div>
@@ -457,12 +487,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               </div>
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>التوصيل</span>
-                <span className="text-xs text-orange-600 font-bold">استلام من الفرع (0 ₪)</span>
+                <span className="text-xs text-orange-600 font-bold">{fulfillment === 'delivery' ? `توصيل (${deliveryFee} ₪ للطلب)` : 'استلام من الفرع (0 ₪)'}</span>
               </div>
               <div className="pt-3 border-t border-white/10 flex justify-between items-baseline">
                 <span className="text-base font-bold text-[#F7F0E5]">المجموع النهائي:</span>
                 <div className="text-left">
-                <span className="text-2xl font-black text-[#DAB775] font-heading">{subtotal}</span>
+                <span className="text-2xl font-black text-[#DAB775] font-heading">{total}</span>
                   <span className="text-xs font-bold text-slate-500 mr-1">شيكل</span>
                 </div>
               </div>
@@ -482,7 +512,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
               <div className="text-center text-[11px] text-slate-400 space-y-1">
                 <p>لا نطلب بيانات بطاقة في النسخة التجريبية</p>
-                <p>الدفع عند الاستلام من فرع رافدية</p>
+                <p>{placedOrder?.deliveryFee ? 'رسوم التوصيل تُحسب مرة واحدة للطلب' : 'الدفع عند الاستلام من فرع رافدية'}</p>
               </div>
             </div>
 
@@ -494,7 +524,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       {/* Payment Gateway Modal */}
       <PaymentModal
         isOpen={showPaymentModal}
-        totalAmount={subtotal}
+        totalAmount={total}
         onClose={() => setShowPaymentModal(false)}
         onPaymentSuccess={handlePaymentConfirmed}
       />

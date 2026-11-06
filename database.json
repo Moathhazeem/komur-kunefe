@@ -74,6 +74,45 @@
           "name": "إضافة بوظة",
           "price": 4
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -150,6 +189,45 @@
           "name": "إضافة بوظة",
           "price": 4
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -225,6 +303,45 @@
         {
           "name": "إضافة بوظة",
           "price": 4
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -303,6 +420,45 @@
           "name": "إضافة بوظة",
           "price": 4
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -378,6 +534,45 @@
         {
           "name": "إضافة بوظة",
           "price": 4
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -459,6 +654,45 @@
           "name": "إضافة بوظة",
           "price": 4
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -504,6 +738,45 @@
         {
           "name": "شوكولاته بيضاء",
           "price": 4
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -551,6 +824,45 @@
           "name": "شوكولاته بيضاء",
           "price": 4
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -572,6 +884,45 @@
           "price": 40,
           "dineInPrice": 40,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -595,6 +946,45 @@
           "dineInPrice": 15,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -616,6 +1006,45 @@
           "price": 36,
           "dineInPrice": 36,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -639,6 +1068,45 @@
           "dineInPrice": 95,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -660,6 +1128,45 @@
           "price": 38,
           "dineInPrice": 38,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -683,6 +1190,45 @@
           "dineInPrice": 36,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -704,6 +1250,45 @@
           "price": 45,
           "dineInPrice": 45,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -727,6 +1312,45 @@
           "dineInPrice": 50,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -748,6 +1372,45 @@
           "price": 55,
           "dineInPrice": 55,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -771,6 +1434,45 @@
           "dineInPrice": 40,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -792,6 +1494,45 @@
           "price": 95,
           "dineInPrice": 95,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -815,6 +1556,45 @@
           "dineInPrice": 50,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -836,6 +1616,45 @@
           "price": 34,
           "dineInPrice": 34,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -859,6 +1678,45 @@
           "dineInPrice": 32,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -880,6 +1738,45 @@
           "price": 38,
           "dineInPrice": 38,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -903,6 +1800,45 @@
           "dineInPrice": 40,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -924,6 +1860,45 @@
           "price": 40,
           "dineInPrice": 40,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -947,6 +1922,45 @@
           "dineInPrice": 45,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -968,6 +1982,45 @@
           "price": 40,
           "dineInPrice": 40,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -991,6 +2044,45 @@
           "dineInPrice": 3,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -1012,6 +2104,45 @@
           "price": 5,
           "dineInPrice": 5,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
         }
       ]
     },
@@ -1035,6 +2166,45 @@
           "dineInPrice": 3,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -1057,6 +2227,45 @@
           "dineInPrice": 3,
           "isDefault": true
         }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
       ]
     },
     {
@@ -1078,6 +2287,116 @@
           "price": 3,
           "dineInPrice": 3,
           "isDefault": true
+        }
+      ],
+      "addOnGroups": [
+        {
+          "name": "استبدال القطر العادي بقطر صحي",
+          "options": [
+            {
+              "name": "XS",
+              "price": 2
+            },
+            {
+              "name": "S",
+              "price": 4
+            },
+            {
+              "name": "M",
+              "price": 6
+            },
+            {
+              "name": "L",
+              "price": 8
+            },
+            {
+              "name": "XL",
+              "price": 10
+            },
+            {
+              "name": "2.5",
+              "price": 12
+            },
+            {
+              "name": "3",
+              "price": 14
+            },
+            {
+              "name": "3.5",
+              "price": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "healthy-syrup",
+      "name": "قطر صحي",
+      "category": "other",
+      "description": "قطر صحي بديل للقطر العادي، متوفر بأحجام متعددة.",
+      "basePrice": 2,
+      "isInitialPrice": false,
+      "image": "https://herbal-dynasty.com/5697-large_default/%D8%AC%D9%88%D8%B3%D9%88%D9%8A%D8%AA-%D9%82%D8%B7%D8%B1-%D9%84%D9%84%D8%AD%D9%84%D9%88%D9%8A%D8%A7%D8%AA-%D8%AF%D9%88%D9%86-%D8%B3%D9%83%D8%B1-500-%D9%85%D9%84.webp",
+      "imageCredit": "Herbal Dynasty — جوسويت قطر للحلويات دون سكر",
+      "imageCreditUrl": "https://herbal-dynasty.com/%D8%B9%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D9%85%D8%AD%D9%84%D9%8A%D8%A7%D8%AA/1007-%D8%AC%D9%88%D8%B3%D9%88%D9%8A%D8%AA-%D9%82%D8%B7%D8%B1-%D9%84%D9%84%D8%AD%D9%84%D9%88%D9%8A%D8%A7%D8%AA-%D8%AF%D9%88%D9%86-%D8%B3%D9%83%D8%B1-500-%D9%85%D9%84",
+      "isAvailable": true,
+      "featured": false,
+      "variants": [
+        {
+          "id": "healthy-syrup-XS",
+          "name": "حجم XS",
+          "price": 2,
+          "dineInPrice": 2,
+          "isDefault": true
+        },
+        {
+          "id": "healthy-syrup-S",
+          "name": "حجم S",
+          "price": 4,
+          "dineInPrice": 4,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-M",
+          "name": "حجم M",
+          "price": 6,
+          "dineInPrice": 6,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-L",
+          "name": "حجم L",
+          "price": 8,
+          "dineInPrice": 8,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-XL",
+          "name": "حجم XL",
+          "price": 10,
+          "dineInPrice": 10,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-2-5",
+          "name": "حجم 2.5",
+          "price": 12,
+          "dineInPrice": 12,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-3",
+          "name": "حجم 3",
+          "price": 14,
+          "dineInPrice": 14,
+          "isDefault": false
+        },
+        {
+          "id": "healthy-syrup-3-5",
+          "name": "حجم 3.5",
+          "price": 16,
+          "dineInPrice": 16,
+          "isDefault": false
         }
       ]
     }
