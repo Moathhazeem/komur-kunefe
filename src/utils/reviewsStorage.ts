@@ -2,11 +2,19 @@ import { Review } from '../types';
 
 const STORAGE_KEY = 'komur_kunefe_product_reviews';
 
+const LEGACY_PRODUCT_ID_MAP: Record<string, string> = {
+  'prod-1': 'menu-6',
+  'prod-6': 'menu-8',
+  'prod-5': 'menu-3',
+  'prod-8': 'menu-7',
+  'prod-3': 'menu-1',
+};
+
 // Initial sample reviews for authenticity & social proof
 const INITIAL_REVIEWS: Review[] = [
   {
     id: 'rev-sample-1',
-    productId: 'prod-1',
+    productId: 'menu-6',
     userName: 'أحمد النابلسي',
     rating: 5,
     comment: 'إسطنبولية القشطة فوق التوقعات! القرمشة والقشطة البلدية مع الفحم خياال. ما رح تندم.',
@@ -14,7 +22,7 @@ const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-sample-2',
-    productId: 'prod-1',
+    productId: 'menu-6',
     userName: 'سارة خالد',
     rating: 5,
     comment: 'القطر موزون وما بتغث أبداً، ونكهة جمر الفحم مميزة جداً عن باقي المحلات.',
@@ -22,7 +30,7 @@ const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-sample-3',
-    productId: 'prod-6',
+    productId: 'menu-8',
     userName: 'محمد عثمان',
     rating: 5,
     comment: 'إسطنبولية النوتيلا ع الفحم إدمان! الأولاد حبوها كثير وطلبوها مرة ثانية.',
@@ -30,7 +38,7 @@ const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-sample-4',
-    productId: 'prod-5',
+    productId: 'menu-3',
     userName: 'ليلى درويش',
     rating: 5,
     comment: 'كنافة نابلسية ناعمة ع الفحم ممتازة، طرية وكمية الجبنة وفيرة. تستحق التجربة دائماً.',
@@ -38,7 +46,7 @@ const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-sample-5',
-    productId: 'prod-8',
+    productId: 'menu-7',
     userName: 'يوسف بركات',
     rating: 5,
     comment: 'برجر الكنافة فكرة عبقرية! مقرمش من الخارج وجبنة ذائبة من الداخل. لازم تجربها!',
@@ -46,7 +54,7 @@ const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-sample-6',
-    productId: 'prod-3',
+    productId: 'menu-1',
     userName: 'رنا يوسف',
     rating: 5,
     comment: 'إسطنبولية الفستق المطحون ناعم من أحلى ما جربت، الفستق طازج وبطعم أصيل.',
@@ -61,7 +69,16 @@ export const getStoredReviews = (): Review[] => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_REVIEWS));
       return INITIAL_REVIEWS;
     }
-    return JSON.parse(raw);
+    const reviews = JSON.parse(raw) as Review[];
+    let hasLegacyIds = false;
+    const normalizedReviews = reviews.map((review) => {
+      const productId = review.productId ? LEGACY_PRODUCT_ID_MAP[review.productId] : undefined;
+      if (!productId) return review;
+      hasLegacyIds = true;
+      return { ...review, productId };
+    });
+    if (hasLegacyIds) localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedReviews));
+    return normalizedReviews;
   } catch (e) {
     console.error('Failed to parse reviews from localStorage', e);
     return INITIAL_REVIEWS;
@@ -91,16 +108,13 @@ export const addReview = (review: Omit<Review, 'id' | 'createdAt'>): Review => {
 };
 
 export const calculateProductRating = (reviews: Review[]) => {
-  if (reviews.length === 0) {
-    return {
-      averageRating: 5.0,
-      totalReviews: 0,
-    };
-  }
-  const sum = reviews.reduce((acc, curr) => acc + curr.rating, 0);
-  const avg = Number((sum / reviews.length).toFixed(1));
-  return {
-    averageRating: avg,
-    totalReviews: reviews.length,
-  };
+  const ratings = reviews
+    .map((review) => Number(review.rating))
+    .filter((rating) => Number.isFinite(rating) && rating >= 1 && rating <= 5);
+  const totalReviews = ratings.length;
+  const averageRating = totalReviews
+    ? ratings.reduce((sum, rating) => sum + rating, 0) / totalReviews
+    : 0;
+
+  return { averageRating, totalReviews };
 };
