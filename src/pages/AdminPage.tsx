@@ -13,6 +13,7 @@ import { NeighborhoodsBarChart } from '../components/charts/NeighborhoodsBarChar
 import { SourceDonutChart } from '../components/charts/SourceDonutChart';
 import { PeakHoursAreaChart } from '../components/charts/PeakHoursAreaChart';
 import { CompetitorIntelligence } from '../components/CompetitorIntelligence';
+import { MarkdownChatContent } from '../components/MarkdownChatContent';
 
 interface AdminPageProps {
   settings: StoreSettings | null;
@@ -1257,10 +1258,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                   <div
                     className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl ${msg.role === 'user'
                       ? 'bg-orange-500 text-white font-bold shadow-sm'
-                      : 'bg-white text-slate-600 border border-slate-200 shadow-sm whitespace-pre-line'
+                      : 'bg-white text-slate-700 border border-slate-200 shadow-sm'
                       }`}
                   >
-                    {msg.text}
+                    <MarkdownChatContent text={msg.text} isUser={msg.role === 'user'} />
                   </div>
                 </div>
               ))}

@@ -6,6 +6,7 @@ import React, {
   KeyboardEvent,
 } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { MarkdownChatContent } from './MarkdownChatContent';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -71,7 +72,9 @@ const MessageBubble: React.FC<{ msg: Message }> = ({ msg }) => {
         </div>
       )}
       <div className={`chatbot-bubble ${isUser ? 'chatbot-bubble--user' : 'chatbot-bubble--assistant'}`}>
-        <p className="chatbot-bubble__text">{msg.text}</p>
+        <div className="chatbot-bubble__text">
+          <MarkdownChatContent text={msg.text} isUser={isUser} />
+        </div>
         <span className="chatbot-bubble__time">{formatTime(msg.timestamp)}</span>
       </div>
     </div>

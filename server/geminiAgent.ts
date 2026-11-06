@@ -27,6 +27,49 @@ function getAiClient(): GoogleGenAI | null {
   }
 }
 
+// ─── Builds a rich, human-readable product catalogue for the admin context ────
+function buildAdminProductCatalogue(): string {
+  const products = db.getProducts();
+  const categoryLabels: Record<string, string> = {
+    charcoal: '🔥 كنافة على الفحم',
+    nutella: '🍫 كنافة شوكولاتة ونوتيلا',
+    oriental: '🌙 حلويات شرقية',
+    nawashef: '🫓 نواشف',
+    beverages: '🥤 مشروبات',
+    offers: '🎁 عروض',
+    other: '🍽️ أخرى',
+  };
+
+  const lines: string[] = [];
+  for (const p of products) {
+    const catLabel = categoryLabels[p.category] ?? p.category;
+    const status = p.isAvailable ? '✅ متاح' : '❌ غير متاح';
+    const priceRange = p.variants.length > 1
+      ? `${Math.min(...p.variants.map(v => v.price))}₪ – ${Math.max(...p.variants.map(v => v.price))}₪`
+      : `${p.basePrice}₪`;
+    const addOnsStr = p.addOns?.length
+      ? `إضافات: ${p.addOns.map(a => `${a.name} +${a.price}₪`).join('، ')}`
+      : '';
+    const desc = p.description ? ` | الوصف: ${p.description}` : '';
+    lines.push(
+      `  • [${catLabel}] ${p.name} | السعر: ${priceRange} | الحالة: ${status}${desc}${addOnsStr ? ' | ' + addOnsStr : ''}`
+    );
+  }
+  return lines.join('\n');
+}
+
+// ─── Builds approved customer reviews summary for admin context ────────────────
+function buildAdminReviewsSummary(): string {
+  const reviews = db.getReviews ? db.getReviews() : [];
+  const approved = reviews.filter((r: any) => r.isApproved);
+  if (!approved.length) return 'لا توجد تقييمات معتمدة حتى الآن.';
+  const avgRating = (approved.reduce((s: number, r: any) => s + (r.rating || 0), 0) / approved.length).toFixed(1);
+  const lines = approved.map((r: any) =>
+    `  ⭐ ${r.rating}/5 — ${r.customerName || 'زبون'}: "${r.comment}"`
+  );
+  return `متوسط التقييم: ${avgRating}/5 (${approved.length} تقييم معتمد)\n${lines.join('\n')}`;
+}
+
 export async function askStoreAgent(params: {
   question: string;
   range?: string;
@@ -42,6 +85,10 @@ export async function askStoreAgent(params: {
   const products = db.getProducts();
   const offers = db.getOffers();
   const deliveryDemand = analytics.deliveryDemand;
+
+  // ── Enriched product detail for queries about cheapest/priciest/stock/specs ─
+  const productCatalogue = buildAdminProductCatalogue();
+  const reviewsSummary = buildAdminReviewsSummary();
 
   const contextData = {
     store: 'Kömür Künefe — كنافة ع الفحم (رافدية، نابلس)',
@@ -66,33 +113,66 @@ export async function askStoreAgent(params: {
   }
 
   try {
+    const periodLabel =
+      contextData.period.range === 'today' ? 'اليوم'
+      : contextData.period.range === '30d' ? 'آخر 30 يومًا'
+      : 'آخر 7 أيام';
+
     const prompt = `
-أنت المساعد الإداري والتحليلي الذكي لمالك محل "Kömür Künefe — كنافة ع الفحم" في رافدية - الشارع الرئيسي، نابلس.
-أجب عن سؤال المالك التالي باللغة العربية بناءً على البيانات الواقعية المرفقة فقط:
-السؤال: "${params.question}"
+أنت المساعد الإداري والتحليلي الذكي لصاحب محل "Kömür Künefe — كنافة ع الفحم" في رافدية - الشارع الرئيسي، نابلس.
+أجب عن سؤال المالك التالي **باللغة العربية** بناءً **حصرًا** على البيانات والمنيو المرفقين أدناه:
 
-بيانات المحل المعتمدة للفترة (${contextData.period.range || 'المحددة'}):
-- إجمالي المبيعات: ${contextData.kpis.totalSales} شيكل
-- عدد الطلبات: ${contextData.kpis.totalOrders} طلب
-- متوسط قيمة الطلب: ${contextData.kpis.avgOrderValue} شيكل
-- الزبائن المتكررون: ${contextData.kpis.repeatCustomers} زبون
-- أكثر المنتجات مبيعًا: ${JSON.stringify(contextData.topSellers)}
-- أقل المنتجات مبيعًا: ${JSON.stringify(contextData.leastSellers)}
-- توزيع الطلبات حسب ساعات اليوم: ${JSON.stringify(contextData.hourlyOrders)}
-- مصادر الطلبات (سوشال ميديا وموقع): ${JSON.stringify(contextData.trafficSources)}
-- تصويت مناطق التوصيل المطلوبة من الزبائن: ${JSON.stringify(contextData.deliveryAreaVotes)}
+**السؤال:** "${params.question}"
 
-قواعد الإجابة:
-1. كن مباشرًا، مهنيًا، ولطيفًا. استخدم أرقامًا واقعية من البيانات أعلاه دون اختلاق.
-2. قدم تحليلاً موجزاً للسبب وراء هذا الرقم أو النتيجة.
-3. اختم بنصيحة أو توصية عملية لصاحب المحل في رافدية (مثال: عروض على المنتجات الأقل مبيعًا، أو الاستعداد لساعات الذروة المسائية، أو بدء خدمة التوصيل للمناطق الأكثر طلبًا).
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 مؤشرات الأداء للفترة: ${periodLabel}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- **إجمالي الإيرادات:** ${contextData.kpis.totalSales} شيكل
+- **إجمالي الطلبات:** ${contextData.kpis.totalOrders} طلب
+- **متوسط قيمة الطلب:** ${contextData.kpis.avgOrderValue} شيكل
+- **الزبائن الكليون:** ${contextData.kpis.totalCustomers} | المتكررون: ${contextData.kpis.repeatCustomers}
+- **أكثر 5 منتجات مبيعًا:** ${JSON.stringify(contextData.topSellers)}
+- **أقل 5 منتجات مبيعًا:** ${JSON.stringify(contextData.leastSellers)}
+- **توزيع الطلبات بالساعة:** ${JSON.stringify(contextData.hourlyOrders)}
+- **مصادر الطلبات:** ${JSON.stringify(contextData.trafficSources)}
+- **مناطق التوصيل المطلوبة:** ${JSON.stringify(contextData.deliveryAreaVotes)}
+- **عدد الأصناف في المنيو:** ${contextData.allProductsCount} | **عروض نشطة:** ${contextData.activeOffersCount}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 كامل أصناف المنيو مع الأسعار والتفاصيل
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${productCatalogue}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⭐ تقييمات الزبائن
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${reviewsSummary}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 قواعد الإجابة الصارمة
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. **الشمولية إلزامية:** لا تُجب بجملة واحدة. كل إجابة يجب أن تحتوي على تحليل وأرقام وتوصية.
+2. **تنسيق Markdown صارم:** استخدم العناوين (###)، القوائم النقطية (•)، والنص العريض (**) لتنظيم الإجابة.
+3. **استخدام الأرقام الحقيقية:** اعتمد فقط على البيانات المرفقة أعلاه ولا تخترع أرقامًا.
+4. **عمق تحليلي:** اشرح السبب وراء كل رقم (مثال: لماذا هذا المنتج الأقل مبيعًا؟).
+5. **قسم التوصيات:** اختم دائمًا بـ ### 💡 التوصية مع خطوة واحدة عملية قابلة للتطبيق فورًا.
+6. **عند سؤال عن منتج محدد:** اذكر اسمه، السعر الكامل (كل الأحجام)، الفئة، حالة التوفر، والإضافات المتاحة.
 `;
 
     const response = await ai.models.generateContent({
       model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
       contents: prompt,
       config: {
-        systemInstruction: 'أنت مستشار أعمال وخبير تسويق محلي لمطاعم الحلويات الشرقية والكنافة على الفحم في فلسطين. أجب بأسلوب لبق وموجز ومدعوم بالأرقام.',
+        systemInstruction: `أنت مستشار أعمال استراتيجي ومحلل بيانات متخصص في قطاع الحلويات الشرقية والكنافة على الفحم في فلسطين.
+دورك: تقديم تحليلات عميقة ودقيقة لصاحب المحل بأسلوب مهني واضح.
+أسلوب الإجابة:
+- دائمًا استخدم Markdown منظم: عناوين واضحة (###)، قوائم منقطة (•)، نص عريض (**).
+- لا تُجب إجابات مختصرة من كلمة أو جملة واحدة.
+- كل إجابة = تحليل + أرقام + توصية عملية.
+- إذا سُئلت عن منتج: قدّم كامل تفاصيله (السعر لكل حجم، الفئة، حالة التوفر، الإضافات، الوصف).
+- إذا سُئلت عن أداء: قدّم المقارنة، السبب، والاقتراح.`,
+        temperature: 0.4,
+        maxOutputTokens: 1200,
       },
     });
 
@@ -140,32 +220,66 @@ export async function generateStoreReport(params: {
   }
 
   try {
+    const periodLabel = contextData.period.range === 'today' ? 'اليوم'
+      : contextData.period.range === '30d' ? 'آخر 30 يومًا' : 'آخر 7 أيام';
+
+    const topSellersDetail = contextData.topSellers
+      .map((p: any) => `  • **${p.name}**: ${p.quantity} قطعة | إيراد: ${p.revenue}₪`)
+      .join('\n');
+    const leastSellersDetail = contextData.leastSellers
+      .map((p: any) => `  • **${p.name}**: ${p.quantity} قطعة | إيراد: ${p.revenue}₪`)
+      .join('\n');
+
     const prompt = `
-أنشئ تقرير أعمال وتحليل أداء احترافي باللغة العربية لمالك محل "Kömür Künefe — كنافة ع الفحم" (رافدية - نابلس).
-الفترة: ${contextData.period.range === 'today' ? 'اليوم' : contextData.period.range === '30d' ? 'آخر 30 يومًا' : 'آخر 7 أيام'}.
+أنشئ تقرير أعمال وتحليل أداء **احترافي ومفصل** باللغة العربية لمالك محل "Kömür Künefe — كنافة ع الفحم" (رافدية - نابلس).
+الفترة: ${periodLabel}.
 
-البيانات:
-- المبيعات: ${contextData.kpis.totalSales} شيكل عبر ${contextData.kpis.totalOrders} طلب.
-- متوسط الفاتورة: ${contextData.kpis.avgOrderValue} شيكل.
-- نسبة إعادة الشراء: ${contextData.kpis.repeatCustomers} زبون متكرر من أصل ${contextData.kpis.totalCustomers}.
-- أفضل مبيعًا: ${contextData.topSellers.map((p: any) => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
-  - الأقل مبيعًا: ${contextData.leastSellers.map((p: any) => `${p.name} (${p.quantity} قطعة، ${p.revenue} ₪)`).join('، ')}.
-- مصادر الطلبات: إنستغرام (${contextData.trafficSources.instagram})، فيسبوك (${contextData.trafficSources.facebook})، واتساب (${contextData.trafficSources.whatsapp})، الموقع المباشر (${contextData.trafficSources.website}).
-- أكثر مناطق التوصيل طلبًا: ${Object.entries(contextData.deliveryDemand.byArea).map(([a, count]) => `${a}: ${count} طلب`).join('، ')}.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 البيانات الواقعية للفترة
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- **إجمالي الإيرادات:** ${contextData.kpis.totalSales}₪
+- **إجمالي الطلبات:** ${contextData.kpis.totalOrders} طلب
+- **متوسط قيمة الطلب:** ${contextData.kpis.avgOrderValue}₪
+- **الزبائن الكليون:** ${contextData.kpis.totalCustomers} | المتكررون: ${contextData.kpis.repeatCustomers}
+- **أكثر 5 منتجات مبيعًا:**
+${topSellersDetail}
+- **أقل 5 منتجات مبيعًا (فرص للتنشيط):**
+${leastSellersDetail}
+- **مصادر الطلبات:** إنستغرام (${contextData.trafficSources.instagram})، واتساب (${contextData.trafficSources.whatsapp})، فيسبوك (${contextData.trafficSources.facebook})، الموقع (${contextData.trafficSources.website})
+- **أكثر مناطق التوصيل طلبًا:** ${Object.entries(contextData.deliveryDemand.byArea).map(([a, count]) => `${a}: ${count}`).join(' | ')}
 
-نسق التقرير بأقسام واضحة:
-1. ملخص تنفيذي (Executive Summary)
-2. تحليل المنتجات والأصناف الأكثر ركودًا ورواجًا
-3. سلوك الزبائن وأوقات الذروة وقنوات السوشال ميديا
-4. فرص النمو وقياس الجدوى لخدمة التوصيل في نابلس
-5. 4 توصيات عملية فورية قابلة للتطبيق هذا الأسبوع
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 نسّق التقرير بالأقسام التالية بشكل دقيق
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### 1. الملخص التنفيذي
+[أرقام محورية، مقارنة بالأهداف، نبرة واثقة]
+
+### 2. تحليل المنتجات والأصناف
+[لكل صنف رئيسي: الكمية المباعة، الإيراد، نسبته من إجمالي المبيعات، تقييم الأداء]
+
+### 3. سلوك الزبائن وقنوات التسويق
+[تحليل ساعات الذروة، قنوات السوشال ميديا، معدل التكرار]
+
+### 4. فرص النمو والتوصيل
+[جدوى التوصيل، المناطق المستهدفة، توقعات العائد]
+
+### 5. التوصيات الاستراتيجية الفورية
+[4 توصيات مرقمة قابلة للتطبيق هذا الأسبوع مع تفاصيل دقيقة]
 `;
 
     const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
       contents: prompt,
       config: {
-        systemInstruction: 'أنت مستشار استراتيجي رفيع المستوى في قطاع الأغذية والحلويات. اكتب التقرير بلهجة مهنية متفائلة وواضحة، مع التركيز على اتخاذ القرارات والربحية.',
+        systemInstruction: `أنت مستشار استراتيجي رفيع المستوى في قطاع الأغذية والحلويات الشرقية في فلسطين.
+اكتب التقرير بلهجة مهنية واضحة مع التركيز على الربحية واتخاذ القرارات.
+قواعد التنسيق:
+- استخدم Markdown منظم: ### للعناوين، • للنقاط، ** للأرقام المهمة.
+- لكل قسم: بيانات + تحليل + توصية.
+- لا تترك قسمًا دون أرقام حقيقية من البيانات المرفقة.
+- التقرير يجب أن يكون شاملاً وليس ملخصًا مختصرًا.`,
+        temperature: 0.35,
+        maxOutputTokens: 1800,
       },
     });
 
@@ -329,13 +443,26 @@ function buildFormattedMenu(): string {
  * Builds the full dynamic systemInstruction for Jamra on every request.
  * The live menu block is re-generated each time so price or availability
  * changes in the DB are immediately reflected in the chatbot's knowledge.
+ *
+ * UPGRADED: Enforces rich, structured Markdown product showcases with
+ * Price tiers, Availability, Pros, Add-ons, and actionable Call to Action.
  */
 function buildJamraSystemInstruction(): string {
   const menuBlock = buildFormattedMenu();
+  const reviews = db.getReviews(true); // approved only
+  const avgRating = reviews.length
+    ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length).toFixed(1)
+    : '5.0';
+  const reviewsBlock = reviews.length
+    ? reviews
+        .slice(0, 3)
+        .map(r => `  ⭐ ${r.rating}/5 — "${r.comment}" — ${r.customerName || 'زبون'}`)
+        .join('\n')
+    : '  ⭐ تقييمات الزبائن ممتازة!';
 
   return `
-أنتِ "جمرة" (جمرة) 🔥 — المساعدة الذكية، الدافئة، والمحترفة لمطعم "Kömür Künefe — كنافة ع الفحم" في نابلس، رافدية — الشارع الرئيسي.
-هويتكِ: اسمكِ مشتق من "الجمر" — الحرارة الحقيقية التي تُنضج الكنافة على الفحم. تتحدثين بعربية فلسطينية دافئة وأصيلة 🔥💛.
+أنتِ "جمرة" 🔥 — المساعدة الذكية والدافئة لمطعم "Kömür Künefe — كنافة ع الفحم" في رافدية — الشارع الرئيسي، نابلس.
+هويتكِ: مشتقة من الجمر الذي ينضج الكنافة. تتحدثين بعربية فلسطينية دافئة وأصيلة 🔥💛.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 معلومات المطعم
@@ -346,44 +473,130 @@ function buildJamraSystemInstruction(): string {
 • هاتف/واتساب: 0562-606-061
 • إنستغرام   : @komurkunefe
 • فيسبوك     : facebook.com/Komurkunefe
+• تقييم الزبائن: ⭐ ${avgRating}/5
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 قائمة المنيو الحالية (مستخرجة مباشرة من بيانات الموقع)
+📋 قائمة المنيو الكاملة (بيانات مباشرة من الموقع)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${menuBlock}
 
-🌿 ملاحظة صحية: يتوفر بديل القطر الصحي (شراب السكر والماء) لجميع أصناف كنافة الفحم والحلويات الشرقية — يكفي أن يذكره الزبون عند الطلب.
+🌿 ملاحظة صحية: القطر الصحي (شراب السكر والماء) متوفر لجميع أصناف الكنافة والحلويات الشرقية — اطلبه عند الطلب.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⭐ آراء زبائننا
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${reviewsBlock}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎯 قواعد الإجابة الصارمة — اقرئيها بعناية
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+### قاعدة الإجابة الشاملة — الأهم على الإطلاق:
+**ممنوع الإجابة بجملة واحدة أو اسم فقط.**
+عندما يسأل الزبون عن أي صنف أو مقارنة أسعار أو اقتراح، أجيبي دائمًا بالتنسيق التالي:
+
+**🍽️ [اسم الصنف]**
+• **الفئة:** [نوع الصنف]
+• **السعر:** [كل الأحجام والأسعار بالتفصيل]
+• **الحالة:** ✅ متاح الآن / ❌ غير متاح
+• **المميزات:** [2-3 نقاط مميزة للصنف]
+• **الإضافات المتاحة:** [إن وجدت]
+• **خيار صحي:** [إن توفر القطر الصحي]
+• **💬 ماذا قال زبائننا:** [اذكري تقييمًا مناسبًا إن وجد]
+• **📲 للطلب:** تفضل/ي بزيارتنا في رافدية، أو تواصل معنا: 0562-606-061
+
+---
+
+### القواعد التفصيلية:
+
 1. **دقة الأرقام والمقارنات — قاعدة صارمة**:
-   عندما يسأل الزبون عن (أرخص صنف، أغلى صنف، مقارنة أسعار، أو مكونات صنف معين)،
-   يجب أن تفحصي قائمة المنيو أعلاه بدقة رياضية وتجيبي فوراً باسم الصنف الحقيقي والرقم الدقيق بالشيكل.
-   ممنوع منعاً باتاً التهرب أو إعطاء إجابة عامة مجردة من الأرقام في مثل هذه الحالات.
+   عند سؤال عن (أرخص صنف، أغلى صنف، مقارنة أسعار، مكونات):
+   افحصي المنيو بدقة رياضية واذكري **كامل أسعار الأحجام** للصنف المقصود.
+   لا تكتفي باسم الصنف فقط — أضيفي الأسعار والتفاصيل فورًا.
 
-2. **منع الديباجات الجامدة والتكرار**:
-   لا تبدئي كل رد بنفس جملة الترحيب المحفوظة ولا تكرري رقم الواتساب في كل رسالة.
-   ردّك يجب أن يكون ديناميكياً، ذكياً، وموجهاً مباشرة لصميم سؤال الزبون.
+2. **تحديد أرخص / أغلى صنف**:
+   قارني أسعار الأحجام الأساسية (XS أو الحجم الأصغر) عبر كل الأصناف.
+   اذكري: الاسم، السعر الأدنى، الفئة، وسبب كونه الأرخص أو الأغلى.
 
-3. **الأسلوب واللهجة**:
-   عربية فلسطينية دافئة ومحبّبة، قريبة للقلب مثل أصحاب المحلات الأصيلين.
-   استخدمي إيموجي الكنافة والجمر باعتدال 🔥💛.
+3. **منع الردود الجامدة والمكررة**:
+   لا تبدئي كل رد بنفس جملة الترحيب. ردّك ديناميكي وذكي وموجّه لصميم السؤال.
 
-4. **الاستنتاج الذكي والبدائل**:
-   إذا سأل الزبون عن شيء غير موجود، اخبريه بلطف وقدّمي أقرب بديل متوفر من المنيو.
-   لا تقولي "لا أعرف" طالما أن المعطيات موجودة في السياق.
+4. **الأسلوب واللهجة**:
+   عربية فلسطينية دافئة، قريبة للقلب. استخدمي إيموجي باعتدال 🔥💛.
 
 5. **الالتزام الصارم بالمنيو**:
-   لا تخترعي أصنافاً أو أسعاراً من عندكِ. اعتمدي حصراً على بيانات المنيو المرفقة أعلاه.
+   لا تخترعي أصنافًا أو أسعارًا. اعتمدي حصرًا على بيانات المنيو أعلاه.
 
 6. **سياسة التوصيل**:
-   التوصيل غير متاح حالياً — الاستلام من المحل فقط. لا تعدي بغير ذلك.
+   التوصيل غير متاح حاليًا — الاستلام من المحل فقط.
 
 7. **الطلبات الكبيرة والمناسبات**:
-   أنصحي بالتواصل المسبق على 0562-606-061 للطلبات الكبيرة والمناسبات.
+   أنصحي بالتواصل المسبق على 0562-606-061 للكميات الكبيرة.
 `.trim();
+}
+
+
+// ─── Builds a rich enriched fallback for price/product queries ────────────────
+// Called BEFORE getSmartFallbackResponse so the circular reference is avoided.
+function buildEnrichedPriceFallback(cheapest: boolean): string {
+  const products = db.getProducts().filter(p => p.isAvailable && p.variants.length > 0);
+  if (!products.length) {
+    // Minimal last-resort return without calling getSmartFallbackResponse
+    return 'يسعدنا تواصلك! 🔥 للاستفسار: 0562-606-061';
+  }
+
+  const getExtremePrice = (product: typeof products[number]) => {
+    const prices = product.variants.flatMap(v => {
+      const listedPrices = [v.dineInPrice, v.takeawayPrice].filter((price): price is number => price != null);
+      return listedPrices.length ? listedPrices : [v.price];
+    });
+    return cheapest ? Math.min(...prices) : Math.max(...prices);
+  };
+  const sorted = [...products].sort((a, b) => {
+    return cheapest ? getExtremePrice(a) - getExtremePrice(b) : getExtremePrice(b) - getExtremePrice(a);
+  });
+
+  const p = sorted[0];
+  const variantLines = p.variants
+    .map(v => {
+      const dine = v.dineInPrice != null ? `${v.dineInPrice}₪ أكل داخل` : '';
+      const take = v.takeawayPrice != null ? `${v.takeawayPrice}₪ تيك أواي` : '';
+      const price = [dine, take].filter(Boolean).join(' / ') || `${v.price}₪`;
+      return `  • ${v.name}: ${price}`;
+    })
+    .join('\n');
+
+  const addOnsStr = p.addOns?.length
+    ? p.addOns.map(a => `${a.name} +${a.price}₪`).join('، ')
+    : 'لا يوجد';
+
+  const categoryLabels: Record<string, string> = {
+    charcoal: 'كنافة على الفحم 🔥',
+    nutella: 'كنافة شوكولاتة 🍫',
+    oriental: 'حلويات شرقية 🌙',
+    nawashef: 'نواشف 🫓',
+    beverages: 'مشروبات 🥤',
+    other: 'متنوعة 🍽️',
+  };
+  const catLabel = categoryLabels[p.category] ?? p.category;
+  const label = cheapest ? 'الأرخص' : 'الأغلى';
+  const extremePrice = getExtremePrice(p);
+  const extremePriceLabel = cheapest ? 'أقل سعر يبدأ من' : 'أعلى سعر مسجل';
+
+  return [
+    `🔥 **الصنف ${label} عندنا:**`,
+    ``,
+    `**${p.name}**`,
+    `• **${extremePriceLabel}:** ${extremePrice}₪`,
+    `• **الفئة:** ${catLabel}`,
+    `• **الحالة:** ✅ متاح الآن`,
+    `• **الأسعار (جميع الأحجام):**`,
+    variantLines,
+    `• **الإضافات:** ${addOnsStr}`,
+    `• **خيار صحي:** القطر الصحي متوفر عند الطلب 🌿`,
+    ``,
+    `📲 **للطلب والاستفسار:** 0562-606-061 | رافِدية — الشارع الرئيسي، نابلس 💛`,
+  ].join('\n');
 }
 
 /**
@@ -397,38 +610,64 @@ ${menuBlock}
 function getSmartFallbackResponse(message: string): string {
   const q = message;
 
-  // Price / menu enquiry (including cheapest / most expensive)
-  if (/سعر|بكم|كم|تكلف|أسعار|قائمة|أرخص|أغلى/.test(q)) {
-    return `😊 هاي أبرز أسعارنا:\n\n🔥 كنافة اسطنبولية بالفستق الناعم (أكل داخل):\nXS: 15₪ | S: 30₪ | M: 55₪ | L: 80₪ | XL: 100₪\n\n🔥 كنافة نابلسية ناعمة (أكل داخل):\nXS: 10₪ | S: 20₪ | M: 40₪ | L: 58₪ | XL: 76₪\n\n🍫 كنافة شوكولاتة (XS فقط): 12₪\n\nللقائمة الكاملة زورونا في رافِدية أو اتصلوا: 0562-606-061 💛`;
+  // Cheapest / most expensive product query — return full enriched details
+  if (/أرخص/.test(q)) return buildEnrichedPriceFallback(true);
+  if (/أغلى/.test(q)) return buildEnrichedPriceFallback(false);
+
+  // Price / menu enquiry
+  if (/سعر|بكم|كم|تكلف|أسعار|قائمة/.test(q)) {
+    return [
+      '😊 هاي أبرز أسعارنا:',
+      '',
+      '🔥 **كنافة اسطنبولية بالفستق الناعم** (أكل داخل):',
+      '• XS: 15₪ | S: 30₪ | M: 55₪ | L: 80₪ | XL: 100₪',
+      '• إضافة بوظة: +4₪',
+      '',
+      '🔥 **كنافة نابلسية ناعمة** (أكل داخل):',
+      '• XS: 10₪ | S: 20₪ | M: 40₪ | L: 58₪ | XL: 76₪',
+      '',
+      '🍫 **كنافة اسطنبولية بالشوكولاته** (XS): 12₪',
+      '',
+      '• الحالة: ✅ كل الأصناف متاحة',
+      '• خيار صحي: القطر الصحي متوفر 🌿',
+      '',
+      '📲 للقائمة الكاملة: 0562-606-061 | رافِدية، نابلس 💛',
+    ].join('\n');
   }
 
   // Delivery enquiry
   if (/توصيل|دليفري|توصل/.test(q)) {
-    return `🛵 حالياً خدمة التوصيل غير متاحة، بس الاستلام من عندنا في رافِدية سهل ومريح.\nللتفاصيل: 0562-606-061 📞`;
+    return '🛵 حالياً خدمة التوصيل غير متاحة، بس الاستلام من عندنا في رافِدية سهل ومريح.\nللتفاصيل: 0562-606-061 📞';
   }
 
   // Opening hours
   if (/وقت|دوام|فتح|أوقات|ساعات/.test(q)) {
-    return `⏰ أوقات عملنا:\nيومياً من 11:00 صباحاً حتى 12:00 منتصف الليل 🔥\nنتشرف بزيارتك في رافِدية — الشارع الرئيسي، نابلس 💛`;
+    return '⏰ أوقات عملنا:\nيومياً من 11:00 صباحاً حتى 12:00 منتصف الليل 🔥\nنتشرف بزيارتك في رافِدية — الشارع الرئيسي، نابلس 💛';
   }
 
   // Location
   if (/موقع|وين|عنوان|مكان|رافدية/.test(q)) {
-    return `📍 تلاقينا في رافِدية — الشارع الرئيسي، نابلس.\nهاتف/واتساب: 0562-606-061\nإنستغرام: @komurkunefe 💛`;
+    return '📍 تلاقينا في رافِدية — الشارع الرئيسي، نابلس.\nهاتف/واتساب: 0562-606-061\nإنستغرام: @komurkunefe 💛';
   }
 
   // Healthy syrup option
   if (/صحي|قطر صحي|دايت|سكر/.test(q)) {
-    return `🌿 نعم! عندنا خيار القطر الصحي (شراب السكر والماء) بديلاً عن القطر العادي لكل أصناف الكنافة على الفحم والحلويات الشرقية.\nاطلبه عند طلبك وبكل سرور 😊`;
+    return '🌿 نعم! عندنا خيار القطر الصحي (شراب السكر والماء) بديلاً عن القطر العادي لكل أصناف الكنافة على الفحم والحلويات الشرقية.\nاطلبه عند طلبك وبكل سرور 😊';
   }
 
   // Events / large orders
   if (/مناسبة|حفلة|عرس|تجمع|عيلة|عائلة|كبير|كثير/.test(q)) {
-    return `🎉 لمناسباتكم الكبيرة، ننصح بـ:\n• كنافة اسطنبولية بالفستق الناعم (2.5 أو 3 كيلو)\n• أو باقة متنوعة من حلوياتنا الشرقية\n\nللطلبات الكبيرة تواصلوا معنا مسبقاً: 0562-606-061 💛`;
+    return [
+      '🎉 لمناسباتكم الكبيرة، ننصح بـ:',
+      '• **كنافة اسطنبولية بالفستق الناعم** — حجم 2.5 كيلو: 135₪ | 3 كيلو: 165₪',
+      '• أو **باقة متنوعة** من حلوياتنا الشرقية',
+      '',
+      '📞 للطلبات الكبيرة تواصلوا مسبقاً: 0562-606-061 💛',
+    ].join('\n');
   }
 
-  // Generic fallback — no repeated static greeting
-  return `يسعدنا تواصلك مع كُومُر كُونافيه! 🔥\n📞 هاتف/واتساب: 0562-606-061\n📍 رافِدية — الشارع الرئيسي، نابلس\n⏰ يومياً 11:00 ص – 12:00 منتصف الليل`;
+  // Generic fallback
+  return 'يسعدنا تواصلك مع كُومُر كُونافيه! 🔥\n📞 هاتف/واتساب: 0562-606-061\n📍 رافِدية — الشارع الرئيسي، نابلس\n⏰ يومياً 11:00 ص – 12:00 منتصف الليل';
 }
 
 /**
@@ -443,6 +682,13 @@ function getSmartFallbackResponse(message: string): string {
  *      returns a direct, useful Arabic answer — no generic error messages.
  */
 export async function askCustomerChatbot(userMessage: string): Promise<string> {
+  const normalizedQuestion = userMessage.replace(/[إأآ]/g, 'ا');
+  if (/ارخص|اقل\s*(?:شي|اشي|شيء|سعر|صنف|منتج)/.test(normalizedQuestion)) {
+    return buildEnrichedPriceFallback(true);
+  }
+  if (/اغلى|اعلى\s*سعر/.test(normalizedQuestion)) {
+    return buildEnrichedPriceFallback(false);
+  }
   const ai = getAiClient();
 
   if (!ai) {
@@ -459,8 +705,8 @@ export async function askCustomerChatbot(userMessage: string): Promise<string> {
       contents: userMessage,
       config: {
         systemInstruction,
-        temperature: 0.55,     // Low enough for precise numerical accuracy
-        maxOutputTokens: 650,
+        temperature: 0.4,       // Lower = more factually precise prices & details
+        maxOutputTokens: 1600,   // Leave room for complete, useful customer answers
       },
     });
 
