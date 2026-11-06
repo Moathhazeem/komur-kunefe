@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { GoogleGenAI } from '@google/genai';
 import { db } from './db.js';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 let aiClient: GoogleGenAI | null = null;
 
@@ -70,6 +72,153 @@ function buildAdminReviewsSummary(): string {
   return `متوسط التقييم: ${avgRating}/5 (${approved.length} تقييم معتمد)\n${lines.join('\n')}`;
 }
 
+function isCompetitorQuestion(question: string): boolean {
+  const normalized = question.normalize('NFKC').replace(/[إأآ]/g, 'ا').replace(/ة/g, 'ه');
+  return /منافس|تنافس|مقارن|السوق|سوشال|سوشيال|سوشل|وسائل التواصل|التواصل الاجتماعي|فيسبوك|فيس بوك|انستغرام|إنستغرام|إنستا|منشور|بوست|تفاعل|تسويق|محتوى|عصملي|ابو صالحه|السرايا|osmali|facebook|instagram|competitor|social[- ]media|engagement/i.test(normalized);
+}
+
+function readCompetitorDatabase(fileName: string): any | null {
+  try {
+    return JSON.parse(readFileSync(resolve(process.cwd(), fileName), 'utf8'));
+  } catch (error) {
+    console.warn(`[AI Business Agent] Could not load ${fileName}:`, error);
+    return null;
+  }
+}
+
+function buildCompetitorResearchContext(): string {
+  const profileDatabase = readCompetitorDatabase('competitor-database.json');
+  const socialDatabase = readCompetitorDatabase('competitor-database-social_media.json');
+
+  const competitorProfiles = (profileDatabase?.competitors || []).map((competitor: any) => ({
+    id: competitor.id,
+    name: competitor.name,
+    identityResolution: competitor.identityResolution,
+    businessProfile: competitor.businessProfile,
+    branch: competitor.branch,
+    dataSource: competitor.dataSource,
+    orderingPlatforms: competitor.orderingPlatforms,
+    capturedAt: competitor.capturedAt,
+    currency: competitor.currency,
+    operatingInfo: competitor.operatingInfo,
+    menuSections: competitor.menuSections,
+    offers: competitor.offers,
+    products: competitor.products,
+    prices: competitor.prices,
+    reviews: competitor.reviews,
+    socialMediaActivity: competitor.socialMediaActivity,
+    analysisNotes: competitor.analysisNotes,
+  }));
+
+  const socialPages = (socialDatabase?.competitors || []).map((page: any) => ({
+    name: page.name,
+    pageName: page.pageName,
+    platform: page.platform,
+    url: page.url,
+    postCount: page.postCount,
+    dataFirstPostAt: page.dataFirstPostAt,
+    dataLastPostAt: page.dataLastPostAt,
+    engagement: page.engagement,
+    posts: (page.posts || []).map((post: any) => ({
+      publishedAt: post.publishedAt,
+      text: String(post.text || '').slice(0, 900),
+      hashtags: post.hashtags,
+      content: post.content,
+      metrics: post.metrics,
+      topCommentTexts: post.topCommentTexts,
+      url: post.url,
+    })),
+  }));
+
+  return JSON.stringify({
+    profileDatabase: profileDatabase
+      ? { databasePurpose: profileDatabase.databasePurpose, lastCollectedAt: profileDatabase.lastCollectedAt, competitors: competitorProfiles }
+      : null,
+    socialMediaDatabase: socialDatabase
+      ? { purpose: socialDatabase.purpose, generatedAt: socialDatabase.generatedAt, source: socialDatabase.source, pages: socialPages }
+      : null,
+  });
+}
+
+function normalizeCompetitorText(value: unknown): string {
+  return String(value || '').normalize('NFKC').replace(/[إأآ]/g, 'ا').replace(/ة/g, 'ه').toLowerCase();
+}
+
+function buildCompetitorFallbackAnswer(question: string): string {
+  const profileDatabase = readCompetitorDatabase('competitor-database.json');
+  const socialDatabase = readCompetitorDatabase('competitor-database-social_media.json');
+  const profiles: any[] = profileDatabase?.competitors || [];
+  const pages: any[] = socialDatabase?.competitors || [];
+
+  if (!profiles.length && !pages.length) {
+    return 'ما قدرت أوصل لملفات بيانات المنافسين حاليًا؛ تأكد من توفر competitor-database.json وcompetitor-database-social_media.json بجانب بيانات المشروع.';
+  }
+
+  const normalizedQuestion = normalizeCompetitorText(question);
+  const matchesQuestion = (record: any) => [record.id, record.name?.ar, record.name?.en, record.name, record.pageName]
+    .some(value => {
+      const normalizedValue = normalizeCompetitorText(value);
+      return normalizedValue.length > 3 && normalizedQuestion.includes(normalizedValue);
+    });
+  const matchedProfiles = profiles.filter(matchesQuestion);
+  const matchedPages = pages.filter(matchesQuestion);
+  const selectedProfiles = matchedProfiles.length ? matchedProfiles : profiles;
+  const selectedPages = matchedPages.length ? matchedPages : pages;
+
+  const profileSummaries = selectedProfiles.map(profile => {
+    const business = profile.businessProfile || {};
+    const sections = (profile.menuSections || []).map((section: any) => {
+      const products = (section.products || []).slice(0, 6).map((product: any) => {
+        const prices = (product.prices || []).map((price: any) => `${price.unit}: ${price.price}₪`).join('، ');
+        return `${product.name}${prices ? ` (${prices})` : ''}`;
+      });
+      return products.length ? `${section.name}: ${products.join('؛ ')}` : '';
+    }).filter(Boolean);
+    const strengths = business.strengths || business.marketing || business.engagementAndOffers || [];
+    const rating = profile.operatingInfo?.rating ?? business.googleRating?.score ?? business.branchRatings?.[0]?.score;
+    const ratingLabel = rating == null ? 'غير متوفر' : `${rating}${profile.operatingInfo?.ratingCountText ? ` (${profile.operatingInfo.ratingCountText} تقييم)` : ''}`;
+    const identityNote = profile.identityResolution?.status === 'unresolved'
+      ? `⚠️ هوية هذا السجل غير مؤكدة: ${profile.identityResolution.note || 'لا توجد مطابقة موثقة.'}`
+      : '';
+
+    return [
+      `### ${profile.name?.ar || profile.name?.en || profile.name || profile.id}`,
+      identityNote,
+      `• **الموقع:** ${profile.branch || business.location || (business.locations || []).join('، ') || 'غير محدد'}`,
+      `• **المصدر والتاريخ:** ${profile.dataSource || business.dataSource || 'غير محدد'} — ${profile.capturedAt || business.capturedAt || profileDatabase?.lastCollectedAt || 'التاريخ غير محدد'}`,
+      `• **الأسعار/التقييم:** ${business.pricePositioning || 'مقارنة الأسعار غير متوفرة'}؛ تقييم ${ratingLabel}`,
+      strengths.length ? `• **نقاط القوة/التسويق المسجلة:** ${strengths.slice(0, 5).join('؛ ')}` : '',
+      sections.length ? `• **أمثلة من القائمة:** ${sections.join(' | ')}` : '',
+    ].filter(Boolean).join('\n');
+  });
+
+  const socialSummaries = selectedPages.map(page => {
+    const engagement = page.engagement || {};
+    const metric = (key: string) => engagement[key]?.average == null
+      ? 'غير متوفر'
+      : `${engagement[key].average} متوسطًا (من ${engagement[key].measuredPosts ?? '?'} منشور)`;
+    const recentPosts = [...(page.posts || [])]
+      .sort((a: any, b: any) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
+      .slice(0, 3)
+      .map((post: any) => `  • ${post.publishedAt || 'تاريخ غير متوفر'}: ${String(post.text || 'بدون نص').slice(0, 240)} [إعجابات ${post.metrics?.likes ?? 'غير متوفر'}، تعليقات ${post.metrics?.comments ?? 'غير متوفر'}، مشاركات ${post.metrics?.shares ?? 'غير متوفر'}]`);
+
+    return [
+      `### ${page.name || page.pageName} — ${page.platform || 'منصة غير محددة'}`,
+      `• **فترة البيانات:** ${page.dataFirstPostAt || '؟'} إلى ${page.dataLastPostAt || socialDatabase?.generatedAt || '؟'}؛ عدد المنشورات ${page.postCount ?? page.posts?.length ?? 0}`,
+      `• **متوسط التفاعل للمنشورات المقاسة:** إعجابات ${metric('likes')}؛ تعليقات ${metric('comments')}؛ مشاركات ${metric('shares')}؛ مشاهدات ${metric('views')}`,
+      `• **أحدث المنشورات المرصودة:**\n${recentPosts.join('\n') || 'لا توجد منشورات محفوظة.'}`,
+    ].join('\n');
+  });
+
+  return [
+    '### ملخص من قواعد بيانات المنافسين',
+    `البيانات مجمّعة بتاريخ ${profileDatabase?.lastCollectedAt || socialDatabase?.generatedAt || 'غير محدد'}. هذه إجابة احتياطية من السجلات المحلية، لذا تقتصر على الوقائع المحفوظة ولا تفترض بيانات غير موجودة.`,
+    ...profileSummaries,
+    '### بيانات السوشال ميديا',
+    ...socialSummaries,
+  ].join('\n\n');
+}
+
 export async function askStoreAgent(params: {
   question: string;
   range?: string;
@@ -89,6 +238,9 @@ export async function askStoreAgent(params: {
   // ── Enriched product detail for queries about cheapest/priciest/stock/specs ─
   const productCatalogue = buildAdminProductCatalogue();
   const reviewsSummary = buildAdminReviewsSummary();
+  const competitorResearch = isCompetitorQuestion(params.question)
+    ? buildCompetitorResearchContext()
+    : '';
 
   const contextData = {
     store: 'Kömür Künefe — كنافة ع الفحم (رافدية، نابلس)',
@@ -107,7 +259,7 @@ export async function askStoreAgent(params: {
 
   if (!ai) {
     return {
-      answer: generateFallbackAnalysis(params.question, contextData),
+      answer: isCompetitorQuestion(params.question) ? buildCompetitorFallbackAnswer(params.question) : generateFallbackAnalysis(params.question, contextData),
       metricsUsed: contextData,
     };
   }
@@ -149,6 +301,11 @@ ${productCatalogue}
 ${reviewsSummary}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔎 بيانات المنافسين والمنصات الاجتماعية (تُستخدم إذا كان السؤال متعلقًا بها)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${competitorResearch || 'لم تُحمّل بيانات المنافسين لهذا السؤال.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎯 قواعد الإجابة الصارمة
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. **الشمولية إلزامية:** لا تُجب بجملة واحدة. كل إجابة يجب أن تحتوي على تحليل وأرقام وتوصية.
@@ -170,9 +327,11 @@ ${reviewsSummary}
 - لا تُجب إجابات مختصرة من كلمة أو جملة واحدة.
 - كل إجابة = تحليل + أرقام + توصية عملية.
 - إذا سُئلت عن منتج: قدّم كامل تفاصيله (السعر لكل حجم، الفئة، حالة التوفر، الإضافات، الوصف).
-- إذا سُئلت عن أداء: قدّم المقارنة، السبب، والاقتراح.`,
+- إذا سُئلت عن أداء: قدّم المقارنة، السبب، والاقتراح.
+- عند السؤال عن المنافسين أو السوشال ميديا، استخدم قواعد بيانات المنافسين المرفقة واذكر تاريخ الجمع ومصدر المعلومة.
+- ميّز بين الأرقام المرصودة والاستنتاجات؛ اعتبر null معلومة غير متوفرة، ولا تخلط صفحة غير مؤكدة الهوية بمنافس مؤكد.`, 
         temperature: 0.4,
-        maxOutputTokens: 1200,
+        maxOutputTokens: 2200,
       },
     });
 
@@ -184,7 +343,7 @@ ${reviewsSummary}
   } catch (error: any) {
     console.error('Gemini API call failed, falling back to local analytical engine:', error);
     return {
-      answer: generateFallbackAnalysis(params.question, contextData),
+      answer: isCompetitorQuestion(params.question) ? buildCompetitorFallbackAnswer(params.question) : generateFallbackAnalysis(params.question, contextData),
       metricsUsed: contextData,
     };
   }
@@ -491,19 +650,13 @@ ${reviewsBlock}
 🎯 قواعد الإجابة الصارمة — اقرئيها بعناية
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### قاعدة الإجابة الشاملة — الأهم على الإطلاق:
-**ممنوع الإجابة بجملة واحدة أو اسم فقط.**
-عندما يسأل الزبون عن أي صنف أو مقارنة أسعار أو اقتراح، أجيبي دائمًا بالتنسيق التالي:
-
-**🍽️ [اسم الصنف]**
-• **الفئة:** [نوع الصنف]
-• **السعر:** [كل الأحجام والأسعار بالتفصيل]
-• **الحالة:** ✅ متاح الآن / ❌ غير متاح
-• **المميزات:** [2-3 نقاط مميزة للصنف]
-• **الإضافات المتاحة:** [إن وجدت]
-• **خيار صحي:** [إن توفر القطر الصحي]
-• **💬 ماذا قال زبائننا:** [اذكري تقييمًا مناسبًا إن وجد]
-• **📲 للطلب:** تفضل/ي بزيارتنا في رافدية، أو تواصل معنا: 0562-606-061
+### أسلوب الإجابة:
+أجيبي مباشرة عن السؤال وبعربية فلسطينية دافئة، بإجابة موجزة ومكتملة تناسبه.
+- إذا سأل الزبون عن صنف، اذكري اسمه وأسعاره/أحجامه المتاحة وحالته والإضافات ذات الصلة.
+- إذا سأل عن مقارنة أو الأرخص/الأغلى، اذكري النتيجة والسعر الذي يحسم المقارنة.
+- لا تضيفي تقييمات أو ميزات أو دعوة للطلب إلا إذا كانت تفيد السؤال، ولا تكرري معلومات غير مطلوبة.
+- لا تختلقي حقائق؛ إذا غابت معلومة من بيانات المنيو فقولي ذلك بوضوح.
+- أكملي الإجابة بجمل وقوائم مكتملة، ولا تتركيها معلقة.
 
 ---
 
@@ -706,11 +859,47 @@ export async function askCustomerChatbot(userMessage: string): Promise<string> {
       config: {
         systemInstruction,
         temperature: 0.4,       // Lower = more factually precise prices & details
-        maxOutputTokens: 1600,   // Leave room for complete, useful customer answers
+        maxOutputTokens: 4096,
       },
     });
 
-    return response.text?.trim() || getSmartFallbackResponse(userMessage);
+    let answer = response.text?.trim() || '';
+    let latestResponse = response;
+    let continuationAttempts = 0;
+
+    while (
+      answer &&
+      latestResponse.candidates?.[0]?.finishReason === 'MAX_TOKENS' &&
+      continuationAttempts < 2
+    ) {
+      continuationAttempts += 1;
+      try {
+        const continuationResponse = await ai.models.generateContent({
+          model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+          contents: `سؤال الزبون: ${userMessage}\n\nالإجابة حتى الآن:\n${answer}\n\nأكملي من حيث توقفتِ فقط، دون إعادة أو تلخيص أي جزء سابق ودون تحية جديدة. أكملي الجمل والنقاط المفتوحة واختتمي الإجابة بشكل كامل.`,
+          config: {
+            systemInstruction,
+            temperature: 0.3,
+            maxOutputTokens: 2048,
+          },
+        });
+        const continuation = continuationResponse.text?.trim();
+        if (!continuation) break;
+
+        const separator = /[.!؟؛:…)]$/.test(answer) ? '\n' : ' ';
+        answer += `${separator}${continuation}`;
+        latestResponse = continuationResponse;
+      } catch (continuationError) {
+        console.error('[Chatbot] Could not continue a token-limited response:', continuationError);
+        break;
+      }
+    }
+
+    if (latestResponse.candidates?.[0]?.finishReason === 'MAX_TOKENS') {
+      console.warn('[Chatbot] Gemini response remained token-limited after continuation.');
+    }
+
+    return answer || getSmartFallbackResponse(userMessage);
   } catch (error) {
     console.error('Customer Chatbot (Jamra / جمرة) API Error:', error);
     // Trigger smart fallback — never return a raw error message to the customer
