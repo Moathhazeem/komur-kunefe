@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MessageSquarePlus, User, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Review } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 import { StarRating } from './StarRating';
 import {
   getReviewsByProductId,
@@ -22,6 +23,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
   onAddReview: externalOnAddReview,
   initiallyOpenForm = true, // Open by default for maximum visibility on full page
 }) => {
+  const { user } = useAuth();
   const [internalReviews, setInternalReviews] = useState<Review[]>([]);
   const [userName, setUserName] = useState('');
   const [rating, setRating] = useState<number>(0);
@@ -44,7 +46,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
     e.preventDefault();
     setError(null);
 
-    // Validation: Require rating and comment
+    // Validate rating, comment, and guest full name.
     if (rating === 0) {
       setError('يرجى تحديد تقييم بالنجوم من 1 إلى 5.');
       return;
@@ -55,11 +57,16 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
       return;
     }
 
+    if (!user && userName.trim().split(/\s+/).filter(Boolean).length < 2) {
+      setError('يرجى كتابة الاسم الكامل (الاسم الأول واسم العائلة).');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const reviewPayload = {
-        userName: userName.trim() || 'زبون مميز',
+        userName: user?.name.trim() || userName.trim(),
         rating,
         comment: comment.trim(),
       };
@@ -182,24 +189,27 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
             </div>
           </div>
 
-          {/* 2. User Name Input */}
-          <div className="space-y-1.5">
-            <label className="block text-xs sm:text-sm font-bold text-slate-700">
-              الاسم الكريم (اختياري):
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
-                <User className="w-4 h-4" />
+          {/* Guest name is required; signed-in users use their profile name. */}
+          {!user && (
+            <div className="space-y-1.5">
+              <label className="block text-xs sm:text-sm font-bold text-slate-700">
+                الاسم الكامل: <span className="text-amber-500">*</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-stone-400">
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  type="text"
+                  required
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="مثال: أحمد كنعان"
+                  className="w-full pr-10 pl-3 py-2.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition"
+                />
               </div>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="مثال: أبو خالد / زائر مميز"
-                className="w-full pr-10 pl-3 py-2.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition"
-              />
             </div>
-          </div>
+          )}
 
           {/* 3. Comment Textarea */}
           <div className="space-y-1.5">

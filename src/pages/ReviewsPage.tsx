@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Star, MessageSquarePlus, CheckCircle, ShieldCheck, Heart } from 'lucide-react';
 import { Review } from '../types';
 import { api } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 interface ReviewsPageProps {
   reviews: Review[];
@@ -9,6 +10,7 @@ interface ReviewsPageProps {
 }
 
 export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshReviews }) => {
+  const { user } = useAuth();
   const [customerName, setCustomerName] = useState('');
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
@@ -17,12 +19,16 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName.trim() || !comment.trim()) return;
+    if (!user && customerName.trim().split(/\s+/).filter(Boolean).length < 2) {
+      alert('يرجى كتابة الاسم الكامل (الاسم الأول واسم العائلة).');
+      return;
+    }
+    if (!comment.trim()) return;
 
     setIsSubmitting(true);
     try {
       const msg = await api.submitReview({
-        customerName: customerName.trim(),
+        customerName: user?.name.trim() || customerName.trim(),
         rating,
         comment: comment.trim(),
       });
@@ -105,21 +111,20 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
+            <div className={`grid grid-cols-1 ${user ? '' : 'sm:grid-cols-2'} gap-4`}>
+              {!user && <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  اسمك الكريم <span className="text-orange-500">*</span>
+                  الاسم الكامل <span className="text-orange-500">*</span>
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="مثال: رنا التميمي أو إبراهيم من نابلس"
+                  placeholder="مثال: رنا التميمي"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
-              </div>
-
+              </div>}
               <div className="sm:col-span-2">
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   رأيك وانطباعك عن الطعم والخدمة <span className="text-orange-500">*</span>

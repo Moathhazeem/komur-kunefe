@@ -4,6 +4,7 @@ import { CartItem, Order, StoreSettings } from '../types';
 import { api } from '../services/api';
 import { PaymentModal, PaymentResult } from '../components/PaymentModal';
 import { ReceiptPrintModal } from '../components/ReceiptPrintModal';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CheckoutPageProps {
   cart: CartItem[];
@@ -22,8 +23,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   onClearCart,
   onNavigate,
 }) => {
-  // Form fields
+  // Signed-in customers use their saved profile name; guests enter their full name.
+  const { user } = useAuth();
   const [customerName, setCustomerName] = useState('');
+  useEffect(() => {
+    if (user?.name) setCustomerName(user.name);
+  }, [user?.name]);
   const [customerPhone, setCustomerPhone] = useState('');
   const [pickupTime, setPickupTime] = useState('خلال 20-30 دقيقة');
   const [fulfillment, setFulfillment] = useState<'pickup' | 'delivery'>(() => localStorage.getItem('komur_fulfillment') === 'delivery' ? 'delivery' : 'pickup');
@@ -57,8 +62,8 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   const handleOpenPayment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName.trim() || !customerPhone.trim()) {
-      alert('يرجى كتابة الاسم ورقم الهاتف للمتابعة');
+    if ((!user && customerName.trim().split(/\s+/).filter(Boolean).length < 2) || !customerPhone.trim()) {
+      alert(!user && customerName.trim().split(/\s+/).filter(Boolean).length < 2 ? 'يرجى كتابة الاسم الكامل ورقم الهاتف للمتابعة' : 'يرجى كتابة رقم الهاتف للمتابعة');
       return;
     }
     setShowPaymentModal(true);
@@ -389,10 +394,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
               <span>بيانات الاستلام والتواصل</span>
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <div>
+            <div className={`grid grid-cols-1 ${user ? '' : 'sm:grid-cols-2'} gap-4 text-sm`}>
+              {!user && <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  الاسم الكريم <span className="text-orange-500">*</span>
+                  الاسم الكامل <span className="text-orange-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -402,8 +407,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   onChange={(e) => setCustomerName(e.target.value)}
                   className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
                 />
-              </div>
-
+              </div>}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   رقم الهاتف أو الواتساب <span className="text-orange-500">*</span>
