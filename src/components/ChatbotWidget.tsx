@@ -5,6 +5,7 @@ import React, {
   useCallback,
   KeyboardEvent,
 } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -23,12 +24,18 @@ interface Message {
 // No n8n, no webhooks — the AI agent runs fully server-side.
 const WEBHOOK_URL = '/api/chat';
 
-const WELCOME_MESSAGE: Message = {
-  id: 'welcome',
-  role: 'assistant',
-  text: 'أهلاً وسهلاً! 🔥 أنا جمرة، مساعدتك الذكية في كُومُر كُونافيه.\nكيف بقدر أساعدك؟ تقدر تسألني عن قائمتنا، الأسعار، أوقات العمل، أو تبحث عن الكنافة المناسبة لمناسبتك! 💛',
-  timestamp: new Date(),
-};
+function createWelcomeMessage(userName: string | null): Message {
+  const greeting = userName
+    ? `مرحباً ${userName}، أنا جمرة من كُومُر كُونافيه. كيف بقدر أساعدك؟`
+    : 'مرحباً ضيف المحل، أنا جمرة من كُومُر كُونافيه. كيف بقدر أساعدك؟ إذا عندك حساب سجّل دخولك، أو أنشئ حساباً جديداً من خيار الحساب في أعلى الصفحة لتستفيد من خدماتنا.';
+
+  return {
+    id: 'welcome',
+    role: 'assistant',
+    text: `${greeting}\nتقدر تسألني عن قائمتنا، الأسعار، أوقات العمل، أو أساعدك تختار الكنافة المناسبة لمناسبتك! 💛`,
+    timestamp: new Date(),
+  };
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -74,6 +81,7 @@ const MessageBubble: React.FC<{ msg: Message }> = ({ msg }) => {
 // ─── Main Widget ──────────────────────────────────────────────────────────────
 
 const ChatbotWidget: React.FC = () => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
@@ -84,13 +92,13 @@ const ChatbotWidget: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
-  // Show welcome message only on first open
+  // Show a personalized welcome message only on first open
   useEffect(() => {
     if (isOpen && !hasOpened) {
       setHasOpened(true);
-      setMessages([{ ...WELCOME_MESSAGE, timestamp: new Date() }]);
+      setMessages([createWelcomeMessage(user?.name?.trim() || null)]);
     }
-  }, [isOpen, hasOpened]);
+  }, [isOpen, hasOpened, user?.name]);
 
   // Scroll to bottom whenever messages change or typing indicator appears
   useEffect(() => {
@@ -195,10 +203,10 @@ const ChatbotWidget: React.FC = () => {
             <div className="chatbot-header__info">
               <div className="chatbot-header__avatar" aria-hidden="true">🔥</div>
               <div>
-                <p className="chatbot-header__title">Kunafa-ala-Fahm Assistant</p>
+                <p className="chatbot-header__title">جمرة | مساعد كُومُر</p>
                 <p className="chatbot-header__status">
                   <span className="chatbot-status-dot" aria-hidden="true" />
-                  Online
+                  متصل الآن
                 </p>
               </div>
             </div>
@@ -653,19 +661,21 @@ const CHATBOT_STYLES = `
   .chatbot-fab__icon svg { width: 24px; height: 24px; }
 
   /* ── Mobile adjustments ── */
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .chatbot-window {
       right: 12px;
       left: 12px;
       width: auto;
-      bottom: 90px;
-      height: calc(100dvh - 110px);
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      height: calc(100dvh - 96px - env(safe-area-inset-bottom, 0px));
       max-height: none;
       border-radius: 20px;
     }
     .chatbot-fab {
       right: 16px;
-      bottom: 22px;
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      width: 52px;
+      height: 52px;
     }
   }
 `;

@@ -48,7 +48,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
             onMouseEnter={() => interactive && setHoverRating(starValue)}
             className={`transition-all duration-150 ${
               interactive
-                ? 'cursor-pointer hover:scale-115 active:scale-95 p-0.5 rounded focus:outline-hidden focus:ring-2 focus:ring-amber-400'
+                ? 'cursor-pointer hover:scale-115 active:scale-95 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl focus:outline-hidden focus:ring-2 focus:ring-amber-400'
                 : 'cursor-default p-0'
             }`}
             aria-label={`${starValue} نجوم`}

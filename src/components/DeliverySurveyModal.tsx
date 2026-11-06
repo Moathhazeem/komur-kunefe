@@ -49,7 +49,8 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 text-slate-400 hover:text-slate-700 p-1 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95"
+          className="absolute top-3 left-3 text-slate-400 hover:text-slate-700 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95 cursor-pointer"
+          aria-label="إغلاق"
         >
           <X className="w-5 h-5" />
         </button>
@@ -93,7 +94,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
                   placeholder="مثال: رفيديا، المخفية، المعاجين، شارع فيصل، الجبل الشمالي..."
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
               </div>
 
@@ -106,7 +107,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
                   placeholder="059xxxxxxx أو 056xxxxxxx"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
               </div>
 
@@ -119,7 +120,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
                   placeholder="مثال: يا ريت تفتحوا توصيل مسائي، أو لسكنات الجامعة..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
+                  className="w-full min-h-[64px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
               </div>
             </div>
@@ -128,7 +129,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="flex-1 min-h-[48px] py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>{loading ? 'جارٍ الإرسال...' : 'سجل رغبتك بالتوصيل'}</span>
@@ -136,7 +137,7 @@ export const DeliverySurveyModal: React.FC<DeliverySurveyModalProps> = ({ isOpen
               <button
                 type="button"
                 onClick={onClose}
-                className="py-3 px-4 rounded-xl text-xs text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95"
+                className="min-h-[48px] px-5 py-3 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95 cursor-pointer"
               >
                 إلغاء
               </button>

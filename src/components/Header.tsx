@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Contact Button */}
           <a
             href={`tel:${settings?.phone || '+970562606061'}`}
-            className="hidden items-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] md:flex"
+            className="hidden min-h-[44px] items-center gap-2 rounded-full border border-white/10 px-3.5 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] md:flex"
           >
             <Phone className="h-3.5 w-3.5" />
             <span>اتصل بنا</span>
@@ -139,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenCart}
-            className="relative flex items-center gap-2 rounded-full bg-[#ea580c] px-3.5 py-2.5 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
+            className="relative flex min-h-[44px] items-center gap-2 rounded-full bg-[#ea580c] px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
             aria-label="عرض السلة"
           >
             <ShoppingBag className="h-4 w-4" />
@@ -162,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 onClick={() => navigate('account')}
                 title={user?.email}
-                className="flex items-center gap-2 rounded-full border border-[rgba(255,123,0,0.25)] bg-[#221d19] px-3.5 py-2 text-xs font-bold text-[#F7F0E5] hover:border-[#ff7b00] hover:text-[#ff7b00] transition-colors cursor-pointer"
+                className="flex min-h-[44px] items-center gap-2 rounded-full border border-[rgba(255,123,0,0.25)] bg-[#221d19] px-3.5 py-2 text-xs font-bold text-[#F7F0E5] hover:border-[#ff7b00] hover:text-[#ff7b00] transition-colors cursor-pointer"
               >
                 <User className="h-3.5 w-3.5 text-[#ff7b00]" />
                 <span className="max-w-[110px] truncate">{user?.name || 'حسابي'}</span>
@@ -183,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={handleLogout}
                 aria-label="تسجيل الخروج"
                 title="تسجيل الخروج"
-                className="rounded-full border border-white/10 p-2.5 text-[#9a8278] hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 transition-colors cursor-pointer"
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#9a8278] hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 transition-colors cursor-pointer"
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -192,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenAuth}
-              className="hidden items-center gap-2 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-3.5 py-2 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
+              className="hidden min-h-[44px] items-center gap-2 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-3.5 py-2 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>تسجيل الدخول</span>
@@ -203,7 +203,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            className="rounded-full border border-white/10 p-2.5 text-[#F7F0E5] hover:border-[#ff7b00]/50 lg:hidden cursor-pointer"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#F7F0E5] hover:border-[#ff7b00]/50 lg:hidden cursor-pointer"
             aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
@@ -220,7 +220,7 @@ export const Header: React.FC<HeaderProps> = ({
                 key={link.id}
                 type="button"
                 onClick={() => navigate(link.id)}
-                className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-right text-sm font-bold cursor-pointer ${
+                className={`flex min-h-[44px] w-full items-center justify-between rounded-2xl px-4 py-3 text-right text-sm font-bold cursor-pointer ${
                   isActive(link.id) ? 'bg-[#ff7b00]/15 text-[#ff7b00]' : 'text-[#D5C7B9] hover:bg-white/5'
                 }`}
               >
@@ -234,7 +234,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => navigate('admin')}
-                className={`flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-right text-sm font-black cursor-pointer shadow-md ${
+                className={`flex min-h-[44px] w-full items-center justify-between rounded-2xl px-4 py-3.5 text-right text-sm font-black cursor-pointer shadow-md ${
                   isActive('admin')
                     ? 'bg-[#ff7b00] text-white shadow-[#ff7b00]/30'
                     : 'bg-[#ff7b00]/20 border border-[#ff7b00] text-[#ff7b00]'
@@ -252,7 +252,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="mt-4 space-y-2 pt-2 border-t border-white/10">
             {isAuthenticated ? (
               <>
-                <button type="button" onClick={() => navigate('account')} className="flex w-full items-center justify-between rounded-2xl border border-[rgba(255,123,0,0.2)] bg-[#221d19] px-4 py-3 text-right transition hover:border-[#ff7b00]/50">
+                <button type="button" onClick={() => navigate('account')} className="flex min-h-[44px] w-full items-center justify-between rounded-2xl border border-[rgba(255,123,0,0.2)] bg-[#221d19] px-4 py-3 text-right transition hover:border-[#ff7b00]/50">
                   <div className="flex items-center gap-2">
                     <User className="h-4 w-4 text-[#ff7b00]" />
                     <span className="text-sm font-bold text-[#F7F0E5]">{user?.name}</span>
@@ -265,7 +265,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-500/25 bg-red-500/5 px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 cursor-pointer"
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl border border-red-500/25 bg-red-500/5 px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 cursor-pointer"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>تسجيل الخروج</span>
@@ -278,7 +278,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenAuth?.();
                   setMobileMenuOpen(false);
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-[#ff7b00] bg-[#ff7b00] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#ff7b00]/20 hover:bg-[#ea580c] cursor-pointer"
+                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl border border-[#ff7b00] bg-[#ff7b00] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#ff7b00]/20 hover:bg-[#ea580c] cursor-pointer"
               >
                 <LogIn className="h-4 w-4" />
                 <span>تسجيل الدخول / إنشاء حساب</span>
@@ -289,7 +289,7 @@ export const Header: React.FC<HeaderProps> = ({
               href={`https://wa.me/${settings?.whatsapp || '970562606061'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-[#1C8C5E]/15 border border-[#1C8C5E]/30 px-4 py-3 text-sm font-bold text-[#77D6A6] mt-2"
+              className="flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-[#1C8C5E]/15 border border-[#1C8C5E]/30 px-4 py-3 text-sm font-bold text-[#77D6A6] mt-2"
             >
               <Phone className="h-4 w-4" />
               <span>مراسلة واتساب المباشرة</span>

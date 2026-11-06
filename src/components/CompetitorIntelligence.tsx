@@ -469,7 +469,7 @@ export const CompetitorIntelligence: React.FC = () => {
                   data-tab={tab.id}
                   data-active={active}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer ${
+                  className={`shrink-0 flex min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer active:scale-95 ${
                     active
                       ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
                       : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
@@ -749,7 +749,7 @@ export const CompetitorIntelligence: React.FC = () => {
                   <button
                     key={m.id}
                     onClick={() => setSocialMetric(m.id as any)}
-                    className={`group flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${
+                    className={`group flex shrink-0 min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer active:scale-95 ${
                       active
                         ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
                         : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'

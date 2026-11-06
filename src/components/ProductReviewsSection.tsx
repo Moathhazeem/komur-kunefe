@@ -128,7 +128,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-bold rounded-xl bg-stone-900 hover:bg-stone-800 text-white transition-all shadow-sm active:scale-95 cursor-pointer"
+          className="inline-flex min-h-[44px] items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-bold rounded-xl bg-stone-900 hover:bg-stone-800 text-white transition-all shadow-sm active:scale-95 cursor-pointer"
         >
           <MessageSquarePlus className="w-4 h-4 text-amber-400" />
           <span>{showForm ? 'إخفاء نموذج التقييم' : 'أضف تقييمك الآن'}</span>
@@ -205,7 +205,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   placeholder="مثال: أحمد كنعان"
-                  className="w-full pr-10 pl-3 py-2.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition"
+                  className="w-full min-h-[44px] pr-10 pl-3 py-2.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition"
                 />
               </div>
             </div>
@@ -221,7 +221,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               onChange={(e) => setComment(e.target.value)}
               rows={3}
               placeholder="اكتب تفاصيل تجربتك، القرمشة، طعم الفحم، والسمن البلدي..."
-              className="w-full p-3.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition resize-none"
+              className="w-full min-h-[80px] p-3.5 text-xs sm:text-sm bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-[#DD6B20]/30 focus:border-[#DD6B20] outline-hidden transition resize-none"
             />
           </div>
 
@@ -230,14 +230,14 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-4 py-2.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-stone-200/60 transition cursor-pointer"
+              className="min-h-[44px] px-4 py-2.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-stone-200/60 transition cursor-pointer"
             >
               إلغاء
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 text-xs sm:text-sm font-bold bg-[#DD6B20] hover:bg-[#C2410C] text-white rounded-xl shadow-md transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+              className="inline-flex min-h-[44px] items-center gap-2 px-6 py-2.5 text-xs sm:text-sm font-bold bg-[#DD6B20] hover:bg-[#C2410C] text-white rounded-xl shadow-md transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
               <span>إرسال ونشر التقييم</span>

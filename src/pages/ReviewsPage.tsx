@@ -88,18 +88,18 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
               <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 التقييم بالنجوم:
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
                     type="button"
                     onClick={() => setRating(star)}
-                    className="p-1 focus:outline-none transition-transform hover:scale-125"
+                    className="p-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none transition-transform hover:scale-125 active:scale-95 cursor-pointer"
                   >
                     <Star
                       className={`w-7 h-7 ${
                         star <= rating
-                          ? 'text-amber-400'
+                          ? 'text-amber-400 fill-amber-400'
                           : 'text-slate-200'
                       }`}
                     />
@@ -122,7 +122,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
                   placeholder="مثال: رنا التميمي"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
               </div>}
               <div className="sm:col-span-2">
@@ -135,7 +135,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
                   placeholder="كيف كانت قرمشة الكنافة ع الفحم ومطة الجبنة؟ وسرعة استلام الطلب في رافدية؟"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
+                  className="w-full min-h-[80px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all text-sm"
                 />
               </div>
             </div>
@@ -149,7 +149,7 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, onRefreshRevi
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
+                className="w-full sm:w-auto px-8 py-3.5 min-h-[48px] rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all active:scale-95"
               >
                 {isSubmitting ? 'جارٍ الإرسال...' : 'إرسال التقييم'}
               </button>

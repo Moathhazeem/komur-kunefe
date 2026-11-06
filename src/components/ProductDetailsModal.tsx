@@ -152,7 +152,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     >
       {/* Spacious Fuller Viewport Modal Container */}
       <div
-        className="relative w-full max-w-5xl lg:max-w-6xl my-auto h-[94vh] sm:h-[90vh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-modal-enter"
+        className="relative w-full max-w-5xl lg:max-w-6xl my-auto max-h-[94dvh] md:h-[86vh] lg:h-[84vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col md:flex-row text-right animate-modal-enter"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Floating Controls at Top (Available on mobile & desktop) */}
@@ -161,7 +161,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           <button
             type="button"
             onClick={handleShare}
-            className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-[#DD6B20] backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center transition-all cursor-pointer"
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-[#DD6B20] backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
             title="مشاركة الصنف"
             aria-label="مشاركة الصنف"
           >
@@ -172,7 +172,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-slate-900 backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center transition-all cursor-pointer"
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-slate-900 backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
             title="إغلاق النافذة"
             aria-label="إغلاق"
           >
@@ -189,7 +189,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         )}
 
         {/* 1. Hero Media Column (Right in RTL desktop, Top on mobile) */}
-        <div className="relative w-full md:w-5/12 lg:w-1/2 h-64 sm:h-72 md:h-full bg-stone-900 shrink-0 overflow-hidden flex flex-col justify-between">
+        <div className="relative w-full md:w-5/12 lg:w-1/2 h-44 sm:h-60 md:h-full bg-stone-900 shrink-0 overflow-hidden flex flex-col justify-between">
           {/* Main Product Image */}
           {product.image && !imageError ? (
             <img
@@ -409,7 +409,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   type="button"
                   onClick={() => handleQuantityChange(-1)}
                   disabled={quantity <= 1}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/10 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-600 transition-colors cursor-pointer"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/10 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-600 transition-colors active:scale-95 cursor-pointer"
                   aria-label="إنقاص الكمية"
                 >
                   <Minus className="w-4 h-4 stroke-[2.5]" />
@@ -422,7 +422,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 <button
                   type="button"
                   onClick={() => handleQuantityChange(1)}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/10 transition-colors cursor-pointer"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center text-slate-600 hover:text-[#DD6B20] hover:bg-[#DD6B20]/10 transition-colors active:scale-95 cursor-pointer"
                   aria-label="زيادة الكمية"
                 >
                   <Plus className="w-4 h-4 stroke-[2.5]" />
@@ -440,7 +440,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           </div>
 
           {/* Sticky Bottom Footer: Dynamic Price & Prominent CTA */}
-          <div className="p-4 sm:p-5 md:p-6 bg-white border-t border-stone-200 shadow-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 shrink-0">
+          <div className="p-4 sm:p-5 md:p-6 bg-white border-t border-stone-200 shadow-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 shrink-0 safe-area-pb">
             {/* Dynamic Total Price */}
             <div className="flex items-center sm:flex-col items-start justify-between sm:justify-center">
               <span className="text-xs text-slate-400 font-medium">المجموع الإجمالي</span>
@@ -457,7 +457,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
               type="button"
               onClick={handleAdd}
               disabled={!product.isAvailable || justAdded}
-              className={`flex-1 sm:max-w-sm flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-black text-sm sm:text-base transition-all duration-200 shadow-md cursor-pointer hover:scale-[1.02] active:scale-95 ${
+              className={`flex-1 sm:max-w-sm flex items-center justify-center gap-2.5 px-6 py-4 min-h-[48px] rounded-2xl font-black text-sm sm:text-base transition-all duration-200 shadow-md cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 !product.isAvailable
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed hover:scale-100 shadow-none'
                   : justAdded

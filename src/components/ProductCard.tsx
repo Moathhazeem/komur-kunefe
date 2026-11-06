@@ -60,27 +60,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
           </div>
         )}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
-          <button type="button" onClick={(event) => { event.stopPropagation(); setShareOpen((open) => !open); }} aria-label="مشاركة الصنف" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#17120F]/70 text-white backdrop-blur-sm hover:bg-[#C7652D]"><Share2 className="h-4 w-4" /></button>
+          <button type="button" onClick={(event) => { event.stopPropagation(); setShareOpen((open) => !open); }} aria-label="مشاركة الصنف" className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#17120F]/70 text-white backdrop-blur-sm hover:bg-[#C7652D] active:scale-95 transition-all"><Share2 className="h-4 w-4" /></button>
           <div className="flex flex-col items-end gap-1.5">
             {product.featured && <span className="flex items-center gap-1 rounded-full bg-[#DAB775] px-2.5 py-1 text-[10px] font-black text-[#35241A]"><Sparkles className="h-3 w-3" /> اختيارنا</span>}
             {!product.isAvailable && <span className="rounded-full bg-[#17120F]/80 px-2.5 py-1 text-[10px] font-bold text-white">غير متوفر الآن</span>}
           </div>
         </div>
         {product.isInitialPrice && <span className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold text-[#C7652D] backdrop-blur-sm"><Tag className="h-3 w-3" /> سعر تقديري</span>}
-        {shareOpen && <div onClick={(event) => event.stopPropagation()} className="absolute left-3 top-14 z-10 flex w-36 flex-col gap-1 rounded-2xl border border-white/20 bg-[#17120F]/95 p-2 text-xs font-bold text-white shadow-xl"><button type="button" onClick={() => share('whatsapp')} className="rounded-xl px-3 py-2 text-right hover:bg-white/10">واتساب</button><button type="button" onClick={() => share('copy')} className="rounded-xl px-3 py-2 text-right hover:bg-white/10">نسخ الرابط</button></div>}
+        {shareOpen && <div onClick={(event) => event.stopPropagation()} className="absolute left-3 top-14 z-10 flex w-36 flex-col gap-1 rounded-2xl border border-white/20 bg-[#17120F]/95 p-1.5 text-xs font-bold text-white shadow-xl"><button type="button" onClick={() => share('whatsapp')} className="flex min-h-[44px] items-center rounded-xl px-3 py-2 text-right hover:bg-white/10">واتساب</button><button type="button" onClick={() => share('copy')} className="flex min-h-[44px] items-center rounded-xl px-3 py-2 text-right hover:bg-white/10">نسخ الرابط</button></div>}
       </div>
 
       <div className="space-y-4 p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-black leading-tight text-[#211814]">{product.name}</h3>
-            <p className="mt-2 text-xs font-semibold leading-relaxed text-[#75675C]">{subtitle}</p>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-base sm:text-lg font-black leading-tight text-[#211814] line-clamp-2">{product.name}</h3>
+            <p className="mt-1.5 text-xs font-semibold leading-relaxed text-[#75675C] line-clamp-2">{subtitle}</p>
           </div>
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#F7F0E5] px-2 py-1 text-[10px] font-bold text-[#75675C]" aria-label={`التقييم ${formattedRating} من 5 من ${rating.totalReviews} تقييم`}><Star className="h-3 w-3 text-[#DAB775]" /> {formattedRating}<span className="text-[9px] text-[#9B8C80]">({rating.totalReviews})</span></span>
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#F7F0E5] px-2.5 py-1 text-[10px] font-bold text-[#75675C]" aria-label={`التقييم ${formattedRating} من 5 من ${rating.totalReviews} تقييم`}><Star className="h-3 w-3 text-[#DAB775]" /> {formattedRating}<span className="text-[9px] text-[#9B8C80]">({rating.totalReviews})</span></span>
         </div>
         <div className="flex items-end justify-between gap-3 border-t border-[#35241A]/10 pt-4">
-          <div><span className="block text-[10px] font-medium text-[#75675C]">يبدأ من</span><span className="text-2xl font-black text-[#C7652D]">{minPrice}<small className="mr-1 text-xs text-[#75675C]">₪</small></span></div>
-          <button type="button" onClick={(event) => { event.stopPropagation(); onOpenDetails(product); }} disabled={!product.isAvailable} className="flex items-center gap-2 rounded-full bg-[#17120F] px-4 py-2.5 text-xs font-black text-white hover:bg-[#C7652D] disabled:cursor-not-allowed disabled:bg-[#D9D0C7]"><ShoppingBag className="h-4 w-4" /> {product.isAvailable ? 'اختيار الحجم' : 'غير متوفر'}</button>
+          <div><span className="block text-[10px] font-medium text-[#75675C]">يبدأ من</span><span className="text-xl sm:text-2xl font-black text-[#C7652D]">{minPrice}<small className="mr-1 text-xs text-[#75675C]">₪</small></span></div>
+          <button type="button" onClick={(event) => { event.stopPropagation(); onOpenDetails(product); }} disabled={!product.isAvailable} className="flex min-h-[44px] items-center gap-2 rounded-full bg-[#17120F] px-4 py-2.5 text-xs font-black text-white hover:bg-[#C7652D] active:scale-95 transition-all disabled:cursor-not-allowed disabled:bg-[#D9D0C7]"><ShoppingBag className="h-4 w-4" /> {product.isAvailable ? 'اختيار الحجم' : 'غير متوفر'}</button>
         </div>
       </div>
     </article>

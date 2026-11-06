@@ -492,7 +492,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         <div className="flex items-center gap-2 w-full md:w-auto justify-end">
           <button
             onClick={() => loadAllAdminData()}
-            className="p-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition-colors"
+            className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95"
             title="تحديث البيانات"
           >
             <RefreshCw className="w-4 h-4" />
@@ -501,14 +501,14 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
           <button
             onClick={onNavigateHome}
-            className="px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-colors"
+            className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-colors cursor-pointer active:scale-95"
           >
             الموقع كزبون
           </button>
 
           <button
             onClick={handleLogout}
-            className="p-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1 transition-colors"
+            className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer active:scale-95"
             title="تسجيل الخروج"
           >
             <LogOut className="w-4 h-4" />
@@ -546,7 +546,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                 data-tab={tab.id}
                 data-active={active}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`group shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${active
+                className={`group shrink-0 flex min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer active:scale-95 ${active
                   ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
                   : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
                   }`}
@@ -638,7 +638,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                       <select
                         value={order.status}
                         onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value as any)}
-                        className={`text-xs font-black px-3 py-1.5 rounded-xl border focus:outline-none transition-colors ${order.status === 'new'
+                        className={`text-xs font-black min-h-[44px] px-3 py-2 rounded-xl border focus:outline-none transition-colors ${order.status === 'new'
                           ? 'bg-orange-50 text-orange-600 border-orange-200'
                           : order.status === 'preparing'
                             ? 'bg-amber-50 text-amber-600 border-amber-200'
@@ -658,7 +658,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
                       <button
                         onClick={() => setSelectedOrderForPrint(order)}
-                        className="p-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200 transition-colors"
+                        className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200 active:scale-95 transition-all"
                         title="طباعة الفاتورة"
                       >
                         <Printer className="w-4 h-4" />
@@ -718,7 +718,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-white font-heading">
+              <h2 className="text-xl font-bold text-slate-900 font-heading">
                 إدارة الأصناف والأسعار (شيكل ₪)
               </h2>
               <p className="text-xs text-slate-400">
@@ -840,7 +840,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-white font-heading">
+              <h2 className="text-xl font-bold text-slate-900 font-heading">
                 إدارة العروض والمناسبات (العيد ورمضان)
               </h2>
               <p className="text-xs text-slate-400">
@@ -936,7 +936,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl font-bold text-white font-heading">
+              <h2 className="text-xl font-bold text-slate-900 font-heading">
                 إدارة ومراجعة آراء الزبائن
               </h2>
               <p className="text-xs text-slate-400">

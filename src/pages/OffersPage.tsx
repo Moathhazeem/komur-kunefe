@@ -93,7 +93,7 @@ export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) =>
 
                 <button
                   onClick={() => onNavigate('menu')}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-transform hover:scale-105"
+                  className="px-6 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md flex items-center justify-center gap-1.5 transition-transform hover:scale-105 active:scale-95"
                 >
                   <span>اطلب العرض الآن</span>
                   <ArrowLeft className="w-3.5 h-3.5" />
@@ -123,7 +123,7 @@ export const OffersPage: React.FC<OffersPageProps> = ({ offers, onNavigate }) =>
           href="https://wa.me/970562606061?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%AD%D8%AC%D8%B2%20%D9%84%D8%B3%D8%AF%D9%88%D8%B1%20%D9%85%D9%86%D8%A7%D8%B3%D8%A8%D8%A7%D8%AA%20%D8%B9%20%D8%A7%D9%84%D9%81%D8%AD%D9%85"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-6 py-3.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 font-bold text-xs shrink-0 transition-colors text-center"
+          className="px-6 py-3.5 min-h-[44px] rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 font-bold text-xs shrink-0 transition-colors text-center flex items-center justify-center active:scale-95"
         >
           تواصل لحجز سدر المناسبات عبر واتساب
         </a>

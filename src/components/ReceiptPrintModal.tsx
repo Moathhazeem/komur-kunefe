@@ -31,14 +31,15 @@ export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
         <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
+            className="text-slate-400 hover:text-slate-700 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95 cursor-pointer"
+            aria-label="إغلاق النافذة"
           >
             <X className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all"
+              className="flex min-h-[44px] items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all active:scale-95 cursor-pointer"
             >
               <Printer className="w-4 h-4" />
               <span>طباعة الفاتورة</span>

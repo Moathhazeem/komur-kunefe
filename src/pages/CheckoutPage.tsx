@@ -346,12 +346,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     {/* Quantity controls */}
-                    <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
+                    <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl p-1">
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity - 1)}
-                        className="p-1 hover:text-slate-900 text-slate-500"
+                        className="min-w-[36px] min-h-[36px] p-2 flex items-center justify-center hover:text-slate-900 text-slate-500 active:scale-95 transition-all"
                         aria-label="إنقاص"
                       >
                         <Minus className="w-3.5 h-3.5" />
@@ -361,7 +361,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                       </span>
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity + 1)}
-                        className="p-1 hover:text-slate-900 text-slate-500"
+                        className="min-w-[36px] min-h-[36px] p-2 flex items-center justify-center hover:text-slate-900 text-slate-500 active:scale-95 transition-all"
                         aria-label="زيادة"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -376,8 +376,9 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
                     <button
                       onClick={() => onRemoveItem(idx)}
-                      className="text-slate-300 hover:text-red-500 p-1 transition-colors"
+                      className="min-w-[44px] min-h-[44px] p-2 flex items-center justify-center rounded-xl text-slate-300 hover:text-red-500 hover:bg-red-50 active:scale-95 transition-colors"
                       title="حذف"
+                      aria-label="حذف الصنف"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -405,7 +406,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   placeholder="مثال: أحمد كنعان"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
                 />
               </div>}
               <div>
@@ -418,7 +419,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   placeholder="059xxxxxxx أو 056xxxxxxx"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all dir-ltr text-right"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all dir-ltr text-right"
                 />
               </div>
             </div>
@@ -431,7 +432,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                 <select
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none transition-all"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none transition-all"
                 >
                   <option value="خلال 20-30 دقيقة">خلال 20-30 دقيقة (أسرع وقت)</option>
                   <option value="خلال 45 دقيقة">خلال 45 دقيقة</option>
@@ -449,14 +450,14 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   placeholder="مثال: قطر خفيف، زيادة فستق، تقطيع مربعات..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
+                  className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none transition-all"
                 />
               </div>
             </div>
 
             {fulfillment === 'delivery' && <div>
               <label htmlFor="delivery-address" className="mb-1 block text-xs font-bold text-slate-700">عنوان التوصيل <span className="text-orange-500">*</span></label>
-              <textarea id="delivery-address" required value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="المدينة، الحي، الشارع، وأقرب معلم" className="w-full resize-y rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100" rows={2} />
+              <textarea id="delivery-address" required value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="المدينة، الحي، الشارع، وأقرب معلم" className="w-full min-h-[64px] resize-y rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100" rows={2} />
             </div>}
             {/* Pickup Policy Notice */}
             <div className="bg-orange-50 border border-orange-200 rounded-xl p-3 flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
@@ -483,7 +484,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             <div className="space-y-2.5 text-sm">
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>مجموع الأصناف ({cart.reduce((s, i) => s + i.quantity, 0)})</span>
-                <span className="font-bold text-slate-900">{subtotal} ₪</span>
+                <span className="font-bold text-[#F7F0E5]">{subtotal} ₪</span>
               </div>
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>رسوم التجهيز والتغليف الفاخر</span>
@@ -516,7 +517,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
               <div className="text-center text-[11px] text-slate-400 space-y-1">
                 <p>لا نطلب بيانات بطاقة في النسخة التجريبية</p>
-                <p>{placedOrder?.deliveryFee ? 'رسوم التوصيل تُحسب مرة واحدة للطلب' : 'الدفع عند الاستلام من فرع رافدية'}</p>
+                <p>{fulfillment === 'delivery' ? 'رسوم التوصيل تُحسب مرة واحدة للطلب' : 'الدفع عند الاستلام من فرع رافدية'}</p>
               </div>
             </div>
 

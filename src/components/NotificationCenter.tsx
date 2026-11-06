@@ -304,7 +304,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
         aria-label={unreadCount ? `الإشعارات، ${unreadCount} غير مقروءة` : 'الإشعارات'}
         aria-expanded={open}
         aria-controls="notification-panel"
-        className="relative flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(255,123,0,0.2)] bg-[#221d19] text-[#F7F0E5] transition hover:border-[#ff7b00]/60 hover:bg-[#26201b] hover:text-[#ff7b00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] cursor-pointer"
+        className="relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-[rgba(255,123,0,0.2)] bg-[#221d19] text-[#F7F0E5] transition hover:border-[#ff7b00]/60 hover:bg-[#26201b] hover:text-[#ff7b00] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7b00] cursor-pointer"
       >
         <Bell className="h-[18px] w-[18px]" aria-hidden="true" />
         {unreadCount > 0 && (

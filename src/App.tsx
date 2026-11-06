@@ -44,6 +44,7 @@ function AppInner() {
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('komur_cart');
+      if (!saved) return [];
       const parsed = JSON.parse(saved);
       return Array.isArray(parsed) ? parsed.map((item: CartItem) => {
         const name = String(item.variant?.name || '');
@@ -255,7 +256,7 @@ function AppInner() {
       {/* Main Content Pages with smooth fade & slide-up */}
       <main
         key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab}
-        className="flex-1 animate-soft-slide-up"
+        className="flex-1 animate-soft-slide-up pb-20 md:pb-0"
       >
         {currentTab === 'home' && (
           <HomePage

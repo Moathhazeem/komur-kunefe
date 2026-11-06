@@ -92,13 +92,13 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
             placeholder="اكتب رقم الطلب هنا (مثل KM-8012)"
             value={orderQuery}
             onChange={(e) => setOrderQuery(e.target.value)}
-            className="w-full bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl pr-11 pl-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none transition-all"
+            className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl pr-11 pl-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none transition-all"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all"
+          className="w-full sm:w-auto px-8 py-3.5 min-h-[48px] rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm shadow-md transition-all active:scale-95"
         >
           {loading ? 'جارٍ البحث...' : 'تتبع الطلب'}
         </button>
@@ -118,7 +118,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
             href="https://wa.me/970562606061"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-bold text-emerald-600 pt-2 hover:underline"
+            className="inline-flex min-h-[44px] items-center gap-2 text-xs font-bold text-emerald-600 pt-2 hover:underline"
           >
             <MessageCircle className="w-4 h-4" />
             <span>الاستفسار عبر واتساب رافدية</span>
@@ -215,7 +215,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
             href={`https://wa.me/970562606061?text=${encodeURIComponent(`مرحباً كُومُر كُونافيه، أستفسر عن طلبي رقم ${order.orderNumber}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+            className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors active:scale-95"
           >
             <MessageCircle className="w-4 h-4" />
             <span>تواصل مباشرة عبر واتساب بخصوص هذا الطلب</span>
