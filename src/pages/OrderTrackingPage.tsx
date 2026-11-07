@@ -9,6 +9,7 @@ interface OrderTrackingPageProps {
 }
 
 export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }) => {
+  const isAdmin = !!api.getAdminToken();
   const [orderQuery, setOrderQuery] = useState('');
   const [order, setOrder] = useState<Order | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -105,11 +106,12 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
           تتبع حالة طلبك
         </h1>
         <p className="text-sm text-slate-500">
-          أدخل رقم الطلب (مثال: KM-8042) لمعرفة مرحلة تحضير الكنافة على الفحم
+          {isAdmin ? 'ابحث برقم الطلب لعرض حالته وإدارته.' : 'افتح إشعار طلبك من جرس الإشعارات لمتابعة حالته.'}
         </p>
       </div>
 
-      {/* Search Input Box */}
+      {/* Customers open tracking from their private order notification; admins may search all orders. */}
+      {isAdmin ? (
       <form onSubmit={handleSearch} className="bg-white border border-orange-100 rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center gap-3">
         <div className="relative flex-1 w-full">
           <Search className="w-5 h-5 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2" />
@@ -130,6 +132,11 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
           {loading ? 'جارٍ البحث...' : 'تتبع الطلب'}
         </button>
       </form>
+      ) : !orderQuery ? (
+        <div className="bg-white border border-orange-100 rounded-2xl p-6 text-center text-sm text-slate-600 shadow-xs">
+          لمتابعة طلبك، افتح إشعار الطلب الخاص بك من جرس الإشعارات.
+        </div>
+      ) : null}
 
       {/* Result View */}
       {hasSearched && !order && !loading && (

@@ -2872,6 +2872,19 @@
   ],
   "offers": [
     {
+      "id": "coupon-komur10",
+      "title": "كوبون ترحيبي Kömür 10",
+      "description": "خصم 10% على طلبك باستخدام الكود KOMUR10.",
+      "discountPercent": 10,
+      "badge": "كوبون خصم",
+      "startDate": "2026-01-01",
+      "endDate": "2027-12-31",
+      "isActive": true,
+      "includedProductNames": [],
+      "type": "coupon",
+      "couponCode": "KOMUR10"
+    },
+    {
       "id": "off-1",
       "title": "عرض لمة العيلة (سدر كنافة نابلسية ع الفحم)",
       "description": "اطلب سدر كنافة نابلسية ناعمة ع الفحم (وسط أو كبير أو أكثر) واستمتع بأفضل كنافة نابلسية على جمر الفحم الطبيعي لعيلتك.",

@@ -95,7 +95,7 @@ export const AccountSettingsPage: React.FC<AccountSettingsPageProps> = ({
    */
   useEffect(() => {
     let cancelled = false;
-    api.getOrders().then((loadedOrders) => {
+    api.getMyOrders().then((loadedOrders) => {
       if (cancelled) return;
       setAllOrders(loadedOrders);
       if (isAdmin) {

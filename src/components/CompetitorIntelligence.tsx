@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import socialDataset from '../competitor-social-summary.json';
 import {
   TrendingUp, TrendingDown, Minus, Star, MapPin,
   ThumbsUp, MessageCircle, Share2, Eye, Zap, Award, AlertTriangle,
@@ -323,29 +324,73 @@ const COMPETITORS: CompetitorProfile[] = [
   }
 ];
 
-// Combine all 4 for comprehensive Facebook comparison
-const ALL_COMPETITORS_FOR_SOCIAL = [
-  {
-    id: BASELINE_BRAND.id,
-    nameAr: BASELINE_BRAND.nameAr,
-    nameEn: BASELINE_BRAND.nameEn,
-    isBaseline: true,
-    social: BASELINE_BRAND.social
+// Combine the existing Facebook comparison with imported Instagram and TikTok metrics
+const ALL_COMPETITORS_FOR_SOCIAL = socialDataset.map(account => ({
+  id: account.id,
+  nameAr: account.name,
+  nameEn: account.pageName,
+  platform: account.platform,
+  isBaseline: account.competitorId === 'komur-kunefe',
+  available: account.available,
+  sampleAccountsCount: account.sampleAccountsCount,
+  engagementRate: account.engagementRateAvailable ? account.engagementRate : null,
+  viewsMeasuredPosts: account.viewsMeasuredPosts,
+  social: {
+    avgLikes: account.engagement.likes.average,
+    totalLikes: account.engagement.likes.total,
+    avgComments: account.engagement.comments.average,
+    totalComments: account.engagement.comments.total,
+    avgShares: account.engagement.shares.average,
+    totalShares: account.engagement.shares.total,
+    avgViews: account.engagement.views.average,
+    totalViews: account.engagement.views.total,
+    postCount: account.postCount,
+    contentStrategy: account.available
+      ? `${account.platform} · ${account.engagementRateAvailable ? account.engagementRate + '%' : 'معدل المشاهدات غير متاح'}`
+      : 'لا تتوفر بيانات لهذه المنصة ضمن ملفات المصدر.',
+    topHashtags: [],
   },
-  ...COMPETITORS.map(c => ({
-    id: c.id,
-    nameAr: c.nameAr,
-    nameEn: c.nameEn,
-    isBaseline: false,
-    social: c.social
-  }))
-];
+}));
 
 export const CompetitorIntelligence: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'pricing' | 'offers' | 'social' | 'swot' | 'edge'>('overview');
   const [selectedSwotId, setSelectedSwotId] = useState<string>('osmali-sweets');
   const [socialMetric, setSocialMetric] = useState<'likes' | 'comments' | 'shares' | 'views'>('likes');
+  const [socialPlatform, setSocialPlatform] = useState<'All' | 'Facebook' | 'Instagram' | 'TikTok'>('Facebook');
   const [expandedEdgeId, setExpandedEdgeId] = useState<string | null>('osmali-sweets');
+  const activeSocialEntities = ALL_COMPETITORS_FOR_SOCIAL.filter(entity => socialPlatform === 'All' || entity.platform === socialPlatform);
+  const orderedSocialCompetitorIds = ['komur-kunefe', 'abu-salha-rafidia', 'osmali-sweets', 'al-saraya-sweets'];
+  const competitorSocialAggregates = orderedSocialCompetitorIds.map(competitorId => {
+    const accounts = ALL_COMPETITORS_FOR_SOCIAL.filter(entity => entity.competitorId === competitorId);
+    const baseAccount = accounts[0];
+    const competitorName = accounts.find(entity => entity.platform === 'Facebook')?.nameAr || baseAccount?.nameAr || ({ 'komur-kunefe': 'كومور كنافة', 'abu-salha-rafidia': 'حلويات أبو صالحة', 'osmali-sweets': 'حلويات عصملي', 'al-saraya-sweets': 'حلويات السرايا' }[competitorId] || competitorId);
+    const total = (key: 'totalLikes' | 'totalComments' | 'totalShares' | 'totalViews' | 'postCount') => accounts.reduce((sum, entity) => sum + entity.social[key], 0);
+    const measured = (key: 'likes' | 'comments' | 'shares' | 'views') => accounts.reduce((sum, entity) => sum + (entity.engagement?.[key]?.measuredPosts || 0), 0);
+    const totalViews = total('totalViews');
+    const interactions = accounts.reduce((sum, entity) => sum + (typeof entity.engagementRate === 'number' ? (entity.engagementRate * entity.social.totalViews / 100) : 0), 0);
+    return {
+      ...baseAccount, id: competitorId, competitorId, nameAr: competitorName, nameEn: competitorName, isBaseline: competitorId === 'komur-kunefe', platform: 'All', available: accounts.some(entity => entity.available),
+      viewsMeasuredPosts: accounts.reduce((sum, entity) => sum + entity.viewsMeasuredPosts, 0),
+      engagementRate: totalViews > 0 ? interactions / totalViews * 100 : null,
+      social: {
+        ...(baseAccount?.social || { avgLikes: 0, totalLikes: 0, avgComments: 0, totalComments: 0, avgShares: 0, totalShares: 0, avgViews: 0, totalViews: 0, postCount: 0, contentStrategy: '', topHashtags: [] }),
+        totalLikes: total('totalLikes'), totalComments: total('totalComments'), totalShares: total('totalShares'),
+        totalViews, postCount: total('postCount'),
+        avgLikes: measured('likes') ? total('totalLikes') / measured('likes') : 0,
+        avgComments: measured('comments') ? total('totalComments') / measured('comments') : 0,
+        avgShares: measured('shares') ? total('totalShares') / measured('shares') : 0,
+        avgViews: accounts.reduce((sum, entity) => sum + entity.social.avgViews * entity.viewsMeasuredPosts, 0) / Math.max(accounts.reduce((sum, entity) => sum + entity.viewsMeasuredPosts, 0), 1),
+        contentStrategy: 'إجمالي أداء الحسابات المرصودة على Facebook وInstagram وTikTok',
+      },
+    };
+  });
+  const socialDisplayEntities = socialPlatform === 'All' ? competitorSocialAggregates : activeSocialEntities;
+  const sampledSocialAccounts = activeSocialEntities.reduce((sum, entity) => sum + entity.sampleAccountsCount, 0);
+  const competitorScores = competitorSocialAggregates.map(entity => {
+    const maxRate = Math.max(...competitorSocialAggregates.map(item => item.engagementRate || 0), 1);
+    const maxViews = Math.max(...competitorSocialAggregates.map(item => item.social.avgViews), 1);
+    return { ...entity, performanceIndex: Math.round((((entity.engagementRate || 0) / maxRate) * 60) + ((entity.social.avgViews / maxViews) * 40)) };
+  });
 
   // Sub-tabs smooth scroll & drag state
   const subTabsContainerRef = useRef<HTMLDivElement>(null);
@@ -725,28 +770,96 @@ export const CompetitorIntelligence: React.FC = () => {
       {activeTab === 'social' && (
         <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
-            <div>
+          <div className="block space-y-5 border-b border-amber-100 pb-5">
+            <div className="w-full space-y-4">
               <h3 className="text-lg font-bold text-slate-900 font-heading">
                 تحليلات وسائل التواصل الاجتماعي
               </h3>
               <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="منصات التواصل الاجتماعي">
-                <span className="rounded-lg border border-orange-600 bg-orange-600 px-3 py-1.5 text-xs font-bold text-white">Facebook</span>
-                <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500">Instagram · قريباً</span>
-                <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500">TikTok · قريباً</span>
+                {(['All', 'Facebook', 'Instagram', 'TikTok'] as const).map(platform => {
+                  const selected = socialPlatform === platform;
+                  const accountCount = platform === 'All' ? sampledSocialAccounts : ALL_COMPETITORS_FOR_SOCIAL.filter(entity => entity.platform === platform).reduce((total, entity) => total + entity.sampleAccountsCount, 0);
+                  return (
+                    <button key={platform} type="button" aria-pressed={selected} onClick={() => setSocialPlatform(platform)}
+                      className={`rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors ${selected ? 'border-orange-600 bg-orange-600 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-orange-300'}`}>
+                      {platform === 'All' ? 'الكل' : platform} <span className="opacity-75">({accountCount})</span>
+                    </button>
+                  );
+                })}
               </div>
-              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">معدل التفاعل من المشاهدات</p><p className="mt-2 text-2xl font-black text-[#17120F]">{(((BASELINE_BRAND.social.avgLikes + BASELINE_BRAND.social.avgComments + BASELINE_BRAND.social.avgShares) / BASELINE_BRAND.social.avgViews) * 100).toFixed(2)}%</p><p className="mt-1 text-[11px] text-slate-500">إعجابات وتعليقات ومشاركات لكل مشاهدة</p></div>
-                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">نمو المتابعين</p><p className="mt-2 text-lg font-black text-slate-700">بانتظار ربط بيانات المنصة</p><p className="mt-1 text-[11px] text-slate-500">سيظهر هنا عند توصيل Instagram أو TikTok</p></div>
-                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">أداء المنشورات</p><p className="mt-2 text-2xl font-black text-[#17120F]">{BASELINE_BRAND.social.postCount}</p><p className="mt-1 text-[11px] text-slate-500">منشوراً · متوسط {BASELINE_BRAND.social.avgViews.toLocaleString('ar-EG-u-nu-latn', { maximumFractionDigits: 0 })} مشاهدة</p></div>
-              </div>
-              <p className="text-xs text-slate-500">
-                مقارنة شاملة لـ 20 منشور مرصود لكل منشأة (إجمالي 80 منشور مسحوب من فيسبوك)
-              </p>
+              {socialPlatform === 'All' && (
+                <div className="mt-5 grid gap-4 xl:grid-cols-2">
+                  <section className="rounded-2xl border border-amber-200 p-4" aria-label="مقارنة الأداء الإجمالي للمنافسين">
+                    <h4 className="mb-3 text-sm font-black text-slate-900">مقارنة الأداء الإجمالي للمنافسين</h4>
+                    <p className="mb-4 text-[11px] text-slate-500">مؤشر مركب: ٦٠٪ معدل التفاعل و٤٠٪ متوسط المشاهدات، بعد تطبيع كل مقياس بين المنافسين.</p>
+                    <div className="space-y-3">{competitorScores.map(entity => <div key={entity.id}>
+                      <div className="mb-1 flex justify-between text-xs"><span className="font-bold">{entity.nameAr}</span><span className="font-mono">{entity.performanceIndex}/100</span></div>
+                      <div className="h-3 overflow-hidden rounded-full bg-[#FBF8F2]"><div className="h-full rounded-full bg-[#C7652D] transition-all" style={{ width: `${entity.performanceIndex}%` }} /></div>
+                    </div>)}</div>
+                  </section>
+                  <section className="rounded-2xl border border-amber-200 p-4" aria-label="مقارنة التفاعل عبر المنصات لكل منافس">
+                    <h4 className="mb-3 text-sm font-black text-slate-900">معدل التفاعل حسب المنصة لكل منافس</h4>
+                    <p className="mb-4 text-[11px] text-slate-500">اختر عمود المنصة للانتقال مباشرةً إلى تفاصيلها.</p>
+                    <div className="space-y-4">{competitorSocialAggregates.map(competitor => {
+                      const rates = (['Facebook', 'Instagram', 'TikTok'] as const).map(platform => ({
+                        platform,
+                        rate: ALL_COMPETITORS_FOR_SOCIAL.find(account => account.competitorId === competitor.competitorId && account.platform === platform)?.engagementRate,
+                      }));
+                      const maxRate = Math.max(...rates.map(item => item.rate || 0), 1);
+                      return <div key={competitor.competitorId}>
+                        <div className="mb-1 text-xs font-bold">{competitor.nameAr}</div>
+                        <div className="grid grid-cols-3 gap-2">{rates.map(item => <button key={item.platform} type="button" onClick={() => setSocialPlatform(item.platform)} className="text-right" title={`عرض ${item.platform}`}>
+                          <span className="mb-1 flex justify-between text-[10px] text-slate-500"><span>{item.platform}</span><span>{item.rate == null ? 'N/A' : `${item.rate.toFixed(2)}%`}</span></span>
+                          <span className="block h-2 overflow-hidden rounded-full bg-[#FBF8F2]"><span className="block h-full rounded-full bg-[#DAB775]" style={{ width: `${item.rate == null ? 0 : Math.max(6, item.rate / maxRate * 100)}%` }} /></span>
+                        </button>)}</div>
+                      </div>;
+                    })}</div>
+                  </section>
+                </div>
+              )}
+              <p className="text-xs text-slate-500">{socialPlatform === 'All' ? 'التجميع يشمل الحسابات المتاحة فقط؛ الحقول غير المتوفرة لا تدخل في المتوسطات.' : `بيانات ${socialPlatform} فقط؛ المتوسطات محسوبة من المنشورات ذات المقاييس المتاحة.`}</p>
+              {socialPlatform === 'All' && (
+                <section className="space-y-5 pt-2" aria-label="قائمة المنافسين ومقارنة المنصات">
+                  <div>
+                    <h4 className="mb-3 text-sm font-black text-slate-900">جدول المقارنة الشامل</h4>
+                    <div className="overflow-x-auto rounded-2xl border border-amber-200"><table className="w-full min-w-[900px] text-xs text-right divide-y divide-amber-200">
+                      <thead className="bg-[#F7F0E5] text-slate-800 font-bold"><tr><th className="px-4 py-3">المنافس</th><th className="px-3 py-3 text-center">TikTok</th><th className="px-3 py-3 text-center">Instagram</th><th className="px-3 py-3 text-center">Facebook</th><th className="px-4 py-3 text-center">مؤشر الأداء</th></tr></thead>
+                      <tbody className="divide-y divide-amber-100 bg-white">{competitorScores.map(competitor => <tr key={competitor.competitorId}>
+                        <th scope="row" className="px-4 py-3 font-bold text-slate-900">{competitor.nameAr}{competitor.competitorId === 'komur-kunefe' && <span className="mr-2 rounded bg-orange-100 px-1.5 py-0.5 text-[10px] text-orange-800">علامتنا</span>}</th>
+                        {(['TikTok', 'Instagram', 'Facebook'] as const).map(platform => { const account = ALL_COMPETITORS_FOR_SOCIAL.find(item => item.competitorId === competitor.competitorId && item.platform === platform); return <td key={platform} className="px-3 py-3"><div className="grid grid-cols-3 gap-2 text-center"><div><span className="block text-[10px] text-slate-400">التفاعل</span><span className="font-semibold text-slate-700">{account?.available && account.engagementRate != null ? `${account.engagementRate.toFixed(2)}%` : 'N/A'}</span></div><div><span className="block text-[10px] text-slate-400">المشاهدات</span><span className="font-semibold text-slate-700">{account?.available ? account.social.totalViews.toLocaleString('ar-EG-u-nu-latn') : '0'}</span></div><div><span className="block text-[10px] text-slate-400">المنشورات</span><span className="font-semibold text-slate-700">{account?.available ? account.social.postCount : '0'}</span></div></div></td>; })}
+                        <td className="px-4 py-3 text-center font-mono font-bold">{competitor.performanceIndex}/100</td>
+                      </tr>)}</tbody>
+                    </table></div>
+                    <section className="pt-5" aria-label="متوسطات التفاعل لكل منافس">
+                      <h4 className="mb-3 text-sm font-black text-slate-900">مقارنة متوسطات التفاعل بين جميع المنافسين</h4>
+                      <div className="grid gap-3 xl:grid-cols-2">{[
+                        { key: 'avgLikes', label: 'متوسط الإعجابات', total: 'totalLikes', color: '#C7652D' },
+                        { key: 'avgComments', label: 'متوسط التعليقات', total: 'totalComments', color: '#DAB775' },
+                        { key: 'avgShares', label: 'متوسط المشاركات', total: 'totalShares', color: '#8C5A3C' },
+                        { key: 'avgViews', label: 'متوسط المشاهدات', total: 'totalViews', color: '#64748B' },
+                      ].map(metric => {
+                        const values = competitorSocialAggregates.map(entity => entity.social[metric.key as 'avgLikes' | 'avgComments' | 'avgShares' | 'avgViews']);
+                        const max = Math.max(...values, 1);
+                        return <article key={metric.key} className="rounded-2xl border border-amber-200 bg-white p-4">
+                          <h5 className="mb-3 text-xs font-black text-slate-800">{metric.label}</h5>
+                          <div className="space-y-2">{competitorSocialAggregates.map(entity => {
+                            const value = entity.social[metric.key as 'avgLikes' | 'avgComments' | 'avgShares' | 'avgViews'];
+                            const total = entity.social[metric.total as 'totalLikes' | 'totalComments' | 'totalShares' | 'totalViews'];
+                            return <div key={entity.competitorId}>
+                              <div className="mb-1 flex justify-between text-[10px] text-slate-600"><span>{entity.nameAr}</span><span>{value.toLocaleString('ar-EG-u-nu-latn', { maximumFractionDigits: 1 })} · إجمالي {total.toLocaleString('ar-EG-u-nu-latn')}</span></div>
+                              <div className="h-2 overflow-hidden rounded-full bg-[#FBF8F2]"><div className="h-full rounded-full" style={{ width: `${Math.max(value ? 4 : 0, value / max * 100)}%`, backgroundColor: metric.color }} /></div>
+                            </div>;
+                          })}</div>
+                        </article>;
+                      })}</div>
+                    </section>
+                  </div>
+                </section>
+              )}
             </div>
 
             {/* Metric Switcher Tabs */}
-            <div className="flex flex-nowrap items-center gap-2.5 overflow-x-auto border-b border-amber-200/60 px-1 pb-3 pt-1 scrollbar-none touch-pan-x">
+            <div className={`flex flex-nowrap items-center gap-2.5 overflow-x-auto border-b border-amber-200/60 px-1 pb-3 pt-1 scrollbar-none touch-pan-x ${socialPlatform === 'All' ? 'hidden' : ''}`}>
               {[
                 { id: 'likes', label: 'متوسط الإعجابات', icon: ThumbsUp },
                 { id: 'comments', label: 'متوسط التعليقات', icon: MessageCircle },
@@ -774,8 +887,8 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Social Chart Visualization (Comparing all 4) */}
-          <div className="space-y-4">
-            {ALL_COMPETITORS_FOR_SOCIAL.map(entity => {
+          <div className={`space-y-4 ${socialPlatform === 'All' ? 'hidden' : ''}`}>
+            {socialDisplayEntities.map(entity => {
               // Calculate value based on selected metric
               let metricValue = 0;
               let metricSuffix = '';
@@ -800,7 +913,7 @@ export const CompetitorIntelligence: React.FC = () => {
               }
 
               // Determine max for bar width calculation
-              const allValues = ALL_COMPETITORS_FOR_SOCIAL.map(e => {
+              const allValues = socialDisplayEntities.map(e => {
                 if (socialMetric === 'likes') return e.social.avgLikes;
                 if (socialMetric === 'comments') return e.social.avgComments;
                 if (socialMetric === 'shares') return e.social.avgShares;
@@ -824,13 +937,14 @@ export const CompetitorIntelligence: React.FC = () => {
                         <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
                       )}
                       <span className="font-bold font-heading">{entity.nameAr}</span>
+<span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-600">{entity.platform}</span>
                       {entity.isBaseline && (
                         <span className="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                           علامتنا
                         </span>
                       )}
                       <span className={`text-[11px] font-mono ${entity.isBaseline ? 'text-amber-900' : 'text-slate-500'}`}>
-                        (20 منشور مسحوب)
+({entity.platform} · {entity.social.postCount} منشور)
                       </span>
                     </div>
 
@@ -864,7 +978,7 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Detailed Side-by-Side Comparison Table */}
-          <div className="overflow-x-auto rounded-2xl border border-amber-200">
+          <div className={`overflow-x-auto rounded-2xl border border-amber-200 ${socialPlatform === 'All' ? 'hidden' : ''}`}>
             <table className="w-full text-xs text-right divide-y divide-amber-200">
               <thead className="bg-[#F7F0E5] text-slate-800 font-bold font-heading">
                 <tr>
@@ -878,11 +992,12 @@ export const CompetitorIntelligence: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-100 text-slate-700 bg-white">
-                {ALL_COMPETITORS_FOR_SOCIAL.map(e => (
+                {socialDisplayEntities.map(e => (
                   <tr key={e.id} className={e.isBaseline ? 'bg-[#F7F0E5]/40 font-bold' : 'hover:bg-[#FDFBF7]'}>
                     <td className="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-1.5">
                       {e.isBaseline && <Flame className="w-3.5 h-3.5 text-orange-500 shrink-0" />}
                       <span>{e.nameAr}</span>
+                      <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-600">{e.platform}</span>
                       {e.isBaseline && (
                         <span className="text-[10px] bg-orange-100 text-orange-800 px-1.5 py-0.5 rounded">نحن</span>
                       )}
@@ -909,7 +1024,7 @@ export const CompetitorIntelligence: React.FC = () => {
           </div>
 
           {/* Social Insights Callout */}
-          <div className="p-4 rounded-2xl bg-[#F7F0E5]/80 text-slate-800 text-xs space-y-2 border-2 border-amber-200 shadow-sm">
+          <div className={`p-4 rounded-2xl bg-[#F7F0E5]/80 text-slate-800 text-xs space-y-2 border-2 border-amber-200 shadow-sm ${socialPlatform === 'All' ? 'hidden' : ''}`}>
             <div className="flex items-center gap-2 font-bold text-amber-900">
               <Sparkles className="w-4 h-4 text-amber-700" />
               <span>خلاصة ذكاء السوشيال ميديا للمحل:</span>

@@ -11,6 +11,23 @@ import {
 } from '../types';
 
 export const api = {
+  getAdminToken(): string | null {
+    try {
+      const session = JSON.parse(localStorage.getItem('komur_admin_session') || 'null');
+      return session?.token || null;
+    } catch { return null; }
+  },
+
+  getMyOrderCredentials(): Array<{ id: string; orderNumber: string; token: string }> {
+    try { return JSON.parse(localStorage.getItem('komur_my_orders') || '[]'); } catch { return []; }
+  },
+
+  async getMyOrders(): Promise<Order[]> {
+    const credentials = this.getMyOrderCredentials();
+    const orders = await Promise.all(credentials.map(({ orderNumber, token }) => this.getOrder(orderNumber, token)));
+    return orders.filter((order): order is Order => !!order);
+  },
+
   // Products
   async getProducts(category?: string): Promise<Product[]> {
     const url = category && category !== 'all' ? `/api/products?category=${category}` : '/api/products';
@@ -52,30 +69,33 @@ export const api = {
     let url = '/api/orders?';
     if (status && status !== 'all') url += `status=${status}&`;
     if (search) url += `search=${encodeURIComponent(search)}`;
-    const res = await fetch(url);
+    const token = this.getAdminToken();
+    if (!token) return [];
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     const data = await res.json();
     return data.orders || [];
   },
 
-  async getOrder(id: string): Promise<Order | null> {
+  async getOrder(id: string, trackingToken?: string): Promise<Order | null> {
     const identifier = id.trim();
     if (!identifier) return null;
 
     try {
-      const res = await fetch(`/api/orders/${encodeURIComponent(identifier)}`);
+      const headers: Record<string, string> = {};
+      const adminToken = this.getAdminToken();
+      const credentials = this.getMyOrderCredentials();
+      const ownCredential = trackingToken
+        ? { token: trackingToken }
+        : credentials.find((entry) => entry.id === identifier || entry.orderNumber.toUpperCase() === identifier.toUpperCase());
+      if (adminToken) headers.Authorization = `Bearer ${adminToken}`;
+      else if (ownCredential?.token) headers['X-Order-Tracking-Token'] = ownCredential.token;
+      else return null;
+      const res = await fetch(`/api/orders/${encodeURIComponent(identifier)}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.order) return data.order;
       }
-    } catch {
-      // Fall through to the order search endpoint for older server instances.
-    }
-
-    const matches = await this.getOrders('all', identifier);
-    const normalized = identifier.toUpperCase();
-    return matches.find((order) =>
-      order.id.toUpperCase() === normalized || order.orderNumber.toUpperCase() === normalized
-    ) || null;
+    } catch { return null; }
   },
 
   async createOrder(order: any): Promise<Order> {
@@ -89,11 +109,14 @@ export const api = {
     
     if (typeof window !== 'undefined') {
       try {
-        const stored = JSON.parse(localStorage.getItem('komur_my_order_ids') || '[]');
+         const stored = JSON.parse(localStorage.getItem('komur_my_order_ids') || '[]');
         if (!stored.includes(data.order.id)) {
           stored.unshift(data.order.id);
           localStorage.setItem('komur_my_order_ids', JSON.stringify(stored));
         }
+        const ownedOrders = JSON.parse(localStorage.getItem('komur_my_orders') || '[]') as Array<{ id: string; orderNumber: string; token: string }>;
+        ownedOrders.unshift({ id: data.order.id, orderNumber: data.order.orderNumber, token: data.trackingToken });
+        localStorage.setItem('komur_my_orders', JSON.stringify(ownedOrders.slice(0, 50)));
         const favorites = JSON.parse(localStorage.getItem('komur_favorite_products') || '{}') as Record<string, { name: string; category?: string; count: number }>;
         for (const item of data.order.items || []) {
           const current: { name: string; category?: string; count: number } = favorites[item.productId] || { name: item.name, count: 0 };
@@ -119,9 +142,10 @@ export const api = {
   },
 
   async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
+    const token = this.getAdminToken();
     const res = await fetch(`/api/orders/${id}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
       body: JSON.stringify({ status }),
     });
     const data = await res.json();
@@ -138,10 +162,11 @@ export const api = {
 
   subscribeToOrderUpdates(callback: (order: Order) => void): () => void {
     if (typeof window === 'undefined') return () => {};
+    const adminToken = this.getAdminToken();
 
     let es: EventSource | null = null;
     try {
-      es = new EventSource('/api/events');
+      if (adminToken) es = new EventSource(`/api/events?token=${encodeURIComponent(adminToken)}`);
       const handleSse = (e: MessageEvent) => {
         try {
           const parsed = JSON.parse(e.data);
@@ -150,16 +175,18 @@ export const api = {
           }
         } catch {}
       };
-      es.addEventListener('order_status_updated', handleSse);
-      es.addEventListener('order_created', handleSse);
+      es?.addEventListener('order_status_updated', handleSse);
+      es?.addEventListener('order_created', handleSse);
     } catch {}
 
     const handleCustom = (e: Event) => {
       const customEvent = e as CustomEvent<Order>;
       if (customEvent.detail) callback(customEvent.detail);
     };
-    window.addEventListener('komur_order_status_updated', handleCustom);
-    window.addEventListener('komur_order_created', handleCustom);
+    if (adminToken) {
+      window.addEventListener('komur_order_status_updated', handleCustom);
+      window.addEventListener('komur_order_created', handleCustom);
+    }
 
     const handleStorage = (e: StorageEvent) => {
       if (e.key === 'komur_last_order_event' && e.newValue) {
@@ -169,13 +196,15 @@ export const api = {
         } catch {}
       }
     };
-    window.addEventListener('storage', handleStorage);
+    if (adminToken) window.addEventListener('storage', handleStorage);
 
     return () => {
       if (es) es.close();
-      window.removeEventListener('komur_order_status_updated', handleCustom);
-      window.removeEventListener('komur_order_created', handleCustom);
-      window.removeEventListener('storage', handleStorage);
+      if (adminToken) {
+        window.removeEventListener('komur_order_status_updated', handleCustom);
+        window.removeEventListener('komur_order_created', handleCustom);
+        window.removeEventListener('storage', handleStorage);
+      }
     };
   },
 

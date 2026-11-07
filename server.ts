@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { createHash, randomBytes } from 'crypto';
 import { db } from './server/db.js';
 import { askStoreAgent, generateStoreReport, askCustomerChatbot } from './server/geminiAgent.js';
 
@@ -15,6 +16,10 @@ async function startServer() {
   const app = express();
   const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
   const isProduction = process.env.NODE_ENV === 'production';
+  const isAdminRequest = (req: express.Request) => {
+    const token = req.header('Authorization')?.replace(/^Bearer\s+/i, '') || String(req.query.token || '');
+    return token === 'token-owner-komur-992' || token === 'token-staff-komur-331';
+  };
 
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -23,7 +28,7 @@ async function startServer() {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Order-Tracking-Token');
     if (req.method === 'OPTIONS') {
       return res.sendStatus(204);
     }
@@ -34,7 +39,8 @@ async function startServer() {
   const sseClients = new Set<express.Response>();
 
   const broadcastEvent = (eventType: string, data: any) => {
-    const payload = `event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`;
+    const { trackingTokenHash: _trackingTokenHash, ...safeData } = data || {};
+    const payload = `event: ${eventType}\ndata: ${JSON.stringify(safeData)}\n\n`;
     for (const client of sseClients) {
       try {
         client.write(payload);
@@ -45,6 +51,7 @@ async function startServer() {
   };
 
   app.get('/api/events', (req, res) => {
+    if (!isAdminRequest(req)) return res.sendStatus(401);
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
@@ -60,8 +67,9 @@ async function startServer() {
   });
 
   app.get('/api/notifications', (req, res) => {
+    if (!isAdminRequest(req)) return res.sendStatus(401);
     try {
-      const orders = db.getOrders().slice(0, 15);
+      const orders = db.getOrders().slice(0, 15).map(({ trackingTokenHash: _trackingTokenHash, ...order }) => order);
       res.json({ success: true, orders });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
@@ -144,6 +152,7 @@ async function startServer() {
 
   // Orders
   app.get('/api/orders', (req, res) => {
+    if (!isAdminRequest(req)) return res.sendStatus(401);
     try {
       const { status, search } = req.query;
       let orders = db.getOrders();
@@ -158,7 +167,7 @@ async function startServer() {
           o.customerPhone.includes(q)
         );
       }
-      res.json({ success: true, orders });
+      res.json({ success: true, orders: orders.map(({ trackingTokenHash: _trackingTokenHash, ...order }) => order) });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
     }
@@ -171,7 +180,14 @@ async function startServer() {
       if (!order) {
         return res.status(404).json({ success: false, error: 'الطلب غير موجود' });
       }
-      res.json({ success: true, order });
+      const isAdmin = isAdminRequest(req);
+      const suppliedToken = req.header('X-Order-Tracking-Token') || '';
+      const suppliedHash = suppliedToken ? createHash('sha256').update(suppliedToken).digest('hex') : '';
+      if (!isAdmin && (!order.trackingTokenHash || suppliedHash !== order.trackingTokenHash)) {
+        return res.status(404).json({ success: false, error: 'الطلب غير موجود' });
+      }
+      const { trackingTokenHash: _trackingTokenHash, ...publicOrder } = order;
+      res.json({ success: true, order: publicOrder });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
     }
@@ -198,6 +214,7 @@ async function startServer() {
       const coupon = couponCode ? db.getOffers().find(o => o.type === 'coupon' && o.isActive && o.couponCode?.toUpperCase() === couponCode && o.discountPercent > 0 && o.discountPercent <= 100 && (!o.startDate || o.startDate <= now) && (!o.endDate || o.endDate >= now)) : undefined;
       if (couponCode && !coupon) return res.status(400).json({ success: false, error: 'الكوبون غير صالح أو منتهي الصلاحية' });
       const discountAmount = coupon ? Math.round(subtotal * coupon.discountPercent) / 100 : 0;
+      const trackingToken = randomBytes(32).toString('base64url');
       const newOrder = db.addOrder({
         customerName,
         customerPhone,
@@ -217,19 +234,22 @@ async function startServer() {
         // cash on pickup until server-verified provider confirmation exists.
         paymentMethod: 'cash_on_pickup',
         paymentStatus: 'pending',
-        source: source || 'website'
+        source: source || 'website',
+        trackingTokenHash: createHash('sha256').update(trackingToken).digest('hex')
       });
 
       broadcastEvent('order_created', newOrder);
       broadcastEvent('order_status_updated', newOrder);
 
-      res.status(201).json({ success: true, order: newOrder });
+      const { trackingTokenHash: _trackingTokenHash, ...publicOrder } = newOrder;
+      res.status(201).json({ success: true, order: publicOrder, trackingToken });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
     }
   });
 
   app.patch('/api/orders/:id/status', (req, res) => {
+    if (!isAdminRequest(req)) return res.sendStatus(401);
     try {
       const { status } = req.body;
       if (!status) {
@@ -240,7 +260,8 @@ async function startServer() {
         return res.status(404).json({ success: false, error: 'الطلب غير موجود' });
       }
       broadcastEvent('order_status_updated', updated);
-      res.json({ success: true, order: updated });
+      const { trackingTokenHash: _trackingTokenHash, ...publicOrder } = updated;
+      res.json({ success: true, order: publicOrder });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
     }

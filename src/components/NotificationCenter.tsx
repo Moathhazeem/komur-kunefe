@@ -153,7 +153,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
     const loadLiveNotifications = async () => {
       try {
         const [orders, offers, products] = await Promise.all([
-          api.getOrders(),
+          api.getAdminToken() ? api.getOrders() : api.getMyOrders(),
           api.getOffers(),
           api.getProducts(),
         ]);

@@ -1,0 +1,494 @@
+[
+  {
+    "id": "osmali-sweets-facebook",
+    "competitorId": "osmali-sweets",
+    "name": "حلويات عصملي (Osmali Sweets)",
+    "pageName": "OsmanliPal",
+    "platform": "Facebook",
+    "url": "https://www.facebook.com/OsmanliPal/",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 20,
+    "engagementRate": 0.55,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 4,
+    "engagement": {
+      "likes": {
+        "total": 167,
+        "average": 8.35,
+        "measuredPosts": 20
+      },
+      "comments": {
+        "total": 3,
+        "average": 1,
+        "measuredPosts": 3
+      },
+      "shares": {
+        "total": 17,
+        "average": 0.85,
+        "measuredPosts": 20
+      },
+      "views": {
+        "total": 10400,
+        "average": 2600,
+        "measuredPosts": 4
+      }
+    },
+    "topPerformingContent": [
+      "https://www.facebook.com/OsmanliPal/posts/pfbid0pVvhXGAogpjQeR4jrwQctWzZnaEeRwzML5LDGqZiY1V5GWXqS8kmc1QFzagGygShl",
+      "https://www.facebook.com/OsmanliPal/posts/pfbid02jGKbrd7BPVAFL3n4bcB1JSbxxzBCz7wRsb4TQankVMYTP2nF7JprL9gKLBYxhMJil",
+      "https://www.facebook.com/reel/1146196158094486/",
+      "https://www.facebook.com/reel/1335985005105579/",
+      "https://www.facebook.com/OsmanliPal/posts/pfbid02prtn7iYGfMvgopWrQNYjFTZ6jnuzCWswtXifBRPijK5Kawpf7L8UGp9Hcs7g9ukol"
+    ]
+  },
+  {
+    "id": "osmali-sweets-instagram",
+    "competitorId": "osmali-sweets",
+    "name": "حلويات عصملي (Osmali Sweets)",
+    "pageName": "osmanlipal",
+    "platform": "Instagram",
+    "url": "https://www.instagram.com/osmanlipal/",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 100,
+    "engagementRate": 0,
+    "engagementRateAvailable": false,
+    "viewsMeasuredPosts": 0,
+    "engagement": {
+      "likes": {
+        "total": 2662,
+        "average": 26.62,
+        "measuredPosts": 100
+      },
+      "comments": {
+        "total": 14,
+        "average": 0.14,
+        "measuredPosts": 100
+      },
+      "shares": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "views": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      }
+    },
+    "topPerformingContent": [
+      "https://www.instagram.com/p/DdtWVk3Fc9c/",
+      "https://www.instagram.com/p/DewIq2NoCB5/",
+      "https://www.instagram.com/p/DdTYF8ODw0K/",
+      "https://www.instagram.com/p/DcLQGt8jvKW/",
+      "https://www.instagram.com/p/DbnQ1o3lQB4/"
+    ]
+  },
+  {
+    "id": "osmali-sweets-tiktok",
+    "competitorId": "osmali-sweets",
+    "name": "حلويات عصملي (Osmali Sweets)",
+    "pageName": "N/A",
+    "platform": "TikTok",
+    "url": "N/A",
+    "available": false,
+    "sampleAccountsCount": 0,
+    "postCount": 0,
+    "engagementRate": 0,
+    "engagementRateAvailable": false,
+    "viewsMeasuredPosts": 0,
+    "engagement": {
+      "likes": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "comments": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "shares": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "views": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      }
+    },
+    "topPerformingContent": []
+  },
+  {
+    "id": "komur-kunefe-facebook",
+    "competitorId": "komur-kunefe",
+    "name": "كومور كنافة (Kömür Künefe)",
+    "pageName": "Komurkunefe",
+    "platform": "Facebook",
+    "url": "https://www.facebook.com/Komurkunefe",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 20,
+    "engagementRate": 0.83,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 12,
+    "engagement": {
+      "likes": {
+        "total": 191,
+        "average": 9.55,
+        "measuredPosts": 20
+      },
+      "comments": {
+        "total": 15,
+        "average": 1.5,
+        "measuredPosts": 10
+      },
+      "shares": {
+        "total": 6,
+        "average": 0.3,
+        "measuredPosts": 20
+      },
+      "views": {
+        "total": 21811,
+        "average": 1817.58,
+        "measuredPosts": 12
+      }
+    },
+    "topPerformingContent": [
+      "https://www.facebook.com/reel/960603399967799/",
+      "https://www.facebook.com/reel/2295619467644226/",
+      "https://www.facebook.com/reel/1647375830353433/",
+      "https://www.facebook.com/reel/2374609679959018/",
+      "https://www.facebook.com/reel/1078764191189835/"
+    ]
+  },
+  {
+    "id": "komur-kunefe-instagram",
+    "competitorId": "komur-kunefe",
+    "name": "كومور كنافة (Kömür Künefe)",
+    "pageName": "komurkunefe",
+    "platform": "Instagram",
+    "url": "https://www.instagram.com/komurkunefe/",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 95,
+    "engagementRate": 0,
+    "engagementRateAvailable": false,
+    "viewsMeasuredPosts": 0,
+    "engagement": {
+      "likes": {
+        "total": 13041,
+        "average": 137.27,
+        "measuredPosts": 95
+      },
+      "comments": {
+        "total": 417,
+        "average": 4.39,
+        "measuredPosts": 95
+      },
+      "shares": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "views": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      }
+    },
+    "topPerformingContent": [
+      "https://www.instagram.com/p/Da7oKBns72i/",
+      "https://www.instagram.com/p/DZTH3dxsozJ/",
+      "https://www.instagram.com/p/Dey1erPMu13/",
+      "https://www.instagram.com/p/DbQldFeMg3d/",
+      "https://www.instagram.com/p/DTBMGSnDPqI/"
+    ]
+  },
+  {
+    "id": "komur-kunefe-tiktok",
+    "competitorId": "komur-kunefe",
+    "name": "كومور كنافة (Kömür Künefe)",
+    "pageName": "komur_kunefe_tiktok",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@komur_kunefe_tiktok",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 10,
+    "engagementRate": 1,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 10,
+    "engagement": {
+      "likes": {
+        "total": 321,
+        "average": 32.1,
+        "measuredPosts": 10
+      },
+      "comments": {
+        "total": 9,
+        "average": 0.9,
+        "measuredPosts": 10
+      },
+      "shares": {
+        "total": 51,
+        "average": 5.1,
+        "measuredPosts": 10
+      },
+      "views": {
+        "total": 38061,
+        "average": 3806.1,
+        "measuredPosts": 10
+      }
+    },
+    "topPerformingContent": []
+  },
+  {
+    "id": "al-saraya-sweets-facebook",
+    "competitorId": "al-saraya-sweets",
+    "name": "حلويات السرايا (Al-Saraya Sweets)",
+    "pageName": "alsaraya.sweets",
+    "platform": "Facebook",
+    "url": "https://www.facebook.com/alsaraya.sweets",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 20,
+    "engagementRate": 1.68,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 7,
+    "engagement": {
+      "likes": {
+        "total": 996,
+        "average": 49.8,
+        "measuredPosts": 20
+      },
+      "comments": {
+        "total": 124,
+        "average": 13.78,
+        "measuredPosts": 9
+      },
+      "shares": {
+        "total": 5,
+        "average": 0.25,
+        "measuredPosts": 20
+      },
+      "views": {
+        "total": 47144,
+        "average": 6734.86,
+        "measuredPosts": 7
+      }
+    },
+    "topPerformingContent": [
+      "https://www.facebook.com/reel/1758512122099841/",
+      "https://www.facebook.com/reel/1839052133792224/",
+      "https://www.facebook.com/alsaraya.sweets/posts/pfbid0QurKhCxxABycHN3x6BnZBuGpx9Tyi5N7zmjjx1npY9qUWVHTk3tRUeYBwArmwn52l",
+      "https://www.facebook.com/reel/2310272459817841/",
+      "https://www.facebook.com/alsaraya.sweets/posts/pfbid0E163ix2mBvLWc8HDzUUkYfBCCmbiQkB6ZW1awb8RRZjAQr2TTeDbzLvt1sxcz1e6l"
+    ]
+  },
+  {
+    "id": "al-saraya-sweets-instagram",
+    "competitorId": "al-saraya-sweets",
+    "name": "حلويات السرايا (Al-Saraya Sweets)",
+    "pageName": "saraya_sweets",
+    "platform": "Instagram",
+    "url": "https://www.instagram.com/saraya_sweets/",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 97,
+    "engagementRate": 0,
+    "engagementRateAvailable": false,
+    "viewsMeasuredPosts": 0,
+    "engagement": {
+      "likes": {
+        "total": 2238,
+        "average": 23.07,
+        "measuredPosts": 97
+      },
+      "comments": {
+        "total": 50,
+        "average": 0.52,
+        "measuredPosts": 97
+      },
+      "shares": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "views": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      }
+    },
+    "topPerformingContent": [
+      "https://www.instagram.com/p/DdvjuwuFXgr/",
+      "https://www.instagram.com/p/DbXjY5kji0l/",
+      "https://www.instagram.com/p/DcvC1t8ghcF/",
+      "https://www.instagram.com/p/Dc8nFyDAoHH/",
+      "https://www.instagram.com/p/DdRTYAsDJHe/"
+    ]
+  },
+  {
+    "id": "al-saraya-sweets-tiktok",
+    "competitorId": "al-saraya-sweets",
+    "name": "حلويات السرايا (Al-Saraya Sweets)",
+    "pageName": "saraya_tiktok",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@saraya_tiktok",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 150,
+    "engagementRate": 2.35,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 150,
+    "engagement": {
+      "likes": {
+        "total": 5714,
+        "average": 38.09,
+        "measuredPosts": 150
+      },
+      "comments": {
+        "total": 88,
+        "average": 0.59,
+        "measuredPosts": 150
+      },
+      "shares": {
+        "total": 1980,
+        "average": 13.2,
+        "measuredPosts": 150
+      },
+      "views": {
+        "total": 330585,
+        "average": 2203.9,
+        "measuredPosts": 150
+      }
+    },
+    "topPerformingContent": []
+  },
+  {
+    "id": "abu-salha-rafidia-facebook",
+    "competitorId": "abu-salha-rafidia",
+    "name": "حلويات أبو صالحة - رفيديا",
+    "pageName": "abusalha.sweet",
+    "platform": "Facebook",
+    "url": "https://www.facebook.com/abusalha.sweet",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 20,
+    "engagementRate": 0.45,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 12,
+    "engagement": {
+      "likes": {
+        "total": 391,
+        "average": 19.55,
+        "measuredPosts": 20
+      },
+      "comments": {
+        "total": 19,
+        "average": 1.73,
+        "measuredPosts": 11
+      },
+      "shares": {
+        "total": 5,
+        "average": 0.25,
+        "measuredPosts": 20
+      },
+      "views": {
+        "total": 66283,
+        "average": 5523.58,
+        "measuredPosts": 12
+      }
+    },
+    "topPerformingContent": [
+      "https://www.facebook.com/reel/1718030966296315/",
+      "https://www.facebook.com/reel/2212003189636191/",
+      "https://www.facebook.com/reel/980670514435154/",
+      "https://www.facebook.com/reel/1381936184152970/",
+      "https://www.facebook.com/reel/2478947389233510/"
+    ]
+  },
+  {
+    "id": "abu-salha-rafidia-instagram",
+    "competitorId": "abu-salha-rafidia",
+    "name": "حلويات أبو صالحة - رفيديا",
+    "pageName": "abusalha_sweets",
+    "platform": "Instagram",
+    "url": "https://www.instagram.com/abusalha_sweets/",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 100,
+    "engagementRate": 7.59,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 1,
+    "engagement": {
+      "likes": {
+        "total": 2139,
+        "average": 21.39,
+        "measuredPosts": 100
+      },
+      "comments": {
+        "total": 40,
+        "average": 0.4,
+        "measuredPosts": 100
+      },
+      "shares": {
+        "total": 0,
+        "average": 0,
+        "measuredPosts": 0
+      },
+      "views": {
+        "total": 145,
+        "average": 145,
+        "measuredPosts": 1
+      }
+    },
+    "topPerformingContent": [
+      "https://www.instagram.com/p/C4fgRbyiOaV/",
+      "https://www.instagram.com/p/C4XxqjeM0Eb/",
+      "https://www.instagram.com/p/C5JK4NbCqjs/",
+      "https://www.instagram.com/p/C5JpjdBr3X5/",
+      "https://www.instagram.com/p/C5d02TtigXg/"
+    ]
+  },
+  {
+    "id": "abu-salha-rafidia-tiktok",
+    "competitorId": "abu-salha-rafidia",
+    "name": "حلويات أبو صالحة - رفيديا",
+    "pageName": "abu_salha__tiktok",
+    "platform": "TikTok",
+    "url": "https://www.tiktok.com/@abu_salha__tiktok",
+    "available": true,
+    "sampleAccountsCount": 1,
+    "postCount": 10,
+    "engagementRate": 1.34,
+    "engagementRateAvailable": true,
+    "viewsMeasuredPosts": 10,
+    "engagement": {
+      "likes": {
+        "total": 445,
+        "average": 44.5,
+        "measuredPosts": 10
+      },
+      "comments": {
+        "total": 7,
+        "average": 0.7,
+        "measuredPosts": 10
+      },
+      "shares": {
+        "total": 41,
+        "average": 4.1,
+        "measuredPosts": 10
+      },
+      "views": {
+        "total": 36888,
+        "average": 3688.8,
+        "measuredPosts": 10
+      }
+    },
+    "topPerformingContent": []
+  }
+]

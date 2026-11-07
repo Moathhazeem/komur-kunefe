@@ -60,6 +60,7 @@ export interface Order {
   paymentStatus: 'paid' | 'pending';
   source: 'website' | 'instagram' | 'facebook' | 'whatsapp';
   createdAt: string;
+  trackingTokenHash?: string;
 }
 
 export interface Offer {
