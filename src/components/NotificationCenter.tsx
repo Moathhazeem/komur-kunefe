@@ -178,7 +178,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
             title: `عرض حصري • ${offer.title}`,
             message: (() => {
               const offerCategories = (products || []).filter((product) => offer.includedProductNames?.some((name) => name.toLowerCase() === product.name.toLowerCase())).map((product) => product.category);
-              const favorite = [...favorites].sort((a, b) => b.count - a.count).find((item) => offer.includedProductNames?.some((name) => name.toLowerCase() === item.name.toLowerCase()) || (!!item.category && offerCategories.includes(item.category)));
+              const favorite = [...favorites].sort((a, b) => b.count - a.count).find((item) => offer.includedProductNames?.some((name) => name.toLowerCase() === item.name.toLowerCase()) || (!!item.category && offerCategories.some(category => category === item.category)));
               const deal = offer.type === 'coupon' && offer.couponCode ? `كوبون ${offer.couponCode} بخصم ${offer.discountPercent}%` : offer.description || 'استمتع بأقوى عروض الكنافة ع الفحم اليوم!';
               return favorite ? `عرض يناسب طلباتك المتكررة من ${favorite.name}: ${deal}` : deal;
             })(),
@@ -266,9 +266,12 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
     if (notification.orderNumber && onNavigate) {
       try {
         sessionStorage.setItem('komur_track_query', notification.orderNumber);
+        sessionStorage.setItem('komur_track_from_notification', 'true');
       } catch {}
       setOpen(false);
       onNavigate('track');
+      window.history.replaceState(null, '', `/track?order=${encodeURIComponent(notification.orderNumber)}&from=notification`);
+      window.dispatchEvent(new CustomEvent('komur_track_order', { detail: notification.orderNumber }));
     } else if (notification.kind === 'offer' && onNavigate) {
       setOpen(false);
       onNavigate('offers');

@@ -193,6 +193,67 @@ async function startServer() {
     }
   });
 
+  app.post('/api/orders/manual', (req, res) => {
+    if (!isAdminRequest(req)) return res.sendStatus(401);
+    try {
+      const { customerName, customerPhone, source, fulfillment, deliveryAddress, pickupTime, notes, paymentStatus, items } = req.body;
+      if (!String(customerName || '').trim() || !String(customerPhone || '').trim()) {
+        return res.status(400).json({ success: false, error: 'اسم الزبون ورقم هاتفه مطلوبان' });
+      }
+      if (!['whatsapp', 'instagram', 'facebook'].includes(source)) {
+        return res.status(400).json({ success: false, error: 'اختر مصدر الطلب: واتساب أو إنستغرام أو فيسبوك' });
+      }
+      if (!Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ success: false, error: 'أضف صنفاً واحداً على الأقل للطلب' });
+      }
+      const orderItems = items.map((entry: any) => {
+        const product = db.getProductById(String(entry.productId || ''));
+        const variant = product?.variants.find(item => item.id === String(entry.variantId || ''));
+        const quantity = Number(entry.quantity);
+        if (!product || !variant || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
+          throw new Error('تحقق من الأصناف والكميات المختارة');
+        }
+        return {
+          productId: product.id,
+          name: product.name,
+          variantId: variant.id,
+          variantName: variant.name,
+          price: Number(variant.price),
+          quantity,
+          category: product.category,
+        };
+      });
+      const orderFulfillment = fulfillment === 'delivery' ? 'delivery' : 'pickup';
+      if (orderFulfillment === 'delivery' && !String(deliveryAddress || '').trim()) {
+        return res.status(400).json({ success: false, error: 'عنوان التوصيل مطلوب لطلب التوصيل' });
+      }
+      const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const deliveryFee = orderFulfillment === 'delivery' ? 15 : 0;
+      const order = db.addOrder({
+        customerName: String(customerName).trim(),
+        customerPhone: String(customerPhone).trim(),
+        items: orderItems,
+        subtotal,
+        total: subtotal + deliveryFee,
+        deliveryFee,
+        fulfillment: orderFulfillment,
+        deliveryAddress: orderFulfillment === 'delivery' ? String(deliveryAddress).trim() : undefined,
+        pickupTime: String(pickupTime || 'خلال 20-30 دقيقة'),
+        notes: String(notes || '').trim(),
+        status: 'new',
+        paymentMethod: 'cash_on_pickup',
+        paymentStatus: paymentStatus === 'paid' ? 'paid' : 'pending',
+        source,
+      });
+      broadcastEvent('order_created', order);
+      broadcastEvent('order_status_updated', order);
+      const { trackingTokenHash: _trackingTokenHash, ...publicOrder } = order;
+      return res.status(201).json({ success: true, order: publicOrder });
+    } catch (err: any) {
+      return res.status(400).json({ success: false, error: err.message || 'تعذر حفظ الطلب اليدوي' });
+    }
+  });
+
   app.post('/api/orders', (req, res) => {
     try {
       if (db.getSettings().isStoreOpen === false) {

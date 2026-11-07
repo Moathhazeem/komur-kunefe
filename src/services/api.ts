@@ -95,6 +95,7 @@ export const api = {
         const data = await res.json();
         if (data.order) return data.order;
       }
+      return null;
     } catch { return null; }
   },
 
@@ -134,6 +135,29 @@ export const api = {
       window.dispatchEvent(new CustomEvent('komur_order_created', { detail: data.order }));
       window.dispatchEvent(new CustomEvent('komur_order_status_updated', { detail: data.order }));
     }
+    return data.order;
+  },
+
+  async createManualOrder(order: {
+    customerName: string;
+    customerPhone: string;
+    source: 'whatsapp' | 'instagram' | 'facebook';
+    fulfillment: 'pickup' | 'delivery';
+    deliveryAddress?: string;
+    pickupTime: string;
+    notes?: string;
+    paymentStatus: 'paid' | 'pending';
+    items: Array<{ productId: string; variantId: string; quantity: number }>;
+  }): Promise<Order> {
+    const token = this.getAdminToken();
+    if (!token) throw new Error('يجب تسجيل الدخول كأدمن لإضافة طلب يدوي');
+    const res = await fetch('/api/orders/manual', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(order),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'تعذر حفظ الطلب');
     return data.order;
   },
 

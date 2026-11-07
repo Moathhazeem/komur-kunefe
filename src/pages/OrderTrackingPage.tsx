@@ -10,7 +10,12 @@ interface OrderTrackingPageProps {
 
 export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }) => {
   const isAdmin = !!api.getAdminToken();
-  const [orderQuery, setOrderQuery] = useState('');
+  const [orderQuery, setOrderQuery] = useState(() => new URLSearchParams(window.location.search).get('order')?.trim() || '');
+  const [openedFromNotification, setOpenedFromNotification] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    try { return params.get('from') === 'notification' || Boolean(params.get('order')) || sessionStorage.getItem('komur_track_from_notification') === 'true'; }
+    catch { return params.get('from') === 'notification' || Boolean(params.get('order')); }
+  });
   const [order, setOrder] = useState<Order | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,13 +38,27 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
   }, []);
 
   React.useEffect(() => {
+    const handleNotificationOrder = (event: Event) => {
+      const query = (event as CustomEvent<string>).detail?.trim();
+      if (!query) return;
+      setOrder(null);
+      setHasSearched(false);
+      setOrderQuery(query);
+      setOpenedFromNotification(true);
+    };
     try {
       const savedQuery = sessionStorage.getItem('komur_track_query');
+      const fromNotification = sessionStorage.getItem('komur_track_from_notification') === 'true';
       if (savedQuery) {
         sessionStorage.removeItem('komur_track_query');
-        setOrderQuery(savedQuery);
+        const queryOrder = new URLSearchParams(window.location.search).get('order')?.trim();
+        if (!queryOrder) setOrderQuery(savedQuery);
+        if (fromNotification) setOpenedFromNotification(true);
       }
+      sessionStorage.removeItem('komur_track_from_notification');
     } catch {}
+    window.addEventListener('komur_track_order', handleNotificationOrder);
+    return () => window.removeEventListener('komur_track_order', handleNotificationOrder);
   }, []);
 
   React.useEffect(() => {
@@ -106,12 +125,12 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
           تتبع حالة طلبك
         </h1>
         <p className="text-sm text-slate-500">
-          {isAdmin ? 'ابحث برقم الطلب لعرض حالته وإدارته.' : 'افتح إشعار طلبك من جرس الإشعارات لمتابعة حالته.'}
+          {isAdmin ? 'ابحث برقم الطلب لعرض حالته وإدارته.' : openedFromNotification ? `يعرض هذا الرابط حالة الطلب ${orderQuery} الذي اخترته من الإشعارات.` : 'افتح إشعار طلبك من جرس الإشعارات لمتابعة حالته.'}
         </p>
       </div>
 
       {/* Customers open tracking from their private order notification; admins may search all orders. */}
-      {isAdmin ? (
+      {isAdmin && !openedFromNotification ? (
       <form onSubmit={handleSearch} className="bg-white border border-orange-100 rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center gap-3">
         <div className="relative flex-1 w-full">
           <Search className="w-5 h-5 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2" />

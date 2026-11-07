@@ -327,6 +327,7 @@ const COMPETITORS: CompetitorProfile[] = [
 // Combine the existing Facebook comparison with imported Instagram and TikTok metrics
 const ALL_COMPETITORS_FOR_SOCIAL = socialDataset.map(account => ({
   id: account.id,
+  competitorId: account.competitorId,
   nameAr: account.name,
   nameEn: account.pageName,
   platform: account.platform,
@@ -335,6 +336,7 @@ const ALL_COMPETITORS_FOR_SOCIAL = socialDataset.map(account => ({
   sampleAccountsCount: account.sampleAccountsCount,
   engagementRate: account.engagementRateAvailable ? account.engagementRate : null,
   viewsMeasuredPosts: account.viewsMeasuredPosts,
+  engagement: account.engagement,
   social: {
     avgLikes: account.engagement.likes.average,
     totalLikes: account.engagement.likes.total,
@@ -356,11 +358,15 @@ export const CompetitorIntelligence: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'pricing' | 'offers' | 'social' | 'swot' | 'edge'>('overview');
   const [selectedSwotId, setSelectedSwotId] = useState<string>('osmali-sweets');
   const [socialMetric, setSocialMetric] = useState<'likes' | 'comments' | 'shares' | 'views'>('likes');
+  const [allPlatformChartMetric, setAllPlatformChartMetric] = useState<'engagement' | 'views'>('engagement');
   const [socialPlatform, setSocialPlatform] = useState<'All' | 'Facebook' | 'Instagram' | 'TikTok'>('Facebook');
   const [expandedEdgeId, setExpandedEdgeId] = useState<string | null>('osmali-sweets');
   const activeSocialEntities = ALL_COMPETITORS_FOR_SOCIAL.filter(entity => socialPlatform === 'All' || entity.platform === socialPlatform);
-  const orderedSocialCompetitorIds = ['komur-kunefe', 'abu-salha-rafidia', 'osmali-sweets', 'al-saraya-sweets'];
-  const competitorSocialAggregates = orderedSocialCompetitorIds.map(competitorId => {
+  const preferredSocialCompetitorOrder = ['komur-kunefe', 'abu-salha-rafidia', 'osmali-sweets', 'al-saraya-sweets'];
+  const socialCompetitorIds = preferredSocialCompetitorOrder.filter(competitorId =>
+    ALL_COMPETITORS_FOR_SOCIAL.some(entity => entity.competitorId === competitorId)
+  );
+  const competitorSocialAggregates = socialCompetitorIds.map(competitorId => {
     const accounts = ALL_COMPETITORS_FOR_SOCIAL.filter(entity => entity.competitorId === competitorId);
     const baseAccount = accounts[0];
     const competitorName = accounts.find(entity => entity.platform === 'Facebook')?.nameAr || baseAccount?.nameAr || ({ 'komur-kunefe': 'كومور كنافة', 'abu-salha-rafidia': 'حلويات أبو صالحة', 'osmali-sweets': 'حلويات عصملي', 'al-saraya-sweets': 'حلويات السرايا' }[competitorId] || competitorId);
@@ -385,7 +391,6 @@ export const CompetitorIntelligence: React.FC = () => {
     };
   });
   const socialDisplayEntities = socialPlatform === 'All' ? competitorSocialAggregates : activeSocialEntities;
-  const sampledSocialAccounts = activeSocialEntities.reduce((sum, entity) => sum + entity.sampleAccountsCount, 0);
   const competitorScores = competitorSocialAggregates.map(entity => {
     const maxRate = Math.max(...competitorSocialAggregates.map(item => item.engagementRate || 0), 1);
     const maxViews = Math.max(...competitorSocialAggregates.map(item => item.social.avgViews), 1);
@@ -778,7 +783,7 @@ export const CompetitorIntelligence: React.FC = () => {
               <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="منصات التواصل الاجتماعي">
                 {(['All', 'Facebook', 'Instagram', 'TikTok'] as const).map(platform => {
                   const selected = socialPlatform === platform;
-                  const accountCount = platform === 'All' ? sampledSocialAccounts : ALL_COMPETITORS_FOR_SOCIAL.filter(entity => entity.platform === platform).reduce((total, entity) => total + entity.sampleAccountsCount, 0);
+                  const accountCount = platform === 'All' ? socialCompetitorIds.length : ALL_COMPETITORS_FOR_SOCIAL.filter(entity => entity.platform === platform).reduce((total, entity) => total + entity.sampleAccountsCount, 0);
                   return (
                     <button key={platform} type="button" aria-pressed={selected} onClick={() => setSocialPlatform(platform)}
                       className={`rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors ${selected ? 'border-orange-600 bg-orange-600 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-orange-300'}`}>
@@ -787,6 +792,13 @@ export const CompetitorIntelligence: React.FC = () => {
                   );
                 })}
               </div>
+              {socialPlatform === 'All' && (
+                <div className="rounded-2xl border border-amber-200 bg-[#FBF8F2] p-4 sm:p-5 text-right space-y-2" dir="rtl">
+                  <p className="text-xs font-bold text-orange-800">ذكاء السوق والمنافسة المحلية | فرع رفيديا - نابلس</p>
+                  <h4 className="text-base sm:text-lg font-black text-slate-900">تحليل المنافسين ومؤشرات السوق المحلي</h4>
+                  <p className="text-xs leading-6 text-slate-600">دراسة مقارنة معمقة تعتمد على بيانات ميدانية وبيانات تطبيقات التوصيل (Wells, Yummy) وسجلات التفاعل الفعلي على Facebook لنوفمبر 2026 لمنافسينا الرئيسيين في نابلس.</p>
+                </div>
+              )}
               {socialPlatform === 'All' && (
                 <div className="mt-5 grid gap-4 xl:grid-cols-2">
                   <section className="rounded-2xl border border-amber-200 p-4" aria-label="مقارنة الأداء الإجمالي للمنافسين">
@@ -797,23 +809,72 @@ export const CompetitorIntelligence: React.FC = () => {
                       <div className="h-3 overflow-hidden rounded-full bg-[#FBF8F2]"><div className="h-full rounded-full bg-[#C7652D] transition-all" style={{ width: `${entity.performanceIndex}%` }} /></div>
                     </div>)}</div>
                   </section>
-                  <section className="rounded-2xl border border-amber-200 p-4" aria-label="مقارنة التفاعل عبر المنصات لكل منافس">
-                    <h4 className="mb-3 text-sm font-black text-slate-900">معدل التفاعل حسب المنصة لكل منافس</h4>
-                    <p className="mb-4 text-[11px] text-slate-500">اختر عمود المنصة للانتقال مباشرةً إلى تفاصيلها.</p>
-                    <div className="space-y-4">{competitorSocialAggregates.map(competitor => {
-                      const rates = (['Facebook', 'Instagram', 'TikTok'] as const).map(platform => ({
-                        platform,
-                        rate: ALL_COMPETITORS_FOR_SOCIAL.find(account => account.competitorId === competitor.competitorId && account.platform === platform)?.engagementRate,
+                  <section className="rounded-2xl border border-amber-200 p-4" aria-label="مقارنة أداء المنصات لكل منافس">
+                    <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
+                        <h4 className="text-sm font-black text-slate-900">مقارنة المنصات لكل منافس</h4>
+                        <p className="mt-1 text-[11px] text-slate-500">أعمدة متجاورة لكل مطعم؛ مرّر المؤشر فوق العمود لعرض القيمة الدقيقة.</p>
+                      </div>
+                      <div className="flex shrink-0 gap-1 rounded-xl bg-[#FBF8F2] p-1" role="group" aria-label="مقياس الرسم البياني">
+                        {([{ id: 'engagement', label: 'معدل التفاعل' }, { id: 'views', label: 'متوسط المشاهدات' }] as const).map(option => <button key={option.id} type="button" aria-pressed={allPlatformChartMetric === option.id} onClick={() => setAllPlatformChartMetric(option.id)} className={`rounded-lg px-3 py-2 text-[10px] font-bold transition-colors ${allPlatformChartMetric === option.id ? 'bg-white text-orange-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>{option.label}</button>)}
+                      </div>
+                    </div>
+                    {(() => {
+                      const platforms = ['Facebook', 'Instagram', 'TikTok'] as const;
+                      const platformColors: Record<(typeof platforms)[number], string> = { Facebook: '#C7652D', Instagram: '#DAB775', TikTok: '#334155' };
+                      const chartRows = competitorSocialAggregates.map(competitor => ({
+                        competitor,
+                        values: platforms.map(platform => {
+                          const account = ALL_COMPETITORS_FOR_SOCIAL.find(item => item.competitorId === competitor.competitorId && item.platform === platform);
+                          const value = !account?.available ? null : allPlatformChartMetric === 'engagement' ? account.engagementRate : account.viewsMeasuredPosts > 0 ? account.social.avgViews : null;
+                          return { platform, value };
+                        }),
                       }));
-                      const maxRate = Math.max(...rates.map(item => item.rate || 0), 1);
-                      return <div key={competitor.competitorId}>
-                        <div className="mb-1 text-xs font-bold">{competitor.nameAr}</div>
-                        <div className="grid grid-cols-3 gap-2">{rates.map(item => <button key={item.platform} type="button" onClick={() => setSocialPlatform(item.platform)} className="text-right" title={`عرض ${item.platform}`}>
-                          <span className="mb-1 flex justify-between text-[10px] text-slate-500"><span>{item.platform}</span><span>{item.rate == null ? 'N/A' : `${item.rate.toFixed(2)}%`}</span></span>
-                          <span className="block h-2 overflow-hidden rounded-full bg-[#FBF8F2]"><span className="block h-full rounded-full bg-[#DAB775]" style={{ width: `${item.rate == null ? 0 : Math.max(6, item.rate / maxRate * 100)}%` }} /></span>
-                        </button>)}</div>
-                      </div>;
-                    })}</div>
+                      const availableValues = chartRows.flatMap(row => row.values.map(item => item.value).filter((value): value is number => value !== null));
+                      const rawMax = Math.max(...availableValues, 0);
+                      const maxValue = allPlatformChartMetric === 'engagement' ? Math.max(1, Math.ceil(rawMax * 1.15 * 10) / 10) : Math.max(100, Math.ceil(rawMax * 1.15 / 100) * 100);
+                      const width = Math.max(680, chartRows.length * 200 + 90);
+                      const height = 330;
+                      const left = 58;
+                      const right = 16;
+                      const top = 18;
+                      const bottom = 76;
+                      const chartHeight = height - top - bottom;
+                      const groupWidth = (width - left - right) / Math.max(chartRows.length, 1);
+                      const barWidth = Math.min(30, groupWidth * 0.19);
+                      const barGap = Math.max(5, barWidth * 0.22);
+                      const y = (value: number) => top + chartHeight - (value / maxValue) * chartHeight;
+                      return <>
+                        <div className="mb-3 flex flex-wrap gap-x-4 gap-y-2" aria-label="دليل المنصات">{platforms.map(platform => <span key={platform} className="inline-flex items-center gap-2 text-[10px] font-semibold text-slate-600"><span className="h-3 w-3 rounded-sm" style={{ backgroundColor: platformColors[platform] }} />{platform}</span>)}</div>
+                        <div className="overflow-x-auto rounded-xl bg-[#FBF8F2] p-2">
+                          <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${allPlatformChartMetric === 'engagement' ? 'معدل التفاعل' : 'متوسط المشاهدات'} حسب المنصة لكل منافس`} className="block h-auto min-w-[680px] w-full">
+                            {[0, 0.25, 0.5, 0.75, 1].map(tick => {
+                              const value = maxValue * tick;
+                              const yPos = y(value);
+                              return <g key={tick}>
+                                <line x1={left} x2={width - right} y1={yPos} y2={yPos} stroke="#E7DED0" strokeWidth="1" />
+                                <text x={left - 8} y={yPos + 4} textAnchor="end" fontSize="10" fill="#64748B">{allPlatformChartMetric === 'engagement' ? `${value.toFixed(1)}%` : Math.round(value).toLocaleString('ar-EG-u-nu-latn')}</text>
+                              </g>;
+                            })}
+                            {chartRows.map((row, rowIndex) => {
+                              const center = left + groupWidth * rowIndex + groupWidth / 2;
+                              const totalBarsWidth = platforms.length * barWidth + (platforms.length - 1) * barGap;
+                              return <g key={row.competitor.competitorId}>
+                                {row.values.map((item, itemIndex) => {
+                                  const x = center - totalBarsWidth / 2 + itemIndex * (barWidth + barGap);
+                                  if (item.value === null) return <text key={item.platform} x={x + barWidth / 2} y={top + chartHeight - 8} textAnchor="middle" fontSize="9" fill="#94A3B8"><title>{item.platform}: البيانات غير متاحة</title>N/A</text>;
+                                  const barY = y(item.value);
+                                  return <rect key={item.platform} x={x} y={barY} width={barWidth} height={Math.max(0, top + chartHeight - barY)} rx="4" fill={platformColors[item.platform]} tabIndex={0} role="button" aria-label={`عرض تفاصيل ${item.platform} للمنافس ${row.competitor.nameAr}`} className="cursor-pointer transition-opacity hover:opacity-75 focus:opacity-75" onClick={() => setSocialPlatform(item.platform)} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSocialPlatform(item.platform); } }}>
+                                    <title>{`${row.competitor.nameAr} · ${item.platform}: ${allPlatformChartMetric === 'engagement' ? `${item.value.toFixed(2)}%` : `${item.value.toLocaleString('ar-EG-u-nu-latn', { maximumFractionDigits: 1 })} مشاهدة`}`}</title>
+                                  </rect>;
+                                })}
+                                <text x={center} y={height - 36} textAnchor="middle" fontSize="11" fontWeight="600" fill="#334155">{row.competitor.nameAr}</text>
+                              </g>;
+                            })}
+                          </svg>
+                        </div>
+                      </>;
+                    })()}
                   </section>
                 </div>
               )}

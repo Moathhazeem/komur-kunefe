@@ -2403,6 +2403,35 @@
   ],
   "orders": [
     {
+      "customerName": "Samron3mk",
+      "customerPhone": "0592864880",
+      "items": [
+        {
+          "productId": "menu-1",
+          "name": "كنافة اسطنبولية بالفستق الناعم",
+          "category": "charcoal",
+          "variantId": "menu-1-XS",
+          "variantName": "حجم XS · استبدال القطر العادي بقطر صحي: XS",
+          "price": 17,
+          "quantity": 1
+        }
+      ],
+      "subtotal": 17,
+      "discountAmount": 0,
+      "total": 17,
+      "deliveryFee": 0,
+      "fulfillment": "pickup",
+      "pickupTime": "خلال 20-30 دقيقة",
+      "notes": "",
+      "status": "new",
+      "paymentMethod": "cash_on_pickup",
+      "paymentStatus": "pending",
+      "source": "website",
+      "id": "ord-1794055352540-205",
+      "orderNumber": "KM-8018",
+      "createdAt": "2026-11-07T12:42:32.540Z"
+    },
+    {
       "customerName": "مدير النظام",
       "customerPhone": "0592864880",
       "items": [
@@ -2831,7 +2860,7 @@
       "total": 90,
       "pickupTime": "خلال 45-60 دقيقة",
       "notes": "لمناسبة خطوبة",
-      "status": "pending",
+      "status": "new",
       "paymentMethod": "cash",
       "paymentStatus": "unpaid",
       "source": "whatsapp",

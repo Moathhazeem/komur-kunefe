@@ -93,6 +93,18 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [selectedOrderForPrint, setSelectedOrderForPrint] = useState<Order | null>(null);
   const [soundAlertEnabled, setSoundAlertEnabled] = useState(true);
 
+  const [isManualOrderModalOpen, setIsManualOrderModalOpen] = useState(false);
+  const [isSavingManualOrder, setIsSavingManualOrder] = useState(false);
+  const [manualOrderForm, setManualOrderForm] = useState({
+    customerName: '', customerPhone: '', source: 'whatsapp' as 'whatsapp' | 'instagram' | 'facebook',
+    fulfillment: 'pickup' as 'pickup' | 'delivery', deliveryAddress: '', pickupTime: 'خلال 20-30 دقيقة',
+    notes: '', paymentStatus: 'pending' as 'paid' | 'pending',
+  });
+  const [manualOrderItems, setManualOrderItems] = useState<Array<{ productId: string; variantId: string; quantity: number }>>([]);
+  const [manualProductId, setManualProductId] = useState('');
+  const [manualVariantId, setManualVariantId] = useState('');
+  const [manualQuantity, setManualQuantity] = useState(1);
+
   // Products State
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
@@ -246,6 +258,32 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       loadOrders();
     } catch (e: any) {
       alert(e.message || 'فشل تحديث حالة الطلب');
+    }
+  };
+
+  const handleSaveManualOrder = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!manualOrderForm.customerName.trim() || !manualOrderForm.customerPhone.trim() || manualOrderItems.length === 0) {
+      alert('أدخل اسم الزبون ورقم هاتفه وأضف صنفاً واحداً على الأقل.');
+      return;
+    }
+    if (manualOrderForm.fulfillment === 'delivery' && !manualOrderForm.deliveryAddress.trim()) {
+      alert('أدخل عنوان التوصيل.');
+      return;
+    }
+    setIsSavingManualOrder(true);
+    try {
+      await api.createManualOrder({ ...manualOrderForm, items: manualOrderItems });
+      setIsManualOrderModalOpen(false);
+      setManualOrderForm({ customerName: '', customerPhone: '', source: 'whatsapp', fulfillment: 'pickup', deliveryAddress: '', pickupTime: 'خلال 20-30 دقيقة', notes: '', paymentStatus: 'pending' });
+      setManualOrderItems([]);
+      setManualProductId('');
+      setManualVariantId('');
+      await loadOrders();
+    } catch (error: any) {
+      alert(error.message || 'تعذر حفظ الطلب اليدوي.');
+    } finally {
+      setIsSavingManualOrder(false);
     }
   };
 
@@ -610,17 +648,115 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               ))}
             </div>
 
-            <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="بحث برقم الطلب، الاسم، أو الهاتف..."
-                value={orderSearch}
-                onChange={(e) => setOrderSearch(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-700 placeholder-slate-400 focus:outline-none transition-all"
-              />
+            <div className="flex w-full flex-col gap-2 sm:w-64">
+              <div className="relative w-full">
+                <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="بحث برقم الطلب، الاسم، أو الهاتف..."
+                  value={orderSearch}
+                  onChange={(e) => setOrderSearch(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 rounded-xl pr-9 pl-3 py-2 text-xs text-slate-700 placeholder-slate-400 focus:outline-none transition-all"
+                />
+              </div>
             </div>
           </div>
+
+          <div className="-mt-4 flex justify-start px-4 sm:pl-4 sm:pr-0" dir="ltr">
+            <button
+              type="button"
+              onClick={() => { setManualOrderItems([]); setManualProductId(''); setManualVariantId(''); setIsManualOrderModalOpen(true); }}
+              className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-orange-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-orange-700 sm:w-64"
+            >
+              <Plus className="h-4 w-4" /> إضافة طلب من السوشيال ميديا
+            </button>
+          </div>
+
+          {isManualOrderModalOpen && createPortal(
+            <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/55 p-3 sm:p-6" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsManualOrderModalOpen(false); }}>
+              <div role="dialog" aria-modal="true" aria-labelledby="manual-order-title" className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:p-7">
+                <form onSubmit={handleSaveManualOrder} className="space-y-5">
+                  <div className="flex items-start justify-between gap-3 border-b border-amber-100 pb-4">
+                    <div>
+                      <h3 id="manual-order-title" className="text-lg font-black text-slate-900">إضافة طلب من وسائل التواصل</h3>
+                      <p className="mt-1 text-xs text-slate-500">سيُحفظ الطلب في قاعدة البيانات ويظهر ضمن تقارير المبيعات حسب مصدره.</p>
+                    </div>
+                    <button type="button" onClick={() => setIsManualOrderModalOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50" aria-label="إغلاق">×</button>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <label className="space-y-1.5 text-xs font-bold text-slate-700">اسم الزبون
+                      <input required value={manualOrderForm.customerName} onChange={event => setManualOrderForm(form => ({ ...form, customerName: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 font-normal outline-none focus:border-orange-400" placeholder="الاسم الكامل" />
+                    </label>
+                    <label className="space-y-1.5 text-xs font-bold text-slate-700">رقم الهاتف
+                      <input required type="tel" value={manualOrderForm.customerPhone} onChange={event => setManualOrderForm(form => ({ ...form, customerPhone: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 font-normal outline-none focus:border-orange-400" placeholder="05xxxxxxxx" />
+                    </label>
+                    <label className="space-y-1.5 text-xs font-bold text-slate-700">مصدر الطلب
+                      <select value={manualOrderForm.source} onChange={event => setManualOrderForm(form => ({ ...form, source: event.target.value as 'whatsapp' | 'instagram' | 'facebook' }))} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-normal outline-none focus:border-orange-400">
+                        <option value="whatsapp">واتساب</option><option value="instagram">إنستغرام</option><option value="facebook">فيسبوك</option>
+                      </select>
+                    </label>
+                    <label className="space-y-1.5 text-xs font-bold text-slate-700">الدفع
+                      <select value={manualOrderForm.paymentStatus} onChange={event => setManualOrderForm(form => ({ ...form, paymentStatus: event.target.value as 'paid' | 'pending' }))} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-normal outline-none focus:border-orange-400">
+                        <option value="pending">غير مدفوع</option><option value="paid">مدفوع</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <section className="space-y-3 rounded-2xl border border-amber-100 bg-[#FBF8F2] p-4">
+                    <h4 className="text-xs font-black text-slate-800">الأصناف</h4>
+                    <div className="grid grid-cols-1 items-end gap-2 sm:grid-cols-[1.3fr_1fr_90px_auto]">
+                      <label className="space-y-1 text-[11px] font-bold text-slate-600">المنتج
+                        <select value={manualProductId} onChange={event => { const id = event.target.value; setManualProductId(id); setManualVariantId(products.find(product => product.id === id)?.variants?.[0]?.id || ''); }} className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-normal">
+                          <option value="">اختر منتجاً</option>{products.filter(product => product.isAvailable !== false).map(product => <option key={product.id} value={product.id}>{product.name}</option>)}
+                        </select>
+                      </label>
+                      <label className="space-y-1 text-[11px] font-bold text-slate-600">الحجم / النوع
+                        <select value={manualVariantId} onChange={event => setManualVariantId(event.target.value)} className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-normal">
+                          {(products.find(product => product.id === manualProductId)?.variants || []).map(variant => <option key={variant.id} value={variant.id}>{variant.name} · {variant.price} ₪</option>)}
+                        </select>
+                      </label>
+                      <label className="space-y-1 text-[11px] font-bold text-slate-600">الكمية
+                        <input type="number" min="1" max="99" value={manualQuantity} onChange={event => setManualQuantity(Math.max(1, Number(event.target.value) || 1))} className="w-full rounded-lg border border-slate-200 px-2.5 py-2 text-xs" />
+                      </label>
+                      <button type="button" disabled={!manualProductId || !manualVariantId} onClick={() => { setManualOrderItems(current => { const existing = current.find(item => item.productId === manualProductId && item.variantId === manualVariantId); return existing ? current.map(item => item === existing ? { ...item, quantity: item.quantity + manualQuantity } : item) : [...current, { productId: manualProductId, variantId: manualVariantId, quantity: manualQuantity }]; }); setManualQuantity(1); }} className="min-h-[38px] rounded-lg bg-slate-800 px-3 text-xs font-bold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40">إضافة</button>
+                    </div>
+                    {manualOrderItems.length === 0 ? <p className="text-[11px] text-slate-400">لم تتم إضافة أصناف بعد.</p> : (
+                      <div className="space-y-2">{manualOrderItems.map((item, index) => {
+                        const product = products.find(entry => entry.id === item.productId);
+                        const variant = product?.variants.find(entry => entry.id === item.variantId);
+                        return <div key={`${item.productId}-${item.variantId}`} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs">
+                          <span className="font-bold text-slate-800">{product?.name || 'منتج'} <span className="font-normal text-slate-500">({variant?.name})</span></span>
+                          <div className="flex items-center gap-2"><button type="button" onClick={() => setManualOrderItems(items => items.map((entry, i) => i === index ? { ...entry, quantity: Math.max(1, entry.quantity - 1) } : entry))} className="h-7 w-7 rounded-md border border-slate-200">−</button><span className="min-w-5 text-center font-bold">{item.quantity}</span><button type="button" onClick={() => setManualOrderItems(items => items.map((entry, i) => i === index ? { ...entry, quantity: Math.min(99, entry.quantity + 1) } : entry))} className="h-7 w-7 rounded-md border border-slate-200">+</button><span className="w-16 text-left font-bold text-orange-700">{(variant?.price || 0) * item.quantity} ₪</span><button type="button" onClick={() => setManualOrderItems(items => items.filter((_, i) => i !== index))} className="px-2 text-rose-600" aria-label="حذف الصنف">حذف</button></div>
+                        </div>;
+                      })}</div>
+                    )}
+                  </section>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <label className="space-y-1.5 text-xs font-bold text-slate-700">طريقة الاستلام
+                      <select value={manualOrderForm.fulfillment} onChange={event => setManualOrderForm(form => ({ ...form, fulfillment: event.target.value as 'pickup' | 'delivery' }))} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-normal">
+                        <option value="pickup">استلام من المحل</option><option value="delivery">توصيل (+15 ₪)</option>
+                      </select>
+                    </label>
+                    {manualOrderForm.fulfillment === 'delivery' ? <label className="space-y-1.5 text-xs font-bold text-slate-700">عنوان التوصيل
+                      <input required value={manualOrderForm.deliveryAddress} onChange={event => setManualOrderForm(form => ({ ...form, deliveryAddress: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 font-normal" placeholder="المدينة، المنطقة، الشارع" />
+                    </label> : <label className="space-y-1.5 text-xs font-bold text-slate-700">موعد الاستلام
+                      <input value={manualOrderForm.pickupTime} onChange={event => setManualOrderForm(form => ({ ...form, pickupTime: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 font-normal" />
+                    </label>}
+                  </div>
+                  <label className="block space-y-1.5 text-xs font-bold text-slate-700">ملاحظات الطلب
+                    <textarea rows={2} value={manualOrderForm.notes} onChange={event => setManualOrderForm(form => ({ ...form, notes: event.target.value }))} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 font-normal" placeholder="ملاحظات الزبون أو تفاصيل إضافية" />
+                  </label>
+                  <div className="flex flex-col-reverse justify-end gap-2 border-t border-slate-100 pt-4 sm:flex-row">
+                    <button type="button" onClick={() => setIsManualOrderModalOpen(false)} className="min-h-[44px] rounded-xl border border-slate-200 px-5 text-xs font-bold text-slate-600 hover:bg-slate-50">إلغاء</button>
+                    <button type="submit" disabled={isSavingManualOrder} className="min-h-[44px] rounded-xl bg-orange-600 px-5 text-xs font-bold text-white hover:bg-orange-700 disabled:opacity-60">{isSavingManualOrder ? 'جارٍ حفظ الطلب...' : 'حفظ الطلب في قاعدة البيانات'}</button>
+                  </div>
+                </form>
+              </div>
+            </div>,
+            document.body
+          )}
 
           {/* Orders Table */}
           {orders.length === 0 ? (
@@ -675,7 +811,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                         <option value="completed">تم التسليم بنجاح</option>
                         <option value="cancelled">ملغي</option>
                       </select>
-
                       <button
                         onClick={() => setSelectedOrderForPrint(order)}
                         className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200 active:scale-95 transition-all"
