@@ -353,6 +353,7 @@ function AppInner() {
             settings={settings}
             onRefreshGlobalSettings={() => loadAllData()}
             onNavigateHome={() => handleNavigate('home')}
+            onNavigate={handleNavigate}
           />
         )}
       </main>

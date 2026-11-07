@@ -19,12 +19,14 @@ interface AdminPageProps {
   settings: StoreSettings | null;
   onRefreshGlobalSettings: () => void;
   onNavigateHome: () => void;
+  onNavigate?: (tab: string) => void;
 }
 
 export const AdminPage: React.FC<AdminPageProps> = ({
   settings,
   onRefreshGlobalSettings,
   onNavigateHome,
+  onNavigate,
 }) => {
   // Auth state
   const [session, setSession] = useState<UserSession | null>(() => {
@@ -137,7 +139,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       }, 10000);
       return () => clearInterval(interval);
     }
-  }, [session, activeTab, dateRange]);
+  }, [session, activeTab, dateRange, orderSearch]);
 
   useEffect(() => {
     if (settings) {
@@ -158,12 +160,21 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
   const loadOrders = async () => {
     try {
-      const data = await api.getOrders(orderFilter, orderSearch);
+      const data = await api.getOrders('all', orderSearch);
       setOrders(data);
     } catch (e) {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    if (!session || activeTab !== 'orders') return;
+    let active = true;
+    const timeout = window.setTimeout(() => {
+      api.getOrders('all', orderSearch).then((data) => { if (active) setOrders(data); }).catch((error) => console.error(error));
+    }, 250);
+    return () => { active = false; window.clearTimeout(timeout); };
+  }, [orderSearch, session, activeTab]);
 
   const loadProducts = async () => {
     try {
@@ -302,6 +313,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const handleSaveOffer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingOffer?.title) return;
+    if (editingOffer.type === 'coupon' && (!editingOffer.couponCode?.trim() || !editingOffer.discountPercent || editingOffer.discountPercent < 1 || editingOffer.discountPercent > 100)) {
+      alert('أدخل رمز كوبون ونسبة خصم بين 1 و100');
+      return;
+    }
     try {
       if (editingOffer.id) {
         await api.updateOffer(editingOffer.id, editingOffer);
@@ -311,6 +326,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       setIsOfferModalOpen(false);
       setEditingOffer(null);
       loadOffers();
+      window.dispatchEvent(new CustomEvent('komur_offer_published'));
     } catch (e: any) {
       alert(e.message);
     }
@@ -613,7 +629,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             </div>
           ) : (
             <div className="space-y-4">
-              {orders.map((order) => (
+                {orders.filter((order) => orderFilter === 'all' || order.status === orderFilter).map((order) => (
                 <div
                   key={order.id}
                   className={`bg-white border rounded-2xl p-4 sm:p-5 transition-all shadow-sm hover:shadow-md ${order.status === 'new'
@@ -624,7 +640,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-3">
                     <div className="flex items-center gap-3">
                       <span className="text-base font-black text-amber-600 font-heading font-mono">
-                        {order.orderNumber}
+                      <button type="button" className="text-orange-600 underline-offset-2 hover:underline" onClick={() => {
+                        try { sessionStorage.setItem('komur_track_query', order.orderNumber); } catch {}
+                        onNavigate?.('track');
+                      }} title="فتح تتبع هذا الطلب">{order.orderNumber}</button>
                       </span>
                       <span className="text-xs text-slate-400 tabular-nums">
                         {new Date(order.createdAt).toLocaleDateString('ar-EG-u-nu-latn')} - {new Date(order.createdAt).toLocaleTimeString('ar-EG-u-nu-latn', { hour: '2-digit', minute: '2-digit' })}
@@ -1369,6 +1388,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               </div>
 
               <div>
+                <label className="block font-bold text-slate-600 mb-1">رقم التسجيل الضريبي / VAT</label>
+                <input type="text" value={settingsForm.taxNumber || ''} onChange={(e) => setSettingsForm({ ...settingsForm, taxNumber: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-700 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 focus:outline-none" placeholder="اختياري" />
+              </div>
+
+              <div>
                 <label className="block font-bold text-slate-600 mb-1">رقم الواتساب (لروابط المحادثة المباشرة)</label>
                 <input
                   type="text"
@@ -1573,6 +1597,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             </h3>
 
             <form onSubmit={handleSaveOffer} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-bold text-slate-600 mb-1">نوع العرض</label>
+                <select value={editingOffer.type || 'standard'} onChange={(e) => setEditingOffer({ ...editingOffer, type: e.target.value as 'standard' | 'coupon', couponCode: e.target.value === 'coupon' ? (editingOffer.couponCode || 'KOMUR10') : '' })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700">
+                  <option value="standard">Standard Offer</option><option value="coupon">Discount Coupon</option>
+                </select>
+              </div>
+              {editingOffer.type === 'coupon' && <div><label className="block font-bold text-slate-600 mb-1">اسم / رمز الكوبون</label><input required value={editingOffer.couponCode || ''} onChange={(e) => setEditingOffer({ ...editingOffer, couponCode: e.target.value.toUpperCase() })} placeholder="KOMUR10" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 uppercase" /></div>}
               <div>
                 <label className="block font-bold text-slate-600 mb-1">عنوان العرض</label>
                 <input

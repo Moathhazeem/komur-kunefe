@@ -37,6 +37,7 @@ export interface OrderItem {
   variantName: string;
   price: number;
   quantity: number;
+  category?: string;
 }
 
 export interface Order {
@@ -46,6 +47,9 @@ export interface Order {
   customerPhone: string;
   items: OrderItem[];
   total: number;
+  subtotal?: number;
+  discountAmount?: number;
+  couponCode?: string;
   deliveryFee?: number;
   fulfillment?: 'pickup' | 'delivery';
   deliveryAddress?: string;
@@ -68,6 +72,8 @@ export interface Offer {
   endDate: string;
   isActive: boolean;
   includedProductNames: string[];
+  type?: 'standard' | 'coupon';
+  couponCode?: string;
 }
 
 export interface Review {
@@ -90,6 +96,7 @@ export interface DeliveryInterest {
 
 export interface StoreSettings {
   storeName: string;
+  taxNumber?: string;
   tagline: string;
   branch: string;
   phone: string;
@@ -120,6 +127,11 @@ const DB_FILE = path.resolve(process.cwd(), 'database.json');
 export const INITIAL_PRODUCTS: Product[] = OFFICIAL_PRODUCTS;
 
 const INITIAL_OFFERS: Offer[] = [
+  {
+    id: 'coupon-komur10', title: 'كوبون ترحيبي Kömür 10', description: 'خصم 10% على طلبك باستخدام الكود KOMUR10.',
+    discountPercent: 10, badge: 'كوبون خصم', startDate: '2026-01-01', endDate: '2027-12-31', isActive: true,
+    includedProductNames: [], type: 'coupon', couponCode: 'KOMUR10'
+  },
   {
     id: 'off-1',
     title: 'عرض لمة العيلة (سدر إسطنبولية ع الفحم)',
@@ -320,6 +332,8 @@ class Database {
         // Ensure legacy products are sanitized and replaced with ONLY official products
         if (parsed && Array.isArray(parsed.products)) {
           parsed.products = INITIAL_PRODUCTS;
+          parsed.offers = Array.isArray(parsed.offers) ? parsed.offers : [];
+          if (!parsed.offers.some((offer: Offer) => offer.type === 'coupon' && offer.couponCode?.toUpperCase() === 'KOMUR10')) parsed.offers.unshift(INITIAL_OFFERS[0]);
           this.saveData(parsed);
           return parsed;
         }

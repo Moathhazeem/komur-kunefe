@@ -1,5 +1,5 @@
-import React from 'react';
-import { Printer, X, Flame } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Printer, X } from 'lucide-react';
 import { Order, StoreSettings } from '../types';
 
 interface ReceiptPrintModalProps {
@@ -9,140 +9,118 @@ interface ReceiptPrintModalProps {
   onClose: () => void;
 }
 
-export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({
-  order,
-  settings,
-  isOpen,
-  onClose,
-}) => {
+export const ReceiptPrintModal: React.FC<ReceiptPrintModalProps> = ({ order, settings, isOpen, onClose }) => {
+  const printLock = useRef(false);
+
   if (!isOpen || !order) return null;
 
-
+  const itemSubtotal = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = order.subtotal ?? itemSubtotal;
+  const discount = order.discountAmount ?? 0;
+  const delivery = order.deliveryFee ?? (order.fulfillment === 'delivery' ? 15 : 0);
+  const date = new Date(order.createdAt);
+  const invoiceId = `INV-${order.orderNumber}`;
 
   const handlePrint = () => {
-    window.print();
+    if (printLock.current) return;
+    printLock.current = true;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      printLock.current = false;
+      window.alert('تعذر فتح نافذة الطباعة. اسمح بالنوافذ المنبثقة ثم حاول مجدداً.');
+      return;
+    }
+
+    const invoice = document.querySelector('.invoice-print-root');
+    if (!invoice) {
+      printWindow.close();
+      printLock.current = false;
+      return;
+    }
+
+    const stylesheets = Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
+      .map((link) => `<link rel="stylesheet" href="${link.href}">`).join('');
+    const inlineStyles = Array.from(document.querySelectorAll('style')).map((style) => style.textContent || '').join('\n');
+    printWindow.document.open();
+    printWindow.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${stylesheets}<style>${inlineStyles}</style><style>
+      @page { size: A4 portrait; margin: 12mm; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; width: 100%; background: #fff; color: #111827; font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.45; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .invoice-print-root { display: block; position: static !important; width: 100% !important; max-width: none !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
+      table { width: 100%; border-collapse: collapse; }
+      tr, header, section, footer { break-inside: avoid; page-break-inside: avoid; }
+      th, td { padding-top: 7pt !important; padding-bottom: 7pt !important; }
+      @media screen { body { padding: 12mm; } }
+    </style></head><body>${invoice.outerHTML}</body></html>`);
+    printWindow.document.close();
+
+    let didPrint = false;
+    const printOnce = () => {
+      if (didPrint || printWindow.closed) return;
+      didPrint = true;
+      printWindow.focus();
+      printWindow.onafterprint = () => { printLock.current = false; printWindow.close(); };
+      try {
+        printWindow.print();
+      } catch {
+        printLock.current = false;
+        printWindow.close();
+      }
+      window.setTimeout(() => { printLock.current = false; if (!printWindow.closed) printWindow.close(); }, 120000);
+    };
+    printWindow.document.fonts?.ready.then(printOnce).catch(printOnce);
+    window.setTimeout(printOnce, 500);
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="relative w-full max-w-md my-auto bg-white border border-orange-200 rounded-3xl p-6 shadow-2xl text-right animate-fadeIn">
-        
-        {/* Modal Controls */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95 cursor-pointer"
-            aria-label="إغلاق النافذة"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrint}
-              className="flex min-h-[44px] items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all active:scale-95 cursor-pointer"
-            >
-              <Printer className="w-4 h-4" />
-              <span>طباعة الفاتورة</span>
-            </button>
-          </div>
+    <div className="invoice-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4 backdrop-blur-sm">
+      <div className="invoice-modal-shell relative my-auto w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl sm:p-6">
+        <div className="no-print mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
+          <button onClick={onClose} className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200" aria-label="إغلاق الفاتورة"><X className="h-5 w-5" /></button>
+          <button onClick={handlePrint} className="flex min-h-11 items-center gap-2 rounded-xl bg-orange-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-orange-700"><Printer className="h-4 w-4" /> طباعة الفاتورة</button>
         </div>
 
-        {/* Printable Area */}
-        <div
-          id="printable-receipt"
-          className="bg-white text-black p-6 rounded-2xl font-mono text-xs shadow-inner border border-gray-300 leading-relaxed"
-          dir="rtl"
-        >
-          {/* Receipt Header */}
-          <div className="text-center pb-3 border-b-2 border-dashed border-gray-400 space-y-1">
-            <div className="flex items-center justify-center gap-1 font-bold text-base text-gray-900">
-              <Flame className="w-4 h-4 text-orange-600 inline" />
-              <span>Kömür Künefe — كنافة ع الفحم</span>
+        <article className="invoice-print-root mx-auto w-full max-w-[190mm] bg-white p-5 text-slate-900 sm:p-10" dir="rtl">
+          <header className="flex flex-col justify-between gap-6 border-b-2 border-slate-900 pb-6 sm:flex-row sm:items-start">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-orange-700">فاتورة تجارية</p>
+              <h1 className="mt-2 text-3xl font-black tracking-tight">{settings?.storeName || 'Kömür Künefe — كنافة ع الفحم'}</h1>
+              <p className="mt-2 text-sm text-slate-600">{settings?.branch || 'رافِدية - الشارع الرئيسي، نابلس'}</p>
+              <p className="text-sm text-slate-600">هاتف / واتساب: <span dir="ltr" className="inline-block">{settings?.phone || '+970 562 606 061'}</span></p>
+              <p className="text-sm text-slate-600">الرقم الضريبي / VAT: {settings?.taxNumber || 'غير مسجل'}</p>
             </div>
-            <p className="text-[11px] text-gray-700">
-              {settings?.branch || 'رافِدية - الشارع الرئيسي، نابلس'}
-            </p>
-            <p className="text-[11px] text-gray-700 dir-ltr text-center">
-              هاتف / واتساب: {settings?.phone || '+970 562 606 061'}
-            </p>
-            <div className="pt-2">
-              <span className="inline-block bg-black text-white px-3 py-1 rounded text-sm font-black">
-                {order.deliveryFee ? 'طلب توصيل:' : 'طلب استلام:'} {order.orderNumber}
-              </span>
+            <div className="min-w-52 rounded-xl bg-slate-50 p-4 text-sm">
+              <div className="flex justify-between gap-4"><span className="text-slate-500">رقم الفاتورة</span><strong dir="ltr">{invoiceId}</strong></div>
+              <div className="mt-2 flex justify-between gap-4"><span className="text-slate-500">التاريخ</span><strong>{date.toLocaleDateString('ar-PS')}</strong></div>
+              <div className="mt-2 flex justify-between gap-4"><span className="text-slate-500">الوقت</span><strong>{date.toLocaleTimeString('ar-PS', { hour: '2-digit', minute: '2-digit' })}</strong></div>
+              <div className="mt-2 flex justify-between gap-4"><span className="text-slate-500">رقم الطلب</span><strong>{order.orderNumber}</strong></div>
             </div>
-          </div>
+          </header>
 
-          {/* Customer & Order Metadata */}
-          <div className="py-3 border-b-2 border-dashed border-gray-400 space-y-1 text-gray-800">
-            <div className="flex justify-between">
-              <span>التاريخ:</span>
-              <span>{new Date(order.createdAt).toLocaleDateString('ar-EG')} {new Date(order.createdAt).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>اسم الزبون:</span>
-              <span className="font-bold">{order.customerName}</span>
-            </div>
-            <div className="flex flex-wrap justify-between">
-              <span>الهاتف:</span>
-              <span className="dir-ltr">{order.customerPhone}</span>
-            </div>
-            {order.fulfillment === 'delivery' && (
-              <div className="w-full flex justify-between">
-                <span>عنوان التوصيل:</span>
-                <span className="max-w-[65%] text-left">{order.deliveryAddress}</span>
-              </div>
-            )}
-            <div className="flex justify-between">
-              <span>{order.deliveryFee ? 'موعد الطلب:' : 'وقت الاستلام:'}</span>
-              <span className="font-bold text-orange-950">{order.pickupTime}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>طريقة الدفع:</span>
-              <span>{order.fulfillment === 'delivery' ? 'الدفع عند استلام الطلب' : 'الدفع عند الاستلام في المحل'}</span>
-            </div>
-            {order.notes && (
-              <div className="pt-1 text-[11px] text-gray-600">
-                <span className="font-bold">ملاحظات: </span>
-                <span>{order.notes}</span>
-              </div>
-            )}
-          </div>
+          <section className="grid gap-4 border-b border-slate-200 py-5 sm:grid-cols-2">
+            <div><p className="text-xs font-bold uppercase tracking-wider text-slate-500">فاتورة إلى</p><p className="mt-1 font-bold">{order.customerName}</p><p dir="ltr" className="text-right text-sm text-slate-600">{order.customerPhone}</p></div>
+            <div><p className="text-xs font-bold uppercase tracking-wider text-slate-500">طريقة الاستلام والدفع</p><p className="mt-1 font-bold">{order.fulfillment === 'delivery' ? 'توصيل' : 'استلام من الفرع'} · {order.paymentMethod === 'mock_online' ? 'دفع إلكتروني' : 'الدفع عند الاستلام'}</p>{order.fulfillment === 'delivery' && <p className="text-sm text-slate-600">{order.deliveryAddress}</p>}</div>
+          </section>
 
-          {/* Items Table */}
-          <div className="py-3 border-b-2 border-dashed border-gray-400">
-            <div className="grid grid-cols-6 font-bold pb-1 text-gray-900 border-b border-gray-200">
-              <span className="col-span-3">الصنف</span>
-              <span className="col-span-1 text-center">الكمية</span>
-              <span className="col-span-2 text-left">السعر</span>
-            </div>
-            <div className="space-y-1.5 pt-2">
-              {order.items.map((item, idx) => (
-                <div key={idx} className="grid grid-cols-6 text-[11px]">
-                  <div className="col-span-3">
-                    <div className="font-bold">{item.name}</div>
-                    <div className="text-[10px] text-gray-500">{item.variantName}</div>
-                  </div>
-                  <div className="col-span-1 text-center font-bold">{item.quantity}</div>
-                  <div className="col-span-2 text-left font-bold">{item.price * item.quantity} ₪</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <section className="py-5">
+            <table className="w-full border-collapse text-sm">
+              <thead><tr className="border-b-2 border-slate-800 text-right"><th className="py-3 pl-2">الصنف</th><th className="w-20 py-3 text-center">الكمية</th><th className="w-28 py-3 text-left">سعر الوحدة</th><th className="w-28 py-3 text-left">الإجمالي</th></tr></thead>
+              <tbody>{order.items.map((item, index) => <tr key={`${item.productId}-${item.variantId}-${index}`} className="border-b border-slate-200"><td className="py-3 pl-2"><strong className="block">{item.name}</strong><span className="text-xs text-slate-500">{item.variantName}</span></td><td className="py-3 text-center">{item.quantity}</td><td className="py-3 text-left">{item.price.toFixed(2)} ₪</td><td className="py-3 text-left font-bold">{(item.price * item.quantity).toFixed(2)} ₪</td></tr>)}</tbody>
+            </table>
+          </section>
 
-          {/* Delivery & Total */}
-          {order.deliveryFee ? <div className="pt-2 flex justify-between text-gray-700"><span>رسوم التوصيل (مرة واحدة):</span><span>{order.deliveryFee} شيكل</span></div> : null}
-          <div className="pt-3 pb-2 flex justify-between items-center text-sm font-black text-gray-900">
-            <span>المجموع النهائي:</span>
-            <span className="text-base">{order.total} شيكل</span>
-          </div>
+          <section className="ml-auto w-full max-w-sm border-t border-slate-200 pt-4 text-sm">
+            <div className="flex justify-between py-1.5"><span className="text-slate-600">المجموع الفرعي</span><span>{subtotal.toFixed(2)} ₪</span></div>
+            {discount > 0 && <div className="flex justify-between py-1.5 text-emerald-700"><span>خصم {order.couponCode ? `(${order.couponCode})` : ''}</span><span>−{discount.toFixed(2)} ₪</span></div>}
+            <div className="flex justify-between py-1.5"><span className="text-slate-600">رسوم التوصيل</span><span>{delivery.toFixed(2)} ₪</span></div>
+            <div className="mt-3 flex justify-between border-t-2 border-slate-900 pt-3 text-xl font-black"><span>الإجمالي المستحق</span><span>{order.total.toFixed(2)} ₪</span></div>
+            <p className="mt-2 text-xs text-slate-500">ضريبة القيمة المضافة غير مفصلة بشكل منفصل.</p>
+          </section>
 
-          {/* Footer note */}
-          <div className="text-center pt-3 border-t border-gray-200 text-[10px] text-gray-500 space-y-0.5">
-            <p>صحتين وألف عافية! شكراً لاختياركم كُومُر كُونافيه.</p>
-            <p>زورونا دائماً في رافدية - الشارع الرئيسي</p>
-          </div>
-        </div>
-
+          {order.notes && <p className="mt-5 border-t border-slate-200 pt-4 text-sm"><strong>ملاحظات الطلب: </strong>{order.notes}</p>}
+          <footer className="mt-10 border-t border-slate-200 pt-4 text-center text-xs text-slate-500"><p className="font-bold text-slate-700">شكراً لاختياركم Kömür Künefe</p><p className="mt-1">نتمنى لكم وقتاً طيباً وصحتين وعافية</p></footer>
+        </article>
       </div>
     </div>
   );

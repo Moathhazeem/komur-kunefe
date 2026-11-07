@@ -58,9 +58,24 @@ export const api = {
   },
 
   async getOrder(id: string): Promise<Order | null> {
-    const res = await fetch(`/api/orders/${id}`);
-    const data = await res.json();
-    return data.order || null;
+    const identifier = id.trim();
+    if (!identifier) return null;
+
+    try {
+      const res = await fetch(`/api/orders/${encodeURIComponent(identifier)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.order) return data.order;
+      }
+    } catch {
+      // Fall through to the order search endpoint for older server instances.
+    }
+
+    const matches = await this.getOrders('all', identifier);
+    const normalized = identifier.toUpperCase();
+    return matches.find((order) =>
+      order.id.toUpperCase() === normalized || order.orderNumber.toUpperCase() === normalized
+    ) || null;
   },
 
   async createOrder(order: any): Promise<Order> {
@@ -79,6 +94,18 @@ export const api = {
           stored.unshift(data.order.id);
           localStorage.setItem('komur_my_order_ids', JSON.stringify(stored));
         }
+        const favorites = JSON.parse(localStorage.getItem('komur_favorite_products') || '{}') as Record<string, { name: string; category?: string; count: number }>;
+        for (const item of data.order.items || []) {
+          const current: { name: string; category?: string; count: number } = favorites[item.productId] || { name: item.name, count: 0 };
+          current.name = item.name;
+          current.category = item.category || current.category;
+          current.count += item.quantity;
+          favorites[item.productId] = current;
+        }
+        localStorage.setItem('komur_favorite_products', JSON.stringify(favorites));
+        const categories = JSON.parse(localStorage.getItem('komur_favorite_categories') || '{}') as Record<string, number>;
+        for (const item of data.order.items || []) if (item.category) categories[item.category] = (categories[item.category] || 0) + item.quantity;
+        localStorage.setItem('komur_favorite_categories', JSON.stringify(categories));
         localStorage.setItem('komur_last_order_event', JSON.stringify({ type: 'order_created', order: data.order, time: Date.now() }));
       } catch {}
       window.dispatchEvent(new CustomEvent('komur_order_created', { detail: data.order }));

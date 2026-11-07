@@ -166,7 +166,8 @@ async function startServer() {
 
   app.get('/api/orders/:id', (req, res) => {
     try {
-      const order = db.getOrderById(req.params.id);
+      const identifier = req.params.id.trim();
+      const order = db.getOrderById(identifier) || db.getOrders().find(o => o.orderNumber.toUpperCase() === identifier.toUpperCase());
       if (!order) {
         return res.status(404).json({ success: false, error: 'الطلب غير موجود' });
       }
@@ -192,11 +193,19 @@ async function startServer() {
       const orderFulfillment = fulfillment === 'delivery' ? 'delivery' : 'pickup';
       const deliveryFee = orderFulfillment === 'delivery' ? 15 : 0;
       const subtotal = items.reduce((sum: number, item: any) => sum + Number(item.price) * Number(item.quantity), 0);
+      const couponCode = String(req.body.couponCode || '').trim().toUpperCase();
+      const now = new Date().toISOString().slice(0, 10);
+      const coupon = couponCode ? db.getOffers().find(o => o.type === 'coupon' && o.isActive && o.couponCode?.toUpperCase() === couponCode && o.discountPercent > 0 && o.discountPercent <= 100 && (!o.startDate || o.startDate <= now) && (!o.endDate || o.endDate >= now)) : undefined;
+      if (couponCode && !coupon) return res.status(400).json({ success: false, error: 'الكوبون غير صالح أو منتهي الصلاحية' });
+      const discountAmount = coupon ? Math.round(subtotal * coupon.discountPercent) / 100 : 0;
       const newOrder = db.addOrder({
         customerName,
         customerPhone,
         items,
-        total: subtotal + deliveryFee,
+        subtotal,
+        discountAmount,
+        couponCode: coupon?.couponCode,
+        total: subtotal - discountAmount + deliveryFee,
         deliveryFee,
         fulfillment: orderFulfillment,
         deliveryAddress: orderFulfillment === 'delivery' ? String(deliveryAddress).trim() : undefined,
@@ -249,9 +258,15 @@ async function startServer() {
 
   app.post('/api/offers', (req, res) => {
     try {
-      const { title, description, discountPercent, badge, startDate, endDate, isActive, includedProductNames } = req.body;
+      const { title, description, discountPercent, badge, startDate, endDate, isActive, includedProductNames, type, couponCode } = req.body;
       if (!title) {
         return res.status(400).json({ success: false, error: 'عنوان العرض مطلوب' });
+      }
+      if (type === 'coupon' && (!String(couponCode || '').trim() || Number(discountPercent) < 1 || Number(discountPercent) > 100)) {
+        return res.status(400).json({ success: false, error: 'رمز الكوبون ونسبة خصم بين 1 و100 مطلوبة' });
+      }
+      if (type === 'coupon' && db.getOffers().some(o => o.couponCode?.toUpperCase() === String(couponCode).trim().toUpperCase())) {
+        return res.status(409).json({ success: false, error: 'رمز الكوبون مستخدم بالفعل' });
       }
       const newOffer = db.saveOffer({
         id: `off-${Date.now()}`,
@@ -262,7 +277,9 @@ async function startServer() {
         startDate: startDate || new Date().toISOString().split('T')[0],
         endDate: endDate || '',
         isActive: isActive !== undefined ? isActive : true,
-        includedProductNames: includedProductNames || []
+        includedProductNames: includedProductNames || [],
+        type: type === 'coupon' ? 'coupon' : 'standard',
+        couponCode: type === 'coupon' ? String(couponCode || '').trim().toUpperCase() : undefined
       });
       res.status(201).json({ success: true, offer: newOffer });
     } catch (err: any) {
@@ -276,7 +293,14 @@ async function startServer() {
       if (!existing) {
         return res.status(404).json({ success: false, error: 'العرض غير موجود' });
       }
-      const updated = db.saveOffer({ ...existing, ...req.body, id: existing.id });
+      const next = { ...existing, ...req.body };
+      if (next.type === 'coupon' && (!String(next.couponCode || '').trim() || Number(next.discountPercent) < 1 || Number(next.discountPercent) > 100)) {
+        return res.status(400).json({ success: false, error: 'رمز الكوبون ونسبة خصم بين 1 و100 مطلوبة' });
+      }
+      if (next.type === 'coupon' && db.getOffers().some(o => o.id !== existing.id && o.couponCode?.toUpperCase() === String(next.couponCode).trim().toUpperCase())) {
+        return res.status(409).json({ success: false, error: 'رمز الكوبون مستخدم بالفعل' });
+      }
+      const updated = db.saveOffer({ ...next, id: existing.id, couponCode: next.type === 'coupon' ? String(next.couponCode).trim().toUpperCase() : undefined });
       res.json({ success: true, offer: updated });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });

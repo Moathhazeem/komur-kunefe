@@ -51,6 +51,7 @@ export interface OrderItem {
   variantName: string;
   price: number;
   quantity: number;
+  category?: string;
 }
 
 export interface Order {
@@ -60,6 +61,9 @@ export interface Order {
   customerPhone: string;
   items: OrderItem[];
   total: number;
+  subtotal?: number;
+  discountAmount?: number;
+  couponCode?: string;
   deliveryFee?: number;
   fulfillment?: 'pickup' | 'delivery';
   deliveryAddress?: string;
@@ -82,6 +86,8 @@ export interface Offer {
   endDate: string;
   isActive: boolean;
   includedProductNames: string[];
+  type?: 'standard' | 'coupon';
+  couponCode?: string;
 }
 
 export interface DeliveryInterest {
@@ -94,6 +100,7 @@ export interface DeliveryInterest {
 
 export interface StoreSettings {
   storeName: string;
+  taxNumber?: string;
   tagline: string;
   branch: string;
   phone: string;

@@ -457,7 +457,7 @@ export const CompetitorIntelligence: React.FC = () => {
               { id: 'overview', label: '1. البطاقات والمعلومات', icon: Users },
               { id: 'pricing', label: '2. تحليل الأسعار والمستويات', icon: BarChart2 },
               { id: 'offers', label: '3. شبكة العروض النشطة', icon: Tag },
-              { id: 'social', label: '4. تحليل تفاعل فيسبوك الشامل', icon: ThumbsUp },
+    { id: 'social', label: '4. تحليلات وسائل التواصل الاجتماعي', icon: ThumbsUp },
               { id: 'swot', label: '5. مصفوفة SWOT المحلية', icon: Target },
               { id: 'edge', label: '6. متتبع نقاط التميز والفرادة', icon: Zap },
             ].map(tab => {
@@ -471,8 +471,8 @@ export const CompetitorIntelligence: React.FC = () => {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`shrink-0 flex min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all border whitespace-nowrap cursor-pointer active:scale-95 ${
                     active
-                      ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
-                      : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
+                    ? 'bg-orange-500 text-white border-orange-500 shadow-sm font-black'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-orange-300 hover:text-orange-600'
                   }`}
                 >
                   <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#DAB775]' : 'text-[#75675C]'}`} />
@@ -721,15 +721,25 @@ export const CompetitorIntelligence: React.FC = () => {
         </div>
       )}
 
-      {/* ─── MODULE 4: Facebook Social Media Engagement Widget (ALL 4 ENTITIES COMPARED) ─── */}
+      {/* ─── MODULE 4: Social Media Analytics Dashboard ─── */}
       {activeTab === 'social' && (
         <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
             <div>
               <h3 className="text-lg font-bold text-slate-900 font-heading">
-                مقارنة تفاعل منصة فيسبوك (Facebook Engagement Analytics)
+                تحليلات وسائل التواصل الاجتماعي
               </h3>
+              <div className="mt-4 flex flex-wrap items-center gap-2" aria-label="منصات التواصل الاجتماعي">
+                <span className="rounded-lg border border-orange-600 bg-orange-600 px-3 py-1.5 text-xs font-bold text-white">Facebook</span>
+                <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500">Instagram · قريباً</span>
+                <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500">TikTok · قريباً</span>
+              </div>
+              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">معدل التفاعل من المشاهدات</p><p className="mt-2 text-2xl font-black text-[#17120F]">{(((BASELINE_BRAND.social.avgLikes + BASELINE_BRAND.social.avgComments + BASELINE_BRAND.social.avgShares) / BASELINE_BRAND.social.avgViews) * 100).toFixed(2)}%</p><p className="mt-1 text-[11px] text-slate-500">إعجابات وتعليقات ومشاركات لكل مشاهدة</p></div>
+                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">نمو المتابعين</p><p className="mt-2 text-lg font-black text-slate-700">بانتظار ربط بيانات المنصة</p><p className="mt-1 text-[11px] text-slate-500">سيظهر هنا عند توصيل Instagram أو TikTok</p></div>
+                <div className="rounded-2xl border border-amber-200 bg-[#F7F0E5] p-4"><p className="text-xs font-bold text-slate-600">أداء المنشورات</p><p className="mt-2 text-2xl font-black text-[#17120F]">{BASELINE_BRAND.social.postCount}</p><p className="mt-1 text-[11px] text-slate-500">منشوراً · متوسط {BASELINE_BRAND.social.avgViews.toLocaleString('ar-EG-u-nu-latn', { maximumFractionDigits: 0 })} مشاهدة</p></div>
+              </div>
               <p className="text-xs text-slate-500">
                 مقارنة شاملة لـ 20 منشور مرصود لكل منشأة (إجمالي 80 منشور مسحوب من فيسبوك)
               </p>
@@ -751,8 +761,8 @@ export const CompetitorIntelligence: React.FC = () => {
                     onClick={() => setSocialMetric(m.id as any)}
                     className={`group flex shrink-0 min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer active:scale-95 ${
                       active
-                        ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
-                        : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]'
+                    ? 'bg-orange-500 text-white border-orange-500 shadow-sm font-black'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-orange-300 hover:text-orange-600'
                     }`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${active ? 'text-[#DAB775]' : 'text-slate-500'}`} />
@@ -936,8 +946,8 @@ export const CompetitorIntelligence: React.FC = () => {
                   onClick={() => setSelectedSwotId(comp.id)}
                   className={`group shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer ${
                     selectedSwotId === comp.id
-                      ? 'bg-[#17120F] text-[#DAB775] border-[#17120F] shadow-sm font-black'
-                      : 'bg-white text-[#75675C] border-[#35241A]/10 hover:border-[#C7652D]/40 hover:text-[#C7652D]' 
+                      ? 'bg-orange-500 text-white border-orange-500 shadow-sm font-black'
+                      : 'bg-white text-slate-600 border-slate-200 hover:border-orange-300 hover:text-orange-600'
                   }`}
                 >
                   {comp.nameAr}

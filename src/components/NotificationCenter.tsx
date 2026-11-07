@@ -15,6 +15,7 @@ export interface NotificationItem {
   orderId?: string;
   orderNumber?: string;
   status?: Order['status'];
+  offerId?: string;
   timeMs?: number;
 }
 
@@ -151,9 +152,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
 
     const loadLiveNotifications = async () => {
       try {
-        const [orders, offers] = await Promise.all([
+        const [orders, offers, products] = await Promise.all([
           api.getOrders(),
           api.getOffers(),
+          api.getProducts(),
         ]);
 
         if (isCancelled) return;
@@ -163,14 +165,23 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
           .slice(0, 8)
           .map((order) => orderToNotification(order, currentReadIds));
 
+        let favorites: Array<{ name: string; category?: string; count: number }> = [];
+        try { favorites = Object.values(JSON.parse(localStorage.getItem('komur_favorite_products') || '{}')); } catch {}
         const offerNotifs: NotificationItem[] = (offers || [])
-          .filter((o: Offer) => o.isActive)
-          .slice(0, 2)
+          .filter((o: Offer) => o.isActive && (!o.startDate || o.startDate <= new Date().toISOString().slice(0, 10)) && (!o.endDate || o.endDate >= new Date().toISOString().slice(0, 10)))
+          .sort((a: Offer, b: Offer) => Number(b.id.split('-').pop()) - Number(a.id.split('-').pop()))
+          .slice(0, 8)
           .map((offer: Offer) => ({
             id: `offer-${offer.id}`,
+            offerId: offer.id,
             kind: 'offer',
             title: `عرض حصري • ${offer.title}`,
-            message: offer.description || 'استمتع بأقوى عروض الكنافة ع الفحم اليوم!',
+            message: (() => {
+              const offerCategories = (products || []).filter((product) => offer.includedProductNames?.some((name) => name.toLowerCase() === product.name.toLowerCase())).map((product) => product.category);
+              const favorite = [...favorites].sort((a, b) => b.count - a.count).find((item) => offer.includedProductNames?.some((name) => name.toLowerCase() === item.name.toLowerCase()) || (!!item.category && offerCategories.includes(item.category)));
+              const deal = offer.type === 'coupon' && offer.couponCode ? `كوبون ${offer.couponCode} بخصم ${offer.discountPercent}%` : offer.description || 'استمتع بأقوى عروض الكنافة ع الفحم اليوم!';
+              return favorite ? `عرض يناسب طلباتك المتكررة من ${favorite.name}: ${deal}` : deal;
+            })(),
             timestamp: 'عرض اليوم',
             read: currentReadIds.has(`offer-${offer.id}`),
             timeMs: Date.now() - 3600000,
@@ -202,12 +213,14 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
     });
 
     // Also poll every 12 seconds as a fallback
-    const interval = setInterval(loadLiveNotifications, 12000);
+    window.addEventListener('komur_offer_published', loadLiveNotifications);
+    const interval = setInterval(loadLiveNotifications, 5000);
 
     return () => {
       isCancelled = true;
       unsubscribe();
       clearInterval(interval);
+      window.removeEventListener('komur_offer_published', loadLiveNotifications);
     };
   }, []);
 
@@ -256,6 +269,9 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ onNaviga
       } catch {}
       setOpen(false);
       onNavigate('track');
+    } else if (notification.kind === 'offer' && onNavigate) {
+      setOpen(false);
+      onNavigate('offers');
     }
   };
 

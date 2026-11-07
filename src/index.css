@@ -108,9 +108,17 @@
 ::-webkit-scrollbar-thumb:hover { background: #C7652D; }
 
 @media print {
-  body * { visibility: hidden; }
-  #printable-receipt, #printable-receipt * { visibility: visible; }
-  #printable-receipt { position: absolute; inset: 0 auto auto 0; width: 100%; color: black !important; background: white !important; }
+  @page { size: A4; margin: 14mm; }
+  html, body, #root { width: 100% !important; min-width: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff !important; }
+  body * { visibility: hidden !important; }
+  .invoice-print-root, .invoice-print-root * { visibility: visible !important; }
+  .no-print { display: none !important; }
+  .invoice-modal-overlay { position: static !important; display: block !important; inset: auto !important; width: 100% !important; height: auto !important; padding: 0 !important; overflow: visible !important; background: #fff !important; backdrop-filter: none !important; }
+  .invoice-modal-shell { position: static !important; width: 100% !important; max-width: none !important; max-height: none !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+  .invoice-print-root { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; color: #111827 !important; background: #fff !important; font-family: Arial, sans-serif !important; font-size: 11pt !important; line-height: 1.45 !important; }
+  .invoice-print-root table { width: 100% !important; }
+  .invoice-print-root tr, .invoice-print-root section, .invoice-print-root header, .invoice-print-root footer { break-inside: avoid; }
+  .invoice-print-root th, .invoice-print-root td { padding-top: 7pt !important; padding-bottom: 7pt !important; }
 }
 
 /* ── Auth page animation ─────────────────────────────────────────────────── */

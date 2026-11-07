@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ShoppingBag, ArrowLeft, Trash2, Plus, Minus, MapPin, CheckCircle2, MessageCircle, Printer, User } from 'lucide-react';
-import { CartItem, Order, StoreSettings } from '../types';
+import { CartItem, Order, Offer, StoreSettings } from '../types';
 import { api } from '../services/api';
 import { PaymentModal, PaymentResult } from '../components/PaymentModal';
 import { ReceiptPrintModal } from '../components/ReceiptPrintModal';
@@ -44,11 +44,25 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [placedOrder, setPlacedOrder] = useState<Order | null>(null);
   const [showPrintModal, setShowPrintModal] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [couponMessage, setCouponMessage] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<Offer | null>(null);
+  const [offers, setOffers] = useState<Offer[]>([]);
+  useEffect(() => { api.getOffers().then(setOffers).catch(() => setOffers([])); }, []);
 
   // Delivery is a single order-level fee, regardless of the number of delivered items.
   const subtotal = cart.reduce((sum, item) => sum + item.variant.price * item.quantity, 0);
   const deliveryFee = fulfillment === 'delivery' ? 15 : 0;
-  const total = subtotal + deliveryFee;
+  const discountAmount = appliedCoupon ? Math.round(subtotal * appliedCoupon.discountPercent) / 100 : 0;
+  const total = Math.max(0, subtotal - discountAmount + deliveryFee);
+  const applyCoupon = () => {
+    const code = couponCode.trim().toUpperCase();
+    const today = new Date().toISOString().slice(0, 10);
+    const offer = offers.find((item) => item.type === 'coupon' && item.isActive && item.couponCode?.toUpperCase() === code && item.discountPercent > 0 && item.discountPercent <= 100 && (!item.startDate || item.startDate <= today) && (!item.endDate || item.endDate >= today));
+    if (!offer) { setAppliedCoupon(null); setCouponMessage('الكوبون غير صالح أو غير متاح حالياً'); return; }
+    setAppliedCoupon(offer);
+    setCouponMessage(`تم تطبيق خصم ${offer.discountPercent}%`);
+  };
 
   // Detect UTM source from URL query parameter
   const getTrafficSource = (): 'website' | 'instagram' | 'facebook' | 'whatsapp' => {
@@ -85,12 +99,16 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         items: cart.map((i) => ({
           productId: i.product.id,
           name: i.product.name,
+          category: i.product.category,
           variantId: i.variant.id,
           variantName: i.variant.name,
           price: i.variant.price,
           quantity: i.quantity,
         })),
         total,
+        subtotal,
+        discountAmount,
+        couponCode: appliedCoupon?.couponCode,
         paymentMethod: result.paymentMethod,
         paymentStatus: result.paymentStatus,
         transactionId: result.transactionId,
@@ -482,10 +500,12 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             </h3>
 
             <div className="space-y-2.5 text-sm">
+              <div className="rounded-xl border border-[#DAB775]/25 bg-white/5 p-3 space-y-2"><label className="block text-xs font-bold">Discount Coupon</label><div className="flex gap-2"><input value={couponCode} onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setAppliedCoupon(null); setCouponMessage(''); }} placeholder="KOMUR10" className="min-w-0 flex-1 rounded-lg border border-white/15 bg-white px-3 py-2 text-sm text-slate-900" /><button type="button" onClick={applyCoupon} className="rounded-lg bg-[#DAB775] px-4 py-2 text-xs font-black text-[#211814]">تطبيق</button></div>{couponMessage && <p className={`text-xs ${appliedCoupon ? 'text-emerald-300' : 'text-rose-300'}`}>{couponMessage}</p>}</div>
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>مجموع الأصناف ({cart.reduce((s, i) => s + i.quantity, 0)})</span>
                 <span className="font-bold text-[#F7F0E5]">{subtotal} ₪</span>
               </div>
+              {appliedCoupon && <div className="flex justify-between text-emerald-300"><span>خصم {appliedCoupon.couponCode} ({appliedCoupon.discountPercent}%)</span><span>−{discountAmount} ₪</span></div>}
               <div className="flex justify-between text-[#BDAFA2]">
                 <span>رسوم التجهيز والتغليف الفاخر</span>
                 <span className="text-emerald-600 font-bold">مجاناً</span>

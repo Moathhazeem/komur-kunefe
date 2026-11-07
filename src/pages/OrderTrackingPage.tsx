@@ -13,6 +13,23 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
   const [order, setOrder] = useState<Order | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
+  const lookupSequence = React.useRef(0);
+
+  const findOrder = React.useCallback(async (query: string) => {
+    const normalizedQuery = query.trim();
+    if (!normalizedQuery) return;
+    const sequence = ++lookupSequence.current;
+    setLoading(true);
+    setHasSearched(true);
+    try {
+      const found = await api.getOrder(normalizedQuery);
+      if (sequence === lookupSequence.current) setOrder(found);
+    } catch {
+      if (sequence === lookupSequence.current) setOrder(null);
+    } finally {
+      if (sequence === lookupSequence.current) setLoading(false);
+    }
+  }, []);
 
   React.useEffect(() => {
     try {
@@ -20,30 +37,40 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
       if (savedQuery) {
         sessionStorage.removeItem('komur_track_query');
         setOrderQuery(savedQuery);
-        setLoading(true);
-        setHasSearched(true);
-        api.getOrder(savedQuery.trim())
-          .then((found) => setOrder(found))
-          .catch(() => setOrder(null))
-          .finally(() => setLoading(false));
       }
     } catch {}
   }, []);
+
+  React.useEffect(() => {
+    const normalized = orderQuery.trim();
+    const isOrderNumber = /^KM-\d{4,}$/i.test(normalized);
+    const isOrderId = /^ord-[\w-]{8,}$/i.test(normalized);
+    if (!isOrderNumber && !isOrderId) return;
+    const timeout = window.setTimeout(() => { void findOrder(normalized); }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [orderQuery, findOrder]);
+
+  React.useEffect(() => {
+    if (!order) return;
+    const liveOrderId = order.id;
+    const unsubscribe = api.subscribeToOrderUpdates((updatedOrder) => {
+      if (updatedOrder.id === liveOrderId) setOrder(updatedOrder);
+    });
+    const refresh = async () => {
+      try {
+        const current = await api.getOrder(order.orderNumber);
+        if (current?.id === liveOrderId) setOrder(current);
+      } catch {}
+    };
+    const interval = window.setInterval(refresh, 10000);
+    return () => { unsubscribe(); window.clearInterval(interval); };
+  }, [order?.id, order?.orderNumber]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orderQuery.trim()) return;
 
-    setLoading(true);
-    setHasSearched(true);
-    try {
-      const found = await api.getOrder(orderQuery.trim());
-      setOrder(found);
-    } catch {
-      setOrder(null);
-    } finally {
-      setLoading(false);
-    }
+    await findOrder(orderQuery);
   };
 
   const getStatusStep = (status: Order['status']) => {
@@ -91,7 +118,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ settings }
             required
             placeholder="اكتب رقم الطلب هنا (مثل KM-8012)"
             value={orderQuery}
-            onChange={(e) => setOrderQuery(e.target.value)}
+            onChange={(e) => { setOrderQuery(e.target.value); setOrder(null); setHasSearched(false); }}
             className="w-full min-h-[44px] bg-white border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 rounded-xl pr-11 pl-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none transition-all"
           />
         </div>
