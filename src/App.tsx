@@ -256,7 +256,7 @@ function AppInner() {
       {/* Main Content Pages with smooth fade & slide-up */}
       <main
         key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab}
-        className="flex-1 animate-soft-slide-up pb-20 md:pb-0"
+        className={currentTab === 'home' ? 'home-main flex-1 pb-20 md:pb-0' : 'flex-1 animate-soft-slide-up pb-20 md:pb-0'}
       >
         {currentTab === 'home' && (
           <HomePage
