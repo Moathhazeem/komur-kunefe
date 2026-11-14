@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Flame, LayoutDashboard, LogIn, LogOut, Menu as MenuIcon, Phone, ShoppingBag, Sparkles, User, X } from 'lucide-react';
+import { BookOpen, Flame, Gift, House, LayoutGrid, MapPin, Tag, LayoutDashboard, LogIn, LogOut, Menu as MenuIcon, Phone, ShoppingBag, Sparkles, User, X } from 'lucide-react';
 import { StoreSettings } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { NotificationCenter } from './NotificationCenter';
@@ -24,6 +24,9 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dismissedAnnouncement, setDismissedAnnouncement] = useState<string>();
+  const announcement = settings?.announcementBanner;
+  const isHome = currentTab === 'home';
   const previousCount = useRef(cartCount);
   const [badgeKey, setBadgeKey] = useState(0);
 
@@ -33,11 +36,11 @@ export const Header: React.FC<HeaderProps> = ({
   }, [cartCount]);
 
   const navLinks = [
-    { id: 'home', label: 'الرئيسية' },
-    { id: 'menu', label: 'المنيو' },
-    { id: 'story', label: 'حكاية الجمر' },
-    { id: 'offers', label: 'العروض' },
-    { id: 'contact', label: 'زورونا' },
+    { id: 'home', label: 'الرئيسية', Icon: House },
+    { id: 'menu', label: 'المنيو', Icon: LayoutGrid },
+    { id: 'story', label: 'حكاية الجمر', Icon: BookOpen },
+    { id: 'offers', label: 'العروض', Icon: Tag },
+    { id: 'contact', label: 'زورونا', Icon: MapPin },
   ];
 
   const isActive = (id: string) => currentTab === id || (id === 'menu' && currentTab === 'product-details');
@@ -52,20 +55,25 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#DAB775]/20 bg-[#14110f]/95 text-[#F7F0E5] backdrop-blur-xl" dir="rtl">
-      {settings?.announcementBanner && (
-        <div className="flex min-h-8 items-center justify-center gap-2 bg-[#ea580c] px-4 py-1.5 text-center text-[11px] font-bold text-white sm:text-xs">
-          <Sparkles className="h-3.5 w-3.5 text-[#F7F0E5]" />
-          <span>{settings.announcementBanner}</span>
+    <header className={isHome ? 'home-header text-[#F7F0E5]' : 'sticky top-0 z-40 border-b border-[#DAB775]/20 bg-[#14110f]/95 text-[#F7F0E5] backdrop-blur-xl'} dir="rtl">
+      {announcement && (!isHome || announcement !== dismissedAnnouncement) && (
+        <div className={isHome ? 'home-announcement' : 'flex min-h-8 items-center justify-center gap-2 bg-[#ea580c] px-4 py-1.5 text-center text-[11px] font-bold text-white sm:text-xs'}>
+          {isHome ? <Gift size={17} aria-hidden="true" /> : <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />}
+          <span>{announcement}</span>
+          {isHome && (
+            <button type="button" onClick={() => setDismissedAnnouncement(announcement)} aria-label="إغلاق الإعلان">
+              <X size={16} aria-hidden="true" />
+            </button>
+          )}
         </div>
       )}
 
-      <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="header-bar mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         {/* Brand Logo & Name */}
         <button
           type="button"
           onClick={() => navigate('home')}
-          className="group flex w-max shrink-0 items-center gap-3 text-right cursor-pointer"
+          className="header-brand group flex w-max shrink-0 items-center gap-3 text-right cursor-pointer"
         >
           {settings?.logoUrl ? (
             <img
@@ -80,23 +88,25 @@ export const Header: React.FC<HeaderProps> = ({
           )}
           <span className="shrink-0 whitespace-nowrap">
             <span className="block whitespace-nowrap text-[17px] font-black leading-none text-[#F7F0E5] sm:text-xl">كُومُر كُونافيه</span>
-            <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[#ff7b00] sm:block">من الجمر، إلى قلبك</span>
+            <span className="header-wordmark mt-1 hidden text-[10px] font-medium tracking-wide text-[#ff7b00] sm:block">{isHome ? <bdi lang="tr">KÖMÜR KÜNEFE</bdi> : 'من الجمر، إلى قلبك'}</span>
           </span>
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden min-w-max shrink-0 flex-nowrap items-center gap-1 whitespace-nowrap lg:flex" aria-label="التنقل الرئيسي">
+        <nav className="header-desktop hidden min-w-max shrink-0 flex-nowrap items-center gap-1 whitespace-nowrap lg:flex" aria-label="التنقل الرئيسي">
           {navLinks.map((link) => (
             <button
               key={link.id}
               type="button"
               onClick={() => navigate(link.id)}
-              className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-bold transition-all duration-200 cursor-pointer ${
+              aria-current={isActive(link.id) ? 'page' : undefined}
+              className={`header-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-bold transition-all duration-200 cursor-pointer ${
                 isActive(link.id)
                   ? 'bg-[#ff7b00]/15 text-[#ff7b00] font-black'
                   : 'text-[#D5C7B9] hover:bg-white/5 hover:text-white'
               }`}
             >
+              {isHome && <link.Icon size={17} aria-hidden="true" />}
               {link.label}
             </button>
           ))}
@@ -126,20 +136,20 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Contact Button */}
           <a
             href={`tel:${settings?.phone || '+970562606061'}`}
-            className="hidden min-h-[44px] items-center gap-2 rounded-full border border-white/10 px-3.5 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] md:flex"
+            className="header-call hidden min-h-[44px] items-center gap-2 rounded-full border border-white/10 px-3.5 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] md:flex"
           >
             <Phone className="h-3.5 w-3.5" />
             <span>اتصل بنا</span>
           </a>
 
           {/* Notifications */}
-          <NotificationCenter onNavigate={navigate} />
+          <div className="header-notifications"><NotificationCenter onNavigate={navigate} /></div>
 
           {/* Cart Button */}
           <button
             type="button"
             onClick={onOpenCart}
-            className="relative flex min-h-[44px] items-center gap-2 rounded-full bg-[#ea580c] px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
+            className="header-cart relative flex min-h-[44px] items-center gap-2 rounded-full bg-[#ea580c] px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
             aria-label="عرض السلة"
           >
             <ShoppingBag className="h-4 w-4" />
@@ -147,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
             {cartCount > 0 && (
               <span
                 key={badgeKey}
-                className="animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#ea580c]"
+                className="header-cart-count animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#ea580c]"
               >
                 {cartCount}
               </span>
@@ -192,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenAuth}
-              className="hidden min-h-[44px] items-center gap-2 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-3.5 py-2 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
+              className="header-login hidden min-h-[44px] items-center gap-2 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-3.5 py-2 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>تسجيل الدخول</span>
@@ -203,7 +213,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#F7F0E5] hover:border-[#ff7b00]/50 lg:hidden cursor-pointer"
+            aria-expanded={mobileMenuOpen}
+            aria-controls={mobileMenuOpen ? 'store-header-menu' : undefined}
+            className="header-toggle flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#F7F0E5] hover:border-[#ff7b00]/50 lg:hidden cursor-pointer"
             aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
@@ -213,7 +225,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* ── Mobile Drawer ── */}
       {mobileMenuOpen && (
-        <div className="border-t border-white/10 bg-[#17120F] px-4 pb-6 pt-3 lg:hidden">
+        <div id="store-header-menu" className="header-drawer border-t border-white/10 bg-[#17120F] px-4 pb-6 pt-3 lg:hidden">
           <nav className="space-y-1" aria-label="التنقل المحمول">
             {navLinks.map((link) => (
               <button
