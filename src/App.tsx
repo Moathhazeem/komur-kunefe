@@ -25,6 +25,7 @@ import ChatbotWidget from './components/ChatbotWidget';
 // ─── Inner Application Component ─────────────────────────────────────────────
 
 function AppInner() {
+  const [menuFilters, setMenuFilters] = useState({ category: 'all', query: '' });
   const { user, isAuthenticated, isAdmin } = useAuth();
 
   // Navigation tab state
@@ -166,7 +167,7 @@ function AppInner() {
       );
       if (existingIndex >= 0) {
         const updated = [...prevCart];
-        updated[existingIndex].quantity += quantity;
+        updated[existingIndex] = { ...updated[existingIndex], quantity: updated[existingIndex].quantity + quantity };
         return updated;
       } else {
         return [...prevCart, { product, variant, quantity }];
@@ -181,7 +182,7 @@ function AppInner() {
     }
     setCart((prevCart) => {
       const updated = [...prevCart];
-      updated[index].quantity = quantity;
+      updated[index] = { ...updated[index], quantity };
       return updated;
     });
   };
@@ -202,7 +203,7 @@ function AppInner() {
     setCurrentTab('product-details');
     setShowAuth(false);
     window.history.pushState(null, '', `/product/${productId}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleNavigate = (tab: string) => {
@@ -217,7 +218,7 @@ function AppInner() {
       window.history.pushState(null, '', `/${tab}`);
       window.location.hash = tab;
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   // Automatic smooth redirection to home after login or signup
@@ -273,6 +274,8 @@ function AppInner() {
 
         {currentTab === 'menu' && (
           <MenuPage
+            filters={menuFilters}
+            onFilterChange={setMenuFilters}
             products={products}
             onAddToCart={handleAddToCart}
             onNavigateToProduct={handleNavigateToProduct}

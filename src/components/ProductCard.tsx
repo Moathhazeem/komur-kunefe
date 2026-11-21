@@ -1,8 +1,8 @@
+import { productImageSources } from '../utils/productImage';
 import React, { useEffect, useState } from 'react';
 import { Droplets, Flame, Share2, ShoppingBag, Sparkles, Star, Tag } from 'lucide-react';
 import { Product } from '../types';
 import { calculateProductRating, getReviewsByProductId } from '../utils/reviewsStorage';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 const CHARCOAL_SUBTITLES = [
   'مخبوزة على جمر الفحم',
   'جبنة نابلسية أصيلة',
@@ -33,7 +33,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
   const [imageError, setImageError] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [rating, setRating] = useState({ averageRating: 0, totalReviews: 0 });
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ delay: revealDelay });
   const minPrice = product.variants.length ? Math.min(...product.variants.map((variant) => variant.price)) : product.basePrice;
   const subtitle = getProductSubtitle(product);
   const formattedRating = rating.totalReviews ? rating.averageRating.toFixed(2).replace(/(\.\d)0$/, '$1') : '0.0';
@@ -49,10 +48,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
   };
 
   return (
-    <article ref={ref} role="link" tabIndex={0} aria-label={`عرض تفاصيل ${product.name}`} onClick={() => onOpenDetails(product)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onOpenDetails(product); } }} className={`reveal-card ${isVisible ? 'is-visible' : ''} group cursor-pointer overflow-hidden rounded-[26px] border border-[#35241A]/10 bg-white shadow-[0_12px_35px_rgba(53,36,26,.06)] transition-all duration-500 hover:-translate-y-1 hover:border-[#C7652D]/40 hover:shadow-[0_22px_48px_rgba(53,36,26,.12)]`}>
+    <article style={{ animationDelay: revealDelay + 'ms' }} role="link" tabIndex={0} aria-label={`عرض تفاصيل ${product.name}`} onClick={() => onOpenDetails(product)} onKeyDown={(event) => { if (event.target !== event.currentTarget) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onOpenDetails(product); } }} className={`catalog-card group cursor-pointer overflow-hidden rounded-[26px] border border-[#35241A]/10 bg-white shadow-[0_12px_35px_rgba(53,36,26,.06)] transition-all duration-500 hover:-translate-y-1 hover:border-[#C7652D]/40 hover:shadow-[0_22px_48px_rgba(53,36,26,.12)]`}>
       <div className="relative aspect-[1.08] overflow-hidden bg-[#F0E8DC]">
         {product.image && !imageError ? (
-          <img src={product.image} alt={product.name} loading="lazy" onError={() => setImageError(true)} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img decoding="async" srcSet={productImageSources(product.image)} sizes="(min-width: 1280px) 320px, (min-width: 640px) 42vw, 100vw" src={product.image} alt={product.name} loading="lazy" onError={() => setImageError(true)} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 bg-[#35241A] text-center text-[#F7F0E5]">
             {product.id === 'healthy-syrup' ? <Droplets className="h-10 w-10 text-[#DAB775]" /> : <Flame className="h-10 w-10 text-[#DAB775]" />}
@@ -60,7 +59,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetails
           </div>
         )}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
-          <button type="button" onClick={(event) => { event.stopPropagation(); setShareOpen((open) => !open); }} aria-label="مشاركة الصنف" className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#17120F]/70 text-white backdrop-blur-sm hover:bg-[#C7652D] active:scale-95 transition-all"><Share2 className="h-4 w-4" /></button>
+          <button type="button" aria-expanded={shareOpen} onClick={(event) => { event.stopPropagation(); setShareOpen((open) => !open); }} aria-label="مشاركة الصنف" className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#17120F]/70 text-white backdrop-blur-sm hover:bg-[#C7652D] active:scale-95 transition-all"><Share2 className="h-4 w-4" /></button>
           <div className="flex flex-col items-end gap-1.5">
             {product.featured && <span className="flex items-center gap-1 rounded-full bg-[#DAB775] px-2.5 py-1 text-[10px] font-black text-[#35241A]"><Sparkles className="h-3 w-3" /> اختيارنا</span>}
             {!product.isAvailable && <span className="rounded-full bg-[#17120F]/80 px-2.5 py-1 text-[10px] font-bold text-white">غير متوفر الآن</span>}

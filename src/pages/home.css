@@ -295,3 +295,13 @@
   .home-benefits li:nth-child(n+3) { border-block-start: 1px solid var(--home-rule); }
   .home-benefits svg { width: 21px; height: 21px; }
 }
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .home-hero-scene picture { position: absolute; inset: -8px; }
+  .home-hero-light {
+    position: absolute;
+    inset: -15%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 30% 60%, #f7b45d30, transparent 48%);
+  }
+}

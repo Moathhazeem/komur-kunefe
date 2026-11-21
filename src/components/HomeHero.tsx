@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { useHomeCinema } from './home/useHomeCinema';
 import { BadgeCheck, ChevronDown, CirclePlay, Flame, Leaf, ShoppingBag, Truck } from 'lucide-react';
 
 const benefits = [
@@ -13,8 +15,10 @@ interface HomeHeroProps {
 }
 
 export function HomeHero({ onNavigate }: HomeHeroProps) {
+  const root = useRef<HTMLElement>(null);
+  useHomeCinema(root);
   return (
-    <section className="home-hero" aria-labelledby="home-title">
+    <section ref={root} className="home-hero" aria-labelledby="home-title">
       <div className="home-hero-scene" aria-hidden="true">
         <picture>
           <source media="(max-width: 899px)" srcSet="/komur-hero-mobile.webp" />
@@ -28,6 +32,7 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
             decoding="async"
           />
         </picture>
+        <div className="home-hero-light" />
         <div className="home-hero-shade" />
       </div>
 
