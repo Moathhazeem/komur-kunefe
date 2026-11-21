@@ -1,84 +1,129 @@
-import { LayoutGroup, motion, useReducedMotion } from 'motion/react';
-import React, { useMemo } from 'react';
-import { Flame, Search, SlidersHorizontal } from 'lucide-react';
-import { Product, ProductVariant } from '../types';
-import { ProductCard } from '../components/ProductCard';
-
-function searchText(text: string) {
-  return text.toLowerCase().replace(/[\u064B-\u065F\u0670ـ]/g, '').replace(/[أإآٱ]/g, 'ا');
-}
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
+import { ArrowLeft, Search, X } from 'lucide-react';
+import type { Product, ProductVariant } from '../types';
+import { ShowcaseMedia } from '../components/ShowcaseMedia';
+import './menu-showcase.css';
 
 interface MenuPageProps {
+  products: Product[];
   filters: { category: string; query: string };
   onFilterChange: (filters: { category: string; query: string }) => void;
-  products: Product[];
   onAddToCart: (product: Product, variant: ProductVariant, quantity: number) => void;
   onOpenDeliverySurvey: () => void;
   onNavigateToProduct: (productId: string) => void;
 }
 
-export const MenuPage: React.FC<MenuPageProps> = ({ products, filters, onFilterChange, onOpenDeliverySurvey, onNavigateToProduct }) => {
-  const { category: selectedCategory, query: searchQuery } = filters;
-  const catalog = useMemo(() => products.map(product => ({
-    product, text: searchText(product.name + ' ' + (product.description ?? '')),
-  })), [products]);
+const categoryNames: Record<string, string> = {
+  charcoal: 'على الفحم', nutella: 'الشوكولاتة', nawashef: 'نواشف', oriental: 'حلويات شرقية',
+  beverages: 'مشروبات', other: 'أخرى', offers: 'عروض',
+};
+
+export function normalizeMenuSearch(text: string) {
+  return text.normalize('NFKC').toLowerCase().replace(/[\u064B-\u065F\u0670\u0640]/g, '')
+    .replace(/[\u0623\u0625\u0622\u0671]/g, '\u0627').trim();
+}
+
+export function MenuPage({ products, filters, onFilterChange, onOpenDeliverySurvey, onNavigateToProduct }: MenuPageProps) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selector = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const counts = useMemo(() => {
-    const totals = new Map<string, number>();
-    for (const product of products) totals.set(product.category, (totals.get(product.category) ?? 0) + 1);
-    return totals;
-  }, [products]);
-  const categories = [
-    { id: 'all', label: 'كل الأصناف' },
-    { id: 'charcoal', label: 'على الفحم' },
-    { id: 'nutella', label: 'الشوكولاتة' },
-    { id: 'nawashef', label: 'نواشف' },
-    { id: 'oriental', label: 'حلويات شرقية' },
-    { id: 'beverages', label: 'مشروبات' },
-    { id: 'other', label: 'أخرى' },
-  ];
-  const query = searchText(searchQuery.trim());
-  const filteredProducts = useMemo(() => catalog.filter(({ product, text }) =>
-    (selectedCategory === 'all' || product.category === selectedCategory) && text.includes(query)
-  ).map(({ product }) => product), [catalog, query, selectedCategory]);
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const rotateX = useSpring(tiltX, { stiffness: 140, damping: 25 });
+  const rotateY = useSpring(tiltY, { stiffness: 140, damping: 25 });
+  const categories = useMemo(() => [...new Set(products.map(product => product.category))], [products]);
+  const activeCategory = categories.includes(filters.category as Product['category']) ? filters.category : 'all';
+  const catalog = useMemo(() => products.map(product => ({
+    product, search: normalizeMenuSearch(product.name + ' ' + (product.description ?? '')),
+  })), [products]);
+  const query = normalizeMenuSearch(filters.query);
+  const results = useMemo(() => catalog.filter(({ product, search }) =>
+    (activeCategory === 'all' || product.category === activeCategory) && search.includes(query)
+  ).map(({ product }) => product), [catalog, query, activeCategory]);
+  const selected = results.find(product => product.id === selectedId) ?? results[0];
+  const price = selected && (selected.variants.length
+    ? Math.min(...selected.variants.map(variant => variant.price)) : selected.basePrice);
+
+  useEffect(() => {
+    tiltX.set(0);
+    tiltY.set(0);
+    selector.current?.querySelector<HTMLElement>('[aria-pressed="true"]')
+      ?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduceMotion ? 'instant' : 'smooth' });
+  }, [selected?.id, reduceMotion, tiltX, tiltY]);
+
+  function selectWithKeyboard(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const offsets: Record<string, number> = { ArrowLeft: 1, ArrowRight: -1 };
+    if (!(event.key in offsets) && event.key !== 'Home' && event.key !== 'End') return;
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? results.length - 1
+      : (index + offsets[event.key] + results.length) % results.length;
+    setSelectedId(results[next].id);
+    selector.current?.querySelectorAll<HTMLButtonElement>('button')[next]?.focus({ preventScroll: true });
+  }
 
   return (
-    <div className="min-h-screen bg-[#FBF8F2] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-7xl">
-        <header className="grid gap-8 border-b border-[#35241A]/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div className="max-w-2xl"><span className="inline-flex items-center gap-2 text-xs font-black text-[#C7652D]"><Flame className="h-4 w-4" /> تُخبز طازجة عند الطلب</span><h1 className="mt-3 text-4xl font-black text-[#211814] sm:text-6xl">المنيو</h1><p className="mt-4 text-sm leading-8 text-[#75675C] sm:text-base">اختار صنفك، حدّد الحجم، وخلي الباقي علينا. الأسعار والخيارات المعروضة مأخوذة من منيو الفرع مباشرة.</p></div>
-          <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">يمكن استبدال القطر العادي بقطر صحي بأحجام متعددة تبدأ من 2 شيكل.</span></div>
-        </header>
-
-        <div className="sticky top-[74px] z-20 -mx-4 mt-8 border-y border-[#35241A]/10 bg-[#FBF8F2]/95 px-4 py-3 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border sm:px-4">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <LayoutGroup>
-              <nav aria-label="تصنيفات المنيو" className="scrollbar-none flex gap-2 overflow-x-auto pb-1 touch-pan-x">
-                {categories.map(category => {
-                  const active = selectedCategory === category.id;
-                  return (
-                    <button key={category.id} type="button" aria-pressed={active}
-                      onClick={() => onFilterChange({ ...filters, category: category.id })}
-                      className="relative isolate inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-full border border-[#35241A]/10 bg-white px-4 text-xs font-black text-[#75675C] aria-pressed:text-[#DAB775]">
-                      {active && <motion.span aria-hidden="true" layoutId={reduceMotion ? undefined : 'menu-active'}
-                        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                        className="absolute inset-0 -z-10 rounded-full bg-[#17120F]" />}
-                      {category.label}
-                      <bdi>{category.id === 'all' ? products.length : counts.get(category.id) ?? 0}</bdi>
-                    </button>
-                  );
-                })}
-              </nav>
-            </LayoutGroup>
-            <div className="relative w-full lg:max-w-xs"><Search className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#75675C]" /><input type="search" value={searchQuery} onChange={(event) => onFilterChange({ ...filters, query: event.target.value })} placeholder="ابحث عن كنافة..." aria-label="البحث في المنيو" className="w-full min-h-[44px] rounded-full border border-[#35241A]/10 bg-white py-2.5 pl-4 pr-10 text-sm text-[#211814] placeholder:text-[#A99B90] focus:border-[#C7652D] focus:outline-none focus:ring-2 focus:ring-[#C7652D]/15" /></div>
+    <section className="menu-showcase" dir="rtl" aria-labelledby="menu-showcase-title" data-category={selected?.category}>
+      <header className="showcase-header">
+        <h1 id="menu-showcase-title">المنيو</h1>
+        <div className="showcase-search">
+          <Search size={18} aria-hidden="true" />
+          <input type="search" aria-label="البحث في المنيو" placeholder="شو عبالك اليوم؟" value={filters.query}
+            onChange={event => onFilterChange({ ...filters, query: event.target.value })} />
+          {filters.query && <button type="button" aria-label="مسح البحث" onClick={() => onFilterChange({ ...filters, query: '' })}><X size={17} /></button>}
+        </div>
+      </header>
+      <nav className="showcase-categories" aria-label="تصنيفات المنيو">
+        {['all', ...categories].map(category => <button type="button" key={category}
+          aria-pressed={activeCategory === category} onClick={() => onFilterChange({ ...filters, category })}>
+          {category === 'all' ? 'كل الأصناف' : categoryNames[category] ?? category}
+        </button>)}
+      </nav>
+      {selected ? <>
+        <div className="showcase-main">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div key={selected.id} className="showcase-copy"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }} transition={{ duration: reduceMotion ? 0 : .18 }}>
+              <span className="showcase-category">{categoryNames[selected.category]}</span>
+              <h2>{selected.name}</h2>
+              {selected.description?.trim() && <p>{selected.description}</p>}
+              <div className="showcase-price"><span>يبدأ من</span><strong><bdi>{price}</bdi><small> ₪</small></strong></div>
+              <button type="button" className="showcase-order" disabled={!selected.isAvailable}
+                onClick={() => onNavigateToProduct(selected.id)}>{selected.isAvailable ? 'اختيار الحجم' : 'غير متاح حاليًا'}<ArrowLeft size={19} aria-hidden="true" /></button>
+              {!selected.isAvailable && <button type="button" className="showcase-details" onClick={() => onNavigateToProduct(selected.id)}>تفاصيل الصنف</button>}
+            </motion.div>
+          </AnimatePresence>
+          <div className="showcase-stage" onPointerMove={event => {
+            if (reduceMotion || event.pointerType !== 'mouse') return;
+            const bounds = event.currentTarget.getBoundingClientRect();
+            tiltY.set(((event.clientX - bounds.left) / bounds.width - .5) * 7);
+            tiltX.set(-((event.clientY - bounds.top) / bounds.height - .5) * 5);
+          }} onPointerLeave={() => { tiltX.set(0); tiltY.set(0); }}>
+            <div className="showcase-pedestal" aria-hidden="true" />
+            <motion.div className="showcase-depth" style={{ rotateX: reduceMotion ? 0 : rotateX, rotateY: reduceMotion ? 0 : rotateY }}>
+              <AnimatePresence initial={false}>
+                <motion.div key={selected.id} className="showcase-image-layer"
+                  initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -28, y: 12, scale: .95, rotate: -2 }}
+                  animate={{ opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 28, scale: .97, rotate: 2 }}
+                  transition={{ duration: reduceMotion ? 0 : .42, ease: [.22, 1, .36, 1] }}>
+                  <ShowcaseMedia product={selected} hero />
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
           </div>
         </div>
-
-        <div className="mt-9 flex items-center justify-between"><p role="status" className="text-xs font-bold text-[#75675C]">{filteredProducts.length} أصناف متاحة للاكتشاف</p><span className="hidden items-center gap-2 text-xs font-bold text-[#75675C] sm:flex"><SlidersHorizontal className="h-4 w-4" /> اختر حسب ذوقك</span></div>
-        {filteredProducts.length ? <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filteredProducts.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={Math.min(index * 60, 300)} onOpenDetails={() => onNavigateToProduct(product.id)} />)}</div> : <div className="mt-6 rounded-[28px] border border-dashed border-[#C7652D]/30 bg-white px-6 py-20 text-center"><Flame className="mx-auto h-10 w-10 text-[#C7652D]" /><h2 className="mt-4 text-xl font-black text-[#211814]">ما لقينا هذا الصنف</h2><p className="mt-2 text-sm text-[#75675C]">جرّب كلمة ثانية أو ارجع لكل الأصناف.</p><button type="button" onClick={() => { onFilterChange({ category: 'all', query: '' }); }} className="mt-5 inline-flex min-h-[44px] items-center rounded-full bg-[#C7652D] px-5 py-3 text-xs font-black text-white active:scale-95">إعادة ضبط البحث</button></div>}
-
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-[24px] bg-[#35241A] p-6 text-[#F7F0E5] sm:flex-row sm:items-center sm:p-8"><div><h2 className="text-lg font-black">تحتاج توصيل؟</h2><p className="mt-1 text-xs leading-6 text-[#D5C7B9]">الطلب الحالي للاستلام من فرع رافدية. سجل اهتمامك بالتوصيل لنخبرك عند توفره في منطقتك.</p></div><button type="button" onClick={onOpenDeliverySurvey} className="inline-flex min-h-[44px] items-center shrink-0 rounded-full border border-[#DAB775]/40 px-5 py-3 text-xs font-black text-[#DAB775] hover:bg-[#DAB775]/10 active:scale-95">سجل اهتمامك بالتوصيل</button></div>
-      </div>
-    </div>
+        <div className="showcase-selector-heading"><span>اختار صنفك</span><span role="status">{results.length} أصناف</span></div>
+        <div ref={selector} className="showcase-selector" role="group" aria-label="اختيار الصنف">
+          {results.map((product, index) => <button type="button" key={product.id} aria-pressed={selected.id === product.id}
+            onClick={() => setSelectedId(product.id)} onKeyDown={event => selectWithKeyboard(event, index)}>
+            <span className="showcase-thumb"><ShowcaseMedia product={product} /></span><span>{product.name}</span>
+          </button>)}
+        </div>
+      </> : <div className="showcase-empty" role="status"><h2>ما لقينا هذا الصنف</h2><p>جرّب كلمة ثانية أو تصفّح كل الأصناف.</p>
+        <button type="button" className="showcase-order" onClick={() => onFilterChange({ category: 'all', query: '' })}>كل الأصناف</button></div>}
+      <footer className="showcase-footer"><p>الاستلام من فرع رافيديا</p><button type="button" onClick={onOpenDeliverySurvey}>سجّل اهتمامك بالتوصيل <ArrowLeft size={16} aria-hidden="true" /></button></footer>
+    </section>
   );
-};
+}
