@@ -1,5 +1,6 @@
+import { useEffect, useRef, type ReactNode } from 'react';
 import { ArrowLeft, MapPin, Phone, Star } from 'lucide-react';
-import type { Offer, Product, ProductVariant, Review, StoreSettings } from '../types';
+import type { Offer, Product, Review, StoreSettings } from '../types';
 import { isActiveOffer } from '../utils/offers';
 import { ProductCard } from '../components/ProductCard';
 import { BrandHero } from '../components/home/BrandHero';
@@ -7,35 +8,43 @@ import { CraftSection } from '../components/home/CraftSection';
 import { GeniusInvitation } from '../components/home/GeniusInvitation';
 import { PremiumButton } from '../components/ui/PremiumButton';
 import { Reveal } from '../components/motion/Reveal';
+import { useHomeCinema } from '../components/home/useHomeCinema';
 
 interface HomePageProps {
   products: Product[]; offers: Offer[]; reviews: Review[];
   settings: StoreSettings | null;
   onNavigate: (tab: string) => void;
   onNavigateToProduct: (productId: string) => void;
-  onAddToCart: (product: Product, variant: ProductVariant, quantity: number) => void;
-  onOpenDeliverySurvey: () => void;
+  catalogNotice: ReactNode;
 }
-export function HomePage({ products, offers, reviews, settings, onNavigate, onNavigateToProduct }: HomePageProps) {
+export function HomePage({ products, offers, reviews, settings, catalogNotice, onNavigate, onNavigateToProduct }: HomePageProps) {
+  const home = useRef<HTMLDivElement>(null);
+  const collection = useRef<HTMLElement>(null);
+  useHomeCinema(home);
+  useEffect(() => {
+    if (window.location.hash === '#signature-selection') collection.current?.scrollIntoView({ behavior: 'instant' });
+  }, []);
+
   const selection = [...products].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))).filter(p => p.category === 'charcoal' || p.featured).slice(0, 3);
   const activeOffers = offers.filter(isActiveOffer);
   const approvedReviews = reviews.filter(r => r.isApproved && !r.isDemo).slice(0, 3);
-  return <div className="brand-home">
+  return <div ref={home} className="brand-home">
     <BrandHero onNavigate={onNavigate} />
     <Reveal className="brand-ribbon">
       <span>من قلب نابلس</span><i aria-hidden="true">✳</i><span>تُحضّر عالجمر</span><i aria-hidden="true">✳</i><span>حلوة مع اللَمّة</span><i aria-hidden="true">✳</i><span lang="en">THE ART OF FIRE</span>
     </Reveal>
-    <section id="signature-selection" className="collection-section brand-container">
+    <section ref={collection} id="signature-selection" tabIndex={-1} className="collection-section brand-container" aria-labelledby="collection-title">
       <Reveal>
         <header className="editorial-heading">
-          <div><span className="section-kicker">01 / مختارات كُومُر</span><h2>اختار أول <em>لقمة.</em></h2></div>
+          <div><h2 id="collection-title">اختار أول <em>لقمة.</em></h2></div>
           <div><p>أصناف من المنيو، لكل مزاج وحجم لَمّة.</p><button className="brand-text-link ink" onClick={() => onNavigate('menu')}>استكشف المنيو <ArrowLeft size={18} /></button></div>
         </header>
       </Reveal>
+      {catalogNotice}
       <div className="signature-products">
-        {selection.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={index * 90} onOpenDetails={p => onNavigateToProduct(p.id)} />)}
+        {selection.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={index * 90} onOpenDetails={onNavigateToProduct} />)}
       </div>
-      {!selection.length && <PremiumButton variant="dark" onClick={() => onNavigate('menu')}>اكتشف المنيو</PremiumButton>}
+      {!selection.length && !catalogNotice && <PremiumButton variant="dark" onClick={() => onNavigate('menu')}>اكتشف المنيو</PremiumButton>}
     </section>
     <CraftSection story={settings && !settings.isStoryDraft ? settings.ourStory : undefined} onNavigate={onNavigate} />
     <GeniusInvitation onNavigate={onNavigate} />

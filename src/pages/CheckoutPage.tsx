@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { quantityLimit } from '../../shared/commerce';
 import { ShoppingBag, ArrowLeft, Trash2, Plus, Minus, MapPin, CheckCircle2, MessageCircle, Printer, User } from 'lucide-react';
 import { CartItem, Order, StoreSettings } from '../types';
 import { api } from '../services/api';
@@ -12,7 +14,7 @@ interface CheckoutPageProps {
   onUpdateQuantity: (index: number, quantity: number) => void;
   onRemoveItem: (index: number) => void;
   onClearCart: () => void;
-  onNavigate: (tab: string) => void;
+  onNavigate: (tab: string, search?: string) => void;
 }
 
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({
@@ -24,6 +26,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
   onClearCart,
   onNavigate,
 }) => {
+  const reduceMotion = useReducedMotion();
   // Form fields
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -138,7 +141,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
             </div>
           </div>
 
-          <div className="status-notice"><p>حالة الطلب: {placedOrder.status === 'new' ? 'تم تسجيل الطلب — بانتظار بدء التحضير' : placedOrder.status}</p><button className="signature-button secondary mt-4" onClick={() => { window.history.replaceState(null, '', '/track?order=' + encodeURIComponent(placedOrder.orderNumber)); onNavigate('track'); }}>متابعة الطلب</button></div>
+          <div className="status-notice"><p>حالة الطلب: {placedOrder.status === 'new' ? 'تم تسجيل الطلب — بانتظار بدء التحضير' : placedOrder.status}</p><button className="signature-button secondary mt-4" onClick={() => onNavigate('track', '?order=' + encodeURIComponent(placedOrder.orderNumber))}>متابعة الطلب</button></div>
           <ul className="divide-y divide-stone-200">{placedOrder.items.map(item => <li key={item.productId + item.variantId} className="py-3">{item.name} · {item.variantName} × {item.quantity} <strong>{item.price * item.quantity} ₪</strong></li>)}</ul>
           {/* Pickup Details & Summary */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -290,11 +293,13 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="w-6 text-center text-xs font-bold text-slate-800">
-                        {item.quantity}
-                      </span>
+                      <output className="cart-quantity" aria-label={'الكمية: ' + item.product.name}>
+                        <motion.bdi key={item.quantity} initial={reduceMotion ? false : { opacity: 0.55, y: 3 }}
+                          animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : 0.16 }}>{item.quantity}</motion.bdi>
+                      </output>
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity + 1)}
+                        disabled={item.quantity >= quantityLimit(item.variant)}
                         className="min-h-11 min-w-11 flex items-center justify-center hover:text-[#211814] text-[#75675C]"
                         aria-label="زيادة"
                       >

@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import { GeniusPage } from './pages/GeniusPage';
 import { quantityLimit, priceInCents } from '../shared/commerce';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Product, ProductVariant, CartItem, Offer, Review, StoreSettings } from './types';
 import { OFFICIAL_PRODUCTS } from './data/menuData';
 import { api } from './services/api';
@@ -11,7 +11,7 @@ import { MobileNav } from './components/MobileNav';
 import { DeliverySurveyModal } from './components/DeliverySurveyModal';
 
 import { HomePage } from './pages/HomePage';
-import { MenuPage } from './pages/MenuPage';
+import { MenuPage, type MenuFilters } from './pages/MenuPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderTrackingPage } from './pages/OrderTrackingPage';
@@ -21,11 +21,44 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminPage } from './pages/AdminPage';
 
+type Route = { tab: string; productId: string | null };
+
+const simpleRoutes = ['genius', 'menu', 'checkout', 'admin', 'track', 'offers', 'story', 'reviews', 'contact'];
+
+function readRoute(): Route {
+  const { pathname, hash, search } = window.location;
+  const id = pathname.match(/^\/product\/([^\/?#]+)/i)?.[1]
+    ?? hash.match(/^#?\/?product\/([^\/?#]+)/i)?.[1]
+    ?? hash.match(/[?&]product=([^&#]+)/i)?.[1]
+    ?? search.match(/[?&]product=([^&#]+)/i)?.[1];
+  if (id) {
+    try {
+      return { tab: 'product-details', productId: decodeURIComponent(id) };
+    } catch {
+      return { tab: 'product-details', productId: id };
+    }
+  }
+
+  const path = pathname.slice(1).toLowerCase();
+  const fragment = hash.slice(1).toLowerCase();
+  const tab = simpleRoutes.find((route) =>
+    route === path || route === fragment || (route === 'checkout' && [path, fragment].includes('order'))
+  );
+  return { tab: tab ?? 'home', productId: null };
+}
+
 export default function App() {
   const reduced = useReducedMotion();
-  // Navigation tab state
-  const [currentTab, setCurrentTab] = useState<string>('home');
-  const [currentProductId, setCurrentProductId] = useState<string | null>(null);
+  const [{ tab: currentTab, productId: currentProductId }, setRoute] = useState(readRoute);
+  const menuFilters = useRef<MenuFilters>({ category: 'all', query: '' });
+  const main = useRef<HTMLElement>(null);
+  const focusOnNavigate = useRef(false);
+
+  useEffect(() => {
+    if (!focusOnNavigate.current) return;
+    focusOnNavigate.current = false;
+    main.current?.focus({ preventScroll: true });
+  }, [currentTab, currentProductId]);
 
   // Application data state
   const [products, setProducts] = useState<Product[]>(OFFICIAL_PRODUCTS);
@@ -48,62 +81,13 @@ export default function App() {
   // Modals
   const [isDeliverySurveyOpen, setIsDeliverySurveyOpen] = useState(false);
 
-  // Handle URL path / hash routing (e.g., /product/:id, /menu, /#menu, /checkout)
   useEffect(() => {
-    const handleRoute = () => {
-      const path = window.location.pathname.toLowerCase();
-      const hash = window.location.hash.replace('#', '').toLowerCase();
-
-      // Check for /product/:id in path or hash (supports /product/prod-1 or #product/prod-1)
-      const pathMatch = window.location.pathname.match(/^\/product\/([^\/?#]+)/i);
-      const hashMatch = window.location.hash.match(/^#?\/?product\/([^\/?#]+)/i) ||
-                        window.location.hash.match(/[?&]product=([^&#]+)/i);
-      const searchMatch = window.location.search.match(/[?&]product=([^&#]+)/i);
-
-      const matchedId = (pathMatch && pathMatch[1]) || (hashMatch && hashMatch[1]) || (searchMatch && searchMatch[1]);
-      if (matchedId) {
-        setCurrentProductId(decodeURIComponent(matchedId));
-        setCurrentTab('product-details');
-        return;
-      }
-
-      if (hash === 'genius' || path === '/genius') { setCurrentTab('genius'); setCurrentProductId(null); return; }
-      if (hash === 'menu' || path === '/menu') {
-        setCurrentTab('menu');
-        setCurrentProductId(null);
-      } else if (hash === 'order' || hash === 'checkout' || path === '/order' || path === '/checkout') {
-        setCurrentTab('checkout');
-        setCurrentProductId(null);
-      } else if (hash === 'admin' || path === '/admin') {
-        setCurrentTab('admin');
-        setCurrentProductId(null);
-      } else if (hash === 'track' || path === '/track') {
-        setCurrentTab('track');
-        setCurrentProductId(null);
-      } else if (hash === 'offers' || path === '/offers') {
-        setCurrentTab('offers');
-        setCurrentProductId(null);
-      } else if (hash === 'story' || path === '/story') {
-        setCurrentTab('story');
-        setCurrentProductId(null);
-      } else if (hash === 'reviews' || path === '/reviews') {
-        setCurrentTab('reviews');
-        setCurrentProductId(null);
-      } else if (hash === 'contact' || path === '/contact') {
-        setCurrentTab('contact');
-        setCurrentProductId(null);
-      } else {
-        setCurrentTab('home');
-        setCurrentProductId(null);
-      }
-    };
-
-    handleRoute();
-    window.addEventListener('hashchange', handleRoute);
-    window.addEventListener('popstate', handleRoute);
+    const updateRoute = () => setRoute(readRoute());
+    window.addEventListener('hashchange', updateRoute);
+    window.addEventListener('popstate', updateRoute);
     return () => {
-      window.removeEventListener('hashchange', handleRoute);
-      window.removeEventListener('popstate', handleRoute);
+      window.removeEventListener('hashchange', updateRoute);
+      window.removeEventListener('popstate', updateRoute);
     };
   }, []);
 
@@ -188,27 +172,29 @@ export default function App() {
     setCart([]);
   };
 
-  const handleNavigateToProduct = (productId: string) => {
-    setCurrentProductId(productId);
-    setCurrentTab('product-details');
-    window.history.pushState(null, '', `/product/${productId}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const handleNavigateToProduct = useCallback((productId: string) => {
+    focusOnNavigate.current = true;
+    setRoute({ tab: 'product-details', productId });
+    window.history.pushState(null, '', '/product/' + encodeURIComponent(productId));
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
-  const handleNavigate = (tab: string) => {
-    setCurrentProductId(null);
-    setCurrentTab(tab);
-    if (tab === 'home') {
-      window.history.pushState(null, '', '/');
-      window.location.hash = '';
-    } else {
-      window.history.pushState(null, '', `/${tab}`);
-      window.location.hash = tab;
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleNavigate = (tab: string, search = '') => {
+    focusOnNavigate.current = tab !== currentTab;
+    setRoute({ tab, productId: null });
+    const destination = tab === 'home' ? '/' : `/${tab}${search}#${tab}`;
+    window.history.pushState(null, '', destination);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const showCatalog = currentTab === 'home' || currentTab === 'menu';
+  const catalogNotice = dataState === 'ready' ? null : (
+    <div className="catalog-notice">
+      <p role="status">{dataState === 'loading' ? 'نحمّي الجمر… جارٍ تحميل المنيو' : 'تعذر تحميل بيانات الفرع. تحقق من الاتصال.'}</p>
+      {dataState === 'error' && <button type="button" className="brand-text-link ink" onClick={loadAllData}>حاول مجدداً</button>}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-[#FBF8F2] text-[#211814] flex flex-col font-sans selection:bg-[#C7652D] selection:text-white">
@@ -222,10 +208,15 @@ export default function App() {
         onOpenCart={() => handleNavigate('checkout')}
       />
 
-      {/* Main Content Pages with smooth fade & slide-up */}
-      <a href="#content" className="skip-link">انتقل إلى المحتوى</a>
-      <motion.main id="content" key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1" initial={reduced || currentTab === 'admin' ? false : {opacity:0}} animate={{opacity:1}} transition={{duration:reduced?0:.22}}>
-        {dataState !== 'ready' && currentTab !== 'admin' && <div className="signature-page"><p className="status-notice" role="status">{dataState === 'loading' ? 'نحمّي الجمر… جارٍ تحميل المنيو' : 'تعذر تحميل بيانات الفرع. تحقق من الاتصال.'}</p>{dataState === 'error' && <button className="signature-button mt-3" onClick={loadAllData}>حاول مجدداً</button>}</div>}
+      <a href="#content" className="skip-link" onClick={(event) => {
+        event.preventDefault();
+        main.current?.focus({ preventScroll: true });
+        main.current?.scrollIntoView();
+      }}>انتقل إلى المحتوى</a>
+      <motion.main id="content" ref={main} tabIndex={-1} key={currentTab === 'product-details' ? `prod-${currentProductId}` : currentTab} className="flex-1"
+        initial={reduced || showCatalog || currentTab === 'admin' || currentTab === 'product-details' ? false : { opacity: 0.85 }}
+        animate={{ opacity: 1 }} transition={{ duration: reduced ? 0 : 0.22 }}>
+        {!showCatalog && currentTab !== 'admin' && catalogNotice && <div className="brand-container">{catalogNotice}</div>}
         {currentTab === 'genius' && <GeniusPage products={products} onAdd={handleAddSelection} onOpenCart={()=>handleNavigate('checkout')} />}
 
         {currentTab === 'home' && (
@@ -234,18 +225,19 @@ export default function App() {
             offers={offers}
             reviews={reviews}
             settings={settings}
+            catalogNotice={catalogNotice}
             onNavigate={handleNavigate}
             onNavigateToProduct={handleNavigateToProduct}
-            onAddToCart={handleAddToCart}
-            onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
           />
         )}
 
         {currentTab === 'menu' && (
           <MenuPage
             products={products}
+            catalogNotice={catalogNotice}
+            savedFilters={menuFilters.current}
+            onFiltersChange={(filters) => { menuFilters.current = filters; }}
             onNavigate={handleNavigate}
-            onAddToCart={handleAddToCart}
             onNavigateToProduct={handleNavigateToProduct}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
           />

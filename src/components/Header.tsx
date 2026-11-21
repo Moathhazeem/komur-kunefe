@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({ settings, cartCount, currentTab,
             <Phone className="h-3.5 w-3.5" />
             <span>اتصل بنا</span>
           </a>
-          <motion.button type="button" onClick={onOpenCart} whileHover={reduced ? undefined : {y:-2}} whileTap={reduced ? undefined : {scale:.95}} className="header-cart" aria-label="عرض السلة">
+          <motion.button type="button" onClick={onOpenCart} whileHover={reduced ? undefined : {y:-2}} whileTap={reduced ? undefined : {scale:.95}} className="header-cart" aria-label={cartCount ? 'عرض السلة، عدد القطع ' + cartCount : 'عرض السلة'}>
             <ShoppingBag className="h-4 w-4" />
             <span className="hidden sm:inline">السلة</span>
             {cartCount > 0 && <span key={badgeKey} className="animate-cart-badge flex h-5 min-w-5 items-center justify-center rounded-full bg-[#F7F0E5] px-1.5 text-[11px] font-black text-[#C7652D]">{cartCount}</span>}

@@ -7,7 +7,6 @@ export function GeniusInvitation({ onNavigate }: { onNavigate: (tab: string) => 
   const reduced = useReducedMotion();
   return <section className="genius-invitation">
     <Reveal className="genius-invite-copy">
-      <span className="section-kicker">03 / اختيار على ذوقكم</span>
       <h2>إنت عليك اللَمّة.<br /><em>إحنا علينا الحسبة.</em></h2>
       <p>كم شخص معك؟ قديش الميزانية؟ خلّي Genius يقترح تشكيلات من المنيو، وإنت اختار اللي بناسبكم.</p>
       <PremiumButton variant="dark" onClick={() => onNavigate('genius')}>اكتشف تشكيلتك</PremiumButton>

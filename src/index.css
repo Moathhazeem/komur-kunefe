@@ -53,13 +53,13 @@
 @keyframes softSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes revealCard { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes emberPulse { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: .85; transform: scale(1.05); } }
-@keyframes cartBadgeBounce { 0% { transform: scale(1); } 30% { transform: scale(1.35); } 65% { transform: scale(.92); } 100% { transform: scale(1); } }
+@keyframes cartBadgeSettle { 0% { transform: scale(1); } 40% { transform: scale(1.16); } 100% { transform: scale(1); } }
 
 .animate-soft-fade { animation: softFadeIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-soft-slide-up { animation: softSlideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-fadeIn, .animate-modal-enter { animation: softFadeIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-modal-backdrop { animation: softFadeIn 220ms ease-out both; }
-.animate-cart-badge { animation: cartBadgeBounce 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both; display: inline-block; }
+.animate-cart-badge { animation: cartBadgeSettle 260ms var(--ease-out) both; }
 .reveal-card { opacity: 0; transform: translateY(20px); }
 .reveal-card.is-visible { animation: revealCard 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 .brand-display { font-family: 'Tajawal', sans-serif; letter-spacing: -.035em; }

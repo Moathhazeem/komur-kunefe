@@ -14,11 +14,10 @@ export function CraftSection({ story, onNavigate }: { story?: string; onNavigate
         whileInView={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0% round 28px)' }}
         viewport={{ once: true, amount: .15 }}
         transition={{ duration: reduced ? 0 : .9, ease: cinematicEase }}>
-        <ProductImage src={MAIN_MENU_IMAGES.pistachioBaklava} name="تفاصيل الفستق والحلويات" editorial />
+        <ProductImage src={MAIN_MENU_IMAGES.pistachioBaklava} name="تفاصيل الفستق والحلويات" editorial sizes="(max-width: 700px) 100vw, 45vw" />
         <span className="craft-photo-label" lang="en">A LITTLE HEAT.<br />A LOT OF HEART.</span>
       </motion.div>
       <Reveal className="craft-copy" delay={.12}>
-        <span className="section-kicker light">02 / حكاية الجمر</span>
         <Flame className="craft-flame" size={36} strokeWidth={1} />
         <h2>الطعم إله أصل.<br /><em>والجمر إله حكاية.</em></h2>
         <p>{story || 'الكنافة النابلسية على جمر الفحم. نكهة دافية، وتفاصيل بتخلّي كل لَمّة أحلى. اكتشف حكايتنا في رافدية.'}</p>
