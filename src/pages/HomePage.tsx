@@ -46,6 +46,16 @@ export const HomePage: React.FC<HomePageProps> = ({ products, offers, reviews, s
     <div className="premium-home overflow-hidden">
       <HomeHero onNavigate={onNavigate} />
 
+      <section className="ks-home-teaser" dir="rtl" aria-label="استوديو تصميم الصينية">
+        <div>
+          <span className="ks-home-teaser__eyebrow" lang="en">KÖMÜR / SIGNATURE STUDIO</span>
+          <h2>الذوق ذوقك. <em>والصينية صينيتك.</em></h2>
+          <p>صحن على مزاجك أو صينية تلمّ الأحباب. اختار الكنافة والحجم والإضافات والقطر، وصمّم تجربتك بطريقتك.</p>
+          <button type="button" onClick={() => onNavigate('studio')}>ادخل الاستوديو <ArrowLeft size={19} aria-hidden="true" /></button>
+        </div>
+        <div className="ks-home-teaser__art" aria-hidden="true"><img src="/media/kunafa-pistachio-hero.webp" loading="lazy" alt="" /></div>
+      </section>
+
       <section id="home-featured" tabIndex={-1} className="mx-auto max-w-7xl space-y-8 px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-4 border-b border-[#35241A]/10 pb-6 sm:flex-row sm:items-end"><div><span className="flex items-center gap-2 text-xs font-black tracking-wide text-[#C7652D]"><Sparkles className="h-4 w-4" /> مختارات من النار</span><h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-black text-[#211814]">أصنافنا التي تُسمع قرمشتها</h2></div><button type="button" onClick={() => onNavigate('menu')} className="inline-flex min-h-[44px] items-center gap-2 text-sm font-black text-[#C7652D] hover:text-[#A94E20]">كل المنيو <ArrowLeft className="h-4 w-4" /></button></div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{featuredProducts.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={index * 70} onOpenDetails={() => onNavigateToProduct(product.id)} />)}</div>

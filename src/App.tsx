@@ -11,6 +11,7 @@ import AuthPage from './pages/AuthPage';
 
 import { HomePage } from './pages/HomePage';
 import { MenuPage } from './pages/MenuPage';
+import { StudioPage } from './pages/StudioPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderTrackingPage } from './pages/OrderTrackingPage';
@@ -25,6 +26,7 @@ import ChatbotWidget from './components/ChatbotWidget';
 // ─── Inner Application Component ─────────────────────────────────────────────
 
 function AppInner() {
+  const [menuFilters, setMenuFilters] = useState({ category: 'all', query: '' });
   const { user, isAuthenticated, isAdmin } = useAuth();
 
   // Navigation tab state
@@ -97,7 +99,9 @@ function AppInner() {
         return;
       }
 
-      if (hash === 'menu' || path === '/menu') {
+      if (hash === 'studio' || path === '/studio') {
+        setCurrentTab('studio'); setCurrentProductId(null); setShowAuth(false);
+      } else if (hash === 'menu' || path === '/menu') {
         setCurrentTab('menu'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'order' || hash === 'checkout' || path === '/order' || path === '/checkout') {
         setCurrentTab('checkout'); setCurrentProductId(null); setShowAuth(false);
@@ -166,7 +170,7 @@ function AppInner() {
       );
       if (existingIndex >= 0) {
         const updated = [...prevCart];
-        updated[existingIndex].quantity += quantity;
+        updated[existingIndex] = { ...updated[existingIndex], quantity: updated[existingIndex].quantity + quantity };
         return updated;
       } else {
         return [...prevCart, { product, variant, quantity }];
@@ -181,7 +185,7 @@ function AppInner() {
     }
     setCart((prevCart) => {
       const updated = [...prevCart];
-      updated[index].quantity = quantity;
+      updated[index] = { ...updated[index], quantity };
       return updated;
     });
   };
@@ -202,7 +206,7 @@ function AppInner() {
     setCurrentTab('product-details');
     setShowAuth(false);
     window.history.pushState(null, '', `/product/${productId}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleNavigate = (tab: string) => {
@@ -217,7 +221,7 @@ function AppInner() {
       window.history.pushState(null, '', `/${tab}`);
       window.location.hash = tab;
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   // Automatic smooth redirection to home after login or signup
@@ -271,12 +275,24 @@ function AppInner() {
           />
         )}
 
+        {currentTab === 'studio' && (
+          <StudioPage
+            products={products}
+            settings={settings}
+            onAddToCart={handleAddToCart}
+            onNavigate={handleNavigate}
+          />
+        )}
+
         {currentTab === 'menu' && (
           <MenuPage
+            filters={menuFilters}
+            onFilterChange={setMenuFilters}
             products={products}
             onAddToCart={handleAddToCart}
             onNavigateToProduct={handleNavigateToProduct}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
+            onOpenStudio={() => handleNavigate('studio')}
           />
         )}
 

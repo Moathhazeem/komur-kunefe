@@ -374,9 +374,9 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="w-6 text-center text-xs font-bold text-slate-800">
-                        {item.quantity}
-                      </span>
+                      <output aria-label={'الكمية: ' + item.product.name} className="w-6 text-center text-xs font-bold text-slate-800">
+                        <bdi key={item.quantity} className="cart-quantity">{item.quantity}</bdi>
+                      </output>
                       <button
                         onClick={() => onUpdateQuantity(idx, item.quantity + 1)}
                         className="min-w-[36px] min-h-[36px] p-2 flex items-center justify-center hover:text-slate-900 text-slate-500 active:scale-95 transition-all"

@@ -126,3 +126,17 @@
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+.catalog-card:focus-visible { outline: 3px solid #a94e20; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .catalog-card { animation: catalog-enter 260ms ease-out backwards; }
+  .cart-quantity { display: inline-block; animation: catalog-enter 160ms ease-out; }
+  @keyframes catalog-enter {
+    from { opacity: .65; translate: 0 4px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog-card, .catalog-card * { transition: none; animation: none; }
+  .catalog-card:hover, .catalog-card:hover img { transform: none; scale: 1; }
+}

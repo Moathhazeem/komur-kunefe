@@ -1,53 +1,258 @@
-import React, { useMemo, useState } from 'react';
-import { Flame, Search, SlidersHorizontal } from 'lucide-react';
-import { Product, ProductVariant } from '../types';
-import { ProductCard } from '../components/ProductCard';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import type { Product, ProductVariant } from '../types';
+import { productImageSources } from '../utils/productImage';
+import { getMenuArtwork } from '../utils/menuArtwork';
+import './menu-showcase.css';
 
 interface MenuPageProps {
   products: Product[];
+  filters: { category: string; query: string };
+  onFilterChange: (filters: { category: string; query: string }) => void;
   onAddToCart: (product: Product, variant: ProductVariant, quantity: number) => void;
   onOpenDeliverySurvey: () => void;
   onNavigateToProduct: (productId: string) => void;
+  onOpenStudio: () => void;
 }
 
-export const MenuPage: React.FC<MenuPageProps> = ({ products, onOpenDeliverySurvey, onNavigateToProduct }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const categories = [
-    { id: 'all', label: 'كل الأصناف' },
-    { id: 'charcoal', label: 'على الفحم' },
-    { id: 'nutella', label: 'الشوكولاتة' },
-    { id: 'nawashef', label: 'نواشف' },
-    { id: 'oriental', label: 'حلويات شرقية' },
-    { id: 'beverages', label: 'مشروبات' },
-    { id: 'other', label: 'أخرى' },
-  ];
-  const filteredProducts = useMemo(() => products.filter((product) => {
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    const query = searchQuery.trim().toLowerCase();
-    return matchesCategory && (!query || product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query));
-  }), [products, searchQuery, selectedCategory]);
+const categoryNames: Record<string, string> = {
+  charcoal: 'على الفحم',
+  nutella: 'الشوكولاتة',
+  nawashef: 'نواشف',
+  oriental: 'حلويات شرقية',
+  beverages: 'مشروبات',
+  other: 'أصناف أخرى',
+  offers: 'عروض',
+};
+
+export function normalizeMenuSearch(value: string) {
+  return value.normalize('NFKC').toLowerCase()
+    .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
+    .replace(/[\u0623\u0625\u0622\u0671]/g, '\u0627')
+    .trim();
+}
+
+/** A generated concept image is only used for an explicitly mapped item.
+ * Keep a real source fallback when the generated file is unavailable.
+ */
+function ProductVisual({ product, mode }: { product: Product; mode: 'hero' | 'thumbnail' }) {
+  const [failedSources, setFailedSources] = useState<string[]>([]);
+  const art = getMenuArtwork(product, mode);
+  const src = failedSources.includes(art.src) ? product.image : art.src;
+  const usable = !!src && !failedSources.includes(src);
+  const original = src === product.image;
+
+  return usable ? (
+    <img
+      src={src}
+      srcSet={original ? productImageSources(src) : undefined}
+      sizes={mode === 'hero' ? '(min-width: 900px) 700px, 88vw' : '110px'}
+      alt={mode === 'hero' ? product.name : ''}
+      loading={mode === 'hero' ? 'eager' : 'lazy'}
+      decoding="async"
+      onError={() => setFailedSources(previous => previous.includes(src) ? previous : [...previous, src])}
+    />
+  ) : <span className="km3-product-fallback" role="img" aria-label={product.name}>{product.name}</span>;
+}
+
+const sceneMotion = {
+  enter: (dir: number) => ({
+    opacity: 0, x: dir * 145, y: 44, scale: .86,
+    rotateY: dir * -19, filter: 'blur(8px)',
+  }),
+  center: { opacity: 1, x: 0, y: 0, scale: 1, rotateY: 0, filter: 'blur(0px)' },
+  exit: (dir: number) => ({
+    opacity: 0, x: dir * -125, y: -20, scale: .88,
+    rotateY: dir * 18, filter: 'blur(7px)',
+  }),
+};
+
+export function MenuPage({ products, filters, onFilterChange, onNavigateToProduct, onOpenDeliverySurvey, onOpenStudio }: MenuPageProps) {
+  const reduceMotion = useReducedMotion();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [direction, setDirection] = useState(1);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const railRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const touchStart = useRef<number | null>(null);
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const springX = useSpring(tiltX, { stiffness: 110, damping: 28 });
+  const springY = useSpring(tiltY, { stiffness: 110, damping: 28 });
+
+  const categories = useMemo(() => [...new Set(products.map(product => product.category))], [products]);
+  const category = filters.category === 'all' || categories.includes(filters.category as Product['category'])
+    ? filters.category : 'all';
+  const catalog = useMemo(() => products.map(product => ({
+    product,
+    search: normalizeMenuSearch(`${product.name} ${product.description ?? ''}`),
+  })), [products]);
+  const searchTerm = normalizeMenuSearch(filters.query);
+  const results = useMemo(() => catalog.filter(({ product, search }) =>
+    (category === 'all' || product.category === category) && search.includes(searchTerm)
+  ).map(({ product }) => product), [catalog, category, searchTerm]);
+
+  const selectedIndex = results.findIndex(product => product.id === activeId);
+  const activeIndex = selectedIndex < 0 ? 0 : selectedIndex;
+  const selected = results[activeIndex];
+  const selectedArtwork = selected ? getMenuArtwork(selected, 'hero') : null;
+  const position = String(activeIndex + 1).padStart(2, '0');
+  const total = String(results.length).padStart(2, '0');
+  const variantPrices = selected?.variants.map(v => v.price).filter(Number.isFinite) ?? [];
+  const startingPrice = selected ? (variantPrices.length ? Math.min(...variantPrices) : selected.basePrice) : 0;
+
+  function choose(index: number) {
+    if (!results.length) return;
+    const next = (index + results.length) % results.length;
+    if (next === activeIndex) return;
+    setDirection(index < activeIndex ? -1 : 1);
+    setActiveId(results[next].id);
+  }
+
+  function move(step: number) {
+    if (results.length <= 1) return;
+    setDirection(step);
+    setActiveId(results[(activeIndex + step + results.length) % results.length].id);
+  }
+
+  function handleRailKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next: number;
+    if (event.key === 'ArrowLeft') next = (index + 1) % results.length;
+    else if (event.key === 'ArrowRight') next = (index - 1 + results.length) % results.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = results.length - 1;
+    else return;
+    event.preventDefault();
+    choose(next);
+    railRef.current?.querySelectorAll<HTMLButtonElement>('.km3-rail__item')[next]?.focus({ preventScroll: true });
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (start === null) return;
+    const delta = event.changedTouches[0]?.clientX - start;
+    if (Math.abs(delta) >= 65) move(delta > 0 ? 1 : -1);
+  }
+
+  useEffect(() => {
+    tiltX.set(0);
+    tiltY.set(0);
+    if (!activeId) return;
+    railRef.current?.querySelector<HTMLElement>('[aria-pressed="true"]')?.scrollIntoView({
+      block: 'nearest', inline: 'center', behavior: reduceMotion ? 'instant' : 'smooth',
+    });
+  }, [activeId, selected?.id, reduceMotion, tiltX, tiltY]);
+
+  useEffect(() => { if (searchOpen) searchRef.current?.focus(); }, [searchOpen]);
 
   return (
-    <div className="min-h-screen bg-[#FBF8F2] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-7xl">
-        <header className="grid gap-8 border-b border-[#35241A]/10 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div className="max-w-2xl"><span className="inline-flex items-center gap-2 text-xs font-black text-[#C7652D]"><Flame className="h-4 w-4" /> تُخبز طازجة عند الطلب</span><h1 className="mt-3 text-4xl font-black text-[#211814] sm:text-6xl">المنيو</h1><p className="mt-4 text-sm leading-8 text-[#75675C] sm:text-base">اختار صنفك، حدّد الحجم، وخلي الباقي علينا. الأسعار والخيارات المعروضة مأخوذة من منيو الفرع مباشرة.</p></div>
-          <div className="rounded-2xl border border-[#DAB775]/35 bg-[#F0E8DC] px-5 py-4 text-sm font-bold text-[#35241A]"><span className="block text-xs text-[#75675C]">ملاحظة من الفرع</span><span className="mt-1 block">يمكن استبدال القطر العادي بقطر صحي بأحجام متعددة تبدأ من 2 شيكل.</span></div>
-        </header>
+    <section className="km3-menu" dir="rtl" aria-labelledby="km3-title" data-category={selected?.category}>
+      <div className="km3-cinema">
+        <div className="km3-cinema__texture" aria-hidden="true" />
+        <div className="km3-top">
+          <div className="km3-top__identity">
+            <span className="km3-top__line" />
+            <span className="km3-top__wordmark" lang="tr" dir="ltr">KÖMÜR KÜNEFE</span>
+            <span className="km3-top__subtitle" lang="en" dir="ltr">THE SIGNATURE ATELIER</span>
+          </div>
+          <button type="button" className="km3-top__studio-btn" onClick={onOpenStudio}>✦ صمّم صينيتك</button>
+          <button type="button" className="km3-top__search-trigger" onClick={() => setSearchOpen(value => !value)}
+            aria-label={searchOpen ? 'إغلاق البحث' : 'البحث عن صنف'} aria-expanded={searchOpen}>
+            {searchOpen ? <X size={22} /> : <Search size={22} />}
+          </button>
+        </div>
 
-        <div className="sticky top-[74px] z-20 -mx-4 mt-8 border-y border-[#35241A]/10 bg-[#FBF8F2]/95 px-4 py-3 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border sm:px-4">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="scrollbar-none flex gap-2 overflow-x-auto pb-1 touch-pan-x">{categories.map((category) => <button key={category.id} type="button" onClick={() => setSelectedCategory(category.id)} className={`flex min-h-[44px] items-center whitespace-nowrap rounded-full px-4 py-2 text-xs font-black transition-colors active:scale-95 cursor-pointer ${selectedCategory === category.id ? 'bg-[#17120F] text-[#DAB775]' : 'border border-[#35241A]/10 bg-white text-[#75675C] hover:border-[#C7652D]/40 hover:text-[#C7652D]'}`}>{category.label}</button>)}</div>
-            <div className="relative w-full lg:max-w-xs"><Search className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#75675C]" /><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="ابحث عن كنافة..." aria-label="البحث في المنيو" className="w-full min-h-[44px] rounded-full border border-[#35241A]/10 bg-white py-2.5 pl-4 pr-10 text-sm text-[#211814] placeholder:text-[#A99B90] focus:border-[#C7652D] focus:outline-none focus:ring-2 focus:ring-[#C7652D]/15" /></div>
+        <div className="km3-menu__layout">
+          <div className="km3-menu__copy">
+            <p className="km3-menu__eyebrow" lang="en" dir="ltr">KÖMÜR / THE SIGNATURE MENU</p>
+            <AnimatePresence mode="wait" initial={false}>
+              {selected ? <motion.div key={selected.id} className="km3-menu__product-details"
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 26 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+                transition={{ duration: reduceMotion ? 0 : .42, ease: [.22, 1, .36, 1] }}>
+                <span className="km3-menu__category"><span aria-hidden="true">✦</span>{categoryNames[selected.category] || 'من المنيو'}</span>
+                <h1 id="km3-title">{selected.name}</h1>
+                <div className="km3-menu__flourish" aria-hidden="true"><i /><span>◇</span><i /></div>
+                {selected.description?.trim() && <p className="km3-menu__description">{selected.description}</p>}
+                <div className="km3-menu__purchase">
+                  <button className="km3-menu__cta" type="button" disabled={!selected.isAvailable}
+                    onClick={() => onNavigateToProduct(selected.id)}>
+                    <span>{selected.isAvailable ? 'اختيار الحجم والطلب' : 'غير متوفر حاليًا'}</span>
+                    <ArrowLeft size={21} aria-hidden="true" />
+                  </button>
+                  <span className="km3-menu__price"><small>يبدأ من</small><strong><bdi>{startingPrice}</bdi> <em>₪</em></strong></span>
+                </div>
+              </motion.div> : <div className="km3-menu__not-found"><h1 id="km3-title">ما لقينا الصنف</h1><p>جرّب كلمة ثانية أو تصفّح كل الأصناف.</p>
+                <button type="button" className="km3-menu__cta" onClick={() => onFilterChange({ category: 'all', query: '' })}>عرض كل الأصناف</button>
+              </div>}
+            </AnimatePresence>
+          </div>
+
+          <div className="km3-menu__visual" onTouchStart={event => { touchStart.current = event.touches[0]?.clientX ?? null; }}
+            onTouchEnd={handleTouchEnd}
+            onPointerMove={event => {
+              if (reduceMotion || event.pointerType !== 'mouse') return;
+              const rect = event.currentTarget.getBoundingClientRect();
+              tiltX.set(-((event.clientY - rect.top) / rect.height - .5) * 3.5);
+              tiltY.set(((event.clientX - rect.left) / rect.width - .5) * 5);
+            }} onPointerLeave={() => { tiltX.set(0); tiltY.set(0); }}>
+            {selected && <motion.div className="km3-menu__perspective" style={{ rotateX: reduceMotion ? 0 : springX, rotateY: reduceMotion ? 0 : springY }}>
+              <AnimatePresence initial={false} custom={direction}>
+                <motion.figure key={selected.id} className="km3-menu__hero-figure" custom={direction}
+                  variants={sceneMotion} initial={reduceMotion ? { opacity: 0 } : 'enter'} animate="center"
+                  exit={reduceMotion ? { opacity: 0 } : 'exit'}
+                  transition={{ duration: reduceMotion ? 0 : .76, ease: [.18, .84, .18, 1] }}>
+                  <div className={`km3-menu__hero-media km3-menu__hero-media--${selectedArtwork?.kind === 'original' ? 'framed' : selectedArtwork?.kind}`}>
+                    <ProductVisual product={selected} mode="hero" />
+                  </div>
+                </motion.figure>
+              </AnimatePresence>
+            </motion.div>}
+            <div className="km3-menu__visual-caption" aria-hidden="true"><span>✦</span> CRAFTED WITH FIRE <span>✦</span></div>
           </div>
         </div>
 
-        <div className="mt-9 flex items-center justify-between"><p className="text-xs font-bold text-[#75675C]">{filteredProducts.length} أصناف متاحة للاكتشاف</p><span className="hidden items-center gap-2 text-xs font-bold text-[#75675C] sm:flex"><SlidersHorizontal className="h-4 w-4" /> اختر حسب ذوقك</span></div>
-        {filteredProducts.length ? <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{filteredProducts.map((product, index) => <ProductCard key={product.id} product={product} revealDelay={Math.min(index * 60, 300)} onOpenDetails={() => onNavigateToProduct(product.id)} />)}</div> : <div className="mt-6 rounded-[28px] border border-dashed border-[#C7652D]/30 bg-white px-6 py-20 text-center"><Flame className="mx-auto h-10 w-10 text-[#C7652D]" /><h2 className="mt-4 text-xl font-black text-[#211814]">ما لقينا هذا الصنف</h2><p className="mt-2 text-sm text-[#75675C]">جرّب كلمة ثانية أو ارجع لكل الأصناف.</p><button type="button" onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }} className="mt-5 inline-flex min-h-[44px] items-center rounded-full bg-[#C7652D] px-5 py-3 text-xs font-black text-white active:scale-95">إعادة ضبط البحث</button></div>}
-
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-[24px] bg-[#35241A] p-6 text-[#F7F0E5] sm:flex-row sm:items-center sm:p-8"><div><h2 className="text-lg font-black">تحتاج توصيل؟</h2><p className="mt-1 text-xs leading-6 text-[#D5C7B9]">الطلب الحالي للاستلام من فرع رافدية. سجل اهتمامك بالتوصيل لنخبرك عند توفره في منطقتك.</p></div><button type="button" onClick={onOpenDeliverySurvey} className="inline-flex min-h-[44px] items-center shrink-0 rounded-full border border-[#DAB775]/40 px-5 py-3 text-xs font-black text-[#DAB775] hover:bg-[#DAB775]/10 active:scale-95">سجل اهتمامك بالتوصيل</button></div>
+        <div className="km3-menu__bottom">
+          {searchOpen && <div className="km3-menu__search">
+            <Search size={18} aria-hidden="true" />
+            <input ref={searchRef} type="search" value={filters.query} placeholder="ابحث عن صنفك المفضل..."
+              aria-label="البحث في المنيو" onChange={event => onFilterChange({ ...filters, query: event.target.value })} />
+            {filters.query && <button type="button" aria-label="مسح البحث" onClick={() => onFilterChange({ ...filters, query: '' })}><X size={18} /></button>}
+          </div>}
+          <nav className="km3-categories" aria-label="تصنيفات المنيو">
+            {['all', ...categories].map(item => <button type="button" key={item}
+              aria-pressed={category === item}
+              onClick={() => { setActiveId(null); onFilterChange({ ...filters, category: item }); }}>
+              {item === 'all' ? 'كل الأصناف' : categoryNames[item] || item}
+            </button>)}
+          </nav>
+          {selected && <>
+            <div className="km3-rail__meta">
+              <span>اكتشف الأصناف <small dir="ltr">{position} / {total}</small></span>
+              <div className="km3-rail__arrows">
+                <button type="button" aria-label="الصنف السابق" disabled={results.length <= 1} onClick={() => move(-1)}><ChevronRight size={20} /></button>
+                <button type="button" aria-label="الصنف التالي" disabled={results.length <= 1} onClick={() => move(1)}><ChevronLeft size={20} /></button>
+              </div>
+            </div>
+            <div className="km3-rail" role="group" aria-label="اختيار الصنف" ref={railRef}>
+              {results.map((product, index) => <button type="button" key={product.id}
+                className="km3-rail__item" aria-pressed={selected.id === product.id}
+                aria-label={'عرض ' + product.name}
+                onClick={() => choose(index)} onKeyDown={event => handleRailKey(event, index)}>
+                <span className="km3-rail__image"><ProductVisual product={product} mode="thumbnail" /></span>
+                <span className="km3-rail__name">{product.name}</span>
+              </button>)}
+            </div>
+          </>}
+          <div className="km3-menu__footnote">
+            <span>الاستلام من فرع رافيديا · بعض صور الحلويات توضيحية وقد يختلف التقديم الفعلي</span>
+            <button type="button" onClick={onOpenDeliverySurvey}>سجّل اهتمامك بالتوصيل <ArrowLeft size={16} /></button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
+}
