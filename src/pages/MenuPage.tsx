@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } 
 import { ArrowLeft, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import type { Product, ProductVariant } from '../types';
 import { productImageSources } from '../utils/productImage';
+import { getMenuArtwork } from '../utils/menuArtwork';
 import './menu-showcase.css';
 
 interface MenuPageProps {
@@ -24,8 +25,6 @@ const categoryNames: Record<string, string> = {
   offers: 'عروض',
 };
 
-const SIGNATURE_ART = '/media/kunafa-pistachio-hero.webp';
-
 export function normalizeMenuSearch(value: string) {
   return value.normalize('NFKC').toLowerCase()
     .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
@@ -33,28 +32,25 @@ export function normalizeMenuSearch(value: string) {
     .trim();
 }
 
-function isSignatureProduct(product: Product) {
-  const name = normalizeMenuSearch(product.name);
-  return product.category === 'charcoal' &&
-    name.includes('اسطنبول') && name.includes('بالفستق الناعم');
-}
-
-/** This is a themed illustration for the matching kunafa only, never reused for other products. */
+/** A generated concept image is only used for an explicitly mapped item.
+ * Keep a real source fallback when the generated file is unavailable.
+ */
 function ProductVisual({ product, mode }: { product: Product; mode: 'hero' | 'thumbnail' }) {
-  const [failed, setFailed] = useState('');
-  const signature = isSignatureProduct(product) && mode === 'hero';
-  const src = signature ? SIGNATURE_ART : product.image;
-  const usable = !!src && failed !== src;
+  const [failedSources, setFailedSources] = useState<string[]>([]);
+  const art = getMenuArtwork(product, mode);
+  const src = failedSources.includes(art.src) ? product.image : art.src;
+  const usable = !!src && !failedSources.includes(src);
+  const original = src === product.image;
 
   return usable ? (
     <img
       src={src}
-      srcSet={signature ? undefined : productImageSources(src)}
-      sizes={mode === 'hero' ? '(min-width: 900px) 700px, 88vw' : '100px'}
+      srcSet={original ? productImageSources(src) : undefined}
+      sizes={mode === 'hero' ? '(min-width: 900px) 700px, 88vw' : '110px'}
       alt={mode === 'hero' ? product.name : ''}
       loading={mode === 'hero' ? 'eager' : 'lazy'}
       decoding="async"
-      onError={() => setFailed(src)}
+      onError={() => setFailedSources(previous => previous.includes(src) ? previous : [...previous, src])}
     />
   ) : <span className="km3-product-fallback" role="img" aria-label={product.name}>{product.name}</span>;
 }
@@ -99,6 +95,7 @@ export function MenuPage({ products, filters, onFilterChange, onNavigateToProduc
   const selectedIndex = results.findIndex(product => product.id === activeId);
   const activeIndex = selectedIndex < 0 ? 0 : selectedIndex;
   const selected = results[activeIndex];
+  const selectedArtwork = selected ? getMenuArtwork(selected, 'hero') : null;
   const position = String(activeIndex + 1).padStart(2, '0');
   const total = String(results.length).padStart(2, '0');
   const variantPrices = selected?.variants.map(v => v.price).filter(Number.isFinite) ?? [];
@@ -206,7 +203,7 @@ export function MenuPage({ products, filters, onFilterChange, onNavigateToProduc
                   variants={sceneMotion} initial={reduceMotion ? { opacity: 0 } : 'enter'} animate="center"
                   exit={reduceMotion ? { opacity: 0 } : 'exit'}
                   transition={{ duration: reduceMotion ? 0 : .76, ease: [.18, .84, .18, 1] }}>
-                  <div className={isSignatureProduct(selected) ? 'km3-menu__hero-media km3-menu__hero-media--cutout' : 'km3-menu__hero-media km3-menu__hero-media--framed'}>
+                  <div className={`km3-menu__hero-media km3-menu__hero-media--${selectedArtwork?.kind === 'original' ? 'framed' : selectedArtwork?.kind}`}>
                     <ProductVisual product={selected} mode="hero" />
                   </div>
                 </motion.figure>
@@ -249,7 +246,7 @@ export function MenuPage({ products, filters, onFilterChange, onNavigateToProduc
             </div>
           </>}
           <div className="km3-menu__footnote">
-            <span>الاستلام من فرع رافيديا</span>
+            <span>الاستلام من فرع رافيديا · بعض صور الحلويات توضيحية وقد يختلف التقديم الفعلي</span>
             <button type="button" onClick={onOpenDeliverySurvey}>سجّل اهتمامك بالتوصيل <ArrowLeft size={16} /></button>
           </div>
         </div>
