@@ -1,0 +1,156 @@
+/* KÖMÜR SIGNATURE STUDIO | fully scoped to avoid changing the existing menu */
+.ks-studio {
+  --ks-cream:#f9eddb; --ks-gold:#deb479; --ks-gold2:#b77b40; --ks-warm:#3a261a;
+  min-height: 100vh; position:relative; isolation:isolate; overflow:hidden;
+  background: radial-gradient(ellipse at 85% 0%, #4b2d1d 0%, transparent 37%), #17100d;
+  color:var(--ks-cream); font-family:'Tajawal',system-ui,sans-serif; padding:0 0 80px;
+}
+.ks-studio * {box-sizing:border-box}
+.ks-studio button,.ks-studio a,.ks-studio select {cursor:pointer}
+.ks-studio button:focus-visible,.ks-studio a:focus-visible,.ks-studio select:focus-visible,
+.ks-studio input:focus-visible,.ks-studio textarea:focus-visible {outline:2px solid #f2c48a;outline-offset:3px}
+.ks-studio button:disabled {opacity:.45;cursor:not-allowed}
+.ks-studio__veil {position:absolute;inset:0;z-index:-1;pointer-events:none;background:
+ linear-gradient(90deg,rgba(19,11,7,.96),rgba(19,11,7,.72)),url('/media/komur-atelier-bg.webp') center top / auto 940px no-repeat;opacity:.65}
+.ks-shell {max-width:1510px;padding-inline:clamp(16px,4.2vw,68px);margin-inline:auto}
+.ks-header {display:flex;align-items:center;justify-content:space-between;gap:18px;padding:28px 0 24px;border-bottom:1px solid rgba(230,179,114,.18)}
+.ks-header__label {display:flex;gap:13px;align-items:center;color:#ecd1a7;font:600 12px/1.5 Georgia,serif;letter-spacing:.17em}
+.ks-header__spark {font-size:28px;color:#e9ae67}
+.ks-header__actions {display:flex;gap:9px;flex-wrap:wrap}
+.ks-header__actions button {display:inline-flex;gap:9px;align-items:center;min-height:40px;background:transparent;color:#e4cba7;border:1px solid rgba(220,175,117,.28);padding:10px 14px;border-radius:100px;font-size:12px;transition:.2s}
+.ks-header__actions button:hover {background:#403022}
+.ks-intro {padding:clamp(36px,6vw,75px) 0 clamp(26px,4vw,48px);text-align:center;max-width:800px;margin-inline:auto}
+.ks-intro__eyebrow {font-size:12px;font-weight:700;letter-spacing:.04em;color:#e6b77d}
+.ks-intro h1 {font-size:clamp(37px,5.5vw,78px);font-weight:900;line-height:1.24;letter-spacing:-.055em;margin:12px 0 13px;text-wrap:balance}
+.ks-intro h1 em {font-style:normal;color:#ebbd7f;text-shadow:0 0 65px #e4a45433}
+.ks-intro p {font-size:clamp(14px,1.5vw,17px);color:#ccb9a6;line-height:1.9;max-width:650px;margin:auto}
+.ks-layout {display:grid;grid-template-columns:minmax(0,1fr) minmax(345px,.80fr);align-items:start;gap:clamp(18px,3vw,44px)}
+.ks-builder {display:grid;gap:18px;min-width:0}
+.ks-panel {border:1px solid rgba(222,178,121,.17);border-radius:22px;background:linear-gradient(140deg,rgba(72,46,30,.49),rgba(34,22,17,.87));padding:clamp(20px,2.5vw,30px);box-shadow:0 12px 46px #00000016}
+.ks-panel__heading {display:flex;gap:16px;align-items:start;margin-bottom:22px}
+.ks-panel__heading>span {font:600 22px/1 Georgia,serif;color:var(--ks-gold);border:1px solid rgba(230,178,114,.28);display:grid;place-items:center;width:47px;height:47px;border-radius:50%;flex:none}
+.ks-panel__heading h2 {font-size:clamp(19px,1.7vw,25px);font-weight:900;letter-spacing:-.03em;margin:2px 0 6px}
+.ks-panel__heading p {color:#b8a18b;font-size:13px;line-height:1.6;margin:0}
+.ks-guests {display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:81px;padding:13px 19px;background:rgba(23,16,12,.5);border:1px solid rgba(242,205,157,.12);border-radius:15px}
+.ks-guests__count {display:flex;align-items:center;gap:16px;color:#e9c18b}
+.ks-guests__count div {display:grid;gap:3px}
+.ks-guests__count small {font-size:12px;color:#bda78f}
+.ks-guests__count strong {font-size:27px;color:#fff0d9}
+.ks-stepper {display:flex;align-items:center;gap:13px}
+.ks-stepper button {width:37px;height:37px;display:grid;place-items:center;background:#3e2a1d;color:#eac48e;border-radius:50%;border:1px solid #76563d;transition:.2s}
+.ks-stepper button:hover:not(:disabled){background:#6b492e}
+.ks-stepper span,.ks-stepper strong {font-size:15px;font-weight:800;min-width:33px;text-align:center}
+.ks-pills {display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.ks-pills button {color:#d6c3ad;border:1px solid rgba(233,192,144,.26);background:rgba(34,21,16,.5);padding:11px 16px;border-radius:30px;min-height:40px;font-size:12px;font-weight:700;transition:.2s}
+.ks-pills button:hover,.ks-pills button.is-on {background:#d7ad75;color:#26190f;border-color:#efc68b}
+.ks-help {display:flex;gap:8px;align-items:start;color:#bca890;font-size:12px;line-height:1.7;margin:16px 0 0}
+.ks-help svg{flex:none;margin-top:1px}
+.ks-choice-row {display:flex;gap:10px;margin-bottom:18px}
+.ks-choice-row button {display:inline-flex;align-items:center;gap:8px;justify-content:center;min-height:46px;padding:11px 18px;border:1px solid #76594255;border-radius:11px;background:#271a15;color:#e1ccb1;font-weight:800;font-size:13px;transition:.2s}
+.ks-choice-row button small {font-size:10px;color:#bf9a68}
+.ks-choice-row button.is-selected {border-color:#f0ba77;background:rgba(171,113,53,.25);color:#f6dfbd}
+.ks-products {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:356px;overflow-y:auto;scrollbar-color:#957048 transparent;scrollbar-width:thin}
+.ks-product {position:relative;min-width:0;border:1px solid #82614555;border-radius:15px;padding:7px 7px 13px;background:rgba(24,16,11,.55);color:#e9dac7;text-align:center;transition:.25s}
+.ks-product:hover {background:#3d291c;transform:translateY(-2px)}
+.ks-product.is-selected {border-color:#f5c280;background:linear-gradient(140deg,#59402c,#312016);box-shadow:0 0 0 1px #d4a46c40}
+.ks-product__photo {display:block;aspect-ratio:1.25;overflow:hidden;border-radius:11px;background:#6a4c35}
+.ks-product__photo img {width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}
+.ks-product:hover img {transform:scale(1.06)}
+.ks-product__label {display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11px;line-height:1.55;min-height:34px;font-weight:800;margin:8px 4px 0}
+.ks-product__check {position:absolute;top:12px;right:12px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#e8ba7a;color:#25160e}
+.ks-duo {background:#271a12;border-radius:13px;padding:18px;margin-top:18px;border:1px solid #96704b44}
+.ks-duo label {display:block;font-size:13px;font-weight:800;margin-bottom:10px}
+.ks-duo select,.ks-healthy select {width:100%;height:48px;color:#f7e8d4;background:#37261c;border:1px solid #78573c;border-radius:10px;padding:0 12px}
+.ks-duo option,.ks-healthy option {background:#39261b;color:white}
+.ks-warning {color:#e1b77f;font-size:12px;line-height:1.8;margin:10px 0 0}
+.ks-size-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.ks-size {border:1px solid #84614866;background:#251914;border-radius:11px;padding:14px 8px;color:#e5d0b5;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:13px;min-height:73px;transition:.2s}
+.ks-size strong {color:#ecc58b;font-size:18px}
+.ks-size small {font-size:10px;color:#c5a17d}
+.ks-size.is-selected {border-color:#d9a569;background:linear-gradient(145deg,#71513366,#3f2a1e);box-shadow:0 0 0 1px #d9a56944}
+.ks-qty {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:19px;padding-top:18px;border-top:1px solid #76563833;font-size:13px;font-weight:700}
+.ks-subheading {font-size:14px;font-weight:900;color:#f5ddbd;margin:18px 0 11px}
+.ks-subheading small {font-size:10px;color:#deb17c;font-weight:500;margin-right:6px}
+.ks-addon-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ks-addon {display:flex;gap:8px;align-items:center;padding:12px;min-height:56px;border:1px solid #78573c88;background:#271a14;border-radius:11px;color:#ebd6bc;font-size:12px}
+.ks-addon>span {flex:1;text-align:right}
+.ks-addon strong {color:#f1ca95;font-size:12px;white-space:nowrap}
+.ks-addon i {display:grid;place-items:center;width:23px;height:23px;background:#5c3f2b;border-radius:50%;font-style:normal}
+.ks-addon.is-selected,.ks-finishes button.is-selected {border-color:#dfac70;background:#5b3b2677}
+.ks-options-group {padding-top:3px}
+.ks-finishes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ks-finishes button {display:flex;gap:11px;align-items:center;border:1px solid #79573d7f;border-radius:10px;background:#281b16;color:#d9c5aa;font-size:12px;padding:14px 13px;text-align:right;min-height:52px}
+.ks-finishes button span {width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#58402c;color:#e6b87d}
+.ks-syrup-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ks-syrup {display:flex;flex-direction:column;gap:8px;justify-content:center;min-height:90px;background:#251915;color:#f2dcc1;padding:14px;border:1px solid #7a553a77;border-radius:11px;text-align:right}
+.ks-syrup>span {font-size:13px;font-weight:800}
+.ks-syrup small {font-size:11px;color:#bfa78b}
+.ks-syrup.is-selected {background:#60412c88;border-color:#e5b67d}
+.ks-healthy {display:grid;gap:12px;border-top:1px solid #75543b55;margin-top:20px;padding-top:18px}
+.ks-healthy__check {display:flex;align-items:center;gap:13px;cursor:pointer}
+.ks-healthy__check input {width:19px;height:19px;accent-color:#e4b878}
+.ks-healthy__check span {display:grid;gap:4px}
+.ks-healthy__check strong {font-size:14px}
+.ks-healthy__check small {color:#bda489;font-size:11px}
+.ks-fields {display:grid;gap:14px}
+.ks-fields label {display:grid;gap:8px;color:#ecd4b4;font-size:13px;font-weight:800}
+.ks-fields label small {font-size:10px;color:#bda58b;font-weight:500}
+.ks-fields input,.ks-fields textarea {background:#231713;border:1px solid #7f5d4388;color:#fae6ce;border-radius:10px;padding:13px 15px;width:100%;resize:vertical;font:500 13px/1.65 inherit}
+.ks-fields input::placeholder,.ks-fields textarea::placeholder {color:#a5917c}
+.ks-preview {position:sticky;top:92px;min-width:0}
+.ks-preview__inner {overflow:hidden;border:1px solid rgba(235,191,125,.47);border-radius:23px;background:#221710;box-shadow:0 35px 100px #0009,0 0 70px #d4934f1a}
+.ks-preview__top {display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 26px 12px;background:linear-gradient(#352114,#20130e);color:#e9bf81}
+.ks-preview__top>div>span {font:600 10px Georgia,serif;letter-spacing:.19em}
+.ks-preview__top h2 {font-size:23px;letter-spacing:-.035em;color:#f8e7d1;font-weight:900;margin:6px 0}
+.ks-scene {position:relative;height:clamp(280px,29vw,410px);display:flex;align-items:center;justify-content:center;overflow:hidden;background:
+ radial-gradient(ellipse at 50% 64%,#d0985870 0%,transparent 58%),linear-gradient(165deg,#422c1d,#2d1c13 65%,#1e120c)}
+.ks-scene::before {content:'';position:absolute;inset:0;background:url('/media/komur-atelier-bg.webp') center center / cover;opacity:.23}
+.ks-scene__glow {position:absolute;width:85%;height:75%;background:radial-gradient(circle,#ffb76866,transparent 70%);filter:blur(22px)}
+.ks-scene__tray {position:relative;width:81%;height:59%;border-radius:21px;transform:perspective(650px) rotateX(13deg) rotateZ(-4deg);box-shadow:0 30px 38px #0009,0 0 0 8px #9c6a3f,0 0 0 12px #3e2617,0 0 0 14px #d6a46b, inset 0 0 28px #0008;overflow:hidden;background:#8d511f}
+.ks-scene__food {position:absolute;inset:0;display:flex;overflow:hidden;border-radius:16px;filter:saturate(1.12) contrast(1.06)}
+.ks-scene__zone {flex:1;min-width:0;background-position:center;background-size:cover}
+.ks-scene__zone--second {border-right:2px solid #b87932}
+.ks-scene__glaze {position:absolute;inset:0;background:linear-gradient(30deg,#ffaf4630,transparent 45%,#fcca6670 75%,transparent);pointer-events:none;mix-blend-mode:screen}
+.ks-scene__lines {position:absolute;inset:0;border:9px solid rgba(87,35,6,.26);box-shadow:inset 0 0 30px #2d120aab;pointer-events:none}
+.ks-scene__tray-rim {position:absolute;inset:0;border:3px solid #e8bb7e87;border-radius:19px;pointer-events:none}
+.ks-scene__disclaimer {position:absolute;bottom:12px;inset-inline:16px;font-size:10px;color:#d8bb99;text-align:center;text-shadow:0 2px 4px #000}
+.ks-preview__info {padding:clamp(19px,3vw,30px)}
+.ks-preview__pill {display:inline-flex;gap:7px;align-items:center;border:1px solid #c88d4d66;border-radius:20px;padding:7px 12px;color:#eec88e;font-size:11px}
+.ks-preview__info h3 {font-size:29px;line-height:1.2;font-weight:900;margin:14px 0 7px}
+.ks-preview__info>p {font-size:12px;line-height:1.8;color:#cbb39a;margin:0}
+.ks-preview__specs {display:flex;flex-wrap:wrap;gap:10px;margin:17px 0}
+.ks-preview__specs span {font-size:11px;color:#bba48b;background:#ffffff0a;border:1px solid #c1986633;border-radius:9px;padding:9px 12px}
+.ks-preview__specs b {margin-right:7px;color:#f0ce9c}
+.ks-preview__total {display:flex;justify-content:space-between;gap:10px;align-items:end;border-top:1px solid #d6a87547;padding:21px 0 18px}
+.ks-preview__total div{display:grid;gap:7px}
+.ks-preview__total small,.ks-preview__total>span {font-size:11px;color:#bba48b}
+.ks-preview__total strong {font-size:32px;font-weight:900;color:#edbd7a}
+.ks-preview__primary {display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;border:0;border-radius:11px;background:linear-gradient(120deg,#f3cb8a,#ca8846);color:#24140e;font-weight:900;font-size:15px;min-height:57px;padding:15px 20px;box-shadow:0 12px 33px #d28e4244;text-decoration:none;transition:.22s}
+.ks-preview__primary:hover {filter:brightness(1.12);transform:translateY(-2px)}
+.ks-preview__secondary {display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:transparent;color:#e4bf89;min-height:45px;font-size:12px;border:0;margin-top:10px}
+.ks-preview__secondary:hover {color:#fff2dc}
+.ks-preview__message {display:block;text-align:center;font-size:12px;color:#b8e2b0;min-height:18px}
+.ks-preview__policy {color:#a88d70!important;font-size:11px!important;line-height:1.65!important;text-align:center;margin-top:9px!important}
+.ks-footer {display:flex;flex-wrap:wrap;align-items:center;gap:15px;border-top:1px solid #e1b57744;margin-top:38px;padding-top:23px;color:#bca68b;font-size:12px}
+.ks-footer svg {color:#e7b77a}
+.ks-footer span {flex:1;line-height:1.7}
+.ks-footer button {display:flex;gap:8px;align-items:center;color:#efca94;background:transparent;border:0;font-weight:700}
+@media(min-width:1100px){.ks-preview__inner{max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#795633 transparent}}
+@media(max-width:990px){.ks-layout{grid-template-columns:minmax(0,1fr)}.ks-preview{position:relative;top:auto;grid-row:1}.ks-scene{height:380px}.ks-builder{grid-row:2}}
+@media(max-width:630px){.ks-header{align-items:start;flex-direction:column}.ks-header__actions{width:100%}.ks-header__actions button{flex:1;justify-content:center}.ks-intro{text-align:right}.ks-intro h1{font-size:40px}.ks-panel{padding:19px}.ks-panel__heading{gap:11px}.ks-panel__heading>span{width:39px;height:39px;font-size:17px}.ks-panel__heading h2{font-size:21px}.ks-products{grid-template-columns:repeat(2,minmax(0,1fr))}.ks-size-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.ks-syrup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ks-guests{align-items:start;flex-direction:column}.ks-stepper{align-self:stretch;justify-content:space-between}.ks-choice-row button{flex:1}.ks-scene{height:305px}.ks-preview__top{padding:18px}.ks-preview__info{padding:19px}.ks-preview__total strong{font-size:27px}}
+@media(max-width:390px){.ks-addon-grid,.ks-finishes{grid-template-columns:1fr}.ks-size-grid{grid-template-columns:repeat(2,1fr)}.ks-header__label{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.ks-studio *,.ks-studio *::before,.ks-studio *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.ks-preview__primary:hover,.ks-product:hover{transform:none}}
+/* Entrances to Studio from the cinematic menu and the home experience */
+.km3-top__studio-btn {display:inline-flex;align-items:center;justify-content:center;gap:9px;margin-inline-start:auto;margin-inline-end:18px;border:1px solid rgba(248,195,121,.60);border-radius:100px;padding:11px 20px;color:#f5d09d;background:linear-gradient(120deg,rgba(165,102,48,.4),rgba(53,30,20,.85));font-size:12px;font-weight:900;white-space:nowrap;min-height:42px;box-shadow:0 4px 22px rgba(237,147,65,.13);transition:.25s}
+.km3-top__studio-btn:hover {background:#c6965f;color:#21160f}
+.ks-home-teaser {display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,55px);align-items:center;overflow:hidden;max-width:1260px;margin:clamp(40px,6vw,78px) auto 0;padding:clamp(25px,4vw,55px);border:1px solid #e4c18d55;border-radius:28px;background:linear-gradient(130deg,#1b120d,#3b2418 65%,#51331c);color:#f8e7d0;box-shadow:0 24px 60px #38211528}
+.ks-home-teaser__eyebrow {font:700 11px Georgia,serif;letter-spacing:.22em;color:#e1b77e}
+.ks-home-teaser h2 {font-size:clamp(30px,3vw,49px);line-height:1.28;font-weight:900;margin:18px 0}
+.ks-home-teaser h2 em {color:#eec58b;font-style:normal}
+.ks-home-teaser p {font-size:14px;color:#d5bca2;max-width:470px;line-height:1.95;margin:0 0 25px}
+.ks-home-teaser button {display:inline-flex;gap:22px;align-items:center;min-height:53px;padding:14px 24px;border:0;border-radius:10px;background:linear-gradient(120deg,#e8be82,#c88b4c);color:#24150e;font-size:14px;font-weight:900;transition:.2s;cursor:pointer}
+.ks-home-teaser button:hover {filter:brightness(1.08);transform:translateY(-2px)}
+.ks-home-teaser__art {position:relative;height:300px;overflow:hidden;border-radius:20px;background:radial-gradient(circle at 50% 60%,#a46c3177,transparent 67%),url('/media/komur-atelier-bg.webp') center / cover;box-shadow:inset 0 0 60px #170a0d99}
+.ks-home-teaser__art img {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 12px #0008)}
+@media(max-width:780px){.ks-home-teaser{grid-template-columns:1fr;margin-inline:16px}.ks-home-teaser__art{height:230px;grid-row:1}.km3-top__studio-btn {font-size:11px;padding:10px 13px;margin-inline-end:8px}}
+@media(max-width:430px){.km3-top__studio-btn {font-size:10px;padding:9px 10px;white-space:normal;max-width:122px;line-height:1.3}}

@@ -11,6 +11,7 @@ import AuthPage from './pages/AuthPage';
 
 import { HomePage } from './pages/HomePage';
 import { MenuPage } from './pages/MenuPage';
+import { StudioPage } from './pages/StudioPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderTrackingPage } from './pages/OrderTrackingPage';
@@ -98,7 +99,9 @@ function AppInner() {
         return;
       }
 
-      if (hash === 'menu' || path === '/menu') {
+      if (hash === 'studio' || path === '/studio') {
+        setCurrentTab('studio'); setCurrentProductId(null); setShowAuth(false);
+      } else if (hash === 'menu' || path === '/menu') {
         setCurrentTab('menu'); setCurrentProductId(null); setShowAuth(false);
       } else if (hash === 'order' || hash === 'checkout' || path === '/order' || path === '/checkout') {
         setCurrentTab('checkout'); setCurrentProductId(null); setShowAuth(false);
@@ -272,6 +275,15 @@ function AppInner() {
           />
         )}
 
+        {currentTab === 'studio' && (
+          <StudioPage
+            products={products}
+            settings={settings}
+            onAddToCart={handleAddToCart}
+            onNavigate={handleNavigate}
+          />
+        )}
+
         {currentTab === 'menu' && (
           <MenuPage
             filters={menuFilters}
@@ -280,6 +292,7 @@ function AppInner() {
             onAddToCart={handleAddToCart}
             onNavigateToProduct={handleNavigateToProduct}
             onOpenDeliverySurvey={() => setIsDeliverySurveyOpen(true)}
+            onOpenStudio={() => handleNavigate('studio')}
           />
         )}
 

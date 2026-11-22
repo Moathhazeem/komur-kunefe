@@ -13,6 +13,7 @@ interface MenuPageProps {
   onAddToCart: (product: Product, variant: ProductVariant, quantity: number) => void;
   onOpenDeliverySurvey: () => void;
   onNavigateToProduct: (productId: string) => void;
+  onOpenStudio: () => void;
 }
 
 const categoryNames: Record<string, string> = {
@@ -67,7 +68,7 @@ const sceneMotion = {
   }),
 };
 
-export function MenuPage({ products, filters, onFilterChange, onNavigateToProduct, onOpenDeliverySurvey }: MenuPageProps) {
+export function MenuPage({ products, filters, onFilterChange, onNavigateToProduct, onOpenDeliverySurvey, onOpenStudio }: MenuPageProps) {
   const reduceMotion = useReducedMotion();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [direction, setDirection] = useState(1);
@@ -156,6 +157,7 @@ export function MenuPage({ products, filters, onFilterChange, onNavigateToProduc
             <span className="km3-top__wordmark" lang="tr" dir="ltr">KÖMÜR KÜNEFE</span>
             <span className="km3-top__subtitle" lang="en" dir="ltr">THE SIGNATURE ATELIER</span>
           </div>
+          <button type="button" className="km3-top__studio-btn" onClick={onOpenStudio}>✦ صمّم صينيتك</button>
           <button type="button" className="km3-top__search-trigger" onClick={() => setSearchOpen(value => !value)}
             aria-label={searchOpen ? 'إغلاق البحث' : 'البحث عن صنف'} aria-expanded={searchOpen}>
             {searchOpen ? <X size={22} /> : <Search size={22} />}
