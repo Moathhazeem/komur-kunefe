@@ -1,12 +1,11 @@
-# Kömür mobile cinematic hero
+# Kömür / From ember to first bite — director’s cut (v2)
 
 Base reviewed: `0a06bc445cfec9e0cabb7cff1dda0f54f1698048` (origin/main at review).
 
 Uses existing responsive WebP artwork, with separate artwork-coordinate SVG overlays
 for steam, an amber syrup drip and a subtle oven glow. The camera moves with native
 scroll, with a smaller range on phones. No new dependencies, requests, video, canvas,
-WebGL, forced smooth scroll or pinned section. The existing Arabic copy, header layout,
-CTA callbacks and featured-product link remain intact. The previous desktop-only
+WebGL, forced smooth scroll or pinned section. The Arabic headline and description have been tightened for the campaign; header layout, CTA callbacks and featured-product link remain intact. The previous desktop-only
 GSAP/Lenis module is deliberately retained in source but no longer mounted by this hero.
 
 References reviewed for patterns (no third-party code or assets copied):
@@ -18,8 +17,8 @@ References reviewed for patterns (no third-party code or assets copied):
 - https://github.com/ShahramShakiba/Coffee-Smoke-p21 — steam concept; no declared license found.
 
 The effects are intentionally a stylized overlay rather than photorealistic liquid
-simulation. Automatic atmospheric effects finish within 4.5 seconds per entry; they
-can replay when returning to the hero. Camera motion is scroll-driven. Reduced-motion,
+simulation. Automatic atmospheric effects finish within 4.8 seconds per entry; they
+can replay when returning to the hero. Camera motion is scroll-driven, with a one-time 1.6-second opening lens settle. Two timed syrup drops and a subtle landing glint are aligned to the current responsive artwork; three soft vapor paths and local oven/coal highlights form the atmosphere. The motion remains a 2D compositing approximation, not footage. The mobile hero uses compact copy and side-by-side 52px touch targets. Reduced-motion,
 Save-Data and low-core devices get static artwork. Motion is detached on unmount and
 stops outside the viewport or when the tab is hidden.
 

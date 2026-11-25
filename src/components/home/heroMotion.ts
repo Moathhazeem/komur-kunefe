@@ -14,10 +14,15 @@ export function mountHeroMotion(root: HTMLElement): () => void {
   let near = true;
   let disposed = false;
   let last = -1;
+  let introduced = false;
+  let introTimer: number | undefined;
 
   const allowed = () => !reduced.matches && !connection?.saveData && !lowCore;
   const reset = () => {
     root.removeAttribute('data-cinema-active');
+    root.removeAttribute('data-cinema-intro');
+    if (introTimer !== undefined) window.clearTimeout(introTimer);
+    introTimer = undefined;
     camera.style.removeProperty('--hero-camera-scale');
     camera.style.removeProperty('--hero-camera-shift');
     last = -1;
@@ -29,25 +34,36 @@ export function mountHeroMotion(root: HTMLElement): () => void {
   const render = () => {
     frame = 0;
     if (disposed || !allowed()) { reset(); return; }
-    if (document.hidden || !near) { root.removeAttribute('data-cinema-active'); return; }
+    if (document.hidden || !near) { root.removeAttribute('data-cinema-active'); root.removeAttribute('data-cinema-intro'); return; }
     const rect = viewport.getBoundingClientRect();
     const visible = rect.bottom > 0 && rect.top < window.innerHeight && rect.height > 0;
-    if (!visible) { root.removeAttribute('data-cinema-active'); return; }
+    if (!visible) { root.removeAttribute('data-cinema-active'); root.removeAttribute('data-cinema-intro'); return; }
     const progress = Math.max(0, Math.min(1, -rect.top / Math.max(rect.height, 1)));
     // Quantize tiny changes. No time-based scroll loop, and no layout writes.
     const step = Math.round(progress * 1000) / 1000;
     if (step !== last) {
-      const zoom = mobile.matches ? 0.065 : 0.10;
+      const zoom = mobile.matches ? 0.115 : 0.135;
       camera.style.setProperty('--hero-camera-scale', (1 + zoom * step).toFixed(4));
-      camera.style.setProperty('--hero-camera-shift', `${(step * (mobile.matches ? 2 : 3)).toFixed(3)}%`);
+      camera.style.setProperty('--hero-camera-shift', `${(step * (mobile.matches ? 2.2 : 2.8)).toFixed(3)}%`);
       last = step;
     }
     if (!root.hasAttribute('data-cinema-active')) root.setAttribute('data-cinema-active', '');
+    if (!introduced) {
+      introduced = true;
+      // Avoid replaying the opening shot after orientation changes or route restoration.
+      if (step < .12) {
+        root.setAttribute('data-cinema-intro', '');
+        introTimer = window.setTimeout(() => {
+          root.removeAttribute('data-cinema-intro');
+          introTimer = undefined;
+        }, 1650);
+      }
+    }
   };
   const schedule = () => {
     if (disposed) return;
     if (!allowed()) { cancel(); reset(); return; }
-    if (!near || document.hidden) { cancel(); root.removeAttribute('data-cinema-active'); return; }
+    if (!near || document.hidden) { cancel(); root.removeAttribute('data-cinema-active'); root.removeAttribute('data-cinema-intro'); return; }
     if (!frame) frame = window.requestAnimationFrame(render);
   };
   const refresh = () => { last = -1; schedule(); };

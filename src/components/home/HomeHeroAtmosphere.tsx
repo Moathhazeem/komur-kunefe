@@ -2,66 +2,81 @@ import { useId } from 'react';
 
 type Variant = 'mobile' | 'desktop';
 
-// Artwork coordinates are authored against the existing responsive hero photos.
-const composition = {
-  mobile: {
-    viewBox: '0 0 900 682',
-    steam: 'translate(258 292) scale(.88)',
-    syrup: 'translate(665 198) scale(.77)',
-    glow: { cx: 748, cy: 273, rx: 180, ry: 110 },
-  },
-  desktop: {
-    viewBox: '0 0 1648 928',
-    steam: 'translate(982 411) scale(1.12)',
-    syrup: 'translate(1401 328) scale(1.02)',
-    glow: { cx: 1514, cy: 428, rx: 205, ry: 132 },
-  },
+// Coordinates correspond to the actual existing WebP plates, not the viewport.
+const plates = {
+  mobile: { viewBox: '0 0 900 682', vapor: 'translate(265 296) scale(.92)', pour: 'translate(680 190) scale(.85)', oven: { cx: 773, cy: 267, rx: 165, ry: 133 }, coals: { cx: 412, cy: 547, rx: 226, ry: 29 }, copper: 'translate(396 459) scale(.83)' },
+  desktop: { viewBox: '0 0 1648 928', vapor: 'translate(984 419) scale(1.25)', pour: 'translate(1404 321) scale(1.03)', oven: { cx: 1519, cy: 390, rx: 175, ry: 140 }, coals: { cx: 1081, cy: 692, rx: 260, ry: 37 }, copper: 'translate(1090 598) scale(1.1)' },
 } as const;
 
 export function HomeHeroAtmosphere({ variant }: { variant: Variant }) {
-  const id = `komur-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const art = composition[variant];
-  const steam = `${id}-steam`;
-  const amber = `${id}-amber`;
-  const glow = `${id}-glow`;
+  const uid = `komur-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const plate = plates[variant];
+  const ref = (name: string) => `url(#${uid}-${name})`;
   return (
     <svg className={`home-hero-atmosphere home-hero-atmosphere--${variant}`}
-      viewBox={art.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      viewBox={plate.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
-        <linearGradient id={steam} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0" stopColor="#ffddbb" stopOpacity="0" />
-          <stop offset=".28" stopColor="#f0d9c6" stopOpacity=".38" />
-          <stop offset=".68" stopColor="#e7d8ce" stopOpacity=".24" />
-          <stop offset="1" stopColor="#e7d8ce" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={amber} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#a74d0b" stopOpacity=".75" />
-          <stop offset=".38" stopColor="#ffe7a0" />
-          <stop offset=".67" stopColor="#e6a132" />
-          <stop offset="1" stopColor="#a44c0b" stopOpacity=".8" />
-        </linearGradient>
-        <radialGradient id={glow}>
-          <stop stopColor="#ff9c40" stopOpacity=".16" />
-          <stop offset="1" stopColor="#ff9c40" stopOpacity="0" />
+        <radialGradient id={`${uid}-heat`}>
+          <stop stopColor="#ffb35e" stopOpacity=".32" />
+          <stop offset=".48" stopColor="#ee681a" stopOpacity=".13" />
+          <stop offset="1" stopColor="#c23c0b" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id={`${uid}-vapor`} x1="0%" y1="100%" x2="12%" y2="0%">
+          <stop stopColor="#ffe0bf" stopOpacity="0" />
+          <stop offset=".24" stopColor="#e8d5bd" stopOpacity=".32" />
+          <stop offset=".6" stopColor="#e9e0d6" stopOpacity=".28" />
+          <stop offset="1" stopColor="#e9e0d6" stopOpacity="0" />
+        </linearGradient>
+        <filter id={`${uid}-diffuse`} x="-35%" y="-20%" width="170%" height="140%">
+          <feGaussianBlur stdDeviation="3.2" />
+        </filter>
+        <linearGradient id={`${uid}-syrup`} x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop stopColor="#934008" stopOpacity=".78" />
+          <stop offset=".27" stopColor="#e89a38" />
+          <stop offset=".43" stopColor="#fff1be" />
+          <stop offset=".66" stopColor="#ffc56b" />
+          <stop offset="1" stopColor="#ac570d" />
+        </linearGradient>
+        <radialGradient id={`${uid}-impact`}>
+          <stop stopColor="#ffe1a2" stopOpacity=".5" />
+          <stop offset="1" stopColor="#f1aa46" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id={`${uid}-copper`}>
+          <stop stopColor="#ffd394" stopOpacity="0" />
+          <stop offset=".5" stopColor="#ffd394" stopOpacity=".55" />
+          <stop offset="1" stopColor="#ffd394" stopOpacity="0" />
+        </linearGradient>
       </defs>
-      <ellipse className="home-hero-fire-glow" {...art.glow} fill={`url(#${glow})`} />
-      <g transform={art.steam} fill="none" stroke={`url(#${steam})`} strokeLinecap="round">
-        <g className="home-hero-vapor home-hero-vapor--one">
-          <path d="M-12 0 C-29 -30 22 -45 2 -80 S-24 -122 8 -151 S31 -192 6 -220" strokeWidth="13" />
-          <path d="M-12 0 C-29 -30 22 -45 2 -80 S-24 -122 8 -151 S31 -192 6 -220" strokeWidth="3" opacity=".65" />
+      <g className="komur-heat">
+        <ellipse {...plate.oven} fill={ref('heat')} />
+        <ellipse {...plate.coals} fill={ref('heat')} />
+      </g>
+      <g transform={plate.copper}>
+        <path className="komur-copper-glint" d="M-110 0 Q0 19 110 -3" fill="none" stroke={ref('copper')} strokeWidth="2.6" />
+      </g>
+      <g transform={plate.vapor} fill="none" stroke={ref('vapor')} strokeLinecap="round">
+        <g className="komur-vapor komur-vapor-a">
+          <path d="M-8 0 C-31 -36 25 -51 5 -88 S-22 -130 11 -163 S25 -208 -2 -245" strokeWidth="20" filter={ref('diffuse')} />
+          <path d="M-8 0 C-31 -36 25 -51 5 -88 S-22 -130 11 -163 S25 -208 -2 -245" strokeWidth="4" opacity=".36" />
         </g>
-        <g className="home-hero-vapor home-hero-vapor--two">
-          <path d="M26 2 C47 -24 12 -57 39 -86 S22 -130 38 -158" strokeWidth="9" opacity=".66" />
+        <g className="komur-vapor komur-vapor-b">
+          <path d="M29 5 C47 -32 7 -58 35 -91 S49 -137 23 -173 S39 -213 50 -226" strokeWidth="15" filter={ref('diffuse')} />
+        </g>
+        <g className="komur-vapor komur-vapor-c">
+          <path d="M-32 -3 C-54 -41 -8 -73 -36 -109 S-58 -151 -31 -188" strokeWidth="11" filter={ref('diffuse')} />
         </g>
       </g>
-      <g transform={art.syrup}>
-        {/* A small syrup drip from the lifted bite, not a simulated liquid pour. */}
-        <path className="home-hero-syrup-thread" d="M0 0 C3 7 0 14 -2 24" fill="none"
-          stroke={`url(#${amber})`} strokeWidth="2.7" strokeLinecap="round" />
-        <g className="home-hero-syrup-drop">
-          <path d="M0 0 C-1.6 5 -4.8 7 -4.8 11 A4.8 5 0 0 0 4.8 11 C4.8 7 1.6 5 0 0Z" fill={`url(#${amber})`} />
-          <path d="M-1.7 7 L-2.1 10" stroke="#fff3c6" strokeWidth=".9" strokeLinecap="round" />
+      <g transform={plate.pour}>
+        <path className="komur-syrup-neck" d="M0 0 C1.5 7 1 15 -1 25" fill="none" stroke={ref('syrup')} strokeWidth="3.2" strokeLinecap="round" />
+        <g className="komur-syrup-drop komur-syrup-drop-a">
+          <path d="M0 0 C-.7 6 -4.4 9 -4.4 13 A4.4 4.4 0 0 0 4.4 13 C4.4 9 .7 6 0 0Z" fill={ref('syrup')} />
+          <path d="M-1.8 9 Q-2.7 12 -1.8 13.6" stroke="#fff4d5" strokeWidth="1" fill="none" strokeLinecap="round" />
+        </g>
+        <g className="komur-syrup-drop komur-syrup-drop-b">
+          <path d="M0 0 C-1 4 -3.2 7 -3.2 9 A3.2 3.2 0 0 0 3.2 9 C3.2 7 1 4 0 0Z" fill={ref('syrup')} />
+        </g>
+        <g transform="translate(-8 186)">
+          <ellipse className="komur-syrup-impact" rx="19" ry="5" fill={ref('impact')} />
         </g>
       </g>
     </svg>
