@@ -1,0 +1,95 @@
+/* Kömür / From ember to first bite. Existing artwork, native scrolling. */
+.home-hero .home-hero-viewport { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.home-hero .home-hero-camera, .home-hero .home-hero-shot { position: absolute; inset: 0; }
+.home-hero .home-hero-camera {
+  transform-origin: 69% 52%;
+  transform: translateY(var(--hero-camera-shift, 0%)) scale(var(--hero-camera-scale, 1));
+}
+.home-hero .home-hero-shot { transform-origin: 69% 52%; }
+.home-hero .home-hero-scene .home-hero-camera picture { position: absolute; inset: 0; display: block; }
+.home-hero .home-hero-camera .home-hero-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; animation: none;
+}
+.home-hero .home-hero-atmosphere {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: hidden; visibility: hidden;
+}
+.home-hero-atmosphere--mobile { display: none; }
+.home-hero[data-cinema-active] .home-hero-camera { will-change: transform; }
+.home-hero[data-cinema-active] .home-hero-atmosphere { visibility: visible; }
+.home-hero[data-cinema-intro] .home-hero-shot { animation: komur-lens-settle 1.6s cubic-bezier(.2,.65,.23,1) both; }
+@keyframes komur-lens-settle { from { transform: scale(1.04); } to { transform: scale(1); } }
+.komur-heat, .komur-copper-glint, .komur-vapor, .komur-syrup-neck, .komur-syrup-drop, .komur-syrup-impact { opacity: 0; }
+/* One restrained, finite 4.8-second film beat; no perpetual effects. */
+.home-hero[data-cinema-active] .komur-heat { animation: komur-heat-breathe 4.8s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-copper-glint { animation: komur-copper 4.8s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-vapor-a { animation: komur-rise-a 4.8s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-vapor-b { animation: komur-rise-b 4.5s .15s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-vapor-c { animation: komur-rise-c 4s .4s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-syrup-neck { animation: komur-neck 4.8s ease-in-out both; }
+.home-hero[data-cinema-active] .komur-syrup-drop-a { animation: komur-drop .82s 1.05s cubic-bezier(.48,.04,.85,.67) both; }
+.home-hero[data-cinema-active] .komur-syrup-drop-b { animation: komur-drop .72s 2.24s cubic-bezier(.48,.04,.85,.67) both; }
+.home-hero[data-cinema-active] .komur-syrup-impact { animation: komur-impact 4.8s linear both; }
+@keyframes komur-heat-breathe { 0%,100% { opacity:0; } 14%,57% { opacity:.8; } 38%,82% { opacity:.38; } }
+@keyframes komur-copper { 0%,100% { opacity:0; } 23%,62% { opacity:.5; } 42%,84% { opacity:.17; } }
+@keyframes komur-rise-a {
+  0%,100% { opacity:0; } 0% { transform:translate(0,12px); }
+  32% { opacity:.58; } 68% { opacity:.47; transform:translate(-8px,-18px); }
+  100% { transform:translate(-18px,-43px); }
+}
+@keyframes komur-rise-b {
+  0%,100% { opacity:0; } 0% { transform:translate(0,10px); }
+  38% { opacity:.45; } 70% { opacity:.33; } 100% { transform:translate(12px,-37px); }
+}
+@keyframes komur-rise-c {
+  0%,100% { opacity:0; } 0% { transform:translate(0,14px); }
+  45% { opacity:.38; } 100% { transform:translate(-7px,-29px); }
+}
+@keyframes komur-neck { 0%,12%,70%,100% { opacity:0; } 20%,51% { opacity:.87; } }
+@keyframes komur-drop {
+  0% { opacity:0; transform:translate(-1px,18px); }
+  12% { opacity:.98; }
+  89% { opacity:.94; transform:translate(-8px,173px); }
+  100% { opacity:0; transform:translate(-8px,186px); }
+}
+@keyframes komur-impact { 0%,35%,44%,59%,68%,100% { opacity:0; } 38%,62% { opacity:.85; } }
+/* Editorial copy: visible immediately, with no animated opacity gate on CTAs. */
+.home-hero .home-hero-copy { animation: none; }
+.home-hero .home-hero-eyebrow bdi { letter-spacing: .24em; }
+.home-hero .home-hero-description { max-width: 24rem; }
+.home-hero .home-hero-actions button { transition: transform .18s ease, background-color .18s ease; }
+.home-hero .home-hero-actions button:active { transform: scale(.97); }
+.home-hero .home-hero-actions button:focus-visible, .home-hero .home-hero-scroll:focus-visible { outline: 2px solid #ffe2ae; outline-offset: 4px; }
+@media (min-width: 900px) {
+  .home-hero .home-hero-shade { background: linear-gradient(90deg,#0c0907b0 0%,#0c09074d 35%,transparent 61%),linear-gradient(180deg,#0c09076b,transparent 28%,transparent 75%,#120d0a70); }
+}
+@media (max-width: 899px) {
+  .home-hero { --home-photo-height: clamp(16rem, 84vw, 33rem); padding-bottom: 1.5rem; }
+  .home-hero .home-hero-viewport { bottom: auto; height: var(--home-photo-height); }
+  .home-hero .home-hero-camera, .home-hero .home-hero-shot { transform-origin: 50% 55%; }
+  .home-hero-atmosphere--mobile { display: block; }
+  .home-hero-atmosphere--desktop { display: none; }
+  .home-hero .home-hero-shade { height: var(--home-photo-height); background: linear-gradient(180deg,#0c09076b,transparent 27%,transparent 66%,#100b0870 83%,var(--brand-charcoal) 100%); }
+  .home-hero .home-hero-inner { padding: calc(var(--home-photo-height) - 1.75rem) 0 .5rem; }
+  .home-hero .home-hero-eyebrow { font-size:.75rem; gap:.65rem; }
+  .home-hero .home-hero-eyebrow::before, .home-hero .home-hero-eyebrow::after { width:1.4rem; }
+  .home-hero h1 { font-size: clamp(2rem, 8.6vw, 3.5rem); line-height:1.32; margin-block:.25em .28em; }
+  .home-hero .home-hero-description { font-size:clamp(.93rem,3.7vw,1.08rem); line-height:1.8; max-width:27ch; }
+  .home-hero .home-hero-actions { margin-block-start:1.12rem; gap:.6rem; }
+  .home-hero .home-hero-actions button { min-height:52px; max-width:none; flex:1 1 0; min-width:0; padding-inline:.65rem; }
+  .home-hero .home-hero-actions .home-order { flex-grow:1.2; }
+  .home-hero .home-story { background:transparent; border-color:#b97e4a75; }
+  .home-hero .home-benefits { margin-block-start:1.2rem; border-radius:12px; padding:.15rem; }
+  .home-hero .home-benefits li { min-height:43px; flex-direction:row; gap:.38rem; font-size:.72rem; }
+  .home-hero .home-benefits svg { width:17px; height:17px; }
+  .home-hero .home-hero-scroll { width:44px; height:44px; margin:.6rem auto 0; }
+}
+@media (max-width: 359px) {
+  .home-hero .home-benefits li { flex-direction:column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero .home-hero-camera, .home-hero .home-hero-shot { transform:none !important; animation:none !important; will-change:auto; }
+  .home-hero .home-hero-atmosphere { display:none !important; }
+  .home-hero .home-hero-actions button { transition:none; }
+}
