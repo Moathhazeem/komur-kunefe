@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BookOpen, Flame, Gift, House, LayoutGrid, MapPin, Tag, LayoutDashboard, LogIn, LogOut, Menu as MenuIcon, Phone, ShoppingBag, Sparkles, User, X } from 'lucide-react';
+import { BookOpen, Flame, Gift, House, LayoutGrid, MapPin, Tag, LayoutDashboard, LogIn, LogOut, Menu as MenuIcon, Phone, ShoppingBag, User, X } from 'lucide-react';
 import { StoreSettings } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { NotificationCenter } from './NotificationCenter';
@@ -55,25 +55,23 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className={isHome ? 'home-header text-[#F7F0E5]' : 'sticky top-0 z-40 border-b border-[#DAB775]/20 bg-[#14110f]/95 text-[#F7F0E5] backdrop-blur-xl'} dir="rtl">
-      {announcement && (!isHome || announcement !== dismissedAnnouncement) && (
-        <div className={isHome ? 'home-announcement' : 'flex min-h-8 items-center justify-center gap-2 bg-[#ea580c] px-4 py-1.5 text-center text-[11px] font-bold text-white sm:text-xs'}>
-          {isHome ? <Gift size={17} aria-hidden="true" /> : <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />}
+    <header className={`home-header text-[#F7F0E5]${!isHome ? ' is-sticky' : ''}`} dir="rtl">
+      {announcement && announcement !== dismissedAnnouncement && (
+        <div className="home-announcement">
+          <Gift size={17} aria-hidden="true" />
           <span>{announcement}</span>
-          {isHome && (
-            <button type="button" onClick={() => setDismissedAnnouncement(announcement)} aria-label="إغلاق الإعلان">
-              <X size={16} aria-hidden="true" />
-            </button>
-          )}
+          <button type="button" onClick={() => setDismissedAnnouncement(announcement)} aria-label="إغلاق الإعلان">
+            <X size={16} aria-hidden="true" />
+          </button>
         </div>
       )}
 
-      <div className="header-bar mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="header-bar mx-auto flex min-h-[64px] w-fit max-w-[96vw] items-center justify-between gap-2 px-3 sm:gap-3 sm:px-4">
         {/* Brand Logo & Name */}
         <button
           type="button"
           onClick={() => navigate('home')}
-          className="header-brand group flex w-max shrink-0 items-center gap-3 text-right cursor-pointer"
+          className="header-brand group flex w-max shrink-0 items-center gap-2 text-right cursor-pointer"
         >
           {settings?.logoUrl ? (
             <img
@@ -87,26 +85,24 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           )}
           <span className="shrink-0 whitespace-nowrap">
-            <span className="block whitespace-nowrap text-[17px] font-black leading-none text-[#F7F0E5] sm:text-xl">كُومُر كُونافيه</span>
-            <span className="header-wordmark mt-1 hidden text-[10px] font-medium tracking-wide text-[#ff7b00] sm:block">{isHome ? <bdi lang="tr">KÖMÜR KÜNEFE</bdi> : 'من الجمر، إلى قلبك'}</span>
+            <span className="block whitespace-nowrap text-[15px] font-black leading-none text-[#F7F0E5] sm:text-[17px]">كُومُر كُونافيه</span>
+            <span className="header-wordmark mt-0.5 hidden text-[10px] font-medium tracking-wide text-[#ff7b00] sm:block"><bdi lang="tr">KÖMÜR KÜNEFE</bdi></span>
           </span>
         </button>
 
-        {/* Desktop Navigation Links */}
-        <nav className="header-desktop hidden min-w-max shrink-0 flex-nowrap items-center gap-1 whitespace-nowrap lg:flex" aria-label="التنقل الرئيسي">
+        <nav className="header-desktop hidden min-w-0 shrink flex-nowrap items-center gap-0.5 whitespace-nowrap xl:flex" aria-label="التنقل الرئيسي">
           {navLinks.map((link) => (
             <button
               key={link.id}
               type="button"
               onClick={() => navigate(link.id)}
               aria-current={isActive(link.id) ? 'page' : undefined}
-              className={`header-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-bold transition-all duration-200 cursor-pointer ${
+              className={`header-link shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-bold transition-all duration-200 cursor-pointer ${
                 isActive(link.id)
                   ? 'bg-[#ff7b00]/15 text-[#ff7b00] font-black'
                   : 'text-[#D5C7B9] hover:bg-white/5 hover:text-white'
               }`}
             >
-              {isHome && <link.Icon size={17} aria-hidden="true" />}
               {link.label}
             </button>
           ))}
@@ -117,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={() => navigate('admin')}
               className={`
-                mr-2 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-black transition-all duration-200 cursor-pointer
+                ms-1 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-black transition-all duration-200 cursor-pointer
                 ${isActive('admin')
                   ? 'bg-[#ff7b00] text-white shadow-lg shadow-[#ff7b00]/40 ring-2 ring-[#ff7b00]/50'
                   : 'bg-[#ff7b00]/15 text-[#ff7b00] border border-[#ff7b00]/50 hover:bg-[#ff7b00] hover:text-white shadow-md shadow-[#ff7b00]/15'
@@ -125,21 +121,21 @@ export const Header: React.FC<HeaderProps> = ({
               `}
               aria-label="لوحة التحكم"
             >
-              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+              <LayoutDashboard className="h-3.5 w-3.5" aria-hidden="true" />
               <span>لوحة التحكم</span>
             </button>
           )}
         </nav>
 
         {/* Right Action Cluster */}
-        <div className="flex shrink-0 items-center gap-2">
-          {/* Quick Contact Button */}
+        <div className="flex shrink-0 items-center gap-1.5">
+          {/* Quick Contact Button — icon-only on medium, text on large */}
           <a
             href={`tel:${settings?.phone || '+970562606061'}`}
-            className="header-call hidden min-h-[44px] items-center gap-2 rounded-full border border-white/10 px-3.5 py-2 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] md:flex"
+            className="header-call hidden min-h-[40px] items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 text-xs font-bold text-[#D5C7B9] hover:border-[#ff7b00]/40 hover:text-[#ff7b00] xl:flex"
           >
-            <Phone className="h-3.5 w-3.5" />
-            <span>اتصل بنا</span>
+            <Phone className="h-3.5 w-3.5 shrink-0" />
+            <span className="hidden 2xl:inline">اتصل بنا</span>
           </a>
 
           {/* Notifications */}
@@ -149,10 +145,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenCart}
-            className="header-cart relative flex min-h-[44px] items-center gap-2 rounded-full bg-[#ea580c] px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
+            className="header-cart relative flex min-h-[40px] items-center gap-1.5 rounded-full bg-[#ea580c] px-3 py-1.5 text-sm font-black text-white shadow-lg shadow-[#ea580c]/25 hover:bg-[#ff7b00] transition-colors cursor-pointer"
             aria-label="عرض السلة"
           >
-            <ShoppingBag className="h-4 w-4" />
+            <ShoppingBag className="h-4 w-4 shrink-0" />
             <span className="hidden sm:inline">السلة</span>
             {cartCount > 0 && (
               <span
@@ -166,34 +162,30 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Auth State Control (Desktop) */}
           {isAuthenticated ? (
-            <div className="hidden items-center gap-2 md:flex">
-              {/* User Account / Profile ("حسابي") */}
+            <div className="hidden items-center gap-1.5 md:flex">
+              {/* User Account / Profile */}
               <button
                 type="button"
                 onClick={() => navigate('account')}
                 title={user?.email}
-                className="flex min-h-[44px] items-center gap-2 rounded-full border border-[rgba(255,123,0,0.25)] bg-[#221d19] px-3.5 py-2 text-xs font-bold text-[#F7F0E5] hover:border-[#ff7b00] hover:text-[#ff7b00] transition-colors cursor-pointer"
+                className="flex min-h-[40px] items-center gap-1.5 rounded-full border border-[rgba(255,123,0,0.25)] bg-[#221d19] px-2.5 py-1.5 text-xs font-bold text-[#F7F0E5] hover:border-[#ff7b00] hover:text-[#ff7b00] transition-colors cursor-pointer"
               >
-                <User className="h-3.5 w-3.5 text-[#ff7b00]" />
-                <span className="max-w-[110px] truncate">{user?.name || 'حسابي'}</span>
-                {isAdmin ? (
+                <User className="h-3.5 w-3.5 shrink-0 text-[#ff7b00]" />
+                <span className="max-w-[80px] truncate">{user?.name || 'حسابي'}</span>
+                {isAdmin && (
                   <span className="rounded-full bg-[#ff7b00] px-1.5 py-0.5 text-[9px] font-black text-white">
                     مسؤول
-                  </span>
-                ) : (
-                  <span className="text-[10px] text-[#9a8278]">
-                    (حسابي)
                   </span>
                 )}
               </button>
 
-              {/* Logout Button */}
+              {/* Logout Button — icon only */}
               <button
                 type="button"
                 onClick={handleLogout}
                 aria-label="تسجيل الخروج"
                 title="تسجيل الخروج"
-                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#9a8278] hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 transition-colors cursor-pointer"
+                className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-white/10 text-[#9a8278] hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 transition-colors cursor-pointer"
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -202,10 +194,10 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenAuth}
-              className="header-login hidden min-h-[44px] items-center gap-2 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-3.5 py-2 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
+              className="header-login hidden min-h-[40px] items-center gap-1.5 rounded-full border border-[#ff7b00]/40 bg-[#ff7b00]/10 px-2.5 py-1.5 text-xs font-black text-[#ff7b00] hover:bg-[#ff7b00] hover:text-white transition-all shadow-sm md:flex cursor-pointer"
             >
-              <LogIn className="h-3.5 w-3.5" />
-              <span>تسجيل الدخول</span>
+              <LogIn className="h-3.5 w-3.5 shrink-0" />
+              <span>دخول</span>
             </button>
           )}
 
@@ -215,7 +207,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => setMobileMenuOpen((open) => !open)}
             aria-expanded={mobileMenuOpen}
             aria-controls={mobileMenuOpen ? 'store-header-menu' : undefined}
-            className="header-toggle flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/10 text-[#F7F0E5] hover:border-[#ff7b00]/50 lg:hidden cursor-pointer"
+            className="header-toggle flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-white/10 text-[#F7F0E5] hover:border-[#ff7b00]/50 xl:hidden cursor-pointer"
             aria-label={mobileMenuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}

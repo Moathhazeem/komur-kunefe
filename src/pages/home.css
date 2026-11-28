@@ -1,14 +1,21 @@
 /* Shared dimensions keep the header overlay aligned with the hero. */
 .home-header, .home-main {
-  --home-header-height: clamp(74px, 6.2vw, 92px);
-  --home-gutter: clamp(1rem, 4vw, 4rem);
+  --home-header-height: clamp(64px, 5.5vw, 80px);
+  --home-gutter: clamp(.75rem, 3vw, 3rem);
   --home-content-width: 90rem;
   --home-accent: #ffc17e;
   --home-rule: color-mix(in srgb, var(--brand-gold) 33%, transparent);
 }
+/* ── Unified Floating Pill Header (all pages) ─────────────────────────── */
 .home-header {
   position: relative;
   z-index: 40;
+}
+/* On non-home pages: sticky positioning, outer container stays transparent */
+.home-header.is-sticky {
+  position: sticky;
+  top: 0;
+  background: transparent;
 }
 .home-announcement {
   position: relative;
@@ -34,12 +41,15 @@
   width: 44px;
   height: 100%;
 }
+/* Pill bar — centred, flexible width, never overflows */
 .home-header .header-bar {
-  width: min(calc(100% - var(--home-gutter) * 2), var(--home-content-width));
-  height: var(--home-header-height);
+  min-height: var(--home-header-height);
+  height: auto;
+  /* w-fit + max-w already in JSX; CSS adds the pill styling */
   border: 1px solid var(--home-rule);
   border-radius: 48px;
   background: #100e0ded;
+  /* Note: overflow intentionally NOT hidden to allow cart badge & dropdowns to escape */
 }
 .home-header .header-wordmark { color: #e9dfd2; letter-spacing: .12em; }
 .home-header .header-brand > span:first-child {
@@ -48,7 +58,7 @@
   box-shadow: none;
   color: #ffa645;
 }
-.home-header .header-brand > span:first-child svg { width: 30px; height: 30px; animation: none; }
+.home-header .header-brand > span:first-child svg { width: 28px; height: 28px; animation: none; }
 .home-header .header-drawer {
   position: absolute;
   inset-inline: 0;
@@ -59,9 +69,9 @@
 }
 .home-header .header-link {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 36px;
   align-items: center;
-  gap: .5rem;
+  gap: .4rem;
   border: 1px solid transparent;
 }
 .home-header .header-link[aria-current="page"] {
@@ -249,9 +259,10 @@
 .home-hero-scroll:hover { background: #392315; }
 #home-featured:focus:not(:focus-visible) { outline: none; }
 
-@media (max-width: 1399px) {
-  .home-header .header-desktop, .home-header .header-call { display: none; }
-  .home-header .header-toggle { display: flex; }
+@media (max-width: 1279px) {
+  /* xl breakpoint: hide desktop nav & call button, show hamburger */
+  .home-header .header-desktop, .home-header .header-call { display: none !important; }
+  .home-header .header-toggle { display: flex !important; }
   .home-header .header-drawer { display: block; }
 }
 @media (max-width: 1023px) {

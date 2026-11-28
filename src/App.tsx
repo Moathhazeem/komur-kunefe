@@ -8,6 +8,8 @@ import { MobileNav } from './components/MobileNav';
 import { DeliverySurveyModal } from './components/DeliverySurveyModal';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import AuthPage from './pages/AuthPage';
+// Import shared styles — includes .home-header pill styles used on every page
+import './pages/home.css';
 
 import { HomePage } from './pages/HomePage';
 import { MenuPage } from './pages/MenuPage';
